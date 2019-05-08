@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "423356581298",
+    "firebase_url": "https://dolan-application-tugas-akhir.firebaseio.com",
+    "project_id": "dolan-application-tugas-akhir",
+    "storage_bucket": "dolan-application-tugas-akhir.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:423356581298:android:bb82e4c066125c87",
+        "android_client_info": {
+          "package_name": "co.id.roningrum.dolanapptugasakhir"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "423356581298-tdrnameoo7lcvliqjolppkf8f4jvfql4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "co.id.roningrum.dolanapptugasakhir",
+            "certificate_hash": "d56b6449c6d5351541c31e378e120972f317d7a4"
+          }
+        },
+        {
+          "client_id": "423356581298-hnfao10dlliluu0l5r5gptrmin0280hb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBPd26f7RHffYMBhsvAoKeSDbXLMAB2Ens"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "423356581298-hnfao10dlliluu0l5r5gptrmin0280hb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
