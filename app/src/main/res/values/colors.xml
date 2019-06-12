@@ -2,5 +2,15 @@
 <resources>
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
-    <color name="colorAccent">#D81B60</color>
+    <color name="colorAccent">#FF9C09</color>
+    <color name="orangePrimary">#FF9C09</color>
+    <color name="orangeFontLink">#FC7921</color>
+    <color name="txtWhitePrimary">#FFFFFF</color>
+    <color name="bgWhiteGetStarted">#99FFFFFF</color>
+    <color name="blackTextPrimary">#27221F</color>
+    <color name="greySubTextPrimary">#7B726A</color>
+    <color name="greyColorSelected">#A1A1A1</color>
+    <color name="blackPrimary">#000000</color>
+    <color name="orangePrimaryDark">#FF6701</color>
+    <color name="orangeWhitePrimary">#FFFAF3</color>
 </resources>

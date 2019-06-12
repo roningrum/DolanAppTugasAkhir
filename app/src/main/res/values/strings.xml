@@ -1,3 +1,34 @@
 <resources>
     <string name="app_name">Dolan App Tugas Akhir</string>
+    <string name="txt_nama_app">DOLAN</string>
+    <string name="txt_btn_login">Masuk</string>
+    <string name="txt_tanya_akun">Tidak Memiliki Akun?</string>
+    <string name="txt_link_register">Daftar</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="txt_btn_kirim_email_reset">Kirim</string>
+    <string name="txt_subtitle_reset_page">Silakan masukkan email kamu \n Agar dapat menerima link reset kata sandi</string>
+    <string name="txt_heading_reset_page">Lupa kata sandi kamu?</string>
+    <string name="txt_heading_register_page">Daftar</string>
+    <string name="txt_subtitle_register_page">Silakan daftarkan akun kamu di sini</string>
+    <string name="txt_edit_text_register_nama">nama</string>
+    <string name="txt_edit_text_email_register">email</string>
+    <string name="txt_edit_text_kata_sandi_register">password</string>
+    <string name="txt_btn_daftar_register">Daftar</string>
+    <string name="txt_tanya_punya_akun_register_page">Sudah memiliki akun?</string>
+    <string name="txt_link_signin_page">Masuk</string>
+    <string name="txt_link_reset_page">Lupa kata sandi?</string>
+    <string name="txt_edit_text_email_signin_page">email</string>
+    <string name="txt_kata_sandi_signin_page">password</string>
+    <string name="txt_subtitle_signin_page">Silakan masukkan akun kamu</string>
+    <string name="txt_heading_signin_page">Masuk</string>
+    <string name="txt_home_main_menu">Beranda</string>
+    <string name="txt_nearby_main_menu">Terdekat</string>
+    <string name="txt_bookmark_main_menu">Bookmark</string>
+    <string name="txt_profile_main_menu">profile</string>
+    <string name="txt_heading_home_menu">Beranda</string>
+    <string name="txt_ask_user_to_search">Mau pergi kemana?</string>
+    <string name="txt_category_main_menu">Kategori</string>
+    <string name="search">Search</string>
 </resources>

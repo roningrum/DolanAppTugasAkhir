@@ -1,11 +1,38 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="SplashThem" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <item name="colorPrimaryDark">@color/orangePrimary</item>
+    </style>
+
+    <style name="alternateTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/orangePrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="Transparent">
+        <item name="android:windowNoTitle">true</item>
+    </style>
+
+    <style name="ActionBarThemeOverlay">
+        <item name="android:textColorPrimary">@color/prim_color</item>
+        <item name="android:colorControlNormal" tools:targetApi="lollipop">@color/normal_color
+        </item>
+        <item name="android:colorControlHighlight" tools:targetApi="lollipop">@color/high_color
+        </item>
+        <item name="android:textColorHint">@color/hint_color</item>
+    </style>
+
+    <color name="prim_color">#0f0f0f</color>
+    <color name="normal_color">#ababab</color>
+    <color name="high_color">#DEDEDE</color>
+    <color name="hint_color">#676767</color>
 </resources>
