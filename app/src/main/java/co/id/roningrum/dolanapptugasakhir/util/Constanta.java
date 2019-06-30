@@ -11,10 +11,18 @@
  * limitations under the License.
  */
 
-package co.id.roningrum.dolanapptugasakhir;
+package co.id.roningrum.dolanapptugasakhir.util;
 
 /**
- * Created by roningrum on 12/06/2019 2019.
+ * Created by roningrum on 19/06/2019 2019.
  */
-public class test {
+public class Constanta {
+    public static final String TAG = "FusedLocationService";
+    public static final long INTERVAL = 1000*30;
+    public static final long FAST_INTERVAL = 1000*5;
+    public static final long ONE_MIN= 1000*60;
+    public static final long REFRESH_TIME= ONE_MIN*5;
+    public static final float MINIMUM_ACCURACY= 50.0f;
+
+
 }

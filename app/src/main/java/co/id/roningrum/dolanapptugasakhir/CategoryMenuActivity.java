@@ -13,19 +13,28 @@
 
 package co.id.roningrum.dolanapptugasakhir;
 
+import android.Manifest;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
+import android.widget.Toast;
 
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.database.DatabaseReference;
@@ -34,69 +43,170 @@ import com.google.firebase.database.Query;
 
 import java.util.ArrayList;
 
-import co.id.roningrum.dolanapptugasakhir.adapter.CategoryAdapter;
+import co.id.roningrum.dolanapptugasakhir.adapter.CategoryViewHolder;
+import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
+import co.id.roningrum.dolanapptugasakhir.handler.NetworkHelper;
+import co.id.roningrum.dolanapptugasakhir.handler.PermissionHandler;
 import co.id.roningrum.dolanapptugasakhir.item.CategoryItem;
 
 public class CategoryMenuActivity extends AppCompatActivity {
+
+    private static final String REQUESTING_LOCATION_UPDATES_KEY = "12";
+
     Toolbar mToolbar;
     DatabaseReference tourismDBRef;
     RecyclerView rvTourismList;
+    ShimmerFrameLayout shimmerFrameLayout;
+    ProgressBar progressBar;
     ArrayList<CategoryItem> categoryItemList;
-    FirebaseRecyclerAdapter<CategoryItem, CategoryAdapter> firebaseAdapter;
+    FirebaseRecyclerAdapter<CategoryItem, CategoryViewHolder> firebaseAdapter;
+
+    GPSHandler gpsHandler;
+    PermissionHandler permissionHandler;
+    boolean requestingLocationUpdates = true;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_category_menu);
         mToolbar = findViewById(R.id.toolbar_top);
+        progressBar = findViewById(R.id.progressbar);
         rvTourismList = findViewById(R.id.tourism_list);
+        shimmerFrameLayout = findViewById(R.id.shimmer_view_container);
+
         rvTourismList.setLayoutManager(new LinearLayoutManager(this));
         categoryItemList = new ArrayList<>();
-
         setSupportActionBar(mToolbar);
+        updateValuesFromBundle(savedInstanceState);
+        checkConnection();
 
-        tourismDBRef = FirebaseDatabase.getInstance().getReference();
-        Query query = tourismDBRef.child("Tourism");
 
-        FirebaseRecyclerOptions<CategoryItem> options = new FirebaseRecyclerOptions.Builder<CategoryItem>()
-                .setQuery(query, CategoryItem.class)
-                .build();
-        firebaseAdapter = new FirebaseRecyclerAdapter<CategoryItem, CategoryAdapter>(options) {
-
-            @NonNull
-            @Override
-            public CategoryAdapter onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-                View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_category_menu, viewGroup, false);
-                return new CategoryAdapter(view);
-            }
-
-            @Override
-            public void onBindViewHolder(@NonNull CategoryAdapter holder, int position, @NonNull CategoryItem model) {
-                holder.showTourismData(model);
-            }
-        };
-        firebaseAdapter.notifyDataSetChanged();
-        rvTourismList.setAdapter(firebaseAdapter);
-
-//        tourismDBRef.child("Tourism").addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//
-//                for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
-//                    CategoryItem categoryItem = dataSnapshot1.getValue(CategoryItem.class);
-//                    categoryItemList.add(categoryItem);
-//                }
-//                categoryAdapter = new CategoryAdapter(CategoryMenuActivity.this, categoryItemList);
-//                rvTourismList.setAdapter(categoryAdapter);
-//
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError databaseError) {
-//            }
-//        });
     }
+
+    private void checkConnection() {
+        if (NetworkHelper.isConnectedToNetwork(getApplicationContext())) {
+            showData();
+        } else {
+            FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+            Toast.makeText(this, "Check your connection", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void showData() {
+        if (havePermission()) {
+            tourismDBRef = FirebaseDatabase.getInstance().getReference();
+            Query query = tourismDBRef.child("Tourism");
+
+                FirebaseRecyclerOptions<CategoryItem> options = new FirebaseRecyclerOptions.Builder<CategoryItem>()
+                        .setQuery(query, CategoryItem.class)
+                        .build();
+                firebaseAdapter = new FirebaseRecyclerAdapter<CategoryItem, CategoryViewHolder>(options) {
+
+                    @NonNull
+                    @Override
+                    public CategoryViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+                        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_category_menu, viewGroup, false);
+                        return new CategoryViewHolder(view);
+                    }
+
+                    @Override
+                    public void onBindViewHolder(@NonNull final CategoryViewHolder holder, int position, @NonNull final CategoryItem model) {
+
+
+                        final DatabaseReference touristRef = getRef(position);
+                        final String wiskey = touristRef.getKey();
+
+                        gpsHandler = new GPSHandler(getApplicationContext());
+                        if (gpsHandler.isCanGetLocation()) {
+                            double lattitude = gpsHandler.getLatitude();
+                            double longitude = gpsHandler.getLongitude();
+
+                            Log.i("Message", "CurLoc :" + lattitude + "," + longitude);
+
+                            holder.showTourismData(model, longitude, lattitude);
+                            holder.setOnClickListener(new CategoryViewHolder.ClickListener() {
+                                @Override
+                                public void onItemClick(View view, int position) {
+                                    Intent intent = new Intent(getApplicationContext(), DetailCategoryActivity.class);
+                                    intent.putExtra(DetailCategoryActivity.EXTRA_WISATA_KEY, wiskey);
+                                    startActivity(intent);
+                                }
+                            });
+
+                        }
+
+                    }
+                };
+                firebaseAdapter.notifyDataSetChanged();
+                rvTourismList.setAdapter(firebaseAdapter);
+            }
+
+
+    }
+
+    private void updateValuesFromBundle(Bundle savedInstanceState) {
+        if (savedInstanceState == null) {
+            return;
+        }
+
+        // Update the value of requestingLocationUpdates from the Bundle.
+        if (savedInstanceState.keySet().contains(REQUESTING_LOCATION_UPDATES_KEY)) {
+            requestingLocationUpdates = savedInstanceState.getBoolean(
+                    REQUESTING_LOCATION_UPDATES_KEY);
+        }
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        shimmerFrameLayout.startShimmerAnimation();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        shimmerFrameLayout.stopShimmerAnimation();
+    }
+
+    private boolean havePermission() {
+        if (Build.VERSION.SDK_INT >= 23) {
+            permissionHandler = PermissionHandler.getInstance(this);
+            if (permissionHandler.isAllPermissionAvailable()) {
+
+            } else {
+                permissionHandler.setActivity(this);
+                permissionHandler.deniedPermission();
+            }
+        } else {
+
+        }
+        return true;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        for (int i : grantResults) {
+            if (i == PackageManager.PERMISSION_GRANTED) {
+                Log.d("test", "Permission" + permissions + "Success");
+            } else {
+                //denied
+                permissionHandler.deniedPermission(Manifest.permission.ACCESS_FINE_LOCATION);
+                permissionHandler.deniedPermission(Manifest.permission.ACCESS_COARSE_LOCATION);
+            }
+        }
+    }
+
+//
+//    @Override
+//    protected void onPause() {
+//        super.onPause();
+//        //stop location update
+////        fusedLocationProviderClient.removeLocationUpdates(locationCallback);
+//    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -113,26 +223,6 @@ public class CategoryMenuActivity extends AppCompatActivity {
             @Override
             public boolean onQueryTextChange(String searchText) {
                 firebaseSearch(searchText);
-
-//                tourismDBRef.child("Tourism").addListenerForSingleValueEvent(new ValueEventListener() {
-//                    @Override
-//                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                        categoryItemList.clear();
-//                        rvTourismList.removeAllViews();
-//
-//                        for(DataSnapshot snapshot : dataSnapshot.getChildren()){
-//                            CategoryItem categoryItem = snapshot.getValue(CategoryItem.class);
-//                            categoryItemList.add(categoryItem);
-//
-//                        }
-//
-//                    }
-//
-//                    @Override
-//                    public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//                    }
-//                });
                 return false;
             }
         });
@@ -145,37 +235,78 @@ public class CategoryMenuActivity extends AppCompatActivity {
                 .setQuery(firebaseSearchquery, CategoryItem.class)
                 .setLifecycleOwner(this)
                 .build();
-        firebaseAdapter = new FirebaseRecyclerAdapter<CategoryItem, CategoryAdapter>(options) {
+        firebaseAdapter = new FirebaseRecyclerAdapter<CategoryItem, CategoryViewHolder>(options) {
 
             @NonNull
             @Override
-            public CategoryAdapter onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+            public CategoryViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
                 View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_category_menu, viewGroup, false);
-                return new CategoryAdapter(view);
+                return new CategoryViewHolder(view);
             }
 
             @Override
-            public void onBindViewHolder(@NonNull CategoryAdapter holder, int position, @NonNull CategoryItem model) {
-                holder.showTourismData(model);
+            public void onBindViewHolder(@NonNull final CategoryViewHolder holder, int position, @NonNull final CategoryItem model) {
+                final DatabaseReference touristRef = getRef(position);
+                final String wiskey = touristRef.getKey();
+                gpsHandler = new GPSHandler(getApplicationContext());
+                if (gpsHandler.isCanGetLocation()) {
+                    double lattitude = gpsHandler.getLatitude();
+                    double longitude = gpsHandler.getLongitude();
+
+                    Log.i("Message", "CurLoc :" + lattitude + "," + longitude);
+
+                    holder.showTourismData(model, longitude, lattitude);
+                    holder.setOnClickListener(new CategoryViewHolder.ClickListener() {
+                        @Override
+                        public void onItemClick(View view, int position) {
+                            Intent intent = new Intent(getApplicationContext(), DetailCategoryActivity.class);
+                            intent.putExtra(DetailCategoryActivity.EXTRA_WISATA_KEY, wiskey);
+                            startActivity(intent);
+                        }
+                    });
+
+                }
+
+
             }
+
         };
         rvTourismList.setAdapter(firebaseAdapter);
 
     }
-//    @Override
+
+    //    @Override
 //    public boolean onOptionsItemSelected(MenuItem item) {
 //        return super.onOptionsItemSelected(item);
 //    }
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putBoolean(REQUESTING_LOCATION_UPDATES_KEY,
+                requestingLocationUpdates);
+        // ...
+        super.onSaveInstanceState(outState);
+    }
 
     @Override
     protected void onStart() {
         super.onStart();
-        firebaseAdapter.startListening();
+        progressBar.setVisibility(View.VISIBLE);
+        if (firebaseAdapter != null) {
+            Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    firebaseAdapter.startListening();
+                }
+            },1000);
+
+        }
     }
 
     @Override
     protected void onStop() {
         super.onStop();
+        progressBar.setVisibility(View.GONE);
         if (firebaseAdapter != null) {
             firebaseAdapter.stopListening();
         }

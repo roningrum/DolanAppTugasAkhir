@@ -14,19 +14,19 @@
 package co.id.roningrum.dolanapptugasakhir.item;
 
 public class CategoryItem {
-    public String name_tourism;
-    public String location_tourism;
-    public String info_tourism;
-    public String telepon;
-    public String url_photo;
-    public float lat_location_tourism;
-    public float lng_location_tourism;
+    private String name_tourism;
+    private String location_tourism;
+    private String info_tourism;
+    private String telepon;
+    private String url_photo;
+    private double lat_location_tourism;
+    private double lng_location_tourism;
 
     public CategoryItem() {
         //constructor untuk panggilan ke DataSnapshot.getValue
     }
 
-    public CategoryItem(String name_tourism, String location_tourism, String info_tourism, String telepon, String url_photo, float lat_location_tourism, float lng_location_tourism) {
+    public CategoryItem(String name_tourism, String location_tourism, String info_tourism, String telepon, String url_photo, double lat_location_tourism, double lng_location_tourism) {
         this.name_tourism = name_tourism;
         this.location_tourism = location_tourism;
         this.info_tourism = info_tourism;
@@ -76,19 +76,19 @@ public class CategoryItem {
         this.url_photo = url_photo;
     }
 
-    public float getLat_location_tourism() {
+    public double getLat_location_tourism() {
         return lat_location_tourism;
     }
 
-    public void setLat_location_tourism(float lat_location_tourism) {
+    public void setLat_location_tourism(double lat_location_tourism) {
         this.lat_location_tourism = lat_location_tourism;
     }
 
-    public float getLng_location_tourism() {
+    public double getLng_location_tourism() {
         return lng_location_tourism;
     }
 
-    public void setLng_location_tourism(float lng_location_tourism) {
+    public void setLng_location_tourism(double lng_location_tourism) {
         this.lng_location_tourism = lng_location_tourism;
     }
 }

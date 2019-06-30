@@ -44,4 +44,9 @@
     <string name="txt_ask_user_to_search">Mau pergi kemana?</string>
     <string name="txt_category_main_menu">Kategori</string>
     <string name="search">Search</string>
+    <string name="title_activity_category_map">Map</string>
+    <string name="ok">Allow</string>
+    <string name="cancel">Deny</string>
+    <string name="permission_message">Please, Accept the permisiion</string>
+    <string name="no_google_playservice_available">no service</string>
 </resources>
