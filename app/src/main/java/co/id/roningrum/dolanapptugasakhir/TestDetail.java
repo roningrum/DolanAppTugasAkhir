@@ -11,17 +11,16 @@
  * limitations under the License.
  */
 
-package co.id.roningrum.dolanapptugasakhir.handler;
+package co.id.roningrum.dolanapptugasakhir;
 
-/**
- * Created by roningrum on 28/06/2019 2019.
- */
-public class LocationUpdateService {
-    static final String KEY_REQUEST_PERMISSION = "request";
+import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 
-    /**
-     * Return true if requesting location updates
-     */
-    static boolean requestingLoca;
+public class TestDetail extends AppCompatActivity {
 
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_test_detail);
+    }
 }

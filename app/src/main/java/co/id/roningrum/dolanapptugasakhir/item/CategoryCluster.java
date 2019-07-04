@@ -11,31 +11,28 @@
  * limitations under the License.
  */
 
-// Top-level build file where you can add configuration options common to all sub-projects/modules.
+package co.id.roningrum.dolanapptugasakhir.item;
 
-buildscript {
-    repositories {
-        google()
-        jcenter()
-        
-    }
-    dependencies {
-        classpath 'com.android.tools.build:gradle:3.4.1'
-        classpath 'com.google.gms:google-services:4.2.0'
-        
-        // NOTE: Do not place your application dependencies here; they belong
-        // in the individual module build.gradle files
-    }
-}
+import com.google.android.gms.maps.model.LatLng;
+import com.google.maps.android.clustering.ClusterItem;
 
-allprojects {
-    repositories {
-        google()
-        jcenter()
-        
-    }
-}
+/**
+ * Created by roningrum on 02/07/2019 2019.
+ */
+public class CategoryCluster implements ClusterItem {
 
-task clean(type: Delete) {
-    delete rootProject.buildDir
+    @Override
+    public LatLng getPosition() {
+        return null;
+    }
+
+    @Override
+    public String getTitle() {
+        return null;
+    }
+
+    @Override
+    public String getSnippet() {
+        return null;
+    }
 }

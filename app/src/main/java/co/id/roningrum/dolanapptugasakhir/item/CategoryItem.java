@@ -13,7 +13,10 @@
 
 package co.id.roningrum.dolanapptugasakhir.item;
 
-public class CategoryItem {
+import com.google.android.gms.maps.model.LatLng;
+import com.google.maps.android.clustering.ClusterItem;
+
+public class CategoryItem implements ClusterItem {
     private String name_tourism;
     private String location_tourism;
     private String info_tourism;
@@ -90,5 +93,21 @@ public class CategoryItem {
 
     public void setLng_location_tourism(double lng_location_tourism) {
         this.lng_location_tourism = lng_location_tourism;
+    }
+
+    @Override
+    public LatLng getPosition() {
+        LatLng position = new LatLng(lat_location_tourism, lng_location_tourism);
+        return position;
+    }
+
+    @Override
+    public String getTitle() {
+        return name_tourism;
+    }
+
+    @Override
+    public String getSnippet() {
+        return location_tourism;
     }
 }

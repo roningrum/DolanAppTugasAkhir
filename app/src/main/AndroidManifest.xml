@@ -20,7 +20,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".TestLocation"/>
+        <activity android:name=".tourism.DetailNatureActivity" />
+        <activity android:name=".TestDetail" />
+        <activity android:name=".tourism.CategoryNatureActivity" />
+        <activity android:name=".TestLocation" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -35,10 +38,11 @@
 
         <activity
             android:name=".CategoryMapActivity"
-            android:label="@string/title_activity_category_map"/>
+            android:label="@string/title_activity_category_map" />
         <activity android:name=".RegisteredemailConfirmActivity" />
         <activity android:name=".DetailCategoryActivity" />
-        <activity android:name=".CategoryMenuActivity">
+        <activity android:name=".CategoryMenuActivity" />
+        <activity android:name=".AllCategoryActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <action android:name="android.intent.action.MAIN" />
@@ -46,7 +50,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".AllCategoryActivity" />
         <activity android:name=".MainMenuActivity" />
         <activity android:name=".ForgetPassSignInActivity" />
         <activity android:name=".RegisterEmailActivity" />
@@ -58,9 +61,9 @@
         <activity android:name=".MainActivity" />
         <activity android:name=".ResetSandiConfirmActivity" />
 
-        <service android:name=".handler.GPSHandler"
-            android:exported="true">
-        </service>
+        <service
+            android:name=".handler.GPSHandler"
+            android:exported="true" />
 
         <meta-data
             android:name="preloaded_fonts"

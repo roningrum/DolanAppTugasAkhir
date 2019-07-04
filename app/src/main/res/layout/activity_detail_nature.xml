@@ -11,20 +11,10 @@
   ~ limitations under the License.
   -->
 
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".CategoryMenuActivity">
-    <item
-        android:id="@+id/searchMenu"
-        android:icon="@drawable/ic_search_black_24dp"
-        android:title="@string/search"
-        app:actionViewClass="android.support.v7.widget.SearchView"
-        app:showAsAction="ifRoom|collapseActionView" />
-    <item
-        android:id="@+id/petaMenu"
-        android:icon="@drawable/ic_map_24dp"
-        android:title="peta"
-        app:showAsAction="ifRoom" />
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".tourism.DetailNatureActivity">
 
-</menu>
+</android.support.design.widget.CoordinatorLayout>

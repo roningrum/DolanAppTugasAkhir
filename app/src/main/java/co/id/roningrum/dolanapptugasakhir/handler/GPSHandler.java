@@ -31,28 +31,13 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 
-import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationCallback;
-import com.google.android.gms.location.LocationRequest;
-import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.location.LocationSettingsRequest;
-import com.google.android.gms.location.SettingsClient;
-import com.google.android.gms.tasks.OnSuccessListener;
-
 /**
  * Created by roningrum on 24/06/2019 2019.
  */
 public class GPSHandler extends Service implements LocationListener {
 
     private Context context;
-    private Activity activity;
     boolean isGPSEnabled = false;
-
-    FusedLocationProviderClient fusedLocationProviderClient;
-    SettingsClient settingsClient;
-    LocationRequest locationRequest;
-    LocationCallback locationCallback;
-    LocationSettingsRequest locationSettingsRequest;
 
     boolean isNetworkEnabled = false;
     boolean canGetLocation = false;
@@ -63,10 +48,11 @@ public class GPSHandler extends Service implements LocationListener {
 
     protected LocationManager locationManager;
     private static final int PERMISSIONS_REQUEST_LOCATION = 99;
-    private static final long MIN_DISTANCE_CHANGE_UPDATES = 0;
+    private static final long MIN_DISTANCE_CHANGE_UPDATES = 10;
     private static final long MIN_TIME_BW_UPDATES = 1000 * 60;
 
     public GPSHandler() {
+        getLocation();
     }
 
     public GPSHandler(Context context) {
@@ -74,88 +60,64 @@ public class GPSHandler extends Service implements LocationListener {
         getLocation();
     }
 
-    protected void requpdateLocation() {
-        locationRequest = LocationRequest.create();
-        locationRequest.setInterval(10000);
-        locationRequest.setFastestInterval(5000);
-        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        getLocation();
     }
 
-
     private Location getLocation() {
+        try {
+            locationManager = (LocationManager) context
+                    .getSystemService(LOCATION_SERVICE);
+            isGPSEnabled = locationManager
+                    .isProviderEnabled(LocationManager.GPS_PROVIDER);
+            isNetworkEnabled = locationManager
+                    .isProviderEnabled(LocationManager.NETWORK_PROVIDER);
 
-        if (checkLocationPermission()) {
-            try {
-
-                locationManager = (LocationManager) context
-                        .getSystemService(LOCATION_SERVICE);
-                isGPSEnabled = locationManager
-                        .isProviderEnabled(LocationManager.GPS_PROVIDER);
-                isNetworkEnabled = locationManager
-                        .isProviderEnabled(LocationManager.NETWORK_PROVIDER);
-
-                if (!isGPSEnabled && !isNetworkEnabled) {
-                    Log.d("Jaringan", "Tidak ada koneksi");
-                    return null;
-                } else {
-                    requpdateLocation();
-                    this.canGetLocation = true;
-                    if (isNetworkEnabled && isGPSEnabled) {
-                        locationManager
-                                .requestLocationUpdates(
-                                        LocationManager.NETWORK_PROVIDER,
-                                        MIN_TIME_BW_UPDATES,
-                                        MIN_DISTANCE_CHANGE_UPDATES, this);
-                        if (locationManager != null) {
-                            location = locationManager
-                                    .getLastKnownLocation(
-                                            LocationManager.NETWORK_PROVIDER);
-//                            location = locationManager
-//                                    .getLastKnownLocation(
-//                                            LocationManager.GPS_PROVIDER);
-                            fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
-                            fusedLocationProviderClient.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
-                                @Override
-                                public void onSuccess(Location location) {
-                                    if (location != null) {
-                                        latitude = location.getLatitude();
-                                        longitude = location.getLongitude();
-                                    }
-                                }
-                            });
+            if (!isGPSEnabled && !isNetworkEnabled) {
+                Log.d("Jaringan", "Tidak ada koneksi");
+                return null;
+            } else {
+                checkLocationPermission();
+                this.canGetLocation = true;
+                if (isNetworkEnabled) {
+                    locationManager
+                            .requestLocationUpdates(
+                                    LocationManager.NETWORK_PROVIDER,
+                                    MIN_TIME_BW_UPDATES,
+                                    MIN_DISTANCE_CHANGE_UPDATES, this);
+                    if (locationManager != null) {
+                        location = locationManager
+                                .getLastKnownLocation(
+                                        LocationManager.NETWORK_PROVIDER);
+                        if (location != null) {
+                            latitude = location.getLatitude();
+                            longitude = location.getLongitude();
                         }
-
-
                     }
-//                    if (isGPSEnabled) {
-//                        locationManager
-//                                .requestLocationUpdates(
-//                                        LocationManager.NETWORK_PROVIDER,
-//                                        MIN_TIME_BW_UPDATES,
-//                                        MIN_DISTANCE_CHANGE_UPDATES, this);
-//                        if (locationManager != null) {
-//                            location = locationManager
-//                                    .getLastKnownLocation(
-//                                            LocationManager.GPS_PROVIDER);
-//                            fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
-//                            fusedLocationProviderClient.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
-//                                @Override
-//                                public void onSuccess(Location location) {
-//                                    if (location != null) {
-//                                        latitude = location.getLatitude();
-//                                        longitude = location.getLongitude();
-//                                    }
-//                                }
-//                            });
-//                        }
-//                    }
                 }
-            } catch (Exception e) {
-                e.printStackTrace();
-
+                if (isGPSEnabled) {
+                    locationManager
+                            .requestLocationUpdates(
+                                    LocationManager.NETWORK_PROVIDER,
+                                    MIN_TIME_BW_UPDATES,
+                                    MIN_DISTANCE_CHANGE_UPDATES, this);
+                    if (locationManager != null) {
+                        location = locationManager
+                                .getLastKnownLocation(
+                                        LocationManager.GPS_PROVIDER);
+                        if (location != null) {
+                            latitude = location.getLatitude();
+                            longitude = location.getLongitude();
+                        }
+                    }
+                }
             }
-        }
+        } catch (Exception e) {
+            e.printStackTrace();
 
+        }
         return location;
     }
 

@@ -18,7 +18,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -31,7 +30,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.facebook.shimmer.ShimmerFrameLayout;
@@ -57,7 +55,7 @@ public class CategoryMenuActivity extends AppCompatActivity {
     DatabaseReference tourismDBRef;
     RecyclerView rvTourismList;
     ShimmerFrameLayout shimmerFrameLayout;
-    ProgressBar progressBar;
+    //    ProgressBar progressBar;
     ArrayList<CategoryItem> categoryItemList;
     FirebaseRecyclerAdapter<CategoryItem, CategoryViewHolder> firebaseAdapter;
 
@@ -72,7 +70,7 @@ public class CategoryMenuActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_category_menu);
         mToolbar = findViewById(R.id.toolbar_top);
-        progressBar = findViewById(R.id.progressbar);
+//        progressBar = findViewById(R.id.progressbar);
         rvTourismList = findViewById(R.id.tourism_list);
         shimmerFrameLayout = findViewById(R.id.shimmer_view_container);
 
@@ -89,7 +87,7 @@ public class CategoryMenuActivity extends AppCompatActivity {
         if (NetworkHelper.isConnectedToNetwork(getApplicationContext())) {
             showData();
         } else {
-            FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+//            FirebaseDatabase.getInstance().setPersistenceEnabled(true);
             Toast.makeText(this, "Check your connection", Toast.LENGTH_SHORT).show();
         }
     }
@@ -99,49 +97,51 @@ public class CategoryMenuActivity extends AppCompatActivity {
             tourismDBRef = FirebaseDatabase.getInstance().getReference();
             Query query = tourismDBRef.child("Tourism");
 
-                FirebaseRecyclerOptions<CategoryItem> options = new FirebaseRecyclerOptions.Builder<CategoryItem>()
-                        .setQuery(query, CategoryItem.class)
-                        .build();
-                firebaseAdapter = new FirebaseRecyclerAdapter<CategoryItem, CategoryViewHolder>(options) {
+            FirebaseRecyclerOptions<CategoryItem> options = new FirebaseRecyclerOptions.Builder<CategoryItem>()
+                    .setQuery(query, CategoryItem.class)
+                    .build();
+            firebaseAdapter = new FirebaseRecyclerAdapter<CategoryItem, CategoryViewHolder>(options) {
 
-                    @NonNull
-                    @Override
-                    public CategoryViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-                        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_category_menu, viewGroup, false);
-                        return new CategoryViewHolder(view);
+                @NonNull
+                @Override
+                public CategoryViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+                    View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_category_menu, viewGroup, false);
+                    return new CategoryViewHolder(view);
+                }
+
+                @Override
+                public void onBindViewHolder(@NonNull final CategoryViewHolder holder, int position, @NonNull final CategoryItem model) {
+
+
+                    final DatabaseReference touristRef = getRef(position);
+                    final String wiskey = touristRef.getKey();
+
+                    gpsHandler = new GPSHandler(getApplicationContext());
+                    if (gpsHandler.isCanGetLocation()) {
+                        double latitude = gpsHandler.getLatitude();
+                        double longitude = gpsHandler.getLongitude();
+
+                        Log.i("Message", "CurLoc :" + latitude + "," + longitude);
+
+                        holder.showTourismData(model, longitude, latitude);
+                        holder.setOnClickListener(new CategoryViewHolder.ClickListener() {
+                            @Override
+                            public void onItemClick(View view, int position) {
+                                Intent intent = new Intent(getApplicationContext(), DetailCategoryActivity.class);
+                                intent.putExtra(DetailCategoryActivity.EXTRA_WISATA_KEY, wiskey);
+                                startActivity(intent);
+                            }
+                        });
+
+                    } else {
+                        gpsHandler.showSettingsAlert();
                     }
 
-                    @Override
-                    public void onBindViewHolder(@NonNull final CategoryViewHolder holder, int position, @NonNull final CategoryItem model) {
-
-
-                        final DatabaseReference touristRef = getRef(position);
-                        final String wiskey = touristRef.getKey();
-
-                        gpsHandler = new GPSHandler(getApplicationContext());
-                        if (gpsHandler.isCanGetLocation()) {
-                            double lattitude = gpsHandler.getLatitude();
-                            double longitude = gpsHandler.getLongitude();
-
-                            Log.i("Message", "CurLoc :" + lattitude + "," + longitude);
-
-                            holder.showTourismData(model, longitude, lattitude);
-                            holder.setOnClickListener(new CategoryViewHolder.ClickListener() {
-                                @Override
-                                public void onItemClick(View view, int position) {
-                                    Intent intent = new Intent(getApplicationContext(), DetailCategoryActivity.class);
-                                    intent.putExtra(DetailCategoryActivity.EXTRA_WISATA_KEY, wiskey);
-                                    startActivity(intent);
-                                }
-                            });
-
-                        }
-
-                    }
-                };
-                firebaseAdapter.notifyDataSetChanged();
-                rvTourismList.setAdapter(firebaseAdapter);
-            }
+                }
+            };
+            firebaseAdapter.notifyDataSetChanged();
+            rvTourismList.setAdapter(firebaseAdapter);
+        }
 
 
     }
@@ -168,7 +168,10 @@ public class CategoryMenuActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        shimmerFrameLayout.stopShimmerAnimation();
+        if (firebaseAdapter != null) {
+            shimmerFrameLayout.stopShimmerAnimation();
+            firebaseAdapter.stopListening();
+        }
     }
 
     private boolean havePermission() {
@@ -223,6 +226,7 @@ public class CategoryMenuActivity extends AppCompatActivity {
             @Override
             public boolean onQueryTextChange(String searchText) {
                 firebaseSearch(searchText);
+                shimmerFrameLayout.clearAnimation();
                 return false;
             }
         });
@@ -272,13 +276,21 @@ public class CategoryMenuActivity extends AppCompatActivity {
 
         };
         rvTourismList.setAdapter(firebaseAdapter);
+//        shimmerFrameLayout.stopShimmerAnimation();
+
 
     }
 
-    //    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        return super.onOptionsItemSelected(item);
-//    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.petaMenu) {
+            startActivity(new Intent(CategoryMenuActivity.this, CategoryMapActivity.class));
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         outState.putBoolean(REQUESTING_LOCATION_UPDATES_KEY,
@@ -290,15 +302,17 @@ public class CategoryMenuActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        progressBar.setVisibility(View.VISIBLE);
+//        progressBar.setVisibility(View.VISIBLE);
         if (firebaseAdapter != null) {
-            Handler handler = new Handler();
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    firebaseAdapter.startListening();
-                }
-            },1000);
+            firebaseAdapter.startListening();
+//            Handler handler = new Handler();
+//            handler.postDelayed(new Runnable() {
+//                @Override
+//                public void run() {
+//                    shimmerFrameLayout.startShimmerAnimation();
+//                    firebaseAdapter.startListening();
+//                }
+//            }, 4000);
 
         }
     }
@@ -306,8 +320,9 @@ public class CategoryMenuActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        progressBar.setVisibility(View.GONE);
+//        progressBar.setVisibility(View.GONE);
         if (firebaseAdapter != null) {
+//            shimmerFrameLayout.stopShimmerAnimation();
             firebaseAdapter.stopListening();
         }
 

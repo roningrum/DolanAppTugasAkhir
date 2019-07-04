@@ -83,7 +83,6 @@ public class CategoryViewHolder extends RecyclerView.ViewHolder {
 //        loc2.setLatitude(categoryItem.getLat_location_tourism());
 //        loc2.setLongitude(categoryItem.getLng_location_tourism());
 //
-
         double lattitude_a = categoryItem.getLat_location_tourism();
         double longitude_a = categoryItem.getLng_location_tourism();
 
