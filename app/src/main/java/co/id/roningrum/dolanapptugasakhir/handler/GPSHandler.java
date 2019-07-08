@@ -37,16 +37,16 @@ import android.util.Log;
 public class GPSHandler extends Service implements LocationListener {
 
     private Context context;
-    boolean isGPSEnabled = false;
+    private boolean isGPSEnabled = false;
 
-    boolean isNetworkEnabled = false;
-    boolean canGetLocation = false;
+    private boolean isNetworkEnabled = false;
+    private boolean canGetLocation = false;
 
-    Location location;
-    double latitude;
-    double longitude;
+    private Location location;
+    private double latitude;
+    private double longitude;
 
-    protected LocationManager locationManager;
+    private LocationManager locationManager;
     private static final int PERMISSIONS_REQUEST_LOCATION = 99;
     private static final long MIN_DISTANCE_CHANGE_UPDATES = 10;
     private static final long MIN_TIME_BW_UPDATES = 1000 * 60;

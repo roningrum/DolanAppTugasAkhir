@@ -49,4 +49,9 @@
     <string name="cancel">Deny</string>
     <string name="permission_message">Please, Accept the permisiion</string>
     <string name="no_google_playservice_available">no service</string>
+    <string name="title_activity_nature_maps">Map</string>
+    <string name="title_activity_water_maps">Peta Wisata Air</string>
+    <string name="title_activity_shopping_category_map">Peta Belanja</string>
+    <string name="title_activity_village_maps">Map</string>
+    <string name="title_activity_education_maps">Map</string>
 </resources>

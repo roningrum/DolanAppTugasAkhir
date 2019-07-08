@@ -50,6 +50,10 @@
         <item name="android:textColorHint">@color/hint_color</item>
     </style>
 
+    <style name="CollapsingToolbarLayoutExpandedTextStyle" parent="AppTheme">
+        <item name="android:textColor">@android:color/transparent</item>
+        <item name="android:textSize">0sp</item>
+    </style>
     <color name="prim_color">#0f0f0f</color>
     <color name="normal_color">#ababab</color>
     <color name="high_color">#DEDEDE</color>

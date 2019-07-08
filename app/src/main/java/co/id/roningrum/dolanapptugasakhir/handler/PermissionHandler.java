@@ -33,10 +33,10 @@ import co.id.roningrum.dolanapptugasakhir.R;
 
 public class PermissionHandler {
     private static PermissionHandler permissionHandler;
-    public static final int REQUEST_CODE = 1;
+    private static final int REQUEST_CODE = 1;
     private Activity activity;
-    public static final String PERMISSION_ACCESS_FINE_LOCTAION = Manifest.permission.ACCESS_FINE_LOCATION;
-    public static final String PERMISSION_ACCESS_COARSE_LOCTAION = Manifest.permission.ACCESS_COARSE_LOCATION;
+    private static final String PERMISSION_ACCESS_FINE_LOCTAION = Manifest.permission.ACCESS_FINE_LOCATION;
+    private static final String PERMISSION_ACCESS_COARSE_LOCTAION = Manifest.permission.ACCESS_COARSE_LOCATION;
     private ArrayList<String> requiredPermissions;
     private ArrayList<String> ungrantedPermissions = new ArrayList<String>();
 

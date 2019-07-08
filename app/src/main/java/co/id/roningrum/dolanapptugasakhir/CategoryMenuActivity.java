@@ -51,17 +51,17 @@ public class CategoryMenuActivity extends AppCompatActivity {
 
     private static final String REQUESTING_LOCATION_UPDATES_KEY = "12";
 
-    Toolbar mToolbar;
-    DatabaseReference tourismDBRef;
-    RecyclerView rvTourismList;
-    ShimmerFrameLayout shimmerFrameLayout;
+    private Toolbar mToolbar;
+    private DatabaseReference tourismDBRef;
+    private RecyclerView rvTourismList;
+    private ShimmerFrameLayout shimmerFrameLayout;
     //    ProgressBar progressBar;
-    ArrayList<CategoryItem> categoryItemList;
-    FirebaseRecyclerAdapter<CategoryItem, CategoryViewHolder> firebaseAdapter;
+    private ArrayList<CategoryItem> categoryItemList;
+    private FirebaseRecyclerAdapter<CategoryItem, CategoryViewHolder> firebaseAdapter;
 
-    GPSHandler gpsHandler;
-    PermissionHandler permissionHandler;
-    boolean requestingLocationUpdates = true;
+    private GPSHandler gpsHandler;
+    private PermissionHandler permissionHandler;
+    private final boolean requestingLocationUpdates = true;
 
 
     @Override
@@ -77,7 +77,7 @@ public class CategoryMenuActivity extends AppCompatActivity {
         rvTourismList.setLayoutManager(new LinearLayoutManager(this));
         categoryItemList = new ArrayList<>();
         setSupportActionBar(mToolbar);
-        updateValuesFromBundle(savedInstanceState);
+//        updateValuesFromBundle(savedInstanceState);
         checkConnection();
 
 
@@ -146,18 +146,18 @@ public class CategoryMenuActivity extends AppCompatActivity {
 
     }
 
-    private void updateValuesFromBundle(Bundle savedInstanceState) {
-        if (savedInstanceState == null) {
-            return;
-        }
-
-        // Update the value of requestingLocationUpdates from the Bundle.
-        if (savedInstanceState.keySet().contains(REQUESTING_LOCATION_UPDATES_KEY)) {
-            requestingLocationUpdates = savedInstanceState.getBoolean(
-                    REQUESTING_LOCATION_UPDATES_KEY);
-        }
-
-    }
+//    private void updateValuesFromBundle(Bundle savedInstanceState) {
+//        if (savedInstanceState == null) {
+//            return;
+//        }
+//
+//        // Update the value of requestingLocationUpdates from the Bundle.
+//        if (savedInstanceState.keySet().contains(REQUESTING_LOCATION_UPDATES_KEY)) {
+//            requestingLocationUpdates = savedInstanceState.getBoolean(
+//                    REQUESTING_LOCATION_UPDATES_KEY);
+//        }
+//
+//    }
 
     @Override
     protected void onResume() {

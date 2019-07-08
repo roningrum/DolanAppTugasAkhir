@@ -54,8 +54,10 @@ import co.id.roningrum.dolanapptugasakhir.item.CategoryItem;
 //    }
 //
 public class CategoryViewHolder extends RecyclerView.ViewHolder {
-    private TextView name_tourisms, location_tourism, distance_tourism;
-    private ImageView tourism_pic;
+    private final TextView name_tourisms;
+    private final TextView location_tourism;
+    private final TextView distance_tourism;
+    private final ImageView tourism_pic;
 
 
 
@@ -110,7 +112,7 @@ public class CategoryViewHolder extends RecyclerView.ViewHolder {
 
         int meterConversion = 1609;
 
-        return Float.valueOf((float) distance * meterConversion).floatValue();
+        return (float) distance * meterConversion;
     }
 
     //interface

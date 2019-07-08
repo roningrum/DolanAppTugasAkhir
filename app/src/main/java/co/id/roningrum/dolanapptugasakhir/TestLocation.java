@@ -32,9 +32,9 @@ import com.google.android.gms.tasks.OnSuccessListener;
 
 public class TestLocation extends AppCompatActivity {
 
-    TextView tvLocation;
-    LocationManager locationManagers;
-    String[] perms = {Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_NETWORK_STATE};
+    private TextView tvLocation;
+    private LocationManager locationManagers;
+    private final String[] perms = {Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_NETWORK_STATE};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

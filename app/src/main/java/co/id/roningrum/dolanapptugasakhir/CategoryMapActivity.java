@@ -35,7 +35,7 @@ public class CategoryMapActivity extends FragmentActivity implements OnMapReadyC
 
     private GoogleMap mMap;
     //    private GPSHandler gpsHandler;
-    DatabaseReference tourismMapObjectDB;
+    private DatabaseReference tourismMapObjectDB;
     private ClusterManager<CategoryItem> clusterManager;
 
     @Override

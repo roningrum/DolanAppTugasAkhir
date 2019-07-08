@@ -17,6 +17,7 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -33,12 +34,11 @@ import co.id.roningrum.dolanapptugasakhir.item.CategoryItem;
 
 public class DetailCategoryActivity extends AppCompatActivity {
 
-    public static String EXTRA_WISATA_KEY = "tourist_key";
+    public static final String EXTRA_WISATA_KEY = "tourist_key";
 
     private DatabaseReference touristDetailRef;
-    private String touristKey;
 
-    GPSHandler gpsHandler;
+    private GPSHandler gpsHandler;
 
     private TextView tvNameTourismObject;
     private TextView tvAddressTourismObject;
@@ -46,13 +46,17 @@ public class DetailCategoryActivity extends AppCompatActivity {
     private TextView tvDistanceObject;
     private ImageView imgTourismObject;
 
-    double startlat, startlng, endlat, endLng, distance;
+    private double startlat;
+    private double startlng;
+    private double endlat;
+    private double endLng;
+    private double distance;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_category);
-        touristKey = getIntent().getStringExtra(EXTRA_WISATA_KEY);
+        String touristKey = getIntent().getStringExtra(EXTRA_WISATA_KEY);
         if(touristKey == null){
             throw new IllegalArgumentException("Must pass Extra");
         }
@@ -98,12 +102,12 @@ public class DetailCategoryActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                Log.e("Pesan", "Database" +databaseError.getMessage());
             }
         });
     }
 
-    protected double calculateDistance(double lat1, double long1, double lat2, double long2){
+    private double calculateDistance(double lat1, double long1, double lat2, double long2){
 
         double earthRadius = 6371;
         double latDiff = Math.toRadians(lat1-lat2);
