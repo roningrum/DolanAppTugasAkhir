@@ -35,8 +35,13 @@
             android:value="@string/google_maps_key" />
 
         <activity
+            android:name=".tourism.recreation.RecreationCategoryMaps"
+            android:label="@string/title_activity_recreation_category_maps" />
+        <activity android:name=".tourism.recreation.DetailRecreationActivity" />
+        <activity android:name=".tourism.recreation.RecreationCategoryActivity" />
+        <activity
             android:name=".tourism.education.EducationCategoryMaps"
-            android:label="@string/title_activity_education_maps"></activity>
+            android:label="@string/title_activity_education_maps" />
         <activity android:name=".tourism.education.DetailEducationActivity" />
         <activity android:name=".tourism.education.EducationCategoryActivity" />
         <activity

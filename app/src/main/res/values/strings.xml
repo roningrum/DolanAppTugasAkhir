@@ -54,4 +54,5 @@
     <string name="title_activity_shopping_category_map">Peta Belanja</string>
     <string name="title_activity_village_maps">Map</string>
     <string name="title_activity_education_maps">Map</string>
+    <string name="title_activity_recreation_category_maps">Peta Wisata Rekreasi</string>
 </resources>

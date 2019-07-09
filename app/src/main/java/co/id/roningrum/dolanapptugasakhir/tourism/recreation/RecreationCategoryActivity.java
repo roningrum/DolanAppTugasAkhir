@@ -11,7 +11,7 @@
  * limitations under the License.
  */
 
-package co.id.roningrum.dolanapptugasakhir.tourism.nature;
+package co.id.roningrum.dolanapptugasakhir.tourism.recreation;
 
 import android.Manifest;
 import android.content.Intent;
@@ -42,16 +42,17 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import co.id.roningrum.dolanapptugasakhir.R;
-import co.id.roningrum.dolanapptugasakhir.adapter.NatureViewHolder;
+import co.id.roningrum.dolanapptugasakhir.adapter.RecreationViewHolder;
 import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.handler.NetworkHelper;
 import co.id.roningrum.dolanapptugasakhir.handler.PermissionHandler;
 import co.id.roningrum.dolanapptugasakhir.item.CategoryItem;
 
-public class NatureCategoryActivity extends AppCompatActivity {
-    private RecyclerView rvNatureList;
+public class RecreationCategoryActivity extends AppCompatActivity {
+    private RecyclerView rvRecreationList;
+    private ArrayList<CategoryItem> categoryItems;
     private ShimmerFrameLayout shimmerFrameLayout;
-    private FirebaseRecyclerAdapter<CategoryItem, NatureViewHolder> natureFirebaseAdapter;
+    private FirebaseRecyclerAdapter<CategoryItem, RecreationViewHolder> recreationFirebaseAdapter;
 
     private GPSHandler gpsHandler;
     private PermissionHandler permissionHandler;
@@ -59,15 +60,13 @@ public class NatureCategoryActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_category_nature);
-        rvNatureList = findViewById(R.id.tourism_nature_list);
-        Toolbar toolbarNature = findViewById(R.id.toolbar_top_nature);
+        setContentView(R.layout.activity_recreation_category);
+        rvRecreationList = findViewById(R.id.tourism_recreation_list);
+        Toolbar toolbarRecreation = findViewById(R.id.toolbar_top_recreation);
         shimmerFrameLayout = findViewById(R.id.shimmer_view_container);
-        rvNatureList.setLayoutManager(new LinearLayoutManager(this));
-        ArrayList<CategoryItem> categoryItems = new ArrayList<>();
+        rvRecreationList.setLayoutManager(new LinearLayoutManager(this));
+        categoryItems = new ArrayList<>();
         checkConnection();
-        setSupportActionBar(toolbarNature);
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     private void checkConnection() {
@@ -81,17 +80,17 @@ public class NatureCategoryActivity extends AppCompatActivity {
 
     private void showData() {
         if (havePermission()) {
-            DatabaseReference natureCategoryDB = FirebaseDatabase.getInstance().getReference();
-            Query query = natureCategoryDB.child("Tourism").orderByChild("category_tourism").equalTo("alam");
-            FirebaseRecyclerOptions<CategoryItem> options = new FirebaseRecyclerOptions.Builder<CategoryItem>()
-                    .setQuery(query, CategoryItem.class)
+            DatabaseReference recreationCategoryDB = FirebaseDatabase.getInstance().getReference();
+            Query recreationQuery = recreationCategoryDB.child("Tourism").orderByChild("category_tourism").equalTo("rekreasi");
+            FirebaseRecyclerOptions<CategoryItem> recreationOptions = new FirebaseRecyclerOptions.Builder<CategoryItem>()
+                    .setQuery(recreationQuery, CategoryItem.class)
                     .build();
-            natureFirebaseAdapter = new FirebaseRecyclerAdapter<CategoryItem, NatureViewHolder>(options) {
+            recreationFirebaseAdapter = new FirebaseRecyclerAdapter<CategoryItem, RecreationViewHolder>(recreationOptions) {
 
                 @Override
-                protected void onBindViewHolder(@NonNull NatureViewHolder holder, int position, @NonNull CategoryItem model) {
-                    final DatabaseReference natureCategoryRef = getRef(position);
-                    final String natureKey = natureCategoryRef.getKey();
+                protected void onBindViewHolder(@NonNull RecreationViewHolder holder, int position, @NonNull CategoryItem model) {
+                    final DatabaseReference recreationCategoryRef = getRef(position);
+                    final String recreationKey = recreationCategoryRef.getKey();
 
                     gpsHandler = new GPSHandler(getApplicationContext());
                     if (gpsHandler.isCanGetLocation()) {
@@ -103,12 +102,12 @@ public class NatureCategoryActivity extends AppCompatActivity {
                         shimmerFrameLayout.stopShimmerAnimation();
                         shimmerFrameLayout.setVisibility(View.GONE);
 
-                        holder.showTourismData(model, longitude, latitude);
-                        holder.setOnClickListener(new NatureViewHolder.ClickListener() {
+                        holder.showRecreationTourismData(model, latitude, longitude);
+                        holder.setOnClickListener(new RecreationViewHolder.ClickListener() {
                             @Override
                             public void onItemClick(View view, int position) {
-                                Intent intent = new Intent(getApplicationContext(), DetailNatureActivity.class);
-                                intent.putExtra(DetailNatureActivity.EXTRA_WISATA_KEY, natureKey);
+                                Intent intent = new Intent(getApplicationContext(), DetailRecreationActivity.class);
+                                intent.putExtra(DetailRecreationActivity.EXTRA_WISATA_KEY, recreationKey);
                                 startActivity(intent);
                             }
                         });
@@ -120,14 +119,14 @@ public class NatureCategoryActivity extends AppCompatActivity {
 
                 @NonNull
                 @Override
-                public NatureViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-                    View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_nature_category_menu, viewGroup, false);
-                    return new NatureViewHolder(view);
+                public RecreationViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+                    View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_recreation_category_menu, viewGroup, false);
+                    return new RecreationViewHolder(view);
                 }
 
             };
-            natureFirebaseAdapter.notifyDataSetChanged();
-            rvNatureList.setAdapter(natureFirebaseAdapter);
+            recreationFirebaseAdapter.notifyDataSetChanged();
+            rvRecreationList.setAdapter(recreationFirebaseAdapter);
         }
     }
 
@@ -170,7 +169,7 @@ public class NatureCategoryActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.petaMenu) {
-            startActivity(new Intent(NatureCategoryActivity.this, NatureMapsActivity.class));
+            startActivity(new Intent(RecreationCategoryActivity.this, RecreationCategoryMaps.class));
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -180,21 +179,21 @@ public class NatureCategoryActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         shimmerFrameLayout.startShimmerAnimation();
-        natureFirebaseAdapter.startListening();
+        recreationFirebaseAdapter.startListening();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         shimmerFrameLayout.stopShimmerAnimation();
-        natureFirebaseAdapter.stopListening();
+        recreationFirebaseAdapter.stopListening();
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        if (natureFirebaseAdapter != null) {
-            natureFirebaseAdapter.startListening();
+        if (recreationFirebaseAdapter != null) {
+            recreationFirebaseAdapter.startListening();
         }
 
     }
@@ -202,8 +201,8 @@ public class NatureCategoryActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        if (natureFirebaseAdapter != null) {
-            natureFirebaseAdapter.stopListening();
+        if (recreationFirebaseAdapter != null) {
+            recreationFirebaseAdapter.stopListening();
         }
 
     }

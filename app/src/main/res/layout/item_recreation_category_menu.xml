@@ -34,11 +34,11 @@
             app:corner_radius="8dp">
 
             <ImageView
-                android:id="@+id/tourism_village_pic"
+                android:id="@+id/tourism_recreation_pic"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:scaleType="centerCrop"
                 android:contentDescription="@null"
+                android:scaleType="centerCrop"
                 android:src="@drawable/imagedolanbg" />
         </com.jcminarro.roundkornerlayout.RoundKornerFrameLayout>
 
@@ -51,7 +51,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/name_village_item_tourism"
+                android:id="@+id/name_recreation_item_tourism"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/monsterrat_sembold"
@@ -59,7 +59,7 @@
                 android:textSize="14sp" />
 
             <TextView
-                android:id="@+id/location_village_item_tourism"
+                android:id="@+id/location_recreation_item_tourism"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
@@ -69,7 +69,7 @@
                 android:textSize="12sp" />
 
             <TextView
-                android:id="@+id/distance_village_item_tourism"
+                android:id="@+id/distance_recreation_item_tourism"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="35dp"
