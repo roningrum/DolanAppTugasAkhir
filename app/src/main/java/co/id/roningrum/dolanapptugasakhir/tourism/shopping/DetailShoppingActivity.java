@@ -14,10 +14,9 @@
 package co.id.roningrum.dolanapptugasakhir.tourism.shopping;
 
 import android.annotation.SuppressLint;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -47,7 +46,6 @@ public class DetailShoppingActivity extends FragmentActivity implements OnMapRea
     private DatabaseReference shoppingDetailRef;
 
     private GPSHandler gpsHandler;
-    private Query shoppingQuery;
     private ValueEventListener valueEventListener;
 
     private TextView tvNameShoppingDetail, tvAddressShoppingDetail, tvDescShoppingDetail,
@@ -81,7 +79,7 @@ public class DetailShoppingActivity extends FragmentActivity implements OnMapRea
             throw new IllegalArgumentException("Must pass Extra");
         }
         shoppingDetailRef = FirebaseDatabase.getInstance().getReference().child("Tourism").child(shoppingKey);
-        shoppingQuery = shoppingDetailRef.orderByChild("category_tourism").equalTo("belanja");
+        Query shoppingQuery = shoppingDetailRef.orderByChild("category_tourism").equalTo("belanja");
         gpsHandler = new GPSHandler(this);
         
         LoadShoppingDetail();

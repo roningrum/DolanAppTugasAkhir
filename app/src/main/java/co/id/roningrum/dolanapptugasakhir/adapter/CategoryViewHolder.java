@@ -99,7 +99,7 @@ public class CategoryViewHolder extends RecyclerView.ViewHolder {
         Glide.with(itemView.getContext()).load(categoryItem.getUrl_photo()).into(tourism_pic);
     }
 
-    protected double calculateDistance(double lat1, double long1, double lat2, double long2){
+    private double calculateDistance(double lat1, double long1, double lat2, double long2) {
 
         double earthRadius = 6371;
         double latDiff = Math.toRadians(lat1-lat2);

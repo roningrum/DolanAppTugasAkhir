@@ -17,13 +17,10 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
-import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -47,7 +44,6 @@ public class DetailNatureActivity extends FragmentActivity implements OnMapReady
     private GoogleMap gMap;
     private DatabaseReference natureDetailRef;
     private GPSHandler gpsHandler;
-    private Query natureQuery;
     private ValueEventListener valueEventListener;
 
     private TextView tvNameNatureDetail, tvAddressNature,
@@ -81,7 +77,7 @@ public class DetailNatureActivity extends FragmentActivity implements OnMapReady
             throw new IllegalArgumentException("Must pass Extra");
         }
         natureDetailRef = FirebaseDatabase.getInstance().getReference().child("Tourism").child(alamKey);
-        natureQuery = natureDetailRef.orderByChild("category_tourism").equalTo("alam");
+        Query natureQuery = natureDetailRef.orderByChild("category_tourism").equalTo("alam");
         gpsHandler = new GPSHandler(this);
 
 

@@ -10,32 +10,32 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   -->
-
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".tourism.recreation.RecreationCategoryMaps">
+    tools:context=".tourism.religi.ReligiCategoryMaps">
 
     <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar_recreation_map"
+        android:id="@+id/toolbar_religi_map"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:fitsSystemWindows="true"
-        app:title="Peta Wisata Rekreasi"
+        app:title="Peta Wisata Air"
         app:titleTextColor="@color/blackPrimary" />
 
     <FrameLayout
-        android:id="@+id/frame_layout_recreation_map"
+        android:id="@+id/frame_layout_religi_map"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/toolbar_recreation_map">
+        android:layout_below="@+id/toolbar_religi_map">
 
         <fragment
-            android:id="@+id/tourist_recreation_map"
+            android:id="@+id/religi_tourism_map"
             android:name="com.google.android.gms.maps.SupportMapFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
     </FrameLayout>
+
 </RelativeLayout>

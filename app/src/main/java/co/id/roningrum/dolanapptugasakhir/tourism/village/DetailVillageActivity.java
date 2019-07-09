@@ -14,10 +14,9 @@
 package co.id.roningrum.dolanapptugasakhir.tourism.village;
 
 import android.annotation.SuppressLint;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -46,8 +45,7 @@ public class DetailVillageActivity extends FragmentActivity implements OnMapRead
     private DatabaseReference villageDetailRef;
 
     private GPSHandler gpsHandler;
-    private Query villageQuery;
-    
+
     private ValueEventListener valueEventListener;
 
     private TextView tvNameVillageDetail, tvAddressVillageDetail, tvDescVillageDetail,
@@ -84,7 +82,7 @@ public class DetailVillageActivity extends FragmentActivity implements OnMapRead
         }
         
         villageDetailRef = FirebaseDatabase.getInstance().getReference().child("Tourism");
-        villageQuery = villageDetailRef.orderByChild("category_tourism").equalTo("desa");
+        Query villageQuery = villageDetailRef.orderByChild("category_tourism").equalTo("desa");
         gpsHandler = new GPSHandler(this);
         
         LoadDetailDesa();

@@ -13,9 +13,9 @@
 
 package co.id.roningrum.dolanapptugasakhir.tourism.shopping;
 
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
-import android.os.Bundle;
 import android.util.Log;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -38,7 +38,6 @@ public class ShoppingCategoryMap extends FragmentActivity implements OnMapReadyC
 
     private GoogleMap shoppingMap;
     private DatabaseReference shoppingRefMap;
-    private Query shoppingMapQuery;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,7 +64,7 @@ public class ShoppingCategoryMap extends FragmentActivity implements OnMapReadyC
     public void onMapReady(GoogleMap googleMap) {
         shoppingMap = googleMap;
 
-        shoppingMapQuery= shoppingRefMap.orderByChild("category_tourism").equalTo("belanja");
+        Query shoppingMapQuery = shoppingRefMap.orderByChild("category_tourism").equalTo("belanja");
         shoppingMapQuery.addListenerForSingleValueEvent(new ValueEventListener() {
 
             @Override

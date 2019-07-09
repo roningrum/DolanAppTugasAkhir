@@ -44,7 +44,6 @@ public class DetailRecreationActivity extends FragmentActivity implements OnMapR
     private GoogleMap recreationMap;
     private DatabaseReference recreationDetailRef;
     private GPSHandler gpsHandler;
-    private Query recreationQuery;
     private ValueEventListener valueEventListener;
 
     private TextView tvNameRecreationDetail, tvAddressRecreationDetail,
@@ -78,7 +77,7 @@ public class DetailRecreationActivity extends FragmentActivity implements OnMapR
             throw new IllegalArgumentException("Must pass Extra");
         }
         recreationDetailRef = FirebaseDatabase.getInstance().getReference().child("Tourism").child(recreationKey);
-        recreationQuery = recreationDetailRef.orderByChild("category_tourism").equalTo("rekreasi");
+        Query recreationQuery = recreationDetailRef.orderByChild("category_tourism").equalTo("rekreasi");
         gpsHandler = new GPSHandler(this);
 
         LoadRecreationDetail();

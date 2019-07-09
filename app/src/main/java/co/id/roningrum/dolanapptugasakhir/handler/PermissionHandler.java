@@ -38,9 +38,9 @@ public class PermissionHandler {
     private static final String PERMISSION_ACCESS_FINE_LOCTAION = Manifest.permission.ACCESS_FINE_LOCATION;
     private static final String PERMISSION_ACCESS_COARSE_LOCTAION = Manifest.permission.ACCESS_COARSE_LOCATION;
     private ArrayList<String> requiredPermissions;
-    private ArrayList<String> ungrantedPermissions = new ArrayList<String>();
+    private ArrayList<String> ungrantedPermissions = new ArrayList<>();
 
-    public PermissionHandler(Activity activity) {
+    private PermissionHandler(Activity activity) {
         this.activity = activity;
     }
 

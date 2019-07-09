@@ -11,7 +11,7 @@
  * limitations under the License.
  */
 
-package co.id.roningrum.dolanapptugasakhir.tourism.village;
+package co.id.roningrum.dolanapptugasakhir.tourism.religi;
 
 import android.Manifest;
 import android.content.Intent;
@@ -25,6 +25,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,18 +39,19 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import co.id.roningrum.dolanapptugasakhir.R;
-import co.id.roningrum.dolanapptugasakhir.adapter.VillageViewHolder;
+import co.id.roningrum.dolanapptugasakhir.adapter.ReligiViewHolder;
 import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.handler.NetworkHelper;
 import co.id.roningrum.dolanapptugasakhir.handler.PermissionHandler;
 import co.id.roningrum.dolanapptugasakhir.item.CategoryItem;
 
-public class VillageCategoryActivity extends AppCompatActivity {
-    private RecyclerView rvVillageList;
+public class ReligiCategoryActivity extends AppCompatActivity {
+    private RecyclerView rvReligiList;
     private ShimmerFrameLayout shimmerFrameLayout;
-    private FirebaseRecyclerAdapter<CategoryItem, VillageViewHolder> villageFirebaseAdapter;
+    private FirebaseRecyclerAdapter<CategoryItem, ReligiViewHolder> religiFirebaseAdapter;
 
     private GPSHandler gpsHandler;
     private PermissionHandler permissionHandler;
@@ -57,11 +59,13 @@ public class VillageCategoryActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_village_category);
-        rvVillageList = findViewById(R.id.tourism_village_list);
-        Toolbar toolbarVillage = findViewById(R.id.toolbar_top_village);
-        rvVillageList.setLayoutManager(new LinearLayoutManager(this));
+        setContentView(R.layout.activity_religi_category);
+        rvReligiList = findViewById(R.id.tourism_religi_list);
+        Toolbar toolbarReligi = findViewById(R.id.toolbar_top_religi);
+        shimmerFrameLayout = findViewById(R.id.shimmer_view_container);
+        rvReligiList.setLayoutManager(new LinearLayoutManager(this));
         ArrayList<CategoryItem> categoryItems = new ArrayList<>();
+        setSupportActionBar(toolbarReligi);
         checkConnection();
     }
 
@@ -76,22 +80,17 @@ public class VillageCategoryActivity extends AppCompatActivity {
 
     private void showData() {
         if (havePermission()) {
-            DatabaseReference villageCategoryDB = FirebaseDatabase.getInstance().getReference();
-            Query villageQuery = villageCategoryDB.child("Tourism").orderByChild("category_tourism").equalTo("desa");
-            FirebaseRecyclerOptions<CategoryItem> villageOptions = new FirebaseRecyclerOptions.Builder<CategoryItem>()
-                    .setQuery(villageQuery, CategoryItem.class)
+            final DatabaseReference religiCategoryDB = FirebaseDatabase.getInstance().getReference();
+            Query religiquery = religiCategoryDB.child("Tourism").orderByChild("category_tourism").equalTo("religi");
+            FirebaseRecyclerOptions<CategoryItem> options = new FirebaseRecyclerOptions.Builder<CategoryItem>()
+                    .setQuery(religiquery, CategoryItem.class)
                     .build();
-            villageFirebaseAdapter = new FirebaseRecyclerAdapter<CategoryItem, VillageViewHolder>(villageOptions) {
-                @NonNull
-                @Override
-                public VillageViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-                    return new VillageViewHolder(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_village_category_menu, viewGroup, false));
-                }
+            religiFirebaseAdapter = new FirebaseRecyclerAdapter<CategoryItem, ReligiViewHolder>(options) {
 
                 @Override
-                protected void onBindViewHolder(@NonNull VillageViewHolder holder, int position, @NonNull CategoryItem model) {
-                    final DatabaseReference villageCategoryRef = getRef(position);
-                    final String villageKey = villageCategoryRef.getKey();
+                protected void onBindViewHolder(@NonNull ReligiViewHolder holder, int position, @NonNull CategoryItem model) {
+                    final DatabaseReference religiCategoryRef = getRef(position);
+                    final String religiKey = religiCategoryRef.getKey();
 
                     gpsHandler = new GPSHandler(getApplicationContext());
                     if (gpsHandler.isCanGetLocation()) {
@@ -103,12 +102,12 @@ public class VillageCategoryActivity extends AppCompatActivity {
                         shimmerFrameLayout.stopShimmerAnimation();
                         shimmerFrameLayout.setVisibility(View.GONE);
 
-                        holder.showVillageTourismData(model, latitude, longitude);
-                        holder.setOnClickListener(new VillageViewHolder.ClickListener() {
+                        holder.showReligiTourismData(model, latitude, longitude);
+                        holder.setOnClickListener(new ReligiViewHolder.ClickListener() {
                             @Override
                             public void onItemClick(View view, int position) {
-                                Intent intent = new Intent(getApplicationContext(), DetailVillageActivity.class);
-                                intent.putExtra(DetailVillageActivity.EXTRA_WISATA_KEY, villageKey);
+                                Intent intent = new Intent(getApplicationContext(), DetailReligiActivity.class);
+                                intent.putExtra(DetailReligiActivity.EXTRA_WISATA_KEY, religiKey);
                                 startActivity(intent);
                             }
                         });
@@ -118,16 +117,16 @@ public class VillageCategoryActivity extends AppCompatActivity {
                     }
                 }
 
-//                @NonNull
-//                @Override
-//                public ShoppingViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-//                    View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_shopping_category_menu, viewGroup, false);
-//                    return new ShoppingViewHolder(view);
-//                }
-            };
-            villageFirebaseAdapter.notifyDataSetChanged();
-            rvVillageList.setAdapter(villageFirebaseAdapter);
+                @NonNull
+                @Override
+                public ReligiViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+                    View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_religi_category_menu, viewGroup, false);
+                    return new ReligiViewHolder(view);
+                }
 
+            };
+            religiFirebaseAdapter.notifyDataSetChanged();
+            rvReligiList.setAdapter(religiFirebaseAdapter);
         }
     }
 
@@ -145,12 +144,13 @@ public class VillageCategoryActivity extends AppCompatActivity {
         }
         return true;
     }
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         for (int i : grantResults) {
             if (i == PackageManager.PERMISSION_GRANTED) {
-                Log.d("test", "Permission" + permissions + "Success");
+                Log.d("test", "Permission" + Arrays.toString(permissions) + "Success");
             } else {
                 //denied
                 permissionHandler.deniedPermission(Manifest.permission.ACCESS_FINE_LOCATION);
@@ -158,11 +158,18 @@ public class VillageCategoryActivity extends AppCompatActivity {
             }
         }
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.toolbar_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.petaMenu) {
-            startActivity(new Intent(VillageCategoryActivity.this, VillageCategoryMaps.class));
+            startActivity(new Intent(ReligiCategoryActivity.this, ReligiCategoryMaps.class));
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -172,21 +179,21 @@ public class VillageCategoryActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         shimmerFrameLayout.startShimmerAnimation();
-        villageFirebaseAdapter.startListening();
+        religiFirebaseAdapter.startListening();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         shimmerFrameLayout.stopShimmerAnimation();
-        villageFirebaseAdapter.stopListening();
+        religiFirebaseAdapter.stopListening();
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        if (villageFirebaseAdapter != null) {
-            villageFirebaseAdapter.startListening();
+        if (religiFirebaseAdapter != null) {
+            religiFirebaseAdapter.startListening();
         }
 
     }
@@ -194,8 +201,10 @@ public class VillageCategoryActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        if (villageFirebaseAdapter != null) {
-            villageFirebaseAdapter.stopListening();
+        if (religiFirebaseAdapter != null) {
+            religiFirebaseAdapter.stopListening();
         }
+
     }
+
 }

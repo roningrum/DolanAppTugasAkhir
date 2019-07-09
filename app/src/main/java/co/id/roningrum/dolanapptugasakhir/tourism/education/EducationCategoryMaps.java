@@ -37,7 +37,6 @@ import co.id.roningrum.dolanapptugasakhir.item.CategoryItem;
 public class EducationCategoryMaps extends FragmentActivity implements OnMapReadyCallback {
 
     private DatabaseReference educationRefMap;
-    private Query educationMapQuery;
     private GoogleMap educationPlaceMap;
 
     @Override
@@ -65,7 +64,7 @@ public class EducationCategoryMaps extends FragmentActivity implements OnMapRead
     public void onMapReady(GoogleMap googleMap) {
         educationPlaceMap = googleMap;
 
-        educationMapQuery = educationRefMap.orderByChild("category_tourism").equalTo("edukasi");
+        Query educationMapQuery = educationRefMap.orderByChild("category_tourism").equalTo("edukasi");
         educationRefMap.addListenerForSingleValueEvent(new ValueEventListener() {
 
             @Override

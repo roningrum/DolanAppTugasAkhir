@@ -17,9 +17,9 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -41,36 +41,28 @@ import java.util.ArrayList;
 
 import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.adapter.EducationViewHolder;
-import co.id.roningrum.dolanapptugasakhir.adapter.VillageViewHolder;
 import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.handler.NetworkHelper;
 import co.id.roningrum.dolanapptugasakhir.handler.PermissionHandler;
 import co.id.roningrum.dolanapptugasakhir.item.CategoryItem;
-import co.id.roningrum.dolanapptugasakhir.tourism.village.DetailVillageActivity;
-import co.id.roningrum.dolanapptugasakhir.tourism.village.VillageCategoryActivity;
-import co.id.roningrum.dolanapptugasakhir.tourism.village.VillageCategoryMaps;
 
 public class EducationCategoryActivity extends AppCompatActivity {
 
     private RecyclerView rvEducationList;
-    private Toolbar toolbarEducation;
-    private ArrayList<CategoryItem> categoryItems;
     private ShimmerFrameLayout shimmerFrameLayout;
     private FirebaseRecyclerAdapter<CategoryItem, EducationViewHolder> educationFirebaseAdapter;
 
     private GPSHandler gpsHandler;
     private PermissionHandler permissionHandler;
-    private DatabaseReference educationCategoryDB;
-    private Query educationQuery;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_education_category);
         rvEducationList = findViewById(R.id.tourism_education_list);
-        toolbarEducation = findViewById(R.id.toolbar_top_education);
+        Toolbar toolbarEducation = findViewById(R.id.toolbar_top_education);
         rvEducationList.setLayoutManager(new LinearLayoutManager(this));
-        categoryItems = new ArrayList<>();
+        ArrayList<CategoryItem> categoryItems = new ArrayList<>();
         checkConnection();
     }
 
@@ -85,8 +77,8 @@ public class EducationCategoryActivity extends AppCompatActivity {
 
     private void showData() {
         if (havePermission()) {
-            educationCategoryDB = FirebaseDatabase.getInstance().getReference();
-            educationQuery = educationCategoryDB.child("Tourism").orderByChild("category_tourism").equalTo("edukasi");
+            DatabaseReference educationCategoryDB = FirebaseDatabase.getInstance().getReference();
+            Query educationQuery = educationCategoryDB.child("Tourism").orderByChild("category_tourism").equalTo("edukasi");
             FirebaseRecyclerOptions<CategoryItem> educationOptions = new FirebaseRecyclerOptions.Builder<CategoryItem>()
                     .setQuery(educationQuery, CategoryItem.class)
                     .build();

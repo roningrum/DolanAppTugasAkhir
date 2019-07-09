@@ -130,8 +130,4 @@ public class DetailCategoryActivity extends AppCompatActivity {
 
     }
 
-    @Override
-    protected void onStop() {
-        super.onStop();
-    }
 }

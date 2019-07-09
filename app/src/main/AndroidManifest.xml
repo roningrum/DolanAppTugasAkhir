@@ -35,6 +35,11 @@
             android:value="@string/google_maps_key" />
 
         <activity
+            android:name=".tourism.religi.ReligiCategoryMaps"
+            android:label="@string/title_activity_religi_category_maps"></activity>
+        <activity android:name=".tourism.religi.DetailReligiActivity" />
+        <activity android:name=".tourism.religi.ReligiCategoryActivity" />
+        <activity
             android:name=".tourism.recreation.RecreationCategoryMaps"
             android:label="@string/title_activity_recreation_category_maps" />
         <activity android:name=".tourism.recreation.DetailRecreationActivity" />

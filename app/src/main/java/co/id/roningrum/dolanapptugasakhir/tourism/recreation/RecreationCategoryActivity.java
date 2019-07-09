@@ -50,7 +50,6 @@ import co.id.roningrum.dolanapptugasakhir.item.CategoryItem;
 
 public class RecreationCategoryActivity extends AppCompatActivity {
     private RecyclerView rvRecreationList;
-    private ArrayList<CategoryItem> categoryItems;
     private ShimmerFrameLayout shimmerFrameLayout;
     private FirebaseRecyclerAdapter<CategoryItem, RecreationViewHolder> recreationFirebaseAdapter;
 
@@ -65,7 +64,7 @@ public class RecreationCategoryActivity extends AppCompatActivity {
         Toolbar toolbarRecreation = findViewById(R.id.toolbar_top_recreation);
         shimmerFrameLayout = findViewById(R.id.shimmer_view_container);
         rvRecreationList.setLayoutManager(new LinearLayoutManager(this));
-        categoryItems = new ArrayList<>();
+        ArrayList<CategoryItem> categoryItems = new ArrayList<>();
         checkConnection();
     }
 

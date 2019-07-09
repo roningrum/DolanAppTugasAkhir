@@ -17,9 +17,9 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -34,7 +34,6 @@ import android.widget.Toast;
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
@@ -42,38 +41,30 @@ import com.google.firebase.database.Query;
 import java.util.ArrayList;
 
 import co.id.roningrum.dolanapptugasakhir.R;
-import co.id.roningrum.dolanapptugasakhir.adapter.NatureViewHolder;
 import co.id.roningrum.dolanapptugasakhir.adapter.WaterViewHolder;
 import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.handler.NetworkHelper;
 import co.id.roningrum.dolanapptugasakhir.handler.PermissionHandler;
 import co.id.roningrum.dolanapptugasakhir.item.CategoryItem;
-import co.id.roningrum.dolanapptugasakhir.tourism.nature.DetailNatureActivity;
-import co.id.roningrum.dolanapptugasakhir.tourism.nature.NatureCategoryActivity;
-import co.id.roningrum.dolanapptugasakhir.tourism.nature.NatureMapsActivity;
 
 public class WaterCategoryActivity extends AppCompatActivity {
     private RecyclerView rvWaterList;
-    private Toolbar toolbarWater;
-    private ArrayList<CategoryItem> categoryItems;
     private ShimmerFrameLayout shimmerFrameLayout;
     private FirebaseRecyclerAdapter<CategoryItem, WaterViewHolder> waterFirebaseAdapter;
 
     private GPSHandler gpsHandler;
     private PermissionHandler permissionHandler;
-    private DatabaseReference waterCategoryDB;
-    private Query waterItemListQuery;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_water_category);
         rvWaterList = findViewById(R.id.tourism_water_list);
-        toolbarWater = findViewById(R.id.toolbar_top_water);
+        Toolbar toolbarWater = findViewById(R.id.toolbar_top_water);
         shimmerFrameLayout = findViewById(R.id.shimmer_view_container);
 
         rvWaterList.setLayoutManager(new LinearLayoutManager(this));
-        categoryItems = new ArrayList<>();
+        ArrayList<CategoryItem> categoryItems = new ArrayList<>();
         checkConnection();
         setSupportActionBar(toolbarWater);
 //        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -91,8 +82,8 @@ public class WaterCategoryActivity extends AppCompatActivity {
 
     private void showData() {
         if(havePermission()){
-            waterCategoryDB = FirebaseDatabase.getInstance().getReference();
-            waterItemListQuery = waterCategoryDB.child("Tourism").orderByChild("category_tourism").equalTo("air");
+            DatabaseReference waterCategoryDB = FirebaseDatabase.getInstance().getReference();
+            Query waterItemListQuery = waterCategoryDB.child("Tourism").orderByChild("category_tourism").equalTo("air");
             FirebaseRecyclerOptions<CategoryItem> options = new FirebaseRecyclerOptions.Builder<CategoryItem>()
                     .setQuery(waterItemListQuery, CategoryItem.class)
                     .build();

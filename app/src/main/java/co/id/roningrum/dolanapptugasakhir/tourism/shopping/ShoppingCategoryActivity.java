@@ -50,25 +50,21 @@ import co.id.roningrum.dolanapptugasakhir.item.CategoryItem;
 public class ShoppingCategoryActivity extends AppCompatActivity {
 
     private RecyclerView rvShoppingList;
-    private Toolbar toolbarShopping;
-    private ArrayList<CategoryItem> categoryItems;
     private ShimmerFrameLayout shimmerFrameLayout;
     private FirebaseRecyclerAdapter<CategoryItem, ShoppingViewHolder> shoppingFirebaseAdapter;
 
     private GPSHandler gpsHandler;
     private PermissionHandler permissionHandler;
-    private DatabaseReference shoppingCategoryDB;
-    private Query shoppingQuery;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shopping_category);
         rvShoppingList = findViewById(R.id.tourism_shopping_list);
-        toolbarShopping = findViewById(R.id.toolbar_top_shopping);
+        Toolbar toolbarShopping = findViewById(R.id.toolbar_top_shopping);
         shimmerFrameLayout = findViewById(R.id.shimmer_view_container);
         rvShoppingList.setLayoutManager(new LinearLayoutManager(this));
-        categoryItems = new ArrayList<>();
+        ArrayList<CategoryItem> categoryItems = new ArrayList<>();
         checkConnection();
         setSupportActionBar(toolbarShopping);
     }
@@ -84,8 +80,8 @@ public class ShoppingCategoryActivity extends AppCompatActivity {
 
     private void showData() {
         if (havePermission()) {
-            shoppingCategoryDB = FirebaseDatabase.getInstance().getReference();
-            shoppingQuery = shoppingCategoryDB.child("Tourism").orderByChild("category_tourism").equalTo("belanja");
+            DatabaseReference shoppingCategoryDB = FirebaseDatabase.getInstance().getReference();
+            Query shoppingQuery = shoppingCategoryDB.child("Tourism").orderByChild("category_tourism").equalTo("belanja");
             FirebaseRecyclerOptions<CategoryItem> shoppingOptions = new FirebaseRecyclerOptions.Builder<CategoryItem>()
                     .setQuery(shoppingQuery, CategoryItem.class)
                     .build();

@@ -51,17 +51,13 @@ public class CategoryMenuActivity extends AppCompatActivity {
 
     private static final String REQUESTING_LOCATION_UPDATES_KEY = "12";
 
-    private Toolbar mToolbar;
     private DatabaseReference tourismDBRef;
     private RecyclerView rvTourismList;
     private ShimmerFrameLayout shimmerFrameLayout;
-    //    ProgressBar progressBar;
-    private ArrayList<CategoryItem> categoryItemList;
     private FirebaseRecyclerAdapter<CategoryItem, CategoryViewHolder> firebaseAdapter;
 
     private GPSHandler gpsHandler;
     private PermissionHandler permissionHandler;
-    private final boolean requestingLocationUpdates = true;
 
 
     @Override
@@ -69,13 +65,14 @@ public class CategoryMenuActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_category_menu);
-        mToolbar = findViewById(R.id.toolbar_top);
+        Toolbar mToolbar = findViewById(R.id.toolbar_top);
 //        progressBar = findViewById(R.id.progressbar);
         rvTourismList = findViewById(R.id.tourism_list);
         shimmerFrameLayout = findViewById(R.id.shimmer_view_container);
 
         rvTourismList.setLayoutManager(new LinearLayoutManager(this));
-        categoryItemList = new ArrayList<>();
+        //    ProgressBar progressBar;
+        ArrayList<CategoryItem> categoryItemList = new ArrayList<>();
         setSupportActionBar(mToolbar);
 //        updateValuesFromBundle(savedInstanceState);
         checkConnection();
@@ -293,6 +290,7 @@ public class CategoryMenuActivity extends AppCompatActivity {
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
+        boolean requestingLocationUpdates = true;
         outState.putBoolean(REQUESTING_LOCATION_UPDATES_KEY,
                 requestingLocationUpdates);
         // ...

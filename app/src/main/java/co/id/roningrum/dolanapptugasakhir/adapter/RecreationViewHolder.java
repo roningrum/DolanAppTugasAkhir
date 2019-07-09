@@ -32,8 +32,6 @@ public class RecreationViewHolder extends RecyclerView.ViewHolder {
     private final TextView location_recreation_tourisms;
     private final TextView distance_recreation_tourisms;
     private final ImageView tourism_recreation_pic;
-    //interface
-    private RecreationViewHolder.ClickListener categoryOnClick;
 
     public RecreationViewHolder(@NonNull View itemView) {
         super(itemView);
@@ -50,22 +48,8 @@ public class RecreationViewHolder extends RecyclerView.ViewHolder {
 
     }
 
-    @SuppressLint("SetTextI18n")
-    public void showRecreationTourismData(CategoryItem categoryItem, double longitude, double latitude) {
-
-        double lattitude_a = categoryItem.getLat_location_tourism();
-        double longitude_a = categoryItem.getLng_location_tourism();
-
-        float jarakMeter = (float) calculateDistance(latitude, longitude, lattitude_a, longitude_a);
-//        float jarakMeter = loc1.distanceTo(loc2);
-        float jarakKM = jarakMeter / 1000;
-        @SuppressLint("DefaultLocale") String distanceFormat = String.format("%.2f", jarakKM);
-
-        name_recreation_tourisms.setText(categoryItem.getName_tourism());
-        location_recreation_tourisms.setText(categoryItem.getLocation_tourism());
-        distance_recreation_tourisms.setText(distanceFormat + " KM");
-        Glide.with(itemView.getContext()).load(categoryItem.getUrl_photo()).into(tourism_recreation_pic);
-    }
+    //interface
+    private RecreationViewHolder.ClickListener categoryOnClick;
 
     private double calculateDistance(double lat1, double long1, double lat2, double long2) {
 
@@ -81,6 +65,23 @@ public class RecreationViewHolder extends RecyclerView.ViewHolder {
         int meterConversion = 1609;
 
         return (float) distance * meterConversion;
+    }
+
+    @SuppressLint("SetTextI18n")
+    public void showRecreationTourismData(CategoryItem categoryItem, double latitude, double longitude) {
+
+        double lattitude_a = categoryItem.getLat_location_tourism();
+        double longitude_a = categoryItem.getLng_location_tourism();
+
+        float jarakMeter = (float) calculateDistance(latitude, longitude, lattitude_a, longitude_a);
+//        float jarakMeter = loc1.distanceTo(loc2);
+        float jarakKM = jarakMeter / 1000;
+        @SuppressLint("DefaultLocale") String distanceFormat = String.format("%.2f", jarakKM);
+
+        name_recreation_tourisms.setText(categoryItem.getName_tourism());
+        location_recreation_tourisms.setText(categoryItem.getLocation_tourism());
+        distance_recreation_tourisms.setText(distanceFormat + " KM");
+        Glide.with(itemView.getContext()).load(categoryItem.getUrl_photo()).into(tourism_recreation_pic);
     }
 
     public void setOnClickListener(RecreationViewHolder.ClickListener clickListener) {

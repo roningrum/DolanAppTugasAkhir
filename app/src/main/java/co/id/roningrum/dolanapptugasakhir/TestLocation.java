@@ -33,7 +33,6 @@ import com.google.android.gms.tasks.OnSuccessListener;
 public class TestLocation extends AppCompatActivity {
 
     private TextView tvLocation;
-    private LocationManager locationManagers;
     private final String[] perms = {Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_NETWORK_STATE};
 
     @Override
@@ -41,7 +40,7 @@ public class TestLocation extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test_location);
         tvLocation = findViewById(R.id.tvLatLng);
-        locationManagers = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        LocationManager locationManagers = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         FusedLocationProviderClient mFusedLocation = LocationServices.getFusedLocationProviderClient(this);
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling

@@ -13,9 +13,9 @@
 
 package co.id.roningrum.dolanapptugasakhir.tourism.water;
 
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
-import android.os.Bundle;
 import android.util.Log;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -38,7 +38,6 @@ public class WaterMapsActivity extends FragmentActivity implements OnMapReadyCal
 
     private GoogleMap waterMap;
     private DatabaseReference waterRefMap;
-    private Query waterMapQuery;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,7 +64,7 @@ public class WaterMapsActivity extends FragmentActivity implements OnMapReadyCal
     @Override
     public void onMapReady(GoogleMap googleMap) {
         waterMap = googleMap;
-        waterMapQuery = waterRefMap.orderByChild("category_tourism").equalTo("air");
+        Query waterMapQuery = waterRefMap.orderByChild("category_tourism").equalTo("air");
         waterMapQuery.addListenerForSingleValueEvent(new ValueEventListener() {
 
             @Override

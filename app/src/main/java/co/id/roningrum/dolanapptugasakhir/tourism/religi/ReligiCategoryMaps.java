@@ -11,7 +11,7 @@
  * limitations under the License.
  */
 
-package co.id.roningrum.dolanapptugasakhir.tourism.nature;
+package co.id.roningrum.dolanapptugasakhir.tourism.religi;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -34,21 +34,22 @@ import com.google.firebase.database.ValueEventListener;
 import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.item.CategoryItem;
 
-public class NatureMapsActivity extends FragmentActivity implements OnMapReadyCallback {
+public class ReligiCategoryMaps extends FragmentActivity implements OnMapReadyCallback {
 
-    private GoogleMap natureMap;
-    private DatabaseReference natureRefMap;
+    private GoogleMap religiPlaceMap;
+    private DatabaseReference religiRefMap;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_nature_maps);
+        setContentView(R.layout.activity_religi_category_maps);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.nature_map);
+                .findFragmentById(R.id.religi_tourism_map);
         assert mapFragment != null;
         mapFragment.getMapAsync(this);
-        natureRefMap = FirebaseDatabase.getInstance().getReference().child("Tourism");
+        religiRefMap = FirebaseDatabase.getInstance().getReference().child("Tourism");
     }
 
 
@@ -63,30 +64,26 @@ public class NatureMapsActivity extends FragmentActivity implements OnMapReadyCa
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        natureMap = googleMap;
-        Query natureMapQuery = natureRefMap.orderByChild("category_tourism").equalTo("alam");
-        natureMapQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+        religiPlaceMap = googleMap;
+        Query religiMapQuery = religiRefMap.orderByChild("category_tourism").equalTo("religi");
+        religiMapQuery.addListenerForSingleValueEvent(new ValueEventListener() {
 
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for(DataSnapshot dsNature : dataSnapshot.getChildren()){
+                for (DataSnapshot dsNature : dataSnapshot.getChildren()) {
                     CategoryItem categoryItem = dsNature.getValue(CategoryItem.class);
                     double latNature = categoryItem.getLat_location_tourism();
                     double lngNature = categoryItem.getLng_location_tourism();
                     LatLng naturePlaceLoc = new LatLng(latNature, lngNature);
-                    natureMap.moveCamera(CameraUpdateFactory.newLatLngZoom(naturePlaceLoc, 10.0f));
-                    natureMap.addMarker(new MarkerOptions().position(naturePlaceLoc).title(categoryItem.getName_tourism()).snippet(categoryItem.getLocation_tourism()));
+                    religiPlaceMap.moveCamera(CameraUpdateFactory.newLatLngZoom(naturePlaceLoc, 10.0f));
+                    religiPlaceMap.addMarker(new MarkerOptions().position(naturePlaceLoc).title(categoryItem.getName_tourism()).snippet(categoryItem.getLocation_tourism()));
                 }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                Log.e("Pesan", "Check Database :" +databaseError.getMessage());
+                Log.e("Pesan", "Check Database :" + databaseError.getMessage());
             }
         });
-//        // Add a marker in Sydney and move the camera
-//        LatLng sydney = new LatLng(-34, 151);
-//        natureMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-//        natureMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
     }
 }
