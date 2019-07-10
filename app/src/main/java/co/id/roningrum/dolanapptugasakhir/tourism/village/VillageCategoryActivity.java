@@ -60,6 +60,7 @@ public class VillageCategoryActivity extends AppCompatActivity {
         setContentView(R.layout.activity_village_category);
         rvVillageList = findViewById(R.id.tourism_village_list);
         Toolbar toolbarVillage = findViewById(R.id.toolbar_top_village);
+        shimmerFrameLayout = findViewById(R.id.shimmer_view_container);
         rvVillageList.setLayoutManager(new LinearLayoutManager(this));
         ArrayList<CategoryItem> categoryItems = new ArrayList<>();
         checkConnection();

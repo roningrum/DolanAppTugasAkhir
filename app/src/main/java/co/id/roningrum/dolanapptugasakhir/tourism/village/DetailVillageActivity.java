@@ -80,8 +80,8 @@ public class DetailVillageActivity extends FragmentActivity implements OnMapRead
         if(villageKey == null){
             throw new IllegalArgumentException("Must pass Extra");
         }
-        
-        villageDetailRef = FirebaseDatabase.getInstance().getReference().child("Tourism");
+
+        villageDetailRef = FirebaseDatabase.getInstance().getReference().child("Tourism").child(villageKey);
         Query villageQuery = villageDetailRef.orderByChild("category_tourism").equalTo("desa");
         gpsHandler = new GPSHandler(this);
         
@@ -161,5 +161,17 @@ public class DetailVillageActivity extends FragmentActivity implements OnMapRead
 
             return (distance*meterConversion/1000);
         }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        LoadDetailDesa();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        villageDetailRef.removeEventListener(valueEventListener);
+    }
 
     }

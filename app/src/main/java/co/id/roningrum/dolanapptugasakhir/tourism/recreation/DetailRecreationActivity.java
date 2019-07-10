@@ -88,11 +88,14 @@ public class DetailRecreationActivity extends FragmentActivity implements OnMapR
 
         if (gpsHandler.isCanGetLocation()) {
             ValueEventListener eventListener = new ValueEventListener() {
+                @SuppressLint("SetTextI18n")
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     CategoryItem categoryItem = dataSnapshot.getValue(CategoryItem.class);
                     startLat = gpsHandler.getLatitude();
                     startlng = gpsHandler.getLongitude();
+
+                    assert categoryItem != null;
                     endlat = categoryItem.getLat_location_tourism();
                     endLng = categoryItem.getLng_location_tourism();
                     distance = calculateDistance(startLat, startlng, endlat, endLng);

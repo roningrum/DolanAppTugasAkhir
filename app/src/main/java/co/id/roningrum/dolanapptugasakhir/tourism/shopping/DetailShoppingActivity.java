@@ -70,7 +70,7 @@ public class DetailShoppingActivity extends FragmentActivity implements OnMapRea
         imgShoppingObject = findViewById(R.id.img_shopping_place_detail);
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map_place_water_detail);
+                .findFragmentById(R.id.map_place_shopping_detail);
         assert mapFragment != null;
         mapFragment.getMapAsync(this);
 
