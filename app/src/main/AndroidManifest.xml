@@ -39,7 +39,14 @@
             android:name=".tourism.history.HistoryCategoryMap"
             android:label="@string/title_activity_history_category_map" />
         <activity android:name=".tourism.history.DetailHistoryActivity" />
-        <activity android:name=".tourism.history.HistoryCatgeoryActivity" />
+        <activity android:name=".tourism.history.HistoryCatgeoryActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".tourism.religi.ReligiCategoryMaps"
             android:label="@string/title_activity_religi_category_maps" />
@@ -62,12 +69,6 @@
             android:name=".tourism.village.DetailVillageActivity"
             android:parentActivityName=".tourism.village.VillageCategoryActivity" />
         <activity android:name=".tourism.village.VillageCategoryActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".tourism.shopping.ShoppingCategoryMap"

@@ -65,6 +65,7 @@ public class RecreationCategoryActivity extends AppCompatActivity {
         shimmerFrameLayout = findViewById(R.id.shimmer_view_container);
         rvRecreationList.setLayoutManager(new LinearLayoutManager(this));
         ArrayList<CategoryItem> categoryItems = new ArrayList<>();
+        setSupportActionBar(toolbarRecreation);
         checkConnection();
     }
 
