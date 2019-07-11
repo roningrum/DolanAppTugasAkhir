@@ -36,10 +36,10 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name=".tourism.history.HistoryCategoryMap"
-            android:label="@string/title_activity_history_category_map" />
-        <activity android:name=".tourism.history.DetailHistoryActivity" />
-        <activity android:name=".tourism.history.HistoryCatgeoryActivity">
+            android:name=".tourism.food.FoodCategoryMap"
+            android:label="@string/title_activity_food_category_map" />
+        <activity android:name=".tourism.food.DetailFoodActivity" />
+        <activity android:name=".tourism.food.FoodCategoryActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <action android:name="android.intent.action.MAIN" />
@@ -47,6 +47,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".tourism.history.HistoryCategoryMap"
+            android:label="@string/title_activity_history_category_map" />
+        <activity android:name=".tourism.history.DetailHistoryActivity" />
+        <activity android:name=".tourism.history.HistoryCatgeoryActivity" />
         <activity
             android:name=".tourism.religi.ReligiCategoryMaps"
             android:label="@string/title_activity_religi_category_maps" />
@@ -68,8 +73,7 @@
         <activity
             android:name=".tourism.village.DetailVillageActivity"
             android:parentActivityName=".tourism.village.VillageCategoryActivity" />
-        <activity android:name=".tourism.village.VillageCategoryActivity">
-        </activity>
+        <activity android:name=".tourism.village.VillageCategoryActivity" />
         <activity
             android:name=".tourism.shopping.ShoppingCategoryMap"
             android:label="@string/title_activity_shopping_category_map" />

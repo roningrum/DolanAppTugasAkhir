@@ -12,7 +12,7 @@
  */
 
 
-package co.id.roningrum.dolanapptugasakhir.adapter;
+package co.id.roningrum.dolanapptugasakhir.tourism.nature.viewholder;
 
 import android.annotation.SuppressLint;
 import android.support.annotation.NonNull;
@@ -48,6 +48,7 @@ public class NatureViewHolder extends RecyclerView.ViewHolder {
 
     }
 
+    @SuppressLint("SetTextI18n")
     public void showTourismData(CategoryItem categoryItem, double longitude, double latitude) {
 
         double lattitude_a = categoryItem.getLat_location_tourism();

@@ -11,7 +11,7 @@
  * limitations under the License.
  */
 
-package co.id.roningrum.dolanapptugasakhir.tourism.history;
+package co.id.roningrum.dolanapptugasakhir.tourism.food;
 
 import android.Manifest;
 import android.content.Intent;
@@ -38,37 +38,33 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 
 import co.id.roningrum.dolanapptugasakhir.R;
+import co.id.roningrum.dolanapptugasakhir.adapter.FoodViewHolder;
 import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.handler.NetworkHelper;
 import co.id.roningrum.dolanapptugasakhir.handler.PermissionHandler;
 import co.id.roningrum.dolanapptugasakhir.item.CategoryItem;
-import co.id.roningrum.dolanapptugasakhir.tourism.history.viewholder.HistoryViewHolder;
 
-public class HistoryCatgeoryActivity extends AppCompatActivity {
-
-    private RecyclerView rvHistoryList;
+public class FoodCategoryActivity extends AppCompatActivity {
+    private RecyclerView rvFoodList;
     private ShimmerFrameLayout shimmerFrameLayout;
-    private FirebaseRecyclerAdapter<CategoryItem, HistoryViewHolder> historyFirebaseAdapter;
-
+    private FirebaseRecyclerAdapter<CategoryItem, FoodViewHolder> foodFirebaseAdapter;
     private GPSHandler gpsHandler;
     private PermissionHandler permissionHandler;
-    
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_history_catgeory);
-        rvHistoryList = findViewById(R.id.tourism_history_list);
-        Toolbar toolbarHistory = findViewById(R.id.toolbar_top_history);
+        setContentView(R.layout.activity_food_category);
+        rvFoodList = findViewById(R.id.tourism_food_list);
         shimmerFrameLayout = findViewById(R.id.shimmer_view_container);
-        rvHistoryList.setLayoutManager(new LinearLayoutManager(this));
-        rvHistoryList.setHasFixedSize(true);
-        ArrayList<CategoryItem> categoryItems = new ArrayList<>();
+        Toolbar toolbarFood = findViewById(R.id.toolbar_top_food);
+        rvFoodList.setLayoutManager(new LinearLayoutManager(this));
+        setSupportActionBar(toolbarFood);
         checkConnection();
-        setSupportActionBar(toolbarHistory);
 
     }
 
@@ -83,23 +79,17 @@ public class HistoryCatgeoryActivity extends AppCompatActivity {
 
     private void showData() {
         if (havePermission()) {
-            DatabaseReference historyCategoryDB = FirebaseDatabase.getInstance().getReference();
-            Query historyQuery = historyCategoryDB.child("Tourism").orderByChild("category_tourism").equalTo("sejarah");
-            FirebaseRecyclerOptions<CategoryItem> historyOptions = new FirebaseRecyclerOptions.Builder<CategoryItem>()
-                    .setQuery(historyQuery, CategoryItem.class)
+            DatabaseReference foodCategoryDB = FirebaseDatabase.getInstance().getReference();
+            Query educationQuery = foodCategoryDB.child("Tourism").orderByChild("category_tourism").equalTo("kuliner");
+            FirebaseRecyclerOptions<CategoryItem> foodOptions = new FirebaseRecyclerOptions.Builder<CategoryItem>()
+                    .setQuery(educationQuery, CategoryItem.class)
                     .build();
-            historyFirebaseAdapter = new FirebaseRecyclerAdapter<CategoryItem, HistoryViewHolder>(historyOptions) {
 
-                @NonNull
+            foodFirebaseAdapter = new FirebaseRecyclerAdapter<CategoryItem, FoodViewHolder>(foodOptions) {
                 @Override
-                public HistoryViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-                    return new HistoryViewHolder(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_history_category_menu, viewGroup, false));
-                }
-
-                @Override
-                protected void onBindViewHolder(@NonNull HistoryViewHolder holder, int position, @NonNull CategoryItem model) {
-                    final DatabaseReference historyCategoryRef = getRef(position);
-                    final String historyKey = historyCategoryRef.getKey();
+                protected void onBindViewHolder(@NonNull FoodViewHolder holder, int position, @NonNull CategoryItem model) {
+                    final DatabaseReference foodCategoryRef = getRef(position);
+                    final String foodKey = foodCategoryRef.getKey();
 
                     gpsHandler = new GPSHandler(getApplicationContext());
                     if (gpsHandler.isCanGetLocation()) {
@@ -111,23 +101,28 @@ public class HistoryCatgeoryActivity extends AppCompatActivity {
                         shimmerFrameLayout.stopShimmerAnimation();
                         shimmerFrameLayout.setVisibility(View.GONE);
 
-                        holder.showHistoryTourismData(model, latitude, longitude);
-                        holder.setOnClickListener(new HistoryViewHolder.ClickListener() {
+                        holder.showFoodTourismData(model, latitude, longitude);
+                        holder.setOnClickListener(new FoodViewHolder.ClickListener() {
                             @Override
                             public void onItemClick(View view, int position) {
-                                Intent intent = new Intent(getApplicationContext(), DetailHistoryActivity.class);
-                                intent.putExtra(DetailHistoryActivity.EXTRA_WISATA_KEY, historyKey);
+                                Intent intent = new Intent(getApplicationContext(), DetailFoodActivity.class);
+                                intent.putExtra(DetailFoodActivity.EXTRA_WISATA_KEY, foodKey);
                                 startActivity(intent);
                             }
                         });
-
                     } else {
                         gpsHandler.showSettingsAlert();
                     }
                 }
+
+                @NonNull
+                @Override
+                public FoodViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+                    return new FoodViewHolder(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_food_category_menu, viewGroup, false));
+                }
             };
-            historyFirebaseAdapter.notifyDataSetChanged();
-            rvHistoryList.setAdapter(historyFirebaseAdapter);
+            foodFirebaseAdapter.notifyDataSetChanged();
+            rvFoodList.setAdapter(foodFirebaseAdapter);
         }
     }
 
@@ -170,7 +165,7 @@ public class HistoryCatgeoryActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.petaMenu) {
-            startActivity(new Intent(HistoryCatgeoryActivity.this, HistoryCategoryMap.class));
+            startActivity(new Intent(FoodCategoryActivity.this, FoodCategoryMap.class));
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -180,21 +175,21 @@ public class HistoryCatgeoryActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         shimmerFrameLayout.startShimmerAnimation();
-        historyFirebaseAdapter.startListening();
+        foodFirebaseAdapter.startListening();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         shimmerFrameLayout.stopShimmerAnimation();
-        historyFirebaseAdapter.stopListening();
+        foodFirebaseAdapter.stopListening();
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        if (historyFirebaseAdapter != null) {
-            historyFirebaseAdapter.startListening();
+        if (foodFirebaseAdapter != null) {
+            foodFirebaseAdapter.startListening();
         }
 
     }
@@ -202,9 +197,8 @@ public class HistoryCatgeoryActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        if (historyFirebaseAdapter != null) {
-            historyFirebaseAdapter.stopListening();
+        if (foodFirebaseAdapter != null) {
+            foodFirebaseAdapter.stopListening();
         }
-
     }
 }

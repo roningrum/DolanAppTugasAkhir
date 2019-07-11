@@ -11,7 +11,7 @@
  * limitations under the License.
  */
 
-package co.id.roningrum.dolanapptugasakhir.adapter;
+package co.id.roningrum.dolanapptugasakhir.tourism.history.viewholder;
 
 import android.annotation.SuppressLint;
 import android.support.annotation.NonNull;

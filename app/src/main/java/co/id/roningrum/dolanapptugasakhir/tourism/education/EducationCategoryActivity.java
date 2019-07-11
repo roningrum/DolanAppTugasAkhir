@@ -38,13 +38,14 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import co.id.roningrum.dolanapptugasakhir.R;
-import co.id.roningrum.dolanapptugasakhir.adapter.EducationViewHolder;
 import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.handler.NetworkHelper;
 import co.id.roningrum.dolanapptugasakhir.handler.PermissionHandler;
 import co.id.roningrum.dolanapptugasakhir.item.CategoryItem;
+import co.id.roningrum.dolanapptugasakhir.tourism.education.viewholder.EducationViewHolder;
 
 public class EducationCategoryActivity extends AppCompatActivity {
 
@@ -61,8 +62,10 @@ public class EducationCategoryActivity extends AppCompatActivity {
         setContentView(R.layout.activity_education_category);
         rvEducationList = findViewById(R.id.tourism_education_list);
         Toolbar toolbarEducation = findViewById(R.id.toolbar_top_education);
+        shimmerFrameLayout = findViewById(R.id.shimmer_view_container);
         rvEducationList.setLayoutManager(new LinearLayoutManager(this));
         ArrayList<CategoryItem> categoryItems = new ArrayList<>();
+        setSupportActionBar(toolbarEducation);
         checkConnection();
     }
 
@@ -150,7 +153,7 @@ public class EducationCategoryActivity extends AppCompatActivity {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         for (int i : grantResults) {
             if (i == PackageManager.PERMISSION_GRANTED) {
-                Log.d("test", "Permission" + permissions + "Success");
+                Log.d("test", "Permission" + Arrays.toString(permissions) + "Success");
             } else {
                 //denied
                 permissionHandler.deniedPermission(Manifest.permission.ACCESS_FINE_LOCATION);
