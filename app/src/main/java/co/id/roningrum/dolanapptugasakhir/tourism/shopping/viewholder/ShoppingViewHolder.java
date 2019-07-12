@@ -11,7 +11,7 @@
  * limitations under the License.
  */
 
-package co.id.roningrum.dolanapptugasakhir.adapter;
+package co.id.roningrum.dolanapptugasakhir.tourism.shopping.viewholder;
 
 import android.annotation.SuppressLint;
 import android.support.annotation.NonNull;
@@ -25,21 +25,18 @@ import com.bumptech.glide.Glide;
 import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.item.CategoryItem;
 
-public class ReligiViewHolder extends RecyclerView.ViewHolder {
+public class ShoppingViewHolder extends RecyclerView.ViewHolder {
+    private final TextView name_shopping_tourism;
+    private final TextView location_shopping_tourism;
+    private final TextView distance_shopping_tourism;
+    private final ImageView shopping_tourism_pic;
 
-    private final TextView name_religi_tourisms;
-    private final TextView location_religi_tourisms;
-    private final TextView distance_religi_tourisms;
-    private final ImageView tourism_religi_pic;
-    //interface
-    private ReligiViewHolder.ClickListener categoryOnClick;
-
-    public ReligiViewHolder(@NonNull View itemView) {
+    public ShoppingViewHolder(@NonNull View itemView) {
         super(itemView);
-        name_religi_tourisms = itemView.findViewById(R.id.name_religi_item_tourism);
-        location_religi_tourisms = itemView.findViewById(R.id.location_religi_item_tourism);
-        distance_religi_tourisms = itemView.findViewById(R.id.distance_religi_item_tourism);
-        tourism_religi_pic = itemView.findViewById(R.id.tourism_religi_pic);
+        name_shopping_tourism= itemView.findViewById(R.id.name_shopping_item_tourism);
+        location_shopping_tourism = itemView.findViewById(R.id.location_shopping_item_tourism);
+        distance_shopping_tourism = itemView.findViewById(R.id.distance_shopping_item_tourism);
+        shopping_tourism_pic = itemView.findViewById(R.id.tourism_shopping_pic);
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -49,7 +46,7 @@ public class ReligiViewHolder extends RecyclerView.ViewHolder {
     }
 
     @SuppressLint("SetTextI18n")
-    public void showReligiTourismData(CategoryItem categoryItem, double latitude, double longitude) {
+    public void showShoppingTourismData(CategoryItem categoryItem, double latitude, double longitude) {
 
         double lattitude_a = categoryItem.getLat_location_tourism();
         double longitude_a = categoryItem.getLng_location_tourism();
@@ -59,10 +56,10 @@ public class ReligiViewHolder extends RecyclerView.ViewHolder {
         float jarakKM = jarakMeter / 1000;
         @SuppressLint("DefaultLocale") String distanceFormat = String.format("%.2f", jarakKM);
 
-        name_religi_tourisms.setText(categoryItem.getName_tourism());
-        location_religi_tourisms.setText(categoryItem.getLocation_tourism());
-        distance_religi_tourisms.setText(distanceFormat + " KM");
-        Glide.with(itemView.getContext()).load(categoryItem.getUrl_photo()).into(tourism_religi_pic);
+        name_shopping_tourism.setText(categoryItem.getName_tourism());
+        location_shopping_tourism.setText(categoryItem.getLocation_tourism());
+        distance_shopping_tourism.setText(distanceFormat + " km");
+        Glide.with(itemView.getContext()).load(categoryItem.getUrl_photo()).into(shopping_tourism_pic);
     }
 
     private double calculateDistance(double lat1, double long1, double lat2, double long2) {
@@ -81,11 +78,14 @@ public class ReligiViewHolder extends RecyclerView.ViewHolder {
         return (float) distance * meterConversion;
     }
 
-    public void setOnClickListener(ReligiViewHolder.ClickListener clickListener) {
-        categoryOnClick = clickListener;
-    }
+    //interface
+    private ShoppingViewHolder.ClickListener categoryOnClick;
 
     public interface ClickListener {
         void onItemClick(View view, int position);
+    }
+
+    public void setOnClickListener(ShoppingViewHolder.ClickListener clickListener) {
+        categoryOnClick = clickListener;
     }
 }

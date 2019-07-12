@@ -64,7 +64,7 @@ public class DetailEducationActivity extends FragmentActivity implements OnMapRe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_education);
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map_place_nature_detail);
+                .findFragmentById(R.id.map_place_education_detail);
         assert mapFragment != null;
         mapFragment.getMapAsync(this);
 
@@ -89,17 +89,19 @@ public class DetailEducationActivity extends FragmentActivity implements OnMapRe
     private void LoadEducationDetail() {
         if(gpsHandler.isCanGetLocation()){
             ValueEventListener eventListener = new ValueEventListener() {
+                @SuppressLint("SetTextI18n")
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     CategoryItem categoryItem = dataSnapshot.getValue(CategoryItem.class);
                     startLat = gpsHandler.getLatitude();
                     startlng = gpsHandler.getLongitude();
+                    assert categoryItem != null;
                     endlat = categoryItem.getLat_location_tourism();
                     endLng = categoryItem.getLng_location_tourism();
                     distance = calculateDistance(startLat,startlng,endlat,endLng);
 
                     @SuppressLint("DefaultLocale") String distanceFormat = String.format("%.2f",distance);
-                    tvDistanceEducation.setText(""+distanceFormat+" KM");
+                    tvDistanceEducation.setText("" + distanceFormat + " km");
                     tvNameEducationDetail.setText(categoryItem.getName_tourism());
                     tvAddressEducationDetail.setText(categoryItem.getLocation_tourism());
                     tvDescEducation.setText(categoryItem.getInfo_tourism());
@@ -138,6 +140,7 @@ public class DetailEducationActivity extends FragmentActivity implements OnMapRe
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 CategoryItem categoryItem = dataSnapshot.getValue(CategoryItem.class);
+                assert categoryItem != null;
                 double lattitude = categoryItem.getLat_location_tourism();
                 double longitude = categoryItem.getLng_location_tourism();
 

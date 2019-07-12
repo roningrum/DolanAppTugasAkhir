@@ -39,13 +39,14 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import co.id.roningrum.dolanapptugasakhir.R;
-import co.id.roningrum.dolanapptugasakhir.adapter.ShoppingViewHolder;
 import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.handler.NetworkHelper;
 import co.id.roningrum.dolanapptugasakhir.handler.PermissionHandler;
 import co.id.roningrum.dolanapptugasakhir.item.CategoryItem;
+import co.id.roningrum.dolanapptugasakhir.tourism.shopping.viewholder.ShoppingViewHolder;
 
 public class ShoppingCategoryActivity extends AppCompatActivity {
 
@@ -150,7 +151,7 @@ public class ShoppingCategoryActivity extends AppCompatActivity {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         for (int i : grantResults) {
             if (i == PackageManager.PERMISSION_GRANTED) {
-                Log.d("test", "Permission" + permissions + "Success");
+                Log.d("test", "Permission" + Arrays.toString(permissions) + "Success");
             } else {
                 //denied
                 permissionHandler.deniedPermission(Manifest.permission.ACCESS_FINE_LOCATION);

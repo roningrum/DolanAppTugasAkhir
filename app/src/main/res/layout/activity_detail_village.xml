@@ -78,13 +78,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                tools:ignore="UseCompoundDrawables">
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="12dp"
-                    android:background="@drawable/ic_location_orange_24dp"
+                    android:background="@drawable/ic_location_orange"
                     android:contentDescription="@null" />
 
                 <TextView
@@ -118,7 +119,7 @@
                 android:layout_marginTop="14dp"
                 android:layout_marginBottom="14dp"
                 android:fontFamily="@font/monsterrat_sembold"
-                android:text="Informasi"
+                android:text="@string/string_info_desc_detail"
                 android:textColor="#090909"
                 android:textSize="18sp" />
 
@@ -137,7 +138,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="48dp"
                 android:fontFamily="@font/monsterrat_sembold"
-                android:text="Lokasi"
+                android:text="@string/string_lokasi_detail_menu"
                 android:textColor="#090909"
                 android:textSize="18sp" />
 
@@ -160,7 +161,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="48dp"
                 android:fontFamily="@font/monsterrat_sembold"
-                android:text="Foto"
+                android:text="@string/string_photo_detail_info"
                 android:textColor="#090909"
                 android:textSize="18sp" />
         </LinearLayout>

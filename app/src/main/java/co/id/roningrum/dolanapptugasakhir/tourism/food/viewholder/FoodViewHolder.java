@@ -11,7 +11,7 @@
  * limitations under the License.
  */
 
-package co.id.roningrum.dolanapptugasakhir.adapter;
+package co.id.roningrum.dolanapptugasakhir.tourism.food.viewholder;
 
 import android.annotation.SuppressLint;
 import android.support.annotation.NonNull;
@@ -25,18 +25,20 @@ import com.bumptech.glide.Glide;
 import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.item.CategoryItem;
 
-public class WaterViewHolder extends RecyclerView.ViewHolder {
-    private final TextView name_water_tourism;
-    private final TextView location_water_tourism;
-    private final TextView distance_waterTourism;
-    private final ImageView water_tourism_pic;
+public class FoodViewHolder extends RecyclerView.ViewHolder {
+    private final TextView nameFoodTourism;
+    private final TextView locationFoodTourism;
+    private final TextView distanceFoodTourism;
+    private final ImageView foodTourismPic;
+    //interface
+    public FoodViewHolder.ClickListener categoryOnClick;
 
-    public WaterViewHolder(@NonNull View itemView) {
+    public FoodViewHolder(@NonNull View itemView) {
         super(itemView);
-        name_water_tourism = itemView.findViewById(R.id.name_water_item_tourism);
-        location_water_tourism = itemView.findViewById(R.id.location_water_item_tourism);
-        distance_waterTourism = itemView.findViewById(R.id.distance_water_item_tourism);
-        water_tourism_pic = itemView.findViewById(R.id.tourism_water_pic);
+        nameFoodTourism = itemView.findViewById(R.id.name_food_item_tourism);
+        locationFoodTourism = itemView.findViewById(R.id.location_food_item_tourism);
+        distanceFoodTourism = itemView.findViewById(R.id.distance_food_item_tourism);
+        foodTourismPic = itemView.findViewById(R.id.tourism_food_pic);
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -45,7 +47,8 @@ public class WaterViewHolder extends RecyclerView.ViewHolder {
         });
     }
 
-    public void showWaterTourismData(CategoryItem categoryItem, double latitude, double longitude) {
+    @SuppressLint("SetTextI18n")
+    public void showFoodTourismData(CategoryItem categoryItem, double latitude, double longitude) {
 
         double lattitude_a = categoryItem.getLat_location_tourism();
         double longitude_a = categoryItem.getLng_location_tourism();
@@ -55,10 +58,10 @@ public class WaterViewHolder extends RecyclerView.ViewHolder {
         float jarakKM = jarakMeter / 1000;
         @SuppressLint("DefaultLocale") String distanceFormat = String.format("%.2f", jarakKM);
 
-        name_water_tourism.setText(categoryItem.getName_tourism());
-        location_water_tourism.setText(categoryItem.getLocation_tourism());
-        distance_waterTourism.setText(distanceFormat + " KM");
-        Glide.with(itemView.getContext()).load(categoryItem.getUrl_photo()).into(water_tourism_pic);
+        nameFoodTourism.setText(categoryItem.getName_tourism());
+        locationFoodTourism.setText(categoryItem.getLocation_tourism());
+        distanceFoodTourism.setText(distanceFormat + " KM");
+        Glide.with(itemView.getContext()).load(categoryItem.getUrl_photo()).into(foodTourismPic);
     }
 
     private double calculateDistance(double lat1, double long1, double lat2, double long2) {
@@ -77,14 +80,11 @@ public class WaterViewHolder extends RecyclerView.ViewHolder {
         return (float) distance * meterConversion;
     }
 
-    //interface
-    private WaterViewHolder.ClickListener categoryOnClick;
+    public void setOnClickListener(FoodViewHolder.ClickListener clickListener) {
+        categoryOnClick = clickListener;
+    }
 
     public interface ClickListener {
         void onItemClick(View view, int position);
-    }
-
-    public void setOnClickListener(WaterViewHolder.ClickListener clickListener) {
-        categoryOnClick = clickListener;
     }
 }

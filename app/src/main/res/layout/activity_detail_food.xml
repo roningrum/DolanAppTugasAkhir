@@ -83,7 +83,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="12dp"
-                    android:background="@drawable/ic_location_orange_24dp"
+                    android:background="@drawable/ic_location_orange"
                     android:contentDescription="@null" />
 
                 <TextView

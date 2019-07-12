@@ -80,5 +80,8 @@
     <string name="string_spbu">SPBU</string>
     <string name="string_kantor_polisi">Kantor Polisi</string>
     <string name="string_rumah_sakit">Rumah/nSakit</string>
+    <string name="string_photo_detail_info">Foto</string>
+    <string name="string_lokasi_detail_menu">Lokasi</string>
+    <string name="string_info_desc_detail">Informasi</string>
     <!--<string name="title_activity_religi_category_maps">Peta Wisata Religi</string>-->
 </resources>

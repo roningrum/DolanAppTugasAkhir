@@ -85,10 +85,8 @@
         <activity
             android:name=".tourism.nature.DetailNatureActivity"
             android:parentActivityName=".tourism.nature.NatureCategoryActivity" />
-        <activity android:name=".TestDetail" />
         <activity android:name=".tourism.nature.NatureCategoryActivity">
         </activity>
-        <activity android:name=".TestLocation" />
         <activity
             android:name=".CategoryMapActivity"
             android:label="@string/title_activity_category_map" />

@@ -11,7 +11,8 @@
  * limitations under the License.
  */
 
-package co.id.roningrum.dolanapptugasakhir.adapter;
+
+package co.id.roningrum.dolanapptugasakhir.tourism.recreation.viewholder;
 
 import android.annotation.SuppressLint;
 import android.support.annotation.NonNull;
@@ -25,44 +26,30 @@ import com.bumptech.glide.Glide;
 import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.item.CategoryItem;
 
-public class FoodViewHolder extends RecyclerView.ViewHolder {
-    private final TextView nameFoodTourism;
-    private final TextView locationFoodTourism;
-    private final TextView distanceFoodTourism;
-    private final ImageView foodTourismPic;
-    //interface
-    public FoodViewHolder.ClickListener categoryOnClick;
 
-    public FoodViewHolder(@NonNull View itemView) {
+public class RecreationViewHolder extends RecyclerView.ViewHolder {
+    private final TextView name_recreation_tourisms;
+    private final TextView location_recreation_tourisms;
+    private final TextView distance_recreation_tourisms;
+    private final ImageView tourism_recreation_pic;
+
+    public RecreationViewHolder(@NonNull View itemView) {
         super(itemView);
-        nameFoodTourism = itemView.findViewById(R.id.name_food_item_tourism);
-        locationFoodTourism = itemView.findViewById(R.id.location_food_item_tourism);
-        distanceFoodTourism = itemView.findViewById(R.id.distance_food_item_tourism);
-        foodTourismPic = itemView.findViewById(R.id.tourism_food_pic);
+        name_recreation_tourisms = itemView.findViewById(R.id.name_recreation_item_tourism);
+        location_recreation_tourisms = itemView.findViewById(R.id.location_recreation_item_tourism);
+        distance_recreation_tourisms = itemView.findViewById(R.id.distance_recreation_item_tourism);
+        tourism_recreation_pic = itemView.findViewById(R.id.tourism_recreation_pic);
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 categoryOnClick.onItemClick(v, getAdapterPosition());
             }
         });
+
     }
 
-    @SuppressLint("SetTextI18n")
-    public void showFoodTourismData(CategoryItem categoryItem, double latitude, double longitude) {
-
-        double lattitude_a = categoryItem.getLat_location_tourism();
-        double longitude_a = categoryItem.getLng_location_tourism();
-
-        float jarakMeter = (float) calculateDistance(latitude, longitude, lattitude_a, longitude_a);
-//        float jarakMeter = loc1.distanceTo(loc2);
-        float jarakKM = jarakMeter / 1000;
-        @SuppressLint("DefaultLocale") String distanceFormat = String.format("%.2f", jarakKM);
-
-        nameFoodTourism.setText(categoryItem.getName_tourism());
-        locationFoodTourism.setText(categoryItem.getLocation_tourism());
-        distanceFoodTourism.setText(distanceFormat + " KM");
-        Glide.with(itemView.getContext()).load(categoryItem.getUrl_photo()).into(foodTourismPic);
-    }
+    //interface
+    private RecreationViewHolder.ClickListener categoryOnClick;
 
     private double calculateDistance(double lat1, double long1, double lat2, double long2) {
 
@@ -80,11 +67,31 @@ public class FoodViewHolder extends RecyclerView.ViewHolder {
         return (float) distance * meterConversion;
     }
 
-    public void setOnClickListener(FoodViewHolder.ClickListener clickListener) {
+    @SuppressLint("SetTextI18n")
+    public void showRecreationTourismData(CategoryItem categoryItem, double latitude, double longitude) {
+
+        double lattitude_a = categoryItem.getLat_location_tourism();
+        double longitude_a = categoryItem.getLng_location_tourism();
+
+        float jarakMeter = (float) calculateDistance(latitude, longitude, lattitude_a, longitude_a);
+//        float jarakMeter = loc1.distanceTo(loc2);
+        float jarakKM = jarakMeter / 1000;
+        @SuppressLint("DefaultLocale") String distanceFormat = String.format("%.2f", jarakKM);
+
+        name_recreation_tourisms.setText(categoryItem.getName_tourism());
+        location_recreation_tourisms.setText(categoryItem.getLocation_tourism());
+        distance_recreation_tourisms.setText("" + distanceFormat + " KM");
+        Glide.with(itemView.getContext()).load(categoryItem.getUrl_photo()).into(tourism_recreation_pic);
+    }
+
+    public void setOnClickListener(RecreationViewHolder.ClickListener clickListener) {
         categoryOnClick = clickListener;
     }
 
     public interface ClickListener {
         void onItemClick(View view, int position);
     }
+
+
 }
+//}

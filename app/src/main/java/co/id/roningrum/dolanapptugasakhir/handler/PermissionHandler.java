@@ -14,6 +14,7 @@
 package co.id.roningrum.dolanapptugasakhir.handler;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -32,6 +33,7 @@ import co.id.roningrum.dolanapptugasakhir.R;
  */
 
 public class PermissionHandler {
+    @SuppressLint("StaticFieldLeak")
     private static PermissionHandler permissionHandler;
     private static final int REQUEST_CODE = 1;
     private Activity activity;
@@ -93,7 +95,7 @@ public class PermissionHandler {
 
     private void askPermissions() {
         if(ungrantedPermissions.size()>0) {
-            ActivityCompat.requestPermissions(activity, ungrantedPermissions.toArray(new String[ungrantedPermissions.size()]), REQUEST_CODE);
+            ActivityCompat.requestPermissions(activity, ungrantedPermissions.toArray(new String[0]), REQUEST_CODE);
         }
     }
     private void askPermission(String permission) {
@@ -157,11 +159,11 @@ public class PermissionHandler {
         return isAllPermissionAvailable;
     }
 
-    public boolean isPermissionAvailable(String permission) {
-        boolean isPermissionAvailable = true;
-        if (ContextCompat.checkSelfPermission(activity, permission) != PackageManager.PERMISSION_GRANTED){
-            isPermissionAvailable = false;
-        }
-        return isPermissionAvailable;
-    }
+//    public boolean isPermissionAvailable(String permission) {
+//        boolean isPermissionAvailable = true;
+//        if (ContextCompat.checkSelfPermission(activity, permission) != PackageManager.PERMISSION_GRANTED){
+//            isPermissionAvailable = false;
+//        }
+//        return isPermissionAvailable;
+//    }
 }

@@ -58,7 +58,7 @@
                 android:id="@+id/img_category_tourism_pic"
                 android:layout_width="match_parent"
                 android:layout_height="300dp"
-                android:contentDescription="pic_place"
+                android:contentDescription="@null"
                 android:scaleType="centerCrop"
                 android:src="@drawable/imagedolanbg"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -87,14 +87,14 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        tools:ignore="UselessParent">
 
                         <TextView
                             android:id="@+id/tv_name_tourism_detail"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/montserrat_bold"
-                            android:text="LawangSewu"
                             android:textColor="@color/blackTextPrimary"
                             android:textSize="20sp" />
 
@@ -103,9 +103,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="13dp"
-                            android:drawableStart="@drawable/ic_location_orange_24dp"
+                            android:drawableStart="@drawable/ic_location_orange"
                             android:fontFamily="@font/montserrat"
-                            android:text="Jl. Pemuda"
                             android:textColor="#525151"
                             android:textSize="12sp" />
                     </LinearLayout>
@@ -118,7 +117,6 @@
                     android:layout_marginStart="24dp"
                     android:layout_marginTop="16dp"
                     android:fontFamily="@font/monsterrat_sembold"
-                    android:text="15 Km"
                     android:textColor="@color/blackTextPrimary"
                     android:textSize="18sp" />
                 <View
@@ -138,7 +136,6 @@
                     android:fontFamily="@font/montserrat_light"
                     android:lineSpacingExtra="2.5sp"
                     android:layout_gravity="center_horizontal|center"
-                    android:text="Lorem Ipsum Dolor Sit Amet, Consectetur Adipiscing Elit. Suspendisse Hendrerit Hendrerit Tempus. Donec Luctus Molestie Libero, Vitae Commodo Lorem Varius Ac. \n Aliquam Odio Sem, Porttitor Pellentesque Velit Ac, Gravida Euismod Est. Maecenas Est Odio, Dapibus Et Condimentum Quis, Commodo Ac Eros. Integer Non Erat Quis Sem Accumsan Aliquet Vel Sed Dolor. "
                     android:textAlignment="inherit"
                     android:textColor="#5C5B5B"
                     android:textSize="14sp" />
@@ -151,7 +148,7 @@
                     android:layout_marginStart="24dp"
                     android:layout_marginTop="36dp"
                     android:fontFamily="@font/montserrat_bold"
-                    android:text="Foto Tempat"
+                    android:text="@string/string_foto_detail"
                     android:textColor="@color/blackTextPrimary"
                     android:textSize="18sp" />
 
@@ -176,7 +173,7 @@
                     android:layout_marginStart="24dp"
                     android:layout_marginTop="24dp"
                     android:fontFamily="@font/montserrat_bold"
-                    android:text="Lokasi"
+                    android:text="@string/string_lokasi_detail"
                     android:textColor="@color/blackTextPrimary"
                     android:textSize="18sp" />
 
