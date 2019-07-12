@@ -61,5 +61,24 @@
     <string name="string_informasi_detail">Informasi</string>
     <string name="string_lokasi_detail">Lokasi</string>
     <string name="string_foto_detail">Foto</string>
+    <string name="string_category_wisata_menu">Wisata</string>
+    <string name="string_alam_wisata_category">Alam</string>
+    <string name="string_hiburan_wisata_menu">Hiburan</string>
+    <string name="string_belanja_wisata_menu">Belanja</string>
+    <string name="string_desa_wisata_menu">Desa</string>
+    <string name="string_kuliner_wisata_menu">Kuliner</string>
+    <string name="string_edukasi_menu">Edukasi</string>
+    <string name="string_sejarah_wisata_menu">Sejarah</string>
+    <string name="string_air_wisata_menu">Air</string>
+    <string name="string_religi_wisata_menu">Religi</string>
+    <string name="hotel_dan_transportasi_umum_kategori"><![CDATA[Hotel & Transportasi Umum]]></string>
+    <string name="string_hotel_menu">Hotel</string>
+    <string name="string_bandara_menu">Bandara</string>
+    <string name="string_stasiun_kereta_menu">Stasiun/nKereta</string>
+    <string name="string_terminal_menu">Terminal</string>
+    <string name="string_fasilitas_umum">Fasilitas Umum</string>
+    <string name="string_spbu">SPBU</string>
+    <string name="string_kantor_polisi">Kantor Polisi</string>
+    <string name="string_rumah_sakit">Rumah/nSakit</string>
     <!--<string name="title_activity_religi_category_maps">Peta Wisata Religi</string>-->
 </resources>

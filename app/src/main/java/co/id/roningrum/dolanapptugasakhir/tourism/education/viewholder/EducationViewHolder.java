@@ -26,17 +26,17 @@ import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.item.CategoryItem;
 
 public class EducationViewHolder extends  RecyclerView.ViewHolder {
-    private final TextView name_shopping_tourism;
-    private final TextView location_shopping_tourism;
-    private final TextView distance_shopping_tourism;
-    private final ImageView shopping_tourism_pic;
+    private final TextView nameEducationTourism;
+    private final TextView locationEducationTourism;
+    private final TextView distanceEducationTourism;
+    private final ImageView educationTourismPic;
 
     public EducationViewHolder(@NonNull View itemView) {
         super(itemView);
-        name_shopping_tourism= itemView.findViewById(R.id.name_shopping_item_tourism);
-        location_shopping_tourism = itemView.findViewById(R.id.location_shopping_item_tourism);
-        distance_shopping_tourism = itemView.findViewById(R.id.distance_shopping_item_tourism);
-        shopping_tourism_pic = itemView.findViewById(R.id.tourism_shopping_pic);
+        nameEducationTourism = itemView.findViewById(R.id.name_education_item_tourism);
+        locationEducationTourism = itemView.findViewById(R.id.location_education_item_tourism);
+        distanceEducationTourism = itemView.findViewById(R.id.distance_education_item_tourism);
+        educationTourismPic = itemView.findViewById(R.id.tourism_education_pic);
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -56,10 +56,10 @@ public class EducationViewHolder extends  RecyclerView.ViewHolder {
         float jarakKM = jarakMeter / 1000;
         @SuppressLint("DefaultLocale") String distanceFormat = String.format("%.2f", jarakKM);
 
-        name_shopping_tourism.setText(categoryItem.getName_tourism());
-        location_shopping_tourism.setText(categoryItem.getLocation_tourism());
-        distance_shopping_tourism.setText(distanceFormat + " KM");
-        Glide.with(itemView.getContext()).load(categoryItem.getUrl_photo()).into(shopping_tourism_pic);
+        nameEducationTourism.setText(categoryItem.getName_tourism());
+        locationEducationTourism.setText(categoryItem.getLocation_tourism());
+        distanceEducationTourism.setText(distanceFormat + " KM");
+        Glide.with(itemView.getContext()).load(categoryItem.getUrl_photo()).into(educationTourismPic);
     }
 
     private double calculateDistance(double lat1, double long1, double lat2, double long2) {

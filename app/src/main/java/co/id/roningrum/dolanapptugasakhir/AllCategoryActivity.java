@@ -13,14 +13,85 @@
 
 package co.id.roningrum.dolanapptugasakhir;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.LinearLayout;
 
-public class AllCategoryActivity extends AppCompatActivity {
+import co.id.roningrum.dolanapptugasakhir.tourism.education.EducationCategoryActivity;
+import co.id.roningrum.dolanapptugasakhir.tourism.food.FoodCategoryActivity;
+import co.id.roningrum.dolanapptugasakhir.tourism.history.HistoryCategoryActivity;
+import co.id.roningrum.dolanapptugasakhir.tourism.nature.NatureCategoryActivity;
+import co.id.roningrum.dolanapptugasakhir.tourism.recreation.RecreationCategoryActivity;
+import co.id.roningrum.dolanapptugasakhir.tourism.religi.ReligiCategoryActivity;
+import co.id.roningrum.dolanapptugasakhir.tourism.shopping.ShoppingCategoryActivity;
+import co.id.roningrum.dolanapptugasakhir.tourism.village.VillageCategoryActivity;
+import co.id.roningrum.dolanapptugasakhir.tourism.water.WaterCategoryActivity;
+
+public class AllCategoryActivity extends AppCompatActivity implements View.OnClickListener {
+    LinearLayout natureMenu, entertaintMenu, shoppingMenu, villageMenu,
+            foodMenu, educationMenu, historyMenu, waterMenu, religiMenu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_all_category);
+        natureMenu = findViewById(R.id.ln_nature_tour);
+        entertaintMenu = findViewById(R.id.ln_entertain_tour);
+        shoppingMenu = findViewById(R.id.ln_belanja_tour);
+        villageMenu = findViewById(R.id.ln_desa_tour);
+        foodMenu = findViewById(R.id.ln_kuliner_tour);
+        educationMenu = findViewById(R.id.ln_edukasi_tour);
+        historyMenu = findViewById(R.id.ln_sejarah_tour);
+        waterMenu = findViewById(R.id.ln_air_tour);
+        religiMenu = findViewById(R.id.ln_religi_tour);
+
+        natureMenu.setOnClickListener(this);
+        entertaintMenu.setOnClickListener(this);
+        educationMenu.setOnClickListener(this);
+        villageMenu.setOnClickListener(this);
+        foodMenu.setOnClickListener(this);
+        educationMenu.setOnClickListener(this);
+        historyMenu.setOnClickListener(this);
+        waterMenu.setOnClickListener(this);
+        religiMenu.setOnClickListener(this);
+        shoppingMenu.setOnClickListener(this);
+
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.ln_nature_tour:
+                startActivity(new Intent(AllCategoryActivity.this, NatureCategoryActivity.class));
+                break;
+            case R.id.ln_entertain_tour:
+                startActivity(new Intent(AllCategoryActivity.this, RecreationCategoryActivity.class));
+                break;
+            case R.id.ln_belanja_tour:
+                startActivity(new Intent(AllCategoryActivity.this, ShoppingCategoryActivity.class));
+                break;
+            case R.id.ln_desa_tour:
+                startActivity(new Intent(AllCategoryActivity.this, VillageCategoryActivity.class));
+                break;
+            case R.id.ln_kuliner_tour:
+                startActivity(new Intent(AllCategoryActivity.this, FoodCategoryActivity.class));
+                break;
+            case R.id.ln_edukasi_tour:
+                startActivity(new Intent(AllCategoryActivity.this, EducationCategoryActivity.class));
+                break;
+            case R.id.ln_air_tour:
+                startActivity(new Intent(AllCategoryActivity.this, WaterCategoryActivity.class));
+                break;
+            case R.id.ln_religi_tour:
+                startActivity(new Intent(AllCategoryActivity.this, ReligiCategoryActivity.class));
+                break;
+            case R.id.ln_sejarah_tour:
+                startActivity(new Intent(AllCategoryActivity.this, HistoryCategoryActivity.class));
+                break;
+
+
+        }
     }
 }

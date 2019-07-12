@@ -52,7 +52,7 @@
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="25dp"
                 android:fontFamily="@font/montserrat_bold"
-                android:text="Wisata"
+                android:text="@string/string_category_wisata_menu"
                 android:textColor="@color/blackTextPrimary"
                 android:textSize="16sp" />
 
@@ -64,6 +64,7 @@
                 android:layout_marginTop="22dp"
                 android:layout_marginEnd="24dp"
                 android:orientation="horizontal"
+                android:baselineAligned="false"
                 android:weightSum="5">
 
                 <LinearLayout
@@ -72,18 +73,20 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1.05"
                     android:gravity="center"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    tools:ignore="UseCompoundDrawables">
 
                     <ImageView
-                        android:layout_width="55dp"
-                        android:layout_height="55dp"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:contentDescription="@null"
                         android:src="@drawable/alam_menu" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/montserrat_light"
-                        android:text="Alam"
+                        android:text="@string/string_alam_wisata_category"
                         android:textColor="@color/blackTextPrimary" />
                 </LinearLayout>
 
@@ -93,18 +96,20 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1.45"
                     android:gravity="center"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    tools:ignore="UseCompoundDrawables">
 
                     <ImageView
-                        android:layout_width="55dp"
-                        android:layout_height="55dp"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:contentDescription="@null"
                         android:src="@drawable/hiburan_menu" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/montserrat_light"
-                        android:text="Hiburan"
+                        android:text="@string/string_hiburan_wisata_menu"
                         android:textColor="@color/blackTextPrimary" />
                 </LinearLayout>
 
@@ -114,18 +119,20 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1.45"
                     android:gravity="center"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    tools:ignore="UseCompoundDrawables">
 
                     <ImageView
-                        android:layout_width="55dp"
-                        android:layout_height="55dp"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:contentDescription="@null"
                         android:src="@drawable/belanja_menu" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/montserrat_light"
-                        android:text="Belanja"
+                        android:text="@string/string_belanja_wisata_menu"
                         android:textColor="@color/blackTextPrimary" />
                 </LinearLayout>
 
@@ -135,18 +142,20 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1.05"
                     android:gravity="center"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    tools:ignore="UseCompoundDrawables">
 
                     <ImageView
-                        android:layout_width="55dp"
-                        android:layout_height="55dp"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:contentDescription="@null"
                         android:src="@drawable/desa_menu" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/montserrat_light"
-                        android:text="Desa"
+                        android:text="@string/string_desa_wisata_menu"
                         android:textColor="@color/blackTextPrimary" />
                 </LinearLayout>
             </LinearLayout>
@@ -159,6 +168,7 @@
                 android:layout_marginTop="27dp"
                 android:layout_marginEnd="24dp"
                 android:orientation="horizontal"
+                android:baselineAligned="false"
                 android:weightSum="5">
 
                 <LinearLayout
@@ -167,18 +177,20 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1.05"
                     android:gravity="center"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    tools:ignore="UseCompoundDrawables">
 
                     <ImageView
-                        android:layout_width="55dp"
-                        android:layout_height="55dp"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:contentDescription="@null"
                         android:src="@drawable/restoran_menu" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/montserrat_light"
-                        android:text="Kuliner"
+                        android:text="@string/string_kuliner_wisata_menu"
                         android:textColor="@color/blackTextPrimary" />
                 </LinearLayout>
 
@@ -188,18 +200,20 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1.45"
                     android:gravity="center"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    tools:ignore="UseCompoundDrawables">
 
                     <ImageView
-                        android:layout_width="55dp"
-                        android:layout_height="55dp"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:contentDescription="@null"
                         android:src="@drawable/edukasi_menu" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/montserrat_light"
-                        android:text="Edukasi"
+                        android:text="@string/string_edukasi_menu"
                         android:textColor="@color/blackTextPrimary" />
                 </LinearLayout>
 
@@ -209,18 +223,20 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1.45"
                     android:gravity="center"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    tools:ignore="UseCompoundDrawables">
 
                     <ImageView
-                        android:layout_width="55dp"
-                        android:layout_height="55dp"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:contentDescription="@null"
                         android:src="@drawable/sejarah_menu" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/montserrat_light"
-                        android:text="Sejarah"
+                        android:text="@string/string_sejarah_wisata_menu"
                         android:textColor="@color/blackTextPrimary" />
                 </LinearLayout>
 
@@ -230,18 +246,20 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1.05"
                     android:gravity="center"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    tools:ignore="UseCompoundDrawables">
 
                     <ImageView
-                        android:layout_width="55dp"
-                        android:layout_height="55dp"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:contentDescription="@null"
                         android:src="@drawable/air_menu" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/montserrat_light"
-                        android:text="Air"
+                        android:text="@string/string_air_wisata_menu"
                         android:textColor="@color/blackTextPrimary" />
                 </LinearLayout>
             </LinearLayout>
@@ -254,6 +272,7 @@
                 android:layout_marginTop="27dp"
                 android:layout_marginEnd="24dp"
                 android:orientation="horizontal"
+                android:baselineAligned="false"
                 android:weightSum="5">
 
                 <LinearLayout
@@ -262,18 +281,20 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1.05"
                     android:gravity="center"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    tools:ignore="UseCompoundDrawables,UselessParent">
 
                     <ImageView
-                        android:layout_width="55dp"
-                        android:layout_height="55dp"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:contentDescription="@null"
                         android:src="@drawable/religi_menu" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/montserrat_light"
-                        android:text="Religi"
+                        android:text="@string/string_religi_wisata_menu"
                         android:textColor="@color/blackTextPrimary" />
                 </LinearLayout>
 
@@ -286,7 +307,7 @@
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="50dp"
                 android:fontFamily="@font/montserrat_bold"
-                android:text="Hotel &amp; Transportasi Umum"
+                android:text="@string/hotel_dan_transportasi_umum_kategori"
                 android:textColor="@color/blackTextPrimary"
                 android:textSize="16sp" />
 
@@ -298,6 +319,7 @@
                 android:layout_marginTop="22dp"
                 android:layout_marginEnd="24dp"
                 android:orientation="horizontal"
+                android:baselineAligned="false"
                 android:weightSum="5">
 
                 <LinearLayout
@@ -305,18 +327,20 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1.05"
                     android:gravity="center"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    tools:ignore="UseCompoundDrawables">
 
                     <ImageView
-                        android:layout_width="55dp"
-                        android:layout_height="55dp"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:contentDescription="@null"
                         android:src="@drawable/hotel_menu" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/montserrat_light"
-                        android:text="Hotel"
+                        android:text="@string/string_hotel_menu"
                         android:textColor="@color/blackTextPrimary" />
                 </LinearLayout>
 
@@ -325,18 +349,20 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1.45"
                     android:gravity="center"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    tools:ignore="UseCompoundDrawables">
 
                     <ImageView
-                        android:layout_width="55dp"
-                        android:layout_height="55dp"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:contentDescription="@null"
                         android:src="@drawable/bandara_menu" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/montserrat_light"
-                        android:text="Bandara"
+                        android:text="@string/string_bandara_menu"
                         android:textColor="@color/blackTextPrimary" />
                 </LinearLayout>
 
@@ -345,18 +371,20 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1.45"
                     android:gravity="center"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    tools:ignore="UseCompoundDrawables">
 
                     <ImageView
-                        android:layout_width="55dp"
-                        android:layout_height="55dp"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:contentDescription="@null"
                         android:src="@drawable/stasiun_kereta" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/montserrat_light"
-                        android:text="Stasiun/nKereta"
+                        android:text="@string/string_stasiun_kereta_menu"
                         android:textAlignment="center"
                         android:textColor="@color/blackTextPrimary" />
                 </LinearLayout>
@@ -366,18 +394,20 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1.05"
                     android:gravity="center"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    tools:ignore="UseCompoundDrawables">
 
                     <ImageView
-                        android:layout_width="55dp"
-                        android:layout_height="55dp"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:contentDescription="@null"
                         android:src="@drawable/terminal_menu" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/montserrat_light"
-                        android:text="Terminal"
+                        android:text="@string/string_terminal_menu"
                         android:textColor="@color/blackTextPrimary" />
                 </LinearLayout>
             </LinearLayout>
@@ -389,7 +419,7 @@
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="50dp"
                 android:fontFamily="@font/montserrat_bold"
-                android:text="Fasilitas Umum"
+                android:text="@string/string_fasilitas_umum"
                 android:textColor="@color/blackTextPrimary"
                 android:textSize="16sp" />
 
@@ -402,6 +432,7 @@
                 android:layout_marginEnd="24dp"
                 android:orientation="horizontal"
                 android:paddingBottom="50dp"
+                android:baselineAligned="false"
                 android:weightSum="5">
 
                 <LinearLayout
@@ -409,18 +440,20 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1.05"
                     android:gravity="center"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    tools:ignore="UseCompoundDrawables">
 
                     <ImageView
-                        android:layout_width="55dp"
-                        android:layout_height="55dp"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:contentDescription="@null"
                         android:src="@drawable/sbpu_menu" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/montserrat_light"
-                        android:text="SPBU"
+                        android:text="@string/string_spbu"
                         android:textColor="@color/blackTextPrimary" />
                 </LinearLayout>
 
@@ -429,18 +462,20 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1.45"
                     android:gravity="center"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    tools:ignore="UseCompoundDrawables">
 
                     <ImageView
-                        android:layout_width="55dp"
-                        android:layout_height="55dp"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:contentDescription="@null"
                         android:src="@drawable/police_station" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/montserrat_light"
-                        android:text="Kantor Polisi"
+                        android:text="@string/string_kantor_polisi"
                         android:textColor="@color/blackTextPrimary" />
                 </LinearLayout>
 
@@ -449,18 +484,20 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1.45"
                     android:gravity="center"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    tools:ignore="UseCompoundDrawables">
 
                     <ImageView
-                        android:layout_width="55dp"
-                        android:layout_height="55dp"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:contentDescription="@null"
                         android:src="@drawable/rumah_sakit_menu" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/montserrat_light"
-                        android:text="Rumah/nSakit"
+                        android:text="@string/string_rumah_sakit"
                         android:textAlignment="center"
                         android:textColor="@color/blackTextPrimary" />
                 </LinearLayout>

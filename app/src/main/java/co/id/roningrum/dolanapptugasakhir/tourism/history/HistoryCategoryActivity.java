@@ -48,7 +48,7 @@ import co.id.roningrum.dolanapptugasakhir.handler.PermissionHandler;
 import co.id.roningrum.dolanapptugasakhir.item.CategoryItem;
 import co.id.roningrum.dolanapptugasakhir.tourism.history.viewholder.HistoryViewHolder;
 
-public class HistoryCatgeoryActivity extends AppCompatActivity {
+public class HistoryCategoryActivity extends AppCompatActivity {
 
     private RecyclerView rvHistoryList;
     private ShimmerFrameLayout shimmerFrameLayout;
@@ -170,7 +170,7 @@ public class HistoryCatgeoryActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.petaMenu) {
-            startActivity(new Intent(HistoryCatgeoryActivity.this, HistoryCategoryMap.class));
+            startActivity(new Intent(HistoryCategoryActivity.this, HistoryCategoryMap.class));
             return true;
         }
         return super.onOptionsItemSelected(item);
