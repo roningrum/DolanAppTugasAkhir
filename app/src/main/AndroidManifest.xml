@@ -27,7 +27,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".tourism.education.DetailEducationCategoryActivity"></activity>
+
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -63,10 +63,8 @@
         <activity
             android:name=".tourism.education.EducationCategoryMaps"
             android:label="@string/title_activity_education_maps" />
-        <activity
-            android:name=".tourism.education.DetailEducationActivity"
-            android:parentActivityName=".tourism.education.EducationCategoryActivity" />
         <activity android:name=".tourism.education.EducationCategoryActivity" />
+        <activity android:name=".tourism.education.DetailEducationCategoryActivity" />
         <activity
             android:name=".tourism.village.VillageCategoryMaps"
             android:label="@string/title_activity_village_maps" />
@@ -92,7 +90,7 @@
         <activity
             android:name=".tourism.nature.DetailNatureActivity"
             android:parentActivityName=".tourism.nature.NatureCategoryActivity" />
-        <activity android:name=".tourism.nature.NatureCategoryActivity"></activity>
+        <activity android:name=".tourism.nature.NatureCategoryActivity" />
         <activity
             android:name=".CategoryMapActivity"
             android:label="@string/title_activity_category_map" />
