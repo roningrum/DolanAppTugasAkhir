@@ -42,10 +42,7 @@ import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.item.CategoryItem;
 
-import static co.id.roningrum.dolanapptugasakhir.R.id;
-import static co.id.roningrum.dolanapptugasakhir.R.layout;
-
-public class DetailEducationActivity extends AppCompatActivity implements OnMapReadyCallback {
+public class DetailEducationCategoryActivity extends AppCompatActivity implements OnMapReadyCallback {
     public static final String EXTRA_WISATA_KEY = "alam_key";
     public static final String MAP_VIEW_KEY = "mapViewBundle";
 
@@ -69,28 +66,21 @@ public class DetailEducationActivity extends AppCompatActivity implements OnMapR
     private double endlat;
     private double endLng;
     private double distance;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(layout.activity_detail_education);
-//        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-//                .findFragmentById(R.id.map_place_education_detail);
-//        assert mapFragment != null;
-//        mapFragment.getMapAsync(this);
-
-        tvNameEducationDetail = findViewById(id.name_place_education_detail);
-        tvAddressEducationDetail = findViewById(id.address_place_education_detail);
-        tvDescEducation = findViewById(id.info_place_education_detail);
-        tvDistanceEducation = findViewById(id.distance_place_education_detail);
-        imgEducation = findViewById(id.img_nature_education_detail);
-        educationMapView = findViewById(id.loc_edu_map);
-        collapsingToolbarLayout = findViewById(id.collapseToolbar);
-        Toolbar toolbarEducation = findViewById(id.toolbar_education_detail);
+        setContentView(R.layout.activity_detail_education_category);
+        tvNameEducationDetail = findViewById(R.id.name_place_education_detail);
+        tvAddressEducationDetail = findViewById(R.id.address_place_education_detail);
+        tvDescEducation = findViewById(R.id.info_place_education_detail);
+        tvDistanceEducation = findViewById(R.id.distance_place_education_detail);
+        imgEducation = findViewById(R.id.img_nature_education_detail);
+        educationMapView = findViewById(R.id.loc_edu_map);
+        collapsingToolbarLayout = findViewById(R.id.collapseToolbar);
+        Toolbar toolbarEducation = findViewById(R.id.toolbar_education_detail);
         setSupportActionBar(toolbarEducation);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-
-//        Objects.requireNonNull(getActionBar()).setDisplayShowHomeEnabled(true);
 
         Bundle mapViewBundle = null;
         if (savedInstanceState != null) {
@@ -99,10 +89,8 @@ public class DetailEducationActivity extends AppCompatActivity implements OnMapR
         educationMapView.onCreate(mapViewBundle);
         educationMapView.getMapAsync(this);
 
-
-
         String eduKey = getIntent().getStringExtra(EXTRA_WISATA_KEY);
-        if(eduKey == null){
+        if (eduKey == null) {
             throw new IllegalArgumentException("Must pass Extra");
         }
         educationDetailRef = FirebaseDatabase.getInstance().getReference().child("Tourism").child(eduKey);
@@ -111,10 +99,11 @@ public class DetailEducationActivity extends AppCompatActivity implements OnMapR
 
 
         LoadEducationDetail();
+
     }
 
     private void LoadEducationDetail() {
-        if(gpsHandler.isCanGetLocation()){
+        if (gpsHandler.isCanGetLocation()) {
             ValueEventListener eventListener = new ValueEventListener() {
                 @SuppressLint("SetTextI18n")
                 @Override
@@ -125,9 +114,9 @@ public class DetailEducationActivity extends AppCompatActivity implements OnMapR
                     assert categoryItem != null;
                     endlat = categoryItem.getLat_location_tourism();
                     endLng = categoryItem.getLng_location_tourism();
-                    distance = calculateDistance(startLat,startlng,endlat,endLng);
+                    distance = calculateDistance(startLat, startlng, endlat, endLng);
 
-                    @SuppressLint("DefaultLocale") String distanceFormat = String.format("%.2f",distance);
+                    @SuppressLint("DefaultLocale") String distanceFormat = String.format("%.2f", distance);
                     tvDistanceEducation.setText("" + distanceFormat + " km");
                     tvNameEducationDetail.setText(categoryItem.getName_tourism());
                     tvAddressEducationDetail.setText(categoryItem.getLocation_tourism());
@@ -158,7 +147,7 @@ public class DetailEducationActivity extends AppCompatActivity implements OnMapR
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError databaseError) {
-                    Log.e(TAG, "Firebase Database Error"+databaseError.getMessage());
+                    Log.e(TAG, "Firebase Database Error" + databaseError.getMessage());
                 }
             };
             educationDetailRef.addValueEventListener(eventListener);
@@ -168,17 +157,17 @@ public class DetailEducationActivity extends AppCompatActivity implements OnMapR
 
     private double calculateDistance(double startLat, double startlng, double endlat, double endLng) {
         double earthRadius = 6371;
-        double latDiff = Math.toRadians(startLat-endlat);
-        double lngDiff = Math.toRadians(startlng-endLng);
-        double a = Math.sin(latDiff /2) * Math.sin(latDiff /2) +
+        double latDiff = Math.toRadians(startLat - endlat);
+        double lngDiff = Math.toRadians(startlng - endLng);
+        double a = Math.sin(latDiff / 2) * Math.sin(latDiff / 2) +
                 Math.cos(Math.toRadians(startLat)) * Math.cos(Math.toRadians(endlat)) *
-                        Math.sin(lngDiff /2) * Math.sin(lngDiff /2);
-        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+                        Math.sin(lngDiff / 2) * Math.sin(lngDiff / 2);
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
         double distance = earthRadius * c;
 
         int meterConversion = 1609;
 
-        return (distance*meterConversion/1000);
+        return (distance * meterConversion / 1000);
     }
 
     @Override
@@ -211,7 +200,7 @@ public class DetailEducationActivity extends AppCompatActivity implements OnMapR
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                Log.e(TAG, "Firebase Database Error"+databaseError.getMessage());
+                Log.e(TAG, "Firebase Database Error" + databaseError.getMessage());
             }
         };
         educationDetailRef.addValueEventListener(eventListener);
@@ -246,15 +235,15 @@ public class DetailEducationActivity extends AppCompatActivity implements OnMapR
         educationMapView.onPause();
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        educationMapView.onDestroy();
-    }
-
-    @Override
-    public void onLowMemory() {
-        super.onLowMemory();
-        educationMapView.onLowMemory();
-    }
+//    @Override
+//    protected void onDestroy() {
+//        super.onDestroy();
+//        educationMapView.onDestroy();
+//    }
+//
+//    @Override
+//    public void onLowMemory() {
+//        super.onLowMemory();
+//        educationMapView.onLowMemory();
+//    }
 }

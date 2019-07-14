@@ -74,7 +74,6 @@ public class EducationCategoryActivity extends AppCompatActivity {
             showData();
         } else {
             Toast.makeText(this, "Check your connection", Toast.LENGTH_SHORT).show();
-            gpsHandler.stopUsingGPS();
         }
     }
 
@@ -111,13 +110,14 @@ public class EducationCategoryActivity extends AppCompatActivity {
                         holder.setOnClickListener(new EducationViewHolder.ClickListener() {
                             @Override
                             public void onItemClick(View view, int position) {
-                                Intent intent = new Intent(getApplicationContext(), DetailEducationActivity.class);
-                                intent.putExtra(DetailEducationActivity.EXTRA_WISATA_KEY, eductaionKey);
+                                Intent intent = new Intent(getApplicationContext(), DetailEducationCategoryActivity.class);
+                                intent.putExtra(DetailEducationCategoryActivity.EXTRA_WISATA_KEY, eductaionKey);
                                 startActivity(intent);
                             }
                         });
 
                     } else {
+                        gpsHandler.stopUsingGPS();
                         gpsHandler.showSettingsAlert();
                     }
                 }
@@ -175,14 +175,18 @@ public class EducationCategoryActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         shimmerFrameLayout.startShimmerAnimation();
-        educationFirebaseAdapter.startListening();
+        if (educationFirebaseAdapter != null) {
+            educationFirebaseAdapter.startListening();
+        }
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         shimmerFrameLayout.stopShimmerAnimation();
-        educationFirebaseAdapter.stopListening();
+        if (educationFirebaseAdapter != null) {
+            educationFirebaseAdapter.stopListening();
+        }
     }
 
     @Override

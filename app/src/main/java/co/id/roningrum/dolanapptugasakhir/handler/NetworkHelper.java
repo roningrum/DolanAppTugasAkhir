@@ -29,8 +29,11 @@ public class NetworkHelper{
         if (connectivityManager != null) {
             NetworkInfo activeNetwork = connectivityManager.getActiveNetworkInfo();
             isConnected = (activeNetwork != null) && (activeNetwork.isConnected());
+            return isConnected;
+        } else {
+            return true;
         }
 
-        return isConnected;
+
     }
 }
