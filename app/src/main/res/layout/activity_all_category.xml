@@ -86,6 +86,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/montserrat_light"
+                        android:textSize="12sp"
                         android:text="@string/string_alam_wisata_category"
                         android:textColor="@color/blackTextPrimary" />
                 </LinearLayout>
@@ -110,6 +111,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/montserrat_light"
                         android:text="@string/string_hiburan_wisata_menu"
+                        android:textSize="12sp"
                         android:textColor="@color/blackTextPrimary" />
                 </LinearLayout>
 
@@ -133,6 +135,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/montserrat_light"
                         android:text="@string/string_belanja_wisata_menu"
+                        android:textSize="12sp"
                         android:textColor="@color/blackTextPrimary" />
                 </LinearLayout>
 
@@ -156,6 +159,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/montserrat_light"
                         android:text="@string/string_desa_wisata_menu"
+                        android:textSize="12sp"
                         android:textColor="@color/blackTextPrimary" />
                 </LinearLayout>
             </LinearLayout>
@@ -191,6 +195,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/montserrat_light"
                         android:text="@string/string_kuliner_wisata_menu"
+                        android:textSize="12sp"
                         android:textColor="@color/blackTextPrimary" />
                 </LinearLayout>
 
@@ -214,6 +219,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/montserrat_light"
                         android:text="@string/string_edukasi_menu"
+                        android:textSize="12sp"
                         android:textColor="@color/blackTextPrimary" />
                 </LinearLayout>
 
@@ -237,6 +243,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/montserrat_light"
                         android:text="@string/string_sejarah_wisata_menu"
+                        android:textSize="12sp"
                         android:textColor="@color/blackTextPrimary" />
                 </LinearLayout>
 
@@ -260,6 +267,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/montserrat_light"
                         android:text="@string/string_air_wisata_menu"
+                        android:textSize="12sp"
                         android:textColor="@color/blackTextPrimary" />
                 </LinearLayout>
             </LinearLayout>
@@ -295,6 +303,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/montserrat_light"
                         android:text="@string/string_religi_wisata_menu"
+                        android:textSize="12sp"
                         android:textColor="@color/blackTextPrimary" />
                 </LinearLayout>
 
@@ -341,6 +350,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/montserrat_light"
                         android:text="@string/string_hotel_menu"
+                        android:textSize="12sp"
                         android:textColor="@color/blackTextPrimary" />
                 </LinearLayout>
 
@@ -363,6 +373,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/montserrat_light"
                         android:text="@string/string_bandara_menu"
+                        android:textSize="12sp"
                         android:textColor="@color/blackTextPrimary" />
                 </LinearLayout>
 
@@ -385,6 +396,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/montserrat_light"
                         android:text="@string/string_stasiun_kereta_menu"
+                        android:textSize="12sp"
                         android:textAlignment="center"
                         android:textColor="@color/blackTextPrimary" />
                 </LinearLayout>
@@ -408,6 +420,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/montserrat_light"
                         android:text="@string/string_terminal_menu"
+                        android:textSize="12sp"
                         android:textColor="@color/blackTextPrimary" />
                 </LinearLayout>
             </LinearLayout>
@@ -454,6 +467,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/montserrat_light"
                         android:text="@string/string_spbu"
+                        android:textSize="12sp"
                         android:textColor="@color/blackTextPrimary" />
                 </LinearLayout>
 
@@ -476,6 +490,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/montserrat_light"
                         android:text="@string/string_kantor_polisi"
+                        android:textSize="12sp"
                         android:textColor="@color/blackTextPrimary" />
                 </LinearLayout>
 
@@ -498,6 +513,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/montserrat_light"
                         android:text="@string/string_rumah_sakit"
+                        android:textSize="12sp"
                         android:textAlignment="center"
                         android:textColor="@color/blackTextPrimary" />
                 </LinearLayout>

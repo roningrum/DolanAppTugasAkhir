@@ -62,7 +62,7 @@ public class DetailRecreationActivity extends FragmentActivity implements OnMapR
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_recreation);
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map_place_nature_detail);
+                .findFragmentById(R.id.map_place_recreation_detail);
         assert mapFragment != null;
         mapFragment.getMapAsync(this);
 

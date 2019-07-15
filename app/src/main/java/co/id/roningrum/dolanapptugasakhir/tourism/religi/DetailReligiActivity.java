@@ -76,7 +76,7 @@ public class DetailReligiActivity extends FragmentActivity implements OnMapReady
         if (religiKey == null) {
             throw new IllegalArgumentException("Must pass Extra");
         }
-        religiDetailRef = FirebaseDatabase.getInstance().getReference().child("Tourism");
+        religiDetailRef = FirebaseDatabase.getInstance().getReference().child("Tourism").child(religiKey);
         Query religiQuery = religiDetailRef.orderByChild("category_tourism").equalTo("religi");
         gpsHandler = new GPSHandler(this);
         LoadReligiDetail();
@@ -85,17 +85,19 @@ public class DetailReligiActivity extends FragmentActivity implements OnMapReady
     private void LoadReligiDetail() {
         if (gpsHandler.isCanGetLocation()) {
             ValueEventListener eventListener = new ValueEventListener() {
+                @SuppressLint("SetTextI18n")
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     CategoryItem categoryItem = dataSnapshot.getValue(CategoryItem.class);
                     startLat = gpsHandler.getLatitude();
                     startlng = gpsHandler.getLongitude();
+                    assert categoryItem != null;
                     endlat = categoryItem.getLat_location_tourism();
                     endLng = categoryItem.getLng_location_tourism();
                     distance = calculateDistance(startLat, startlng, endlat, endLng);
 
                     @SuppressLint("DefaultLocale") String distanceFormat = String.format("%.2f", distance);
-                    tvDistanceReligiDetail.setText("" + distanceFormat + " KM");
+                    tvDistanceReligiDetail.setText("" + distanceFormat + " km");
                     tvNameReligiDetail.setText(categoryItem.getName_tourism());
                     tvAddressReligiDetail.setText(categoryItem.getLocation_tourism());
                     tvDescReligiDetail.setText(categoryItem.getInfo_tourism());
@@ -135,6 +137,7 @@ public class DetailReligiActivity extends FragmentActivity implements OnMapReady
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 CategoryItem categoryItem = dataSnapshot.getValue(CategoryItem.class);
+                assert categoryItem != null;
                 double lattitude = categoryItem.getLat_location_tourism();
                 double longitude = categoryItem.getLng_location_tourism();
 

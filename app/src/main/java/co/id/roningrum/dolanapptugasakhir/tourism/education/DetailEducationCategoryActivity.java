@@ -21,6 +21,7 @@ import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -37,6 +38,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+
+import java.util.Objects;
 
 import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
@@ -78,9 +81,11 @@ public class DetailEducationCategoryActivity extends AppCompatActivity implement
         imgEducation = findViewById(R.id.img_nature_education_detail);
         educationMapView = findViewById(R.id.loc_edu_map);
         collapsingToolbarLayout = findViewById(R.id.collapseToolbar);
+
         Toolbar toolbarEducation = findViewById(R.id.toolbar_education_detail);
         setSupportActionBar(toolbarEducation);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         Bundle mapViewBundle = null;
         if (savedInstanceState != null) {
@@ -208,6 +213,15 @@ public class DetailEducationCategoryActivity extends AppCompatActivity implement
 
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Respond to the action bar's Up/Home button
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
     @Override
     protected void onResume() {

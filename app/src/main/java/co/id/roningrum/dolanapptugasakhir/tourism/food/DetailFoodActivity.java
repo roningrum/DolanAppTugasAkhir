@@ -16,15 +16,20 @@ package co.id.roningrum.dolanapptugasakhir.tourism.food;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v4.app.FragmentActivity;
+import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.database.DataSnapshot;
@@ -34,14 +39,19 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.Objects;
+
 import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.item.CategoryItem;
 
-public class DetailFoodActivity extends FragmentActivity implements OnMapReadyCallback {
+public class DetailFoodActivity extends AppCompatActivity implements OnMapReadyCallback {
     public static final String EXTRA_WISATA_KEY = "kuliner_key";
+    public static final String MAP_VIEW_KEY = "mapViewBundle";
+    private final static String TAG = "Pesan";
 
     private GoogleMap foodMap;
+    private MapView foodMapView;
     private DatabaseReference foodDetailRef;
     private GPSHandler gpsHandler;
     private ValueEventListener valueEventListener;
@@ -50,6 +60,7 @@ public class DetailFoodActivity extends FragmentActivity implements OnMapReadyCa
             tvDescFoodDetail, tvDistanceFoodDetail;
 
     private ImageView imgFoodDetail;
+    private CollapsingToolbarLayout collapsingToolbarLayout;
 
     private double startLat;
     private double startlng;
@@ -61,16 +72,27 @@ public class DetailFoodActivity extends FragmentActivity implements OnMapReadyCa
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_food);
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map_place_food_detail);
-        assert mapFragment != null;
-        mapFragment.getMapAsync(this);
 
         tvNameFoodDetail = findViewById(R.id.name_place_food_detail);
         tvDescFoodDetail = findViewById(R.id.info_place_food_detail);
         tvAddressFoodDetail = findViewById(R.id.address_place_food_detail);
         tvDistanceFoodDetail = findViewById(R.id.distance_place_food_detail);
         imgFoodDetail = findViewById(R.id.img_food_place_detail);
+        collapsingToolbarLayout = findViewById(R.id.collapseToolbar_food);
+        foodMapView = findViewById(R.id.map_place_food_detail);
+
+        Toolbar toolbarFood = findViewById(R.id.toolbar_food_detail);
+        setSupportActionBar(toolbarFood);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+
+
+        Bundle mapViewBundle = null;
+        if (savedInstanceState != null) {
+            mapViewBundle = savedInstanceState.getBundle(MAP_VIEW_KEY);
+        }
+        foodMapView.onCreate(mapViewBundle);
+        foodMapView.getMapAsync(this);
+
 
         String foodKey = getIntent().getStringExtra(EXTRA_WISATA_KEY);
         if (foodKey == null) {
@@ -88,7 +110,7 @@ public class DetailFoodActivity extends FragmentActivity implements OnMapReadyCa
                 @SuppressLint("SetTextI18n")
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    CategoryItem categoryItem = dataSnapshot.getValue(CategoryItem.class);
+                    final CategoryItem categoryItem = dataSnapshot.getValue(CategoryItem.class);
                     startLat = gpsHandler.getLatitude();
                     startlng = gpsHandler.getLongitude();
                     assert categoryItem != null;
@@ -102,11 +124,31 @@ public class DetailFoodActivity extends FragmentActivity implements OnMapReadyCa
                     tvAddressFoodDetail.setText(categoryItem.getLocation_tourism());
                     tvDescFoodDetail.setText(categoryItem.getInfo_tourism());
                     Glide.with(getApplicationContext()).load(categoryItem.getUrl_photo()).into(imgFoodDetail);
+                    AppBarLayout appBarLayout = findViewById(R.id.app_bar_food);
+                    appBarLayout.addOnOffsetChangedListener(new AppBarLayout.BaseOnOffsetChangedListener() {
+                        boolean isShow = true;
+                        int scrollRange = -1;
+
+                        @Override
+                        public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+                            if (scrollRange == -1) {
+                                scrollRange = appBarLayout.getTotalScrollRange();
+                            }
+                            if (scrollRange + verticalOffset == 0) {
+                                collapsingToolbarLayout.setTitle(categoryItem.getName_tourism());
+                                isShow = true;
+                            } else {
+                                collapsingToolbarLayout.setTitle(" ");
+                                isShow = false;
+                            }
+
+                        }
+                    });
                 }
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                    Log.e(TAG, "Firebase Database Error" + databaseError.getMessage());
                 }
             };
             foodDetailRef.addValueEventListener(eventListener);
@@ -131,19 +173,32 @@ public class DetailFoodActivity extends FragmentActivity implements OnMapReadyCa
     }
 
     @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        Bundle mapViewBundle = outState.getBundle(MAP_VIEW_KEY);
+        if (mapViewBundle == null) {
+            mapViewBundle = new Bundle();
+            outState.putBundle(MAP_VIEW_KEY, mapViewBundle);
+        }
+        foodMapView.onSaveInstanceState(mapViewBundle);
+
+    }
+
+    @Override
     public void onMapReady(GoogleMap googleMap) {
         foodMap = googleMap;
         ValueEventListener eventListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 CategoryItem categoryItem = dataSnapshot.getValue(CategoryItem.class);
+//                assert categoryItem != null;
                 assert categoryItem != null;
                 double lattitude = categoryItem.getLat_location_tourism();
                 double longitude = categoryItem.getLng_location_tourism();
 
                 LatLng location = new LatLng(lattitude, longitude);
                 foodMap.addMarker(new MarkerOptions().position(location));
-                foodMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 16.0f));
+                foodMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 15.0f));
             }
 
             @Override
@@ -157,14 +212,38 @@ public class DetailFoodActivity extends FragmentActivity implements OnMapReadyCa
     }
 
     @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Respond to the action bar's Up/Home button
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
     protected void onStart() {
         super.onStart();
         LoadFoodDetail();
+        foodMapView.onStart();
     }
 
     @Override
     protected void onStop() {
         super.onStop();
         foodDetailRef.removeEventListener(valueEventListener);
+        foodMapView.onStart();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        foodMapView.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        foodMapView.onPause();
     }
 }
