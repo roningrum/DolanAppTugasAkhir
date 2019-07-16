@@ -61,7 +61,7 @@ public class ReligiViewHolder extends RecyclerView.ViewHolder {
 
         name_religi_tourisms.setText(categoryItem.getName_tourism());
         location_religi_tourisms.setText(categoryItem.getLocation_tourism());
-        distance_religi_tourisms.setText(distanceFormat + " KM");
+        distance_religi_tourisms.setText(distanceFormat + " km");
         Glide.with(itemView.getContext()).load(categoryItem.getUrl_photo()).into(tourism_religi_pic);
     }
 

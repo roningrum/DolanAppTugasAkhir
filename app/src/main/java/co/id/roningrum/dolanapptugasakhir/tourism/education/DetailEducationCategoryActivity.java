@@ -46,7 +46,7 @@ import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.item.CategoryItem;
 
 public class DetailEducationCategoryActivity extends AppCompatActivity implements OnMapReadyCallback {
-    public static final String EXTRA_WISATA_KEY = "alam_key";
+    public static final String EXTRA_WISATA_KEY = "edukasi_key";
     public static final String MAP_VIEW_KEY = "mapViewBundle";
 
     private final static String TAG = "Pesan";
@@ -239,8 +239,9 @@ public class DetailEducationCategoryActivity extends AppCompatActivity implement
     @Override
     protected void onStop() {
         super.onStop();
+        educationMapView.onStop();
         educationDetailRef.removeEventListener(valueEventListener);
-        educationMapView.onStart();
+
     }
 
     @Override

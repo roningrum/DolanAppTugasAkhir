@@ -19,15 +19,18 @@
     tools:context=".tourism.recreation.DetailRecreationActivity">
 
     <android.support.design.widget.AppBarLayout
+        android:id="@+id/app_bar_recreation"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="256dp"
         android:fitsSystemWindows="true"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+        app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
         <android.support.design.widget.CollapsingToolbarLayout
+            android:id="@+id/collapseToolbar_recreation"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:fitsSystemWindows="true"
+            app:contentScrim="?attr/colorPrimary"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
             <ImageView
@@ -44,11 +47,10 @@
             <!--android:background="@drawable/bg_detail_orange"/>-->
 
             <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar_recreation_detail_top"
+                android:id="@+id/toolbar_recreation_detail"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                app:layout_collapseMode="pin"
-                app:popupTheme="@style/Theme.AppCompat.DayNight" />
+                app:layout_collapseMode="pin" />
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
 
@@ -64,34 +66,61 @@
             android:layout_margin="16dp"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/name_place_recreation_detail"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/montserrat_bold"
-                android:textColor="@color/blackPrimary"
-                android:textSize="24sp" />
-
             <LinearLayout
-                android:id="@+id/address_recreation_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:orientation="horizontal"
-                tools:ignore="UseCompoundDrawables">
+                android:orientation="horizontal">
 
-                <ImageView
+                <LinearLayout
+                    android:layout_width="295dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/name_place_recreation_detail"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/montserrat_bold"
+                        android:textColor="@color/blackPrimary"
+                        android:textSize="24sp" />
+
+                    <LinearLayout
+                        android:id="@+id/address_recreation_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="24dp"
+                        android:orientation="horizontal"
+                        tools:ignore="UseCompoundDrawables">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="12dp"
+                            android:background="@drawable/ic_location_orange"
+                            android:contentDescription="@null" />
+
+                        <TextView
+                            android:id="@+id/address_place_recreation_detail"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="14sp" />
+                    </LinearLayout>
+                </LinearLayout>
+
+
+                <FrameLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="12dp"
-                    android:background="@drawable/ic_location_orange"
-                    android:contentDescription="@null" />
+                    android:layout_marginStart="16dp">
 
-                <TextView
-                    android:id="@+id/address_place_recreation_detail"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="14sp" />
+                    <com.like.LikeButton
+                        android:id="@+id/heart"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        app:icon_size="22dp"
+                        app:icon_type="heart" />
+                </FrameLayout>
             </LinearLayout>
 
             <TextView

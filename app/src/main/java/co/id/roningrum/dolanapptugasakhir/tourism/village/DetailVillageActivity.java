@@ -16,15 +16,19 @@ package co.id.roningrum.dolanapptugasakhir.tourism.village;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v4.app.FragmentActivity;
+import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.database.DataSnapshot;
@@ -34,14 +38,20 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.Objects;
+
 import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.item.CategoryItem;
 
-public class DetailVillageActivity extends FragmentActivity implements OnMapReadyCallback {
+public class DetailVillageActivity extends AppCompatActivity implements OnMapReadyCallback {
     public static final String EXTRA_WISATA_KEY = "wisata_key";
+    public static final String MAP_VIEW_KEY = "mapViewBundle";
+
+    private final static String TAG = "Pesan";
 
     private GoogleMap villageLocationMap;
+    private MapView villageMapView;
     private DatabaseReference villageDetailRef;
 
     private GPSHandler gpsHandler;
@@ -52,6 +62,7 @@ public class DetailVillageActivity extends FragmentActivity implements OnMapRead
             tvDistanceVillageDetail;
 
     private ImageView imgVillageObject;
+    private CollapsingToolbarLayout collapsingToolbarLayout_village;
 
     private double startLat;
     private double startLng;
@@ -70,11 +81,20 @@ public class DetailVillageActivity extends FragmentActivity implements OnMapRead
         tvDescVillageDetail = findViewById(R.id.info_place_village_detail);
         tvDistanceVillageDetail = findViewById(R.id.distance_place_village_detail);
         imgVillageObject = findViewById(R.id.img_village_place_detail);
-        
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map_place_village_detail);
-        assert mapFragment != null;
-        mapFragment.getMapAsync(this);
+        villageMapView = findViewById(R.id.loc_village_map);
+        collapsingToolbarLayout_village = findViewById(R.id.collapseToolbar_village);
+
+        Toolbar toolbarVillage = findViewById(R.id.toolbar_village_detail_top);
+        setSupportActionBar(toolbarVillage);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+        Bundle mapViewBundle = null;
+        if (savedInstanceState != null) {
+            mapViewBundle = savedInstanceState.getBundle(MAP_VIEW_KEY);
+        }
+        villageMapView.onCreate(mapViewBundle);
+        villageMapView.getMapAsync(this);
 
         String villageKey = getIntent().getStringExtra(EXTRA_WISATA_KEY);
         if(villageKey == null){
@@ -92,11 +112,13 @@ public class DetailVillageActivity extends FragmentActivity implements OnMapRead
     private void LoadDetailDesa() {
         if (gpsHandler.isCanGetLocation()) {
             ValueEventListener eventListener = new ValueEventListener() {
+                @SuppressLint("SetTextI18n")
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    CategoryItem categoryItem = dataSnapshot.getValue(CategoryItem.class);
+                    final CategoryItem categoryItem = dataSnapshot.getValue(CategoryItem.class);
                     startLat = gpsHandler.getLatitude();
                     startLng = gpsHandler.getLongitude();
+                    assert categoryItem != null;
                     endLat = categoryItem.getLat_location_tourism();
                     endLng = categoryItem.getLng_location_tourism();
                     distance = calculateDistance(startLat, startLng, endLat, endLng);
@@ -107,6 +129,26 @@ public class DetailVillageActivity extends FragmentActivity implements OnMapRead
                     tvAddressVillageDetail.setText(categoryItem.getLocation_tourism());
                     tvDescVillageDetail.setText(categoryItem.getInfo_tourism());
                     Glide.with(getApplicationContext()).load(categoryItem.getUrl_photo()).into(imgVillageObject);
+                    AppBarLayout appBarLayout = findViewById(R.id.app_bar_village);
+                    appBarLayout.addOnOffsetChangedListener(new AppBarLayout.BaseOnOffsetChangedListener() {
+                        boolean isShow = true;
+                        int scrollRange = -1;
+
+                        @Override
+                        public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+                            if (scrollRange == -1) {
+                                scrollRange = appBarLayout.getTotalScrollRange();
+                            }
+                            if (scrollRange + verticalOffset == 0) {
+                                collapsingToolbarLayout_village.setTitle(categoryItem.getName_tourism());
+                                isShow = true;
+                            } else {
+                                collapsingToolbarLayout_village.setTitle(" ");
+                                isShow = false;
+                            }
+
+                        }
+                    });
                 }
 
                 @Override
@@ -127,6 +169,7 @@ public class DetailVillageActivity extends FragmentActivity implements OnMapRead
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     CategoryItem categoryItem = dataSnapshot.getValue(CategoryItem.class);
+                    assert categoryItem != null;
                     double lattitude = categoryItem.getLat_location_tourism();
                     double longitude = categoryItem.getLng_location_tourism();
 
@@ -163,15 +206,53 @@ public class DetailVillageActivity extends FragmentActivity implements OnMapRead
         }
 
     @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        Bundle mapViewBundle = outState.getBundle(MAP_VIEW_KEY);
+        if (mapViewBundle == null) {
+            mapViewBundle = new Bundle();
+            outState.putBundle(MAP_VIEW_KEY, mapViewBundle);
+        }
+        villageMapView.onSaveInstanceState(mapViewBundle);
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Respond to the action bar's Up/Home button
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        villageMapView.onResume();
+    }
+
+    @Override
     protected void onStart() {
         super.onStart();
         LoadDetailDesa();
+        villageMapView.onStart();
     }
 
     @Override
     protected void onStop() {
         super.onStop();
+        villageMapView.onStop();
         villageDetailRef.removeEventListener(valueEventListener);
-    }
 
     }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        villageMapView.onPause();
+    }
+
+
+}

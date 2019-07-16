@@ -12,22 +12,25 @@
   -->
 
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".tourism.nature.DetailNatureActivity">
 
     <android.support.design.widget.AppBarLayout
+        android:id="@+id/app_bar_nature"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="256dp"
         android:fitsSystemWindows="true"
         app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
         <android.support.design.widget.CollapsingToolbarLayout
+            android:id="@+id/collapseToolbar_nature"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:fitsSystemWindows="true"
+            app:contentScrim="?attr/colorPrimary"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
             <ImageView
@@ -35,20 +38,19 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:contentDescription="@null"
-                android:src="@drawable/imagedolanbg"
                 android:scaleType="centerCrop"
-                app:layout_collapseMode="parallax"
-                />
+                android:src="@drawable/imagedolanbg"
+                app:layout_collapseMode="parallax" />
             <!--<View-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:background="@drawable/bg_detail_orange"/>-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:background="@drawable/bg_detail_orange"/>-->
 
             <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar_nature_detail"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                app:layout_collapseMode="pin"
-                app:popupTheme="@style/Theme.AppCompat.DayNight"/>
+                app:layout_collapseMode="pin" />
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
 
@@ -64,91 +66,120 @@
             android:layout_margin="16dp"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/name_place_nature_detail"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="24sp"
-                android:textColor="@color/blackPrimary"
-                android:fontFamily="@font/montserrat_bold"/>
-
             <LinearLayout
-                android:id="@+id/address_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="24dp"
-                tools:ignore="UseCompoundDrawables">
-                <ImageView
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="295dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/name_place_nature_detail"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/montserrat_bold"
+                        android:textColor="@color/blackPrimary"
+                        android:textSize="24sp" />
+
+                    <LinearLayout
+                        android:id="@+id/address_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="24dp"
+                        android:orientation="horizontal"
+                        tools:ignore="UseCompoundDrawables">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="12dp"
+                            android:background="@drawable/ic_location_orange"
+                            android:contentDescription="@null" />
+
+                        <TextView
+                            android:id="@+id/address_place_nature_detail"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/montserrat"
+                            android:textSize="14sp" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <FrameLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:contentDescription="@null"
-                    android:layout_marginEnd="12dp"
-                    android:background="@drawable/ic_location_orange" />
-                <TextView
-                    android:id="@+id/address_place_nature_detail"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="14sp"
-                    />
+                    android:layout_marginStart="16dp">
+
+                    <com.like.LikeButton
+                        android:id="@+id/heart"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        app:icon_size="22dp"
+                        app:icon_type="heart" />
+                </FrameLayout>
+
             </LinearLayout>
 
             <TextView
                 android:id="@+id/distance_place_nature_detail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="18sp"
                 android:layout_marginTop="18dp"
+                android:fontFamily="@font/monsterrat_sembold"
                 android:textColor="@color/blackPrimary"
-                android:textStyle="bold"
-                android:fontFamily="@font/montserrat_bold"/>
+                android:textSize="18sp"
+                android:textStyle="bold" />
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="#DEDEDE"
                 android:layout_marginTop="16dp"
-                android:layout_marginBottom="16dp"/>
+                android:layout_marginBottom="16dp"
+                android:background="#DEDEDE" />
 
             <TextView
                 android:id="@+id/info_title_place_nature_detail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="18sp"
                 android:layout_marginTop="14dp"
                 android:layout_marginBottom="14dp"
+                android:fontFamily="@font/monsterrat_sembold"
                 android:text="@string/string_info_desc_detail"
                 android:textColor="#090909"
-                android:fontFamily="@font/monsterrat_sembold"/>
+                android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/info_place_nature_detail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="14sp"
-                android:lineSpacingExtra="10dp"
                 android:layout_marginTop="12dp"
-                android:fontFamily="@font/montserrat_bold"/>
+                android:fontFamily="@font/montserrat"
+                android:lineSpacingExtra="10dp"
+                android:textSize="14sp" />
 
             <TextView
                 android:id="@+id/location_title_place_nature_detail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="18sp"
                 android:layout_marginTop="48dp"
+                android:fontFamily="@font/monsterrat_sembold"
                 android:text="@string/string_lokasi_detail_menu"
                 android:textColor="#090909"
-                android:fontFamily="@font/monsterrat_sembold"/>
+                android:textSize="18sp" />
 
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp">
-                <fragment
-                    android:id="@+id/map_place_nature_detail"
+
+                <com.google.android.gms.maps.MapView
+                    android:id="@+id/loc_nature_map"
                     android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    android:name="com.google.android.gms.maps.SupportMapFragment" />
+                    android:layout_height="200dp" />
 
             </FrameLayout>
 
@@ -156,11 +187,11 @@
                 android:id="@+id/Photo_title_place_nature_detail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="18sp"
                 android:layout_marginTop="48dp"
+                android:fontFamily="@font/monsterrat_sembold"
                 android:text="@string/string_photo_detail_info"
                 android:textColor="#090909"
-                android:fontFamily="@font/monsterrat_sembold"/>
+                android:textSize="18sp" />
         </LinearLayout>
 
     </android.support.v4.widget.NestedScrollView>

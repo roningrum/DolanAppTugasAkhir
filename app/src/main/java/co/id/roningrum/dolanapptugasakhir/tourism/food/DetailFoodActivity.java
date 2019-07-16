@@ -231,8 +231,9 @@ public class DetailFoodActivity extends AppCompatActivity implements OnMapReadyC
     @Override
     protected void onStop() {
         super.onStop();
+        foodMapView.onStop();
         foodDetailRef.removeEventListener(valueEventListener);
-        foodMapView.onStart();
+
     }
 
     @Override

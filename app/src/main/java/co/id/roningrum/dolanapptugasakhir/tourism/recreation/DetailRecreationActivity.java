@@ -16,13 +16,14 @@ package co.id.roningrum.dolanapptugasakhir.tourism.recreation;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
@@ -38,10 +39,16 @@ import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.item.CategoryItem;
 
-public class DetailRecreationActivity extends FragmentActivity implements OnMapReadyCallback {
+public class DetailRecreationActivity extends AppCompatActivity implements OnMapReadyCallback {
     public static final String EXTRA_WISATA_KEY = "rekreasi_key";
+    public static final String MAP_VIEW_KEY = "mapViewBundle";
 
+    private final static String TAG = "Pesan";
     private GoogleMap recreationMap;
+    private MapView recreationMapView;
+
+
+
     private DatabaseReference recreationDetailRef;
     private GPSHandler gpsHandler;
     private ValueEventListener valueEventListener;

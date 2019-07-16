@@ -16,15 +16,19 @@ package co.id.roningrum.dolanapptugasakhir.tourism.shopping;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v4.app.FragmentActivity;
+import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.database.DataSnapshot;
@@ -34,15 +38,21 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.Objects;
+
 import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.item.CategoryItem;
 
-public class DetailShoppingActivity extends FragmentActivity implements OnMapReadyCallback {
+public class DetailShoppingActivity extends AppCompatActivity implements OnMapReadyCallback {
 
-    public static final String EXTRA_WISATA_KEY = "wisata_key";
+    public static final String EXTRA_WISATA_KEY = "shopping_key";
+    public static final String MAP_VIEW_KEY = "mapViewBundle";
+
+    private final static String TAG = "Pesan";
 
     private GoogleMap shoppingLocationMap;
+    private MapView shoppingMapView;
     private DatabaseReference shoppingDetailRef;
 
     private GPSHandler gpsHandler;
@@ -52,6 +62,7 @@ public class DetailShoppingActivity extends FragmentActivity implements OnMapRea
             tvDistanceShoppingDetail;
 
     private ImageView imgShoppingObject;
+    private CollapsingToolbarLayout collapsingToolbarLayout_shopping;
 
     private double startLat;
     private double startLng;
@@ -68,11 +79,20 @@ public class DetailShoppingActivity extends FragmentActivity implements OnMapRea
         tvDescShoppingDetail = findViewById(R.id.info_place_shopping_detail);
         tvDistanceShoppingDetail = findViewById(R.id.distance_place_shopping_detail);
         imgShoppingObject = findViewById(R.id.img_shopping_place_detail);
+        shoppingMapView = findViewById(R.id.loc_map_shopping);
+        collapsingToolbarLayout_shopping = findViewById(R.id.collapseToolbar_shopping);
 
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map_place_shopping_detail);
-        assert mapFragment != null;
-        mapFragment.getMapAsync(this);
+        Toolbar toolbarShopping = findViewById(R.id.toolbar_shopping_detail_top);
+        setSupportActionBar(toolbarShopping);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+        Bundle mapViewBundle = null;
+        if (savedInstanceState != null) {
+            mapViewBundle = savedInstanceState.getBundle(MAP_VIEW_KEY);
+        }
+        shoppingMapView.onCreate(mapViewBundle);
+        shoppingMapView.getMapAsync(this);
 
         String shoppingKey = getIntent().getStringExtra(EXTRA_WISATA_KEY);
         if(shoppingKey == null){
@@ -88,11 +108,13 @@ public class DetailShoppingActivity extends FragmentActivity implements OnMapRea
     private void LoadShoppingDetail() {
         if(gpsHandler.isCanGetLocation()){
             ValueEventListener eventListener = new ValueEventListener() {
+                @SuppressLint("SetTextI18n")
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    CategoryItem categoryItem = dataSnapshot.getValue(CategoryItem.class);
+                    final CategoryItem categoryItem = dataSnapshot.getValue(CategoryItem.class);
                     startLat = gpsHandler.getLatitude();
                     startLng = gpsHandler.getLongitude();
+                    assert categoryItem != null;
                     endLat = categoryItem.getLat_location_tourism();
                     endLng = categoryItem.getLng_location_tourism();
                     distance = calculateDistance(startLat,startLng,endLat,endLng);
@@ -103,6 +125,26 @@ public class DetailShoppingActivity extends FragmentActivity implements OnMapRea
                     tvAddressShoppingDetail.setText(categoryItem.getLocation_tourism());
                     tvDescShoppingDetail.setText(categoryItem.getInfo_tourism());
                     Glide.with(getApplicationContext()).load(categoryItem.getUrl_photo()).into(imgShoppingObject);
+                    AppBarLayout appBarLayout = findViewById(R.id.app_bar_shopping);
+                    appBarLayout.addOnOffsetChangedListener(new AppBarLayout.BaseOnOffsetChangedListener() {
+                        boolean isShow = true;
+                        int scrollRange = -1;
+
+                        @Override
+                        public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+                            if (scrollRange == -1) {
+                                scrollRange = appBarLayout.getTotalScrollRange();
+                            }
+                            if (scrollRange + verticalOffset == 0) {
+                                collapsingToolbarLayout_shopping.setTitle(categoryItem.getName_tourism());
+                                isShow = true;
+                            } else {
+                                collapsingToolbarLayout_shopping.setTitle(" ");
+                                isShow = false;
+                            }
+
+                        }
+                    });
                 }
 
                 @Override
@@ -129,6 +171,19 @@ public class DetailShoppingActivity extends FragmentActivity implements OnMapRea
 
         return (distance*meterConversion/1000);
     }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        Bundle mapViewBundle = outState.getBundle(MAP_VIEW_KEY);
+        if (mapViewBundle == null) {
+            mapViewBundle = new Bundle();
+            outState.putBundle(MAP_VIEW_KEY, mapViewBundle);
+        }
+        shoppingMapView.onSaveInstanceState(mapViewBundle);
+
+    }
+
     @Override
     public void onMapReady(GoogleMap googleMap) {
 
@@ -138,6 +193,7 @@ public class DetailShoppingActivity extends FragmentActivity implements OnMapRea
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 CategoryItem categoryItem = dataSnapshot.getValue(CategoryItem.class);
+                assert categoryItem != null;
                 double lattitude = categoryItem.getLat_location_tourism();
                 double longitude = categoryItem.getLng_location_tourism();
 
@@ -156,14 +212,41 @@ public class DetailShoppingActivity extends FragmentActivity implements OnMapRea
     }
 
     @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Respond to the action bar's Up/Home button
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        shoppingMapView.onResume();
+    }
+
+    @Override
     protected void onStart() {
         super.onStart();
         LoadShoppingDetail();
+        shoppingMapView.onStart();
     }
 
     @Override
     protected void onStop() {
         super.onStop();
+        shoppingMapView.onStop();
         shoppingDetailRef.removeEventListener(valueEventListener);
+
     }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        shoppingMapView.onPause();
+    }
+
 }

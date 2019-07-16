@@ -61,7 +61,7 @@ public class NatureViewHolder extends RecyclerView.ViewHolder {
 
         name_tourisms.setText(categoryItem.getName_tourism());
         location_tourism.setText(categoryItem.getLocation_tourism());
-        distance_tourism.setText(distanceFormat+" KM");
+        distance_tourism.setText(distanceFormat + " km");
         Glide.with(itemView.getContext()).load(categoryItem.getUrl_photo()).into(tourism_pic);
     }
 

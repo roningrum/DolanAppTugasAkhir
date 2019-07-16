@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright 2019 RONINGRUM. All rights reserved.
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
@@ -20,15 +19,18 @@
     tools:context=".tourism.village.DetailVillageActivity">
 
     <android.support.design.widget.AppBarLayout
+        android:id="@+id/app_bar_village"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="256dp"
         android:fitsSystemWindows="true"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+        app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
         <android.support.design.widget.CollapsingToolbarLayout
+            android:id="@+id/collapseToolbar_village"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:fitsSystemWindows="true"
+            app:contentScrim="?attr/colorPrimary"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
             <ImageView
@@ -65,34 +67,62 @@
             android:layout_margin="16dp"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/name_place_village_detail"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/montserrat_bold"
-                android:textColor="@color/blackPrimary"
-                android:textSize="24sp" />
-
             <LinearLayout
-                android:id="@+id/address_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:orientation="horizontal"
-                tools:ignore="UseCompoundDrawables">
+                android:orientation="horizontal">
 
-                <ImageView
+                <LinearLayout
+                    android:layout_width="295dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/name_place_village_detail"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/montserrat_bold"
+                        android:textColor="@color/blackPrimary"
+                        android:textSize="20sp" />
+
+                    <LinearLayout
+                        android:id="@+id/address_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="18dp"
+                        android:orientation="horizontal"
+                        tools:ignore="UseCompoundDrawables">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="12dp"
+                            android:background="@drawable/ic_location_orange"
+                            android:contentDescription="@null" />
+
+                        <TextView
+                            android:id="@+id/address_place_village_detail"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/montserrat"
+                            android:textSize="14sp" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <FrameLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="12dp"
-                    android:background="@drawable/ic_location_orange"
-                    android:contentDescription="@null" />
+                    android:layout_marginStart="16dp">
 
-                <TextView
-                    android:id="@+id/address_place_village_detail"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="14sp" />
+                    <com.like.LikeButton
+                        android:id="@+id/heart"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        app:icon_size="22dp"
+                        app:icon_type="heart" />
+                </FrameLayout>
+
             </LinearLayout>
 
             <TextView
@@ -147,9 +177,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp">
 
-                <fragment
-                    android:id="@+id/map_place_village_detail"
-                    android:name="com.google.android.gms.maps.SupportMapFragment"
+                <com.google.android.gms.maps.MapView
+                    android:id="@+id/loc_village_map"
                     android:layout_width="match_parent"
                     android:layout_height="200dp" />
 
