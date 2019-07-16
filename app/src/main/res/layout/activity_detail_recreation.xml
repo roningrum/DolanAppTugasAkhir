@@ -156,7 +156,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
-                android:fontFamily="@font/montserrat_bold"
+                android:fontFamily="@font/montserrat"
                 android:lineSpacingExtra="10dp"
                 android:textSize="14sp" />
 
@@ -175,12 +175,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp">
 
-                <fragment
-                    android:id="@+id/map_place_recreation_detail"
+                <com.google.android.gms.maps.MapView
+                    android:id="@+id/loc_recreation_map"
                     android:name="com.google.android.gms.maps.SupportMapFragment"
                     android:layout_width="match_parent"
                     android:layout_height="200dp" />
-
             </FrameLayout>
 
             <TextView

@@ -16,7 +16,12 @@ package co.id.roningrum.dolanapptugasakhir.tourism.recreation;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -25,7 +30,6 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.database.DataSnapshot;
@@ -34,6 +38,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+
+import java.util.Objects;
 
 import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
@@ -47,8 +53,6 @@ public class DetailRecreationActivity extends AppCompatActivity implements OnMap
     private GoogleMap recreationMap;
     private MapView recreationMapView;
 
-
-
     private DatabaseReference recreationDetailRef;
     private GPSHandler gpsHandler;
     private ValueEventListener valueEventListener;
@@ -57,6 +61,7 @@ public class DetailRecreationActivity extends AppCompatActivity implements OnMap
             tvDescRecreationDetail, tvDistanceRecreationDetail;
 
     private ImageView imgRecreation;
+    private CollapsingToolbarLayout collapsingToolbarLayout_recreation;
 
     private double startLat;
     private double startlng;
@@ -68,16 +73,28 @@ public class DetailRecreationActivity extends AppCompatActivity implements OnMap
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_recreation);
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map_place_recreation_detail);
-        assert mapFragment != null;
-        mapFragment.getMapAsync(this);
 
         tvNameRecreationDetail = findViewById(R.id.name_place_recreation_detail);
         tvAddressRecreationDetail = findViewById(R.id.address_place_recreation_detail);
         tvDescRecreationDetail = findViewById(R.id.info_place_recreation_detail);
         tvDistanceRecreationDetail = findViewById(R.id.distance_place_recreation_detail);
         imgRecreation = findViewById(R.id.img_recreation_place_detail);
+        recreationMapView = findViewById(R.id.loc_recreation_map);
+        collapsingToolbarLayout_recreation = findViewById(R.id.collapseToolbar_recreation);
+
+
+        Toolbar toolbarRekreasi = findViewById(R.id.toolbar_recreation_detail);
+        setSupportActionBar(toolbarRekreasi);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+        Bundle mapViewBundle = null;
+        if (savedInstanceState != null) {
+            mapViewBundle = savedInstanceState.getBundle(MAP_VIEW_KEY);
+        }
+        recreationMapView.onCreate(mapViewBundle);
+        recreationMapView.getMapAsync(this);
+
 
         String recreationKey = getIntent().getStringExtra(EXTRA_WISATA_KEY);
         if (recreationKey == null) {
@@ -98,7 +115,7 @@ public class DetailRecreationActivity extends AppCompatActivity implements OnMap
                 @SuppressLint("SetTextI18n")
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    CategoryItem categoryItem = dataSnapshot.getValue(CategoryItem.class);
+                    final CategoryItem categoryItem = dataSnapshot.getValue(CategoryItem.class);
                     startLat = gpsHandler.getLatitude();
                     startlng = gpsHandler.getLongitude();
 
@@ -113,11 +130,32 @@ public class DetailRecreationActivity extends AppCompatActivity implements OnMap
                     tvAddressRecreationDetail.setText(categoryItem.getLocation_tourism());
                     tvDescRecreationDetail.setText(categoryItem.getInfo_tourism());
                     Glide.with(getApplicationContext()).load(categoryItem.getUrl_photo()).into(imgRecreation);
+
+                    AppBarLayout appBarLayout = findViewById(R.id.app_bar_recreation);
+                    appBarLayout.addOnOffsetChangedListener(new AppBarLayout.BaseOnOffsetChangedListener() {
+                        boolean isShow = true;
+                        int scrollRange = -1;
+
+                        @Override
+                        public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+                            if (scrollRange == -1) {
+                                scrollRange = appBarLayout.getTotalScrollRange();
+                            }
+                            if (scrollRange + verticalOffset == 0) {
+                                collapsingToolbarLayout_recreation.setTitle(categoryItem.getName_tourism());
+                                isShow = true;
+                            } else {
+                                collapsingToolbarLayout_recreation.setTitle(" ");
+                                isShow = false;
+                            }
+
+                        }
+                    });
                 }
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                    Log.e(TAG, "Firebase Database Error" + databaseError.getMessage());
                 }
             };
             recreationDetailRef.addValueEventListener(eventListener);
@@ -142,6 +180,18 @@ public class DetailRecreationActivity extends AppCompatActivity implements OnMap
     }
 
     @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        Bundle mapViewBundle = outState.getBundle(MAP_VIEW_KEY);
+        if (mapViewBundle == null) {
+            mapViewBundle = new Bundle();
+            outState.putBundle(MAP_VIEW_KEY, mapViewBundle);
+        }
+        recreationMapView.onSaveInstanceState(mapViewBundle);
+
+    }
+
+    @Override
     public void onMapReady(GoogleMap googleMap) {
 
         recreationMap = googleMap;
@@ -160,7 +210,7 @@ public class DetailRecreationActivity extends AppCompatActivity implements OnMap
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                Log.e(TAG, "Firebase Database Error" + databaseError.getMessage());
             }
         };
         recreationDetailRef.addValueEventListener(eventListener);
@@ -168,15 +218,41 @@ public class DetailRecreationActivity extends AppCompatActivity implements OnMap
 
     }
 
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Respond to the action bar's Up/Home button
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        recreationMapView.onResume();
+    }
+
     @Override
     protected void onStart() {
         super.onStart();
         LoadRecreationDetail();
+        recreationMapView.onStart();
     }
 
     @Override
     protected void onStop() {
         super.onStop();
+        recreationMapView.onStop();
         recreationDetailRef.removeEventListener(valueEventListener);
+
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        recreationMapView.onPause();
     }
 }
