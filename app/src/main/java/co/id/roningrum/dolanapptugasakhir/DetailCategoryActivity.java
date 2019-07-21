@@ -76,25 +76,26 @@ public class DetailCategoryActivity extends AppCompatActivity {
 
         if (gpsHandler.isCanGetLocation()){}
         touristDetailRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @SuppressLint("SetTextI18n")
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                 CategoryItem categoryItem = dataSnapshot.getValue(CategoryItem.class);
 
 
-                    startlat = gpsHandler.getLatitude();
-                    startlng = gpsHandler.getLongitude();
-                    endlat = categoryItem.getLat_location_tourism();
-                    endLng = categoryItem.getLng_location_tourism();
-                    distance = calculateDistance(startlat,startlng,endlat,endLng);
+                startlat = gpsHandler.getLatitude();
+                startlng = gpsHandler.getLongitude();
+                assert categoryItem != null;
+                endlat = categoryItem.getLat_location_tourism();
+                endLng = categoryItem.getLng_location_tourism();
+                distance = calculateDistance(startlat,startlng,endlat,endLng);
 
-                    @SuppressLint("DefaultLocale") String distanceFormat = String.format("%.2f",distance);
-                    tvDistanceObject.setText(""+distanceFormat+" KM");
-                    tvNameTourismObject.setText(categoryItem.getName_tourism());
-                    tvAddressTourismObject.setText(categoryItem.getLocation_tourism());
-                    tvInfoTourismObject.setText(categoryItem.getInfo_tourism());
-                    Glide.with(getApplicationContext()).load(categoryItem.getUrl_photo()).into(imgTourismObject);
-
+                @SuppressLint("DefaultLocale") String distanceFormat = String.format("%.2f",distance);
+                tvDistanceObject.setText(""+distanceFormat+" KM");
+                tvNameTourismObject.setText(categoryItem.getName_tourism());
+                tvAddressTourismObject.setText(categoryItem.getLocation_tourism());
+                tvInfoTourismObject.setText(categoryItem.getInfo_tourism());
+                Glide.with(getApplicationContext()).load(categoryItem.getUrl_photo()).into(imgTourismObject);
 
 
 //                showGalleryPhoto();
