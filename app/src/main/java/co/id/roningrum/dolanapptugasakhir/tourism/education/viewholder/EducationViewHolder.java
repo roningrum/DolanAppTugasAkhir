@@ -58,7 +58,7 @@ public class EducationViewHolder extends  RecyclerView.ViewHolder {
 
         nameEducationTourism.setText(categoryItem.getName_tourism());
         locationEducationTourism.setText(categoryItem.getLocation_tourism());
-        distanceEducationTourism.setText(distanceFormat + " KM");
+        distanceEducationTourism.setText(distanceFormat + " km");
         Glide.with(itemView.getContext()).load(categoryItem.getUrl_photo()).into(educationTourismPic);
     }
 

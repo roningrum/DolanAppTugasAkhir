@@ -11,7 +11,7 @@
  * limitations under the License.
  */
 
-package co.id.roningrum.dolanapptugasakhir.tourism.education;
+package co.id.roningrum.dolanapptugasakhir.hotel;
 
 import android.Manifest;
 import android.content.Intent;
@@ -38,21 +38,19 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 
 import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.handler.NetworkHelper;
 import co.id.roningrum.dolanapptugasakhir.handler.PermissionHandler;
-import co.id.roningrum.dolanapptugasakhir.item.CategoryItem;
-import co.id.roningrum.dolanapptugasakhir.tourism.education.viewholder.EducationViewHolder;
+import co.id.roningrum.dolanapptugasakhir.hotel.viewholder.HotelViewHolder;
+import co.id.roningrum.dolanapptugasakhir.item.HotelItem;
 
-public class EducationCategoryActivity extends AppCompatActivity {
-
-    private RecyclerView rvEducationList;
+public class HotelActivity extends AppCompatActivity {
+    private RecyclerView rvHotelList;
     private ShimmerFrameLayout shimmerFrameLayout;
-    private FirebaseRecyclerAdapter<CategoryItem, EducationViewHolder> educationFirebaseAdapter;
+    private FirebaseRecyclerAdapter<HotelItem, HotelViewHolder> hotelFirebaseAdapter;
 
     private GPSHandler gpsHandler;
     private PermissionHandler permissionHandler;
@@ -60,42 +58,35 @@ public class EducationCategoryActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_education_category);
-        rvEducationList = findViewById(R.id.tourism_education_list);
-        Toolbar toolbarEducation = findViewById(R.id.toolbar_top_education);
+        setContentView(R.layout.activity_hotel);
+        rvHotelList = findViewById(R.id.rv_hotel_list);
+        Toolbar toolbarHotel = findViewById(R.id.toolbar_top_hotel);
         shimmerFrameLayout = findViewById(R.id.shimmer_view_container);
-        rvEducationList.setLayoutManager(new LinearLayoutManager(this));
-        ArrayList<CategoryItem> categoryItems = new ArrayList<>();
-        setSupportActionBar(toolbarEducation);
+        rvHotelList.setLayoutManager(new LinearLayoutManager(this));
+        setSupportActionBar(toolbarHotel);
         checkConnection();
     }
 
     private void checkConnection() {
         if (NetworkHelper.isConnectedToNetwork(getApplicationContext())) {
-            showData();
+            showHotelData();
         } else {
             Toast.makeText(this, "Check your connection", Toast.LENGTH_SHORT).show();
         }
     }
 
-    private void showData() {
+    private void showHotelData() {
         if (havePermission()) {
-            DatabaseReference educationCategoryDB = FirebaseDatabase.getInstance().getReference();
-            Query educationQuery = educationCategoryDB.child("Tourism").orderByChild("category_tourism").equalTo("edukasi");
-            FirebaseRecyclerOptions<CategoryItem> educationOptions = new FirebaseRecyclerOptions.Builder<CategoryItem>()
-                    .setQuery(educationQuery, CategoryItem.class)
+            DatabaseReference hotelRef = FirebaseDatabase.getInstance().getReference();
+            Query hotelQuery = hotelRef.child("Hotel");
+            FirebaseRecyclerOptions<HotelItem> hotelOptions = new FirebaseRecyclerOptions.Builder<HotelItem>()
+                    .setQuery(hotelQuery, HotelItem.class)
                     .build();
-            educationFirebaseAdapter = new FirebaseRecyclerAdapter<CategoryItem, EducationViewHolder>(educationOptions) {
-                @NonNull
+            hotelFirebaseAdapter = new FirebaseRecyclerAdapter<HotelItem, HotelViewHolder>(hotelOptions) {
                 @Override
-                public EducationViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-                    return new EducationViewHolder(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_education_category_menu, viewGroup, false));
-                }
-
-                @Override
-                protected void onBindViewHolder(@NonNull EducationViewHolder holder, int position, @NonNull CategoryItem model) {
-                    final DatabaseReference educationCategoryRef = getRef(position);
-                    final String eductaionKey = educationCategoryRef.getKey();
+                protected void onBindViewHolder(@NonNull HotelViewHolder holder, int position, @NonNull HotelItem model) {
+                    final DatabaseReference hotelCategoryRef = getRef(position);
+                    final String hotelKey = hotelCategoryRef.getKey();
 
                     gpsHandler = new GPSHandler(getApplicationContext());
                     if (gpsHandler.isCanGetLocation()) {
@@ -107,12 +98,12 @@ public class EducationCategoryActivity extends AppCompatActivity {
                         shimmerFrameLayout.stopShimmerAnimation();
                         shimmerFrameLayout.setVisibility(View.GONE);
 
-                        holder.showEducationTourismData(model, latitude, longitude);
-                        holder.setOnClickListener(new EducationViewHolder.ClickListener() {
+                        holder.showHotelData(model, latitude, longitude);
+                        holder.setOnClickListener(new HotelViewHolder.ClickListener() {
                             @Override
                             public void onItemClick(View view, int position) {
-                                Intent intent = new Intent(getApplicationContext(), DetailEducationCategoryActivity.class);
-                                intent.putExtra(DetailEducationCategoryActivity.EXTRA_WISATA_KEY, eductaionKey);
+                                Intent intent = new Intent(getApplicationContext(), DetailHotelActivity.class);
+                                intent.putExtra(DetailHotelActivity.EXTRA_HOTEL_KEY, hotelKey);
                                 startActivity(intent);
                             }
                         });
@@ -123,15 +114,14 @@ public class EducationCategoryActivity extends AppCompatActivity {
                     }
                 }
 
-//                @NonNull
-//                @Override
-//                public ShoppingViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-//                    View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_shopping_category_menu, viewGroup, false);
-//                    return new ShoppingViewHolder(view);
-//                }
+                @NonNull
+                @Override
+                public HotelViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+                    return new HotelViewHolder(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_hotel_menu, viewGroup, false));
+                }
             };
-            educationFirebaseAdapter.notifyDataSetChanged();
-            rvEducationList.setAdapter(educationFirebaseAdapter);
+            hotelFirebaseAdapter.notifyDataSetChanged();
+            rvHotelList.setAdapter(hotelFirebaseAdapter);
         }
     }
 
@@ -149,6 +139,7 @@ public class EducationCategoryActivity extends AppCompatActivity {
         }
         return true;
     }
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -168,11 +159,12 @@ public class EducationCategoryActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.toolbar_menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.petaMenu) {
-            startActivity(new Intent(EducationCategoryActivity.this, EducationCategoryMaps.class));
+            startActivity(new Intent(HotelActivity.this, HotelMapsActivity.class));
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -182,8 +174,8 @@ public class EducationCategoryActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         shimmerFrameLayout.startShimmerAnimation();
-        if (educationFirebaseAdapter != null) {
-            educationFirebaseAdapter.startListening();
+        if (hotelFirebaseAdapter != null) {
+            hotelFirebaseAdapter.startListening();
         }
     }
 
@@ -191,16 +183,16 @@ public class EducationCategoryActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         shimmerFrameLayout.stopShimmerAnimation();
-        if (educationFirebaseAdapter != null) {
-            educationFirebaseAdapter.stopListening();
+        if (hotelFirebaseAdapter != null) {
+            hotelFirebaseAdapter.stopListening();
         }
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        if (educationFirebaseAdapter != null) {
-            educationFirebaseAdapter.startListening();
+        if (hotelFirebaseAdapter != null) {
+            hotelFirebaseAdapter.startListening();
         }
 
     }
@@ -208,8 +200,8 @@ public class EducationCategoryActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        if (educationFirebaseAdapter != null) {
-            educationFirebaseAdapter.stopListening();
+        if (hotelFirebaseAdapter != null) {
+            hotelFirebaseAdapter.stopListening();
         }
     }
 }
