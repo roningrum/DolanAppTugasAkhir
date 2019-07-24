@@ -54,7 +54,6 @@ public class HotelViewHolder extends RecyclerView.ViewHolder {
         double longitude_a = hotelItem.getLng_location_hotel();
 
         float jarakMeter = (float) calculateDistance(latitude, longitude, lattitude_a, longitude_a);
-//        float jarakMeter = loc1.distanceTo(loc2);
         float jarakKM = jarakMeter / 1000;
         @SuppressLint("DefaultLocale") String distanceFormat = String.format("%.2f", jarakKM);
 
