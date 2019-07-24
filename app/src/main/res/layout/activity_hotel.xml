@@ -12,27 +12,27 @@
   -->
 
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".tourism.history.HistoryCategoryActivity">
+    tools:context=".hotel.HotelActivity">
 
     <android.support.design.widget.AppBarLayout
-        android:id="@+id/appbar_layout_history"
+        android:id="@+id/appbar_layout_hotel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fitsSystemWindows="true"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
         <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar_top_history"
+            android:id="@+id/toolbar_top_hotel"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="@color/txtWhitePrimary"
             app:layout_collapseMode="pin"
             app:popupTheme="@style/ActionBarThemeOverlay"
-            app:title="Wisata Sejarah"
+            app:title="Hotel"
             app:titleTextColor="@android:color/black" />
     </android.support.design.widget.AppBarLayout>
 
@@ -66,7 +66,7 @@
         </com.facebook.shimmer.ShimmerFrameLayout>
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/tourism_history_list"
+            android:id="@+id/rv_hotel_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 

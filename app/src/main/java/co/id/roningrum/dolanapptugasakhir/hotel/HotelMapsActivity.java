@@ -11,7 +11,7 @@
  * limitations under the License.
  */
 
-package co.id.roningrum.dolanapptugasakhir.tourism.education;
+package co.id.roningrum.dolanapptugasakhir.hotel;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -23,32 +23,32 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.google.maps.android.clustering.ClusterManager;
 
 import co.id.roningrum.dolanapptugasakhir.R;
-import co.id.roningrum.dolanapptugasakhir.item.CategoryItem;
+import co.id.roningrum.dolanapptugasakhir.item.HotelItem;
 
-public class EducationCategoryMaps extends FragmentActivity implements OnMapReadyCallback {
+public class HotelMapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
-    private DatabaseReference educationRefMap;
-    private GoogleMap educationPlaceMap;
+    private GoogleMap hotelMap;
+    private DatabaseReference hotelRefMap;
+    private ClusterManager<HotelItem> hotelclusterManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_education_maps);
+        setContentView(R.layout.activity_hotel_maps);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.education_map);
+                .findFragmentById(R.id.map);
         assert mapFragment != null;
         mapFragment.getMapAsync(this);
-        educationRefMap = FirebaseDatabase.getInstance().getReference().child("Tourism");
+        hotelRefMap = FirebaseDatabase.getInstance().getReference().child("Hotel");
     }
 
 
@@ -63,21 +63,26 @@ public class EducationCategoryMaps extends FragmentActivity implements OnMapRead
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        educationPlaceMap = googleMap;
-        Query educationMapQuery = educationRefMap.orderByChild("category_tourism").equalTo("edukasi");
-        educationMapQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+
+        hotelMap = googleMap;
+        hotelclusterManager = new ClusterManager<>(getApplicationContext(), hotelMap);
+        hotelRefMap.addListenerForSingleValueEvent(new ValueEventListener() {
 
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot dsNature : dataSnapshot.getChildren()) {
-                    CategoryItem categoryItem = dsNature.getValue(CategoryItem.class);
-                    assert categoryItem != null;
-                    double latNature = categoryItem.getLat_location_tourism();
-                    double lngNature = categoryItem.getLng_location_tourism();
-                    LatLng naturePlaceLoc = new LatLng(latNature, lngNature);
-                    educationPlaceMap.moveCamera(CameraUpdateFactory.newLatLngZoom(naturePlaceLoc, 10.0f));
-                    educationPlaceMap.addMarker(new MarkerOptions().position(naturePlaceLoc).title(categoryItem.getName_tourism()).snippet(categoryItem.getLocation_tourism()));
+                for (DataSnapshot dsHotel : dataSnapshot.getChildren()) {
+                    HotelItem hotelItem = dsHotel.getValue(HotelItem.class);
+                    assert hotelItem != null;
+                    double latHotel = hotelItem.getLat_location_hotel();
+                    double lngHotel = hotelItem.getLng_location_hotel();
+                    LatLng naturePlaceLoc = new LatLng(latHotel, lngHotel);
+                    hotelMap.moveCamera(CameraUpdateFactory.newLatLngZoom(naturePlaceLoc, 8.0f));
+//                    hotelMap.addMarker(new MarkerOptions().position(naturePlaceLoc).title(hotelItem.getName_hotel()).snippet(hotelItem.getLocation_hotel()));
+                    hotelMap.setOnCameraIdleListener(hotelclusterManager);
+                    hotelMap.setOnInfoWindowClickListener(hotelclusterManager);
+                    hotelclusterManager.addItem(hotelItem);
                 }
+                hotelclusterManager.cluster();
             }
 
             @Override
@@ -85,5 +90,11 @@ public class EducationCategoryMaps extends FragmentActivity implements OnMapRead
                 Log.e("Pesan", "Check Database :" + databaseError.getMessage());
             }
         });
+//        mMap = googleMap;
+//
+//        // Add a marker in Sydney and move the camera
+//        LatLng sydney = new LatLng(-34, 151);
+//        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
+//        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
     }
 }
