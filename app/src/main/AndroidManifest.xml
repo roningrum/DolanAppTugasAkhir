@@ -42,6 +42,11 @@
             android:value="@string/google_maps_key" />
 
         <activity
+            android:name=".transportation.train.TrainMapsActivity"
+            android:label="@string/title_activity_train_maps"></activity>
+        <activity android:name=".transportation.train.TrainDetailActivity" />
+        <activity android:name=".transportation.train.TrainActivity" />
+        <activity
             android:name=".transportation.bus.BusMapsActivity"
             android:label="@string/title_activity_bus_maps" />
         <activity android:name=".transportation.bus.BusDetailActivity" />
