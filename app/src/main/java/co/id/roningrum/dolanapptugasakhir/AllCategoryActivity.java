@@ -31,10 +31,13 @@ import co.id.roningrum.dolanapptugasakhir.tourism.village.VillageCategoryActivit
 import co.id.roningrum.dolanapptugasakhir.tourism.water.WaterCategoryActivity;
 import co.id.roningrum.dolanapptugasakhir.transportation.airport.AirportActivity;
 import co.id.roningrum.dolanapptugasakhir.transportation.bus.BusActivity;
+import co.id.roningrum.dolanapptugasakhir.transportation.train.TrainActivity;
 
 public class AllCategoryActivity extends AppCompatActivity implements View.OnClickListener {
     LinearLayout natureMenu, entertaintMenu, shoppingMenu, villageMenu,
-            foodMenu, educationMenu, historyMenu, waterMenu, religiMenu, hotelMenu, airportMenu, busMenu;
+            foodMenu, educationMenu, historyMenu, waterMenu,
+            religiMenu, hotelMenu, airportMenu, busMenu,
+            trainMenu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +55,7 @@ public class AllCategoryActivity extends AppCompatActivity implements View.OnCli
         hotelMenu = findViewById(R.id.ln_hotel_public);
         airportMenu = findViewById(R.id.ln_bandara_public);
         busMenu = findViewById(R.id.ln_bus_public);
+        trainMenu = findViewById(R.id.ln_train_public);
 
         natureMenu.setOnClickListener(this);
         entertaintMenu.setOnClickListener(this);
@@ -66,6 +70,7 @@ public class AllCategoryActivity extends AppCompatActivity implements View.OnCli
         hotelMenu.setOnClickListener(this);
         airportMenu.setOnClickListener(this);
         busMenu.setOnClickListener(this);
+        trainMenu.setOnClickListener(this);
 
     }
 
@@ -107,6 +112,9 @@ public class AllCategoryActivity extends AppCompatActivity implements View.OnCli
                 break;
             case R.id.ln_bus_public:
                 startActivity(new Intent(AllCategoryActivity.this, BusActivity.class));
+                break;
+            case R.id.ln_train_public:
+                startActivity(new Intent(AllCategoryActivity.this, TrainActivity.class));
                 break;
 
 

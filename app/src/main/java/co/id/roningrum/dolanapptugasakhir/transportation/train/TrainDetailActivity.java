@@ -126,7 +126,7 @@ public class TrainDetailActivity extends AppCompatActivity implements OnMapReady
                     tvNameTrainDetail.setText(transportationItem.getName_transportation());
                     tvAddressTrainDetail.setText(transportationItem.getLocation_transportation());
                     Glide.with(getApplicationContext()).load(transportationItem.getUrl_photo_transport()).into(imgTrainDetail);
-                    AppBarLayout appBarLayout = findViewById(R.id.app_bar_airport);
+                    AppBarLayout appBarLayout = findViewById(R.id.app_bar_train);
                     appBarLayout.addOnOffsetChangedListener(new AppBarLayout.BaseOnOffsetChangedListener() {
                         boolean isShow = true;
                         int scrollRange = -1;

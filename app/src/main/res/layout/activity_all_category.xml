@@ -380,6 +380,7 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/ln_train_public"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1.45"
