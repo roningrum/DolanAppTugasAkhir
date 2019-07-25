@@ -23,7 +23,7 @@
         android:id="@+id/toolbar_train_map"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        app:title="@string/title_activity_bus_maps" />
+        app:title="@string/title_activity_train_maps" />
 
     <FrameLayout
         android:id="@+id/frame_layout"

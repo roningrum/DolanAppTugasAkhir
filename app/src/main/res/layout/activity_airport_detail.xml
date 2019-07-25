@@ -141,26 +141,6 @@
                 android:layout_marginBottom="8dp"
                 android:background="#DEDEDE" />
 
-            <!--<TextView-->
-            <!--android:id="@+id/info_title_place_history_detail"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_marginTop="14dp"-->
-            <!--android:layout_marginBottom="14dp"-->
-            <!--android:fontFamily="@font/monsterrat_sembold"-->
-            <!--android:text="@string/string_info_desc_detail"-->
-            <!--android:textColor="#090909"-->
-            <!--android:textSize="18sp" />-->
-
-            <!--<TextView-->
-            <!--android:id="@+id/info_place_histroy_detail"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_marginTop="12dp"-->
-            <!--android:fontFamily="@font/montserrat"-->
-            <!--android:lineSpacingExtra="10dp"-->
-            <!--android:textSize="14sp" />-->
-
             <TextView
                 android:id="@+id/location_title_place_airport_detail"
                 android:layout_width="wrap_content"
@@ -182,74 +162,6 @@
                     android:layout_height="200dp" />
 
             </FrameLayout>
-
-            <!--<TextView-->
-            <!--android:id="@+id/Order_title_place_airport_detail"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_marginTop="24dp"-->
-            <!--android:fontFamily="@font/monsterrat_sembold"-->
-            <!--android:text="Pesan Tiket Pesawat "-->
-            <!--android:textColor="#090909"-->
-            <!--android:textSize="18sp" />-->
-
-            <!--<LinearLayout-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="0dp"-->
-            <!--android:layout_marginTop="8dp"-->
-            <!--android:layout_weight="2"-->
-            <!--android:orientation="horizontal">-->
-
-            <!--<LinearLayout-->
-            <!--android:id="@+id/btn_order_link_hotel"-->
-            <!--android:layout_width="200dp"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:orientation="horizontal"-->
-            <!--android:padding="8dp"-->
-            <!--tools:ignore="UseCompoundDrawables">-->
-
-            <!--<ImageView-->
-            <!--android:layout_width="48dp"-->
-            <!--android:layout_height="48dp"-->
-            <!--android:contentDescription="@null"-->
-            <!--android:src="@drawable/traveloka" />-->
-
-            <!--<TextView-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_gravity="center"-->
-            <!--android:layout_marginStart="12dp"-->
-            <!--android:fontFamily="@font/montserrat"-->
-            <!--android:text="@string/order_link_hotel_traveloka"-->
-            <!--android:textSize="15sp" />-->
-
-            <!--</LinearLayout>-->
-
-            <!--<LinearLayout-->
-            <!--android:id="@+id/btn_order_link_hotel1"-->
-            <!--android:layout_width="200dp"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:orientation="horizontal"-->
-            <!--android:padding="8dp"-->
-            <!--tools:ignore="UseCompoundDrawables">-->
-
-            <!--<ImageView-->
-            <!--android:layout_width="48dp"-->
-            <!--android:layout_height="48dp"-->
-            <!--android:contentDescription="@null"-->
-            <!--android:src="@drawable/tiketdotcom" />-->
-
-            <!--<TextView-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_gravity="center"-->
-            <!--android:layout_marginStart="12dp"-->
-            <!--android:fontFamily="@font/montserrat"-->
-            <!--android:text="@string/order_link_hotel_tiket"-->
-            <!--android:textSize="15sp" />-->
-
-            <!--</LinearLayout>-->
-            <!--</LinearLayout>-->
         </LinearLayout>
 
     </android.support.v4.widget.NestedScrollView>

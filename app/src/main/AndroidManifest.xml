@@ -42,8 +42,13 @@
             android:value="@string/google_maps_key" />
 
         <activity
+            android:name=".transportation.ship.ShipMapActivity"
+            android:label="@string/title_activity_ship_map"></activity>
+        <activity android:name=".transportation.ship.ShipDetailActivity" />
+        <activity android:name=".transportation.ship.ShipActivity" />
+        <activity
             android:name=".transportation.train.TrainMapsActivity"
-            android:label="@string/title_activity_train_maps"></activity>
+            android:label="@string/title_activity_train_maps" />
         <activity android:name=".transportation.train.TrainDetailActivity" />
         <activity android:name=".transportation.train.TrainActivity" />
         <activity

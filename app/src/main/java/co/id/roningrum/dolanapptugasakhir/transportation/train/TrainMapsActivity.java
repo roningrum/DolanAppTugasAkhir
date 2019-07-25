@@ -48,7 +48,7 @@ public class TrainMapsActivity extends FragmentActivity implements OnMapReadyCal
                 .findFragmentById(R.id.train_map);
         assert mapFragment != null;
         mapFragment.getMapAsync(this);
-        trainMapRef = FirebaseDatabase.getInstance().getReference();
+        trainMapRef = FirebaseDatabase.getInstance().getReference().child("Transportation");
     }
 
 
@@ -74,7 +74,7 @@ public class TrainMapsActivity extends FragmentActivity implements OnMapReadyCal
                     double latBus = transportationItem.getLat_transportation();
                     double lngBus = transportationItem.getLng_transportation();
                     LatLng airportPlaceLoc = new LatLng(latBus, lngBus);
-                    trainMap.moveCamera(CameraUpdateFactory.newLatLngZoom(airportPlaceLoc, 10.2f));
+                    trainMap.moveCamera(CameraUpdateFactory.newLatLngZoom(airportPlaceLoc, 11.2f));
                     trainMap.addMarker(new MarkerOptions().position(airportPlaceLoc).title(transportationItem.getName_transportation()).snippet(transportationItem.getLocation_transportation()));
 
                 }
