@@ -80,6 +80,7 @@ public class TrainDetailActivity extends AppCompatActivity implements OnMapReady
         tvDistanceTrainport = findViewById(R.id.distance_place_train_detail);
         imgTrainDetail = findViewById(R.id.img_train_detail);
         collapsingToolbarTrain = findViewById(R.id.collapseToolbar_train);
+        trainMapView = findViewById(R.id.location_train_map_detail);
 
         Toolbar toolbarTrain = findViewById(R.id.toolbar_train_detail);
         setSupportActionBar(toolbarTrain);
