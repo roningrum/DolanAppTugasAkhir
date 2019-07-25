@@ -11,7 +11,7 @@
  * limitations under the License.
  */
 
-package co.id.roningrum.dolanapptugasakhir.transportation.bus;
+package co.id.roningrum.dolanapptugasakhir.transportation.bus.viewholder;
 
 import android.annotation.SuppressLint;
 import android.support.annotation.NonNull;

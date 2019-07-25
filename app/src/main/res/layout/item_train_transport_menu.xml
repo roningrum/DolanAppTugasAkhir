@@ -32,7 +32,7 @@
             app:corner_radius="8dp">
 
             <ImageView
-                android:id="@+id/airport_pic"
+                android:id="@+id/train_pic"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:contentDescription="@null"
@@ -50,7 +50,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/name_airport_item_tourism"
+                android:id="@+id/name_train_item_tourism"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
@@ -60,7 +60,7 @@
                 android:textSize="14sp" />
 
             <TextView
-                android:id="@+id/location_airport_item_tourism"
+                android:id="@+id/location_train_item_tourism"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
@@ -70,7 +70,7 @@
                 android:textSize="12sp" />
 
             <TextView
-                android:id="@+id/distance_airport_item_tourism"
+                android:id="@+id/distance_train_item_tourism"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="18dp"

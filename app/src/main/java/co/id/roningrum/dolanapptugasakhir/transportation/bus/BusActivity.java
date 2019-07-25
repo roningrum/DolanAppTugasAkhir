@@ -45,6 +45,7 @@ import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.handler.NetworkHelper;
 import co.id.roningrum.dolanapptugasakhir.handler.PermissionHandler;
 import co.id.roningrum.dolanapptugasakhir.item.TransportationItem;
+import co.id.roningrum.dolanapptugasakhir.transportation.bus.viewholder.BusViewHolder;
 
 public class BusActivity extends AppCompatActivity {
     private RecyclerView rvBusList;

@@ -11,10 +11,30 @@
   ~ limitations under the License.
   -->
 
-<fragment xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/map"
-    android:name="com.google.android.gms.maps.SupportMapFragment"
+    android:id="@+id/map_activity"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".transportation.train.TrainMapsActivity" />
+    tools:context=".transportation.train.TrainMapsActivity">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar_train_map"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        app:title="@string/title_activity_bus_maps" />
+
+    <FrameLayout
+        android:id="@+id/frame_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/toolbar_train_map">
+
+        <fragment
+            android:id="@+id/train_map"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </FrameLayout>
+</RelativeLayout>
