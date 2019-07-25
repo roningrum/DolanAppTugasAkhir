@@ -13,5 +13,16 @@
 
 package co.id.roningrum.dolanapptugasakhir.transportation.ship;
 
-public class ShipViewHolder {
+import android.support.annotation.NonNull;
+import android.support.v7.widget.RecyclerView;
+import android.view.View;
+
+public class ShipViewHolder extends RecyclerView.ViewHolder {
+    //    private final TextView nameTrain;
+//    private final TextView locationTrain;
+//    private final TextView distanceTrain;
+//    private final ImageView trainPic;
+    public ShipViewHolder(@NonNull View itemView) {
+        super(itemView);
+    }
 }
