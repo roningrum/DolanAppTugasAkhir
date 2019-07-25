@@ -29,10 +29,11 @@ import co.id.roningrum.dolanapptugasakhir.tourism.religi.ReligiCategoryActivity;
 import co.id.roningrum.dolanapptugasakhir.tourism.shopping.ShoppingCategoryActivity;
 import co.id.roningrum.dolanapptugasakhir.tourism.village.VillageCategoryActivity;
 import co.id.roningrum.dolanapptugasakhir.tourism.water.WaterCategoryActivity;
+import co.id.roningrum.dolanapptugasakhir.transportation.airport.AirportActivity;
 
 public class AllCategoryActivity extends AppCompatActivity implements View.OnClickListener {
     LinearLayout natureMenu, entertaintMenu, shoppingMenu, villageMenu,
-            foodMenu, educationMenu, historyMenu, waterMenu, religiMenu, hotelMenu;
+            foodMenu, educationMenu, historyMenu, waterMenu, religiMenu, hotelMenu, airportMenu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +49,7 @@ public class AllCategoryActivity extends AppCompatActivity implements View.OnCli
         waterMenu = findViewById(R.id.ln_air_tour);
         religiMenu = findViewById(R.id.ln_religi_tour);
         hotelMenu = findViewById(R.id.ln_hotel_public);
+        airportMenu = findViewById(R.id.ln_bandara_public);
 
         natureMenu.setOnClickListener(this);
         entertaintMenu.setOnClickListener(this);
@@ -60,6 +62,7 @@ public class AllCategoryActivity extends AppCompatActivity implements View.OnCli
         religiMenu.setOnClickListener(this);
         shoppingMenu.setOnClickListener(this);
         hotelMenu.setOnClickListener(this);
+        airportMenu.setOnClickListener(this);
 
     }
 
@@ -96,6 +99,11 @@ public class AllCategoryActivity extends AppCompatActivity implements View.OnCli
             case R.id.ln_hotel_public:
                 startActivity(new Intent(AllCategoryActivity.this, HotelActivity.class));
                 break;
+            case R.id.ln_bandara_public:
+                startActivity(new Intent(AllCategoryActivity.this, AirportActivity.class));
+                break;
+
+
 
         }
     }

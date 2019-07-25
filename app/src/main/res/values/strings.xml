@@ -87,5 +87,7 @@
     <string name="title_hotel_order_available">Pesan Kamar Tersedia</string>
     <string name="order_link_hotel_traveloka">Traveloka</string>
     <string name="order_link_hotel_tiket">Tiket</string>
+    <string name="title_activity_airport_maps">Map</string>
+    <string name="title_activity_bus_maps">Map</string>
     <!--<string name="title_activity_religi_category_maps">Peta Wisata Religi</string>-->
 </resources>
