@@ -23,7 +23,7 @@
         android:id="@+id/toolbar_bandara_map"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        app:title="@string/title_activity_hotel_maps" />
+        app:title="@string/title_activity_airport_maps" />
 
     <FrameLayout
         android:id="@+id/frame_layout"

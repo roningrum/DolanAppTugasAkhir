@@ -30,10 +30,11 @@ import co.id.roningrum.dolanapptugasakhir.tourism.shopping.ShoppingCategoryActiv
 import co.id.roningrum.dolanapptugasakhir.tourism.village.VillageCategoryActivity;
 import co.id.roningrum.dolanapptugasakhir.tourism.water.WaterCategoryActivity;
 import co.id.roningrum.dolanapptugasakhir.transportation.airport.AirportActivity;
+import co.id.roningrum.dolanapptugasakhir.transportation.bus.BusActivity;
 
 public class AllCategoryActivity extends AppCompatActivity implements View.OnClickListener {
     LinearLayout natureMenu, entertaintMenu, shoppingMenu, villageMenu,
-            foodMenu, educationMenu, historyMenu, waterMenu, religiMenu, hotelMenu, airportMenu;
+            foodMenu, educationMenu, historyMenu, waterMenu, religiMenu, hotelMenu, airportMenu, busMenu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +51,7 @@ public class AllCategoryActivity extends AppCompatActivity implements View.OnCli
         religiMenu = findViewById(R.id.ln_religi_tour);
         hotelMenu = findViewById(R.id.ln_hotel_public);
         airportMenu = findViewById(R.id.ln_bandara_public);
+        busMenu = findViewById(R.id.ln_bus_public);
 
         natureMenu.setOnClickListener(this);
         entertaintMenu.setOnClickListener(this);
@@ -63,6 +65,7 @@ public class AllCategoryActivity extends AppCompatActivity implements View.OnCli
         shoppingMenu.setOnClickListener(this);
         hotelMenu.setOnClickListener(this);
         airportMenu.setOnClickListener(this);
+        busMenu.setOnClickListener(this);
 
     }
 
@@ -101,6 +104,9 @@ public class AllCategoryActivity extends AppCompatActivity implements View.OnCli
                 break;
             case R.id.ln_bandara_public:
                 startActivity(new Intent(AllCategoryActivity.this, AirportActivity.class));
+                break;
+            case R.id.ln_bus_public:
+                startActivity(new Intent(AllCategoryActivity.this, BusActivity.class));
                 break;
 
 

@@ -53,8 +53,8 @@ public class BusViewHolder extends RecyclerView.ViewHolder {
         double lattitude_a = transportationItem.getLat_transportation();
         double longitude_a = transportationItem.getLng_transportation();
 
-        float jarakMeter = (float) calculateDistance(latitude, longitude, lattitude_a, longitude);
-        float jarakKM = jarakMeter / 100;
+        float jarakMeter = (float) calculateDistance(latitude, longitude, lattitude_a, longitude_a);
+        float jarakKM = jarakMeter / 1000;
 
         @SuppressLint("DefaultLocale") String distanceFormat = String.format("%.2f", jarakKM);
 
