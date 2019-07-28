@@ -32,6 +32,7 @@ public class ShipViewHolder extends RecyclerView.ViewHolder {
     private final ImageView shipPic;
 
     private ShipViewHolder.ClickListener shipClickListener;
+
     public ShipViewHolder(@NonNull View itemView) {
 
         super(itemView);
