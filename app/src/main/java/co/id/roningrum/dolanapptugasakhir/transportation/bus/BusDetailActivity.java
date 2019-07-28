@@ -62,7 +62,7 @@ public class BusDetailActivity extends AppCompatActivity implements OnMapReadyCa
     private TextView tvNameBusDetail, tvAddressBusDetail, tvDistanceAirport;
 
     private ImageView imgBusDetail;
-    private CollapsingToolbarLayout collapsingToolbarAiport;
+    private CollapsingToolbarLayout collapsingToolbarBus;
 
     private double startLat;
     private double startlng;
@@ -78,7 +78,7 @@ public class BusDetailActivity extends AppCompatActivity implements OnMapReadyCa
         tvNameBusDetail = findViewById(R.id.name_place_bus_detail);
         tvAddressBusDetail = findViewById(R.id.address_place_bus_detail);
         tvDistanceAirport = findViewById(R.id.distance_place_bus_detail);
-        collapsingToolbarAiport = findViewById(R.id.collapseToolbar_bus);
+        collapsingToolbarBus = findViewById(R.id.collapseToolbar_bus);
         busMapView = findViewById(R.id.location_bus_map_detail);
         imgBusDetail = findViewById(R.id.img_bus_detail);
 
@@ -126,7 +126,7 @@ public class BusDetailActivity extends AppCompatActivity implements OnMapReadyCa
                     tvNameBusDetail.setText(transportationItem.getName_transportation());
                     tvAddressBusDetail.setText(transportationItem.getLocation_transportation());
                     Glide.with(getApplicationContext()).load(transportationItem.getUrl_photo_transport()).into(imgBusDetail);
-                    AppBarLayout appBarLayout = findViewById(R.id.app_bar_airport);
+                    AppBarLayout appBarLayout = findViewById(R.id.app_bar_bus);
                     appBarLayout.addOnOffsetChangedListener(new AppBarLayout.BaseOnOffsetChangedListener() {
                         boolean isShow = true;
                         int scrollRange = -1;
@@ -137,10 +137,10 @@ public class BusDetailActivity extends AppCompatActivity implements OnMapReadyCa
                                 scrollRange = appBarLayout.getTotalScrollRange();
                             }
                             if (scrollRange + verticalOffset == 0) {
-                                collapsingToolbarAiport.setTitle(transportationItem.getName_transportation());
+                                collapsingToolbarBus.setTitle(transportationItem.getName_transportation());
                                 isShow = true;
                             } else {
-                                collapsingToolbarAiport.setTitle(" ");
+                                collapsingToolbarBus.setTitle(" ");
                                 isShow = false;
                             }
 

@@ -49,7 +49,7 @@ public class TrainViewHolder extends RecyclerView.ViewHolder {
     }
 
     @SuppressLint("SetTextI18n")
-    public void showBusData(TransportationItem transportationItem, double latitude, double longitude) {
+    public void showTrainData(TransportationItem transportationItem, double latitude, double longitude) {
         double lattitude_a = transportationItem.getLat_transportation();
         double longitude_a = transportationItem.getLng_transportation();
 

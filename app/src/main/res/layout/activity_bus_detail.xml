@@ -19,7 +19,7 @@
     tools:context=".transportation.bus.BusDetailActivity">
 
     <android.support.design.widget.AppBarLayout
-        android:id="@+id/app_bar_airport"
+        android:id="@+id/app_bar_bus"
         android:layout_width="match_parent"
         android:layout_height="256dp"
         android:fitsSystemWindows="true"

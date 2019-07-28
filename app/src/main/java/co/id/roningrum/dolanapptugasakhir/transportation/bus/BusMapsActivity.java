@@ -73,9 +73,9 @@ public class BusMapsActivity extends FragmentActivity implements OnMapReadyCallb
                     assert transportationItem != null;
                     double latBus = transportationItem.getLat_transportation();
                     double lngBus = transportationItem.getLng_transportation();
-                    LatLng airportPlaceLoc = new LatLng(latBus, lngBus);
-                    busMap.moveCamera(CameraUpdateFactory.newLatLngZoom(airportPlaceLoc, 10.2f));
-                    busMap.addMarker(new MarkerOptions().position(airportPlaceLoc).title(transportationItem.getName_transportation()).snippet(transportationItem.getLocation_transportation()));
+                    LatLng busPlaceLoc = new LatLng(latBus, lngBus);
+                    busMap.moveCamera(CameraUpdateFactory.newLatLngZoom(busPlaceLoc, 10.2f));
+                    busMap.addMarker(new MarkerOptions().position(busPlaceLoc).title(transportationItem.getName_transportation()).snippet(transportationItem.getLocation_transportation()));
 
                 }
             }

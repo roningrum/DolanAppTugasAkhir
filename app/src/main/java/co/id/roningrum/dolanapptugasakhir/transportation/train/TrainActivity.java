@@ -99,7 +99,7 @@ public class TrainActivity extends AppCompatActivity {
                         shimmerFrameLayout.stopShimmerAnimation();
                         shimmerFrameLayout.setVisibility(View.GONE);
 
-                        holder.showBusData(model, latitude, longitude);
+                        holder.showTrainData(model, latitude, longitude);
                         holder.setOnClickListener(new TrainViewHolder.ClickListener() {
                             @Override
                             public void onItemClick(View view, int position) {
