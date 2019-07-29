@@ -74,7 +74,7 @@
     <string name="hotel_dan_transportasi_umum_kategori"><![CDATA[Hotel & Transportasi Umum]]></string>
     <string name="string_hotel_menu">Hotel</string>
     <string name="string_bandara_menu">Bandara</string>
-    <string name="string_stasiun_kereta_menu">Stasiun/nKereta</string>
+    <string name="string_stasiun_kereta_menu">Stasiun Kereta</string>
     <string name="string_terminal_menu">Terminal</string>
     <string name="string_fasilitas_umum">Fasilitas Umum</string>
     <string name="string_spbu">SPBU</string>
@@ -83,5 +83,14 @@
     <string name="string_photo_detail_info">Foto</string>
     <string name="string_lokasi_detail_menu">Lokasi</string>
     <string name="string_info_desc_detail">Informasi</string>
+    <string name="title_activity_hotel_maps">Peta Hotel</string>
+    <string name="title_hotel_order_available">Pesan Kamar Tersedia</string>
+    <string name="order_link_hotel_traveloka">Traveloka</string>
+    <string name="order_link_hotel_tiket">Tiket</string>
+    <string name="title_activity_airport_maps">Peta Bandara</string>
+    <string name="title_activity_bus_maps">Peta Terminal Bus</string>
+    <string name="title_activity_train_maps">Peta Stasiun Kereta</string>
+    <string name="string_pelabuhan_menu">Pelabuhan</string>
+    <string name="title_activity_ship_map">Peta Pelabuhan</string>
     <!--<string name="title_activity_religi_category_maps">Peta Wisata Religi</string>-->
 </resources>

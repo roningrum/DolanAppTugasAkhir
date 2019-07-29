@@ -46,6 +46,7 @@ public class EducationCategoryMaps extends FragmentActivity implements OnMapRead
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.education_map);
+        assert mapFragment != null;
         mapFragment.getMapAsync(this);
         educationRefMap = FirebaseDatabase.getInstance().getReference().child("Tourism");
     }
@@ -63,14 +64,14 @@ public class EducationCategoryMaps extends FragmentActivity implements OnMapRead
     @Override
     public void onMapReady(GoogleMap googleMap) {
         educationPlaceMap = googleMap;
-
         Query educationMapQuery = educationRefMap.orderByChild("category_tourism").equalTo("edukasi");
-        educationRefMap.addListenerForSingleValueEvent(new ValueEventListener() {
+        educationMapQuery.addListenerForSingleValueEvent(new ValueEventListener() {
 
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot dsNature : dataSnapshot.getChildren()) {
                     CategoryItem categoryItem = dsNature.getValue(CategoryItem.class);
+                    assert categoryItem != null;
                     double latNature = categoryItem.getLat_location_tourism();
                     double lngNature = categoryItem.getLng_location_tourism();
                     LatLng naturePlaceLoc = new LatLng(latNature, lngNature);

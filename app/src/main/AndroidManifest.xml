@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="co.id.roningrum.dolanapptugasakhir">
+
     <!--
          The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
          Google Maps Android API v2, but you must specify either coarse or fine
@@ -40,6 +41,31 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
+        <activity
+            android:name=".transportation.ship.ShipMapActivity"
+            android:label="@string/title_activity_ship_map"></activity>
+        <activity android:name=".transportation.ship.ShipDetailActivity" />
+        <activity android:name=".transportation.ship.ShipActivity" />
+        <activity
+            android:name=".transportation.train.TrainMapsActivity"
+            android:label="@string/title_activity_train_maps" />
+        <activity android:name=".transportation.train.TrainDetailActivity" />
+        <activity android:name=".transportation.train.TrainActivity" />
+        <activity
+            android:name=".transportation.bus.BusMapsActivity"
+            android:label="@string/title_activity_bus_maps" />
+        <activity android:name=".transportation.bus.BusDetailActivity" />
+        <activity android:name=".transportation.bus.BusActivity" />
+        <activity
+            android:name=".transportation.airport.AirportMapsActivity"
+            android:label="@string/title_activity_airport_maps" />
+        <activity android:name=".transportation.airport.AirportDetailActivity" />
+        <activity android:name=".transportation.airport.AirportActivity" />
+        <activity
+            android:name=".hotel.HotelMapsActivity"
+            android:label="@string/title_activity_hotel_maps" />
+        <activity android:name=".hotel.DetailHotelActivity" />
+        <activity android:name=".hotel.HotelActivity" />
         <activity
             android:name=".tourism.food.FoodCategoryMap"
             android:label="@string/title_activity_food_category_map" />

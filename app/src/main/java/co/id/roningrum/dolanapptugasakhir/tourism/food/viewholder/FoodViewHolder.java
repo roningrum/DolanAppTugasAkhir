@@ -60,7 +60,7 @@ public class FoodViewHolder extends RecyclerView.ViewHolder {
 
         nameFoodTourism.setText(categoryItem.getName_tourism());
         locationFoodTourism.setText(categoryItem.getLocation_tourism());
-        distanceFoodTourism.setText(distanceFormat + " KM");
+        distanceFoodTourism.setText(distanceFormat + " km");
         Glide.with(itemView.getContext()).load(categoryItem.getUrl_photo()).into(foodTourismPic);
     }
 

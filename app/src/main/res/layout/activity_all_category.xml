@@ -38,6 +38,7 @@
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/txtWhitePrimary"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
@@ -51,7 +52,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="25dp"
-                android:fontFamily="@font/montserrat_bold"
+                android:fontFamily="@font/monsterrat_sembold"
                 android:text="@string/string_category_wisata_menu"
                 android:textColor="@color/blackTextPrimary"
                 android:textSize="16sp" />
@@ -315,114 +316,161 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="50dp"
-                android:fontFamily="@font/montserrat_bold"
+                android:fontFamily="@font/monsterrat_sembold"
                 android:text="@string/hotel_dan_transportasi_umum_kategori"
                 android:textColor="@color/blackTextPrimary"
                 android:textSize="16sp" />
 
             <LinearLayout
-                android:id="@+id/ln_kategori_public_menu"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="22dp"
                 android:layout_marginEnd="24dp"
-                android:orientation="horizontal"
-                android:baselineAligned="false"
-                android:weightSum="5">
+                android:orientation="vertical">
 
                 <LinearLayout
-                    android:layout_width="0dp"
+                    android:id="@+id/ln_kategori_public_menu"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1.05"
-                    android:gravity="center"
-                    android:orientation="vertical"
-                    tools:ignore="UseCompoundDrawables">
+                    android:baselineAligned="false"
+                    android:orientation="horizontal"
+                    android:weightSum="5">
 
-                    <ImageView
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
-                        android:contentDescription="@null"
-                        android:src="@drawable/hotel_menu" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:id="@+id/ln_hotel_public"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/montserrat_light"
-                        android:text="@string/string_hotel_menu"
-                        android:textSize="12sp"
-                        android:textColor="@color/blackTextPrimary" />
+                        android:layout_weight="1.05"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        tools:ignore="UseCompoundDrawables">
+
+                        <ImageView
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:contentDescription="@null"
+                            android:src="@drawable/hotel_menu" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/montserrat_light"
+                            android:text="@string/string_hotel_menu"
+                            android:textColor="@color/blackTextPrimary"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/ln_bandara_public"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1.45"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        tools:ignore="UseCompoundDrawables">
+
+                        <ImageView
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:contentDescription="@null"
+                            android:src="@drawable/bandara_menu" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/montserrat_light"
+                            android:text="@string/string_bandara_menu"
+                            android:textColor="@color/blackTextPrimary"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/ln_train_public"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1.45"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        tools:ignore="UseCompoundDrawables">
+
+                        <ImageView
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:contentDescription="@null"
+                            android:src="@drawable/stasiun_kereta" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/montserrat_light"
+                            android:text="@string/string_stasiun_kereta_menu"
+                            android:textAlignment="center"
+                            android:textColor="@color/blackTextPrimary"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/ln_bus_public"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1.05"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        tools:ignore="UseCompoundDrawables">
+
+                        <ImageView
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:contentDescription="@null"
+                            android:src="@drawable/terminal_menu" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/montserrat_light"
+                            android:text="@string/string_terminal_menu"
+                            android:textColor="@color/blackTextPrimary"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="0dp"
+                    android:id="@+id/ln_kategori_public_menu_3"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1.45"
-                    android:gravity="center"
-                    android:orientation="vertical"
-                    tools:ignore="UseCompoundDrawables">
+                    android:layout_marginTop="27dp"
+                    android:baselineAligned="false"
+                    android:orientation="horizontal"
+                    android:weightSum="5">
 
-                    <ImageView
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
-                        android:contentDescription="@null"
-                        android:src="@drawable/bandara_menu" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:id="@+id/ln_harbor_tour"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/montserrat_light"
-                        android:text="@string/string_bandara_menu"
-                        android:textSize="12sp"
-                        android:textColor="@color/blackTextPrimary" />
+                        android:layout_weight="1.05"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        tools:ignore="UseCompoundDrawables,UselessParent">
+
+                        <ImageView
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:contentDescription="@null"
+                            android:src="@drawable/pelabuhan_menu" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/montserrat_light"
+                            android:text="@string/string_pelabuhan_menu"
+                            android:textColor="@color/blackTextPrimary"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+
                 </LinearLayout>
 
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1.45"
-                    android:gravity="center"
-                    android:orientation="vertical"
-                    tools:ignore="UseCompoundDrawables">
-
-                    <ImageView
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
-                        android:contentDescription="@null"
-                        android:src="@drawable/stasiun_kereta" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/montserrat_light"
-                        android:text="@string/string_stasiun_kereta_menu"
-                        android:textSize="12sp"
-                        android:textAlignment="center"
-                        android:textColor="@color/blackTextPrimary" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1.05"
-                    android:gravity="center"
-                    android:orientation="vertical"
-                    tools:ignore="UseCompoundDrawables">
-
-                    <ImageView
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
-                        android:contentDescription="@null"
-                        android:src="@drawable/terminal_menu" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/montserrat_light"
-                        android:text="@string/string_terminal_menu"
-                        android:textSize="12sp"
-                        android:textColor="@color/blackTextPrimary" />
-                </LinearLayout>
             </LinearLayout>
 
             <TextView
@@ -431,7 +479,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="50dp"
-                android:fontFamily="@font/montserrat_bold"
+                android:fontFamily="@font/monsterrat_sembold"
                 android:text="@string/string_fasilitas_umum"
                 android:textColor="@color/blackTextPrimary"
                 android:textSize="16sp" />

@@ -19,6 +19,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.LinearLayout;
 
+import co.id.roningrum.dolanapptugasakhir.hotel.HotelActivity;
 import co.id.roningrum.dolanapptugasakhir.tourism.education.EducationCategoryActivity;
 import co.id.roningrum.dolanapptugasakhir.tourism.food.FoodCategoryActivity;
 import co.id.roningrum.dolanapptugasakhir.tourism.history.HistoryCategoryActivity;
@@ -28,10 +29,16 @@ import co.id.roningrum.dolanapptugasakhir.tourism.religi.ReligiCategoryActivity;
 import co.id.roningrum.dolanapptugasakhir.tourism.shopping.ShoppingCategoryActivity;
 import co.id.roningrum.dolanapptugasakhir.tourism.village.VillageCategoryActivity;
 import co.id.roningrum.dolanapptugasakhir.tourism.water.WaterCategoryActivity;
+import co.id.roningrum.dolanapptugasakhir.transportation.airport.AirportActivity;
+import co.id.roningrum.dolanapptugasakhir.transportation.bus.BusActivity;
+import co.id.roningrum.dolanapptugasakhir.transportation.ship.ShipActivity;
+import co.id.roningrum.dolanapptugasakhir.transportation.train.TrainActivity;
 
 public class AllCategoryActivity extends AppCompatActivity implements View.OnClickListener {
     LinearLayout natureMenu, entertaintMenu, shoppingMenu, villageMenu,
-            foodMenu, educationMenu, historyMenu, waterMenu, religiMenu;
+            foodMenu, educationMenu, historyMenu, waterMenu,
+            religiMenu, hotelMenu, airportMenu, busMenu,
+            trainMenu, shipMenu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +53,11 @@ public class AllCategoryActivity extends AppCompatActivity implements View.OnCli
         historyMenu = findViewById(R.id.ln_sejarah_tour);
         waterMenu = findViewById(R.id.ln_air_tour);
         religiMenu = findViewById(R.id.ln_religi_tour);
+        hotelMenu = findViewById(R.id.ln_hotel_public);
+        airportMenu = findViewById(R.id.ln_bandara_public);
+        busMenu = findViewById(R.id.ln_bus_public);
+        trainMenu = findViewById(R.id.ln_train_public);
+        shipMenu = findViewById(R.id.ln_harbor_tour);
 
         natureMenu.setOnClickListener(this);
         entertaintMenu.setOnClickListener(this);
@@ -57,6 +69,11 @@ public class AllCategoryActivity extends AppCompatActivity implements View.OnCli
         waterMenu.setOnClickListener(this);
         religiMenu.setOnClickListener(this);
         shoppingMenu.setOnClickListener(this);
+        hotelMenu.setOnClickListener(this);
+        airportMenu.setOnClickListener(this);
+        busMenu.setOnClickListener(this);
+        trainMenu.setOnClickListener(this);
+        shipMenu.setOnClickListener(this);
 
     }
 
@@ -90,6 +107,22 @@ public class AllCategoryActivity extends AppCompatActivity implements View.OnCli
             case R.id.ln_sejarah_tour:
                 startActivity(new Intent(AllCategoryActivity.this, HistoryCategoryActivity.class));
                 break;
+            case R.id.ln_hotel_public:
+                startActivity(new Intent(AllCategoryActivity.this, HotelActivity.class));
+                break;
+            case R.id.ln_bandara_public:
+                startActivity(new Intent(AllCategoryActivity.this, AirportActivity.class));
+                break;
+            case R.id.ln_bus_public:
+                startActivity(new Intent(AllCategoryActivity.this, BusActivity.class));
+                break;
+            case R.id.ln_train_public:
+                startActivity(new Intent(AllCategoryActivity.this, TrainActivity.class));
+                break;
+            case R.id.ln_harbor_tour:
+                startActivity(new Intent(AllCategoryActivity.this, ShipActivity.class));
+                break;
+
 
 
         }
