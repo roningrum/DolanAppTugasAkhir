@@ -14,6 +14,8 @@
 package co.id.roningrum.dolanapptugasakhir.transportation.bus;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
@@ -160,6 +162,7 @@ public class BusDetailActivity extends AppCompatActivity implements OnMapReadyCa
     }
 
     private double calculateDistance(double startLat, double startlng, double endlat, double endLng) {
+
         double earthRadius = 6371;
         double latDiff = Math.toRadians(startLat - endlat);
         double lngDiff = Math.toRadians(startlng - endLng);
@@ -191,26 +194,38 @@ public class BusDetailActivity extends AppCompatActivity implements OnMapReadyCa
     public void onMapReady(GoogleMap googleMap) {
 
         busGoogleMap = googleMap;
-        ValueEventListener eventListener = new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                TransportationItem transportationItem = dataSnapshot.getValue(TransportationItem.class);
-                assert transportationItem != null;
-                endlat = transportationItem.getLat_transportation();
-                endLng = transportationItem.getLng_transportation();
+        if (gpsHandler.isCanGetLocation()) {
+            ValueEventListener eventListener = new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    TransportationItem transportationItem = dataSnapshot.getValue(TransportationItem.class);
+                    assert transportationItem != null;
+                    endlat = transportationItem.getLat_transportation();
+                    endLng = transportationItem.getLng_transportation();
 
-                LatLng location = new LatLng(endlat, endLng);
-                busGoogleMap.addMarker(new MarkerOptions().position(location));
-                busGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 16.0f));
-            }
+                    LatLng location = new LatLng(endlat, endLng);
+                    busGoogleMap.addMarker(new MarkerOptions().position(location));
+                    busGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 16.0f));
+                    busGoogleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+                        @Override
+                        public void onMapClick(LatLng latLng) {
+                            String uri = "http://maps.google.com/maps?saddr=" + gpsHandler.getLatitude() + "," + gpsHandler.getLongitude() + "&daddr=" + endlat + "," + endLng + "&mode=driving";
+                            Intent intent = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(uri));
+                            startActivity(Intent.createChooser(intent, "Select an application"));
+                        }
+                    });
+                }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                Log.e(TAG, "Firebase Database Error" + databaseError.getMessage());
-            }
-        };
-        busDetailRef.addValueEventListener(eventListener);
-        valueEventListener = eventListener;
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                    Log.e(TAG, "Firebase Database Error" + databaseError.getMessage());
+                }
+            };
+            busDetailRef.addValueEventListener(eventListener);
+            valueEventListener = eventListener;
+
+        }
+
 
     }
 
