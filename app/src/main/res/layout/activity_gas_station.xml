@@ -11,14 +11,10 @@
   ~ limitations under the License.
   -->
 
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".CategoryMenuActivity">
-    <item
-        android:id="@+id/petaMenu"
-        android:icon="@drawable/ic_map_24dp"
-        android:title="@string/menu_icon_peta"
-        app:showAsAction="ifRoom" />
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".others.GasStationActivity">
 
-</menu>
+</android.support.constraint.ConstraintLayout>

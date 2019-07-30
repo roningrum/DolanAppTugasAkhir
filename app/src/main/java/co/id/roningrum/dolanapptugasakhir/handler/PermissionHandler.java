@@ -159,11 +159,4 @@ public class PermissionHandler {
         return isAllPermissionAvailable;
     }
 
-//    public boolean isPermissionAvailable(String permission) {
-//        boolean isPermissionAvailable = true;
-//        if (ContextCompat.checkSelfPermission(activity, permission) != PackageManager.PERMISSION_GRANTED){
-//            isPermissionAvailable = false;
-//        }
-//        return isPermissionAvailable;
-//    }
 }

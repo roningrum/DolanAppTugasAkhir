@@ -96,8 +96,7 @@ public class GPSHandler extends Service implements LocationListener {
                             longitude = location.getLongitude();
                         }
                     }
-                }
-                if (isGPSEnabled) {
+                } else if (isGPSEnabled) {
                     locationManager
                             .requestLocationUpdates(
                                     LocationManager.NETWORK_PROVIDER,
@@ -113,11 +112,13 @@ public class GPSHandler extends Service implements LocationListener {
                         }
                     }
                 }
+
             }
         } catch (Exception e) {
             e.printStackTrace();
 
         }
+        onLocationChanged(location);
         return location;
     }
 
@@ -197,7 +198,9 @@ public class GPSHandler extends Service implements LocationListener {
 
     @Override
     public void onLocationChanged(Location location) {
-
+        latitude = location.getLatitude();
+        longitude = location.getLongitude();
+        Log.d("this", "RLOC: Location USER" + latitude + "" + longitude);
     }
 
     @Override

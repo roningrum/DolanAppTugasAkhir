@@ -22,11 +22,9 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,6 +38,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import co.id.roningrum.dolanapptugasakhir.adapter.CategoryViewHolder;
 import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
@@ -180,8 +179,6 @@ public class CategoryMenuActivity extends AppCompatActivity {
                 permissionHandler.setActivity(this);
                 permissionHandler.deniedPermission();
             }
-        } else {
-
         }
         return true;
     }
@@ -191,7 +188,7 @@ public class CategoryMenuActivity extends AppCompatActivity {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         for (int i : grantResults) {
             if (i == PackageManager.PERMISSION_GRANTED) {
-                Log.d("test", "Permission" + permissions + "Success");
+                Log.d("test", "Permission" + Arrays.toString(permissions) + "Success");
             } else {
                 //denied
                 permissionHandler.deniedPermission(Manifest.permission.ACCESS_FINE_LOCATION);
@@ -208,27 +205,27 @@ public class CategoryMenuActivity extends AppCompatActivity {
 ////        fusedLocationProviderClient.removeLocationUpdates(locationCallback);
 //    }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.toolbar_menu, menu);
-        MenuItem mSearch = menu.findItem(R.id.searchMenu);
-        SearchView mSearchView = (SearchView) mSearch.getActionView();
-        mSearchView.setQueryHint("Search");
-        mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String searchText) {
-                firebaseSearch(searchText);
-                shimmerFrameLayout.clearAnimation();
-                return false;
-            }
-        });
-        return super.onCreateOptionsMenu(menu);
-    }
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        getMenuInflater().inflate(R.menu.toolbar_menu, menu);
+//        MenuItem mSearch = menu.findItem(R.id.searchMenu);
+//        SearchView mSearchView = (SearchView) mSearch.getActionView();
+//        mSearchView.setQueryHint("Search");
+//        mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+//            @Override
+//            public boolean onQueryTextSubmit(String query) {
+//                return false;
+//            }
+//
+//            @Override
+//            public boolean onQueryTextChange(String searchText) {
+//                firebaseSearch(searchText);
+//                shimmerFrameLayout.clearAnimation();
+//                return false;
+//            }
+//        });
+//        return super.onCreateOptionsMenu(menu);
+//    }
 
     private void firebaseSearch(String searchText) {
         Query firebaseSearchquery = tourismDBRef.child("Tourism").orderByKey().startAt(searchText).endAt(searchText + "\uf8ff");

@@ -92,5 +92,7 @@
     <string name="title_activity_train_maps">Peta Stasiun Kereta</string>
     <string name="string_pelabuhan_menu">Pelabuhan</string>
     <string name="title_activity_ship_map">Peta Pelabuhan</string>
+    <string name="search_bus_station_text">cari terminal</string>
+    <string name="menu_icon_peta">peta</string>
     <!--<string name="title_activity_religi_category_maps">Peta Wisata Religi</string>-->
 </resources>

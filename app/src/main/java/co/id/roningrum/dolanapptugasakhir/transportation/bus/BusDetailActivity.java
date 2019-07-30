@@ -122,7 +122,6 @@ public class BusDetailActivity extends AppCompatActivity implements OnMapReadyCa
                     endlat = transportationItem.getLat_transportation();
                     endLng = transportationItem.getLng_transportation();
                     distance = calculateDistance(startLat, startlng, endlat, endLng);
-
                     @SuppressLint("DefaultLocale") String distanceFormat = String.format("%.2f", distance);
                     tvDistanceAirport.setText("" + distanceFormat + " km");
                     tvNameBusDetail.setText(transportationItem.getName_transportation());
@@ -174,7 +173,7 @@ public class BusDetailActivity extends AppCompatActivity implements OnMapReadyCa
 
         int meterConversion = 1609;
 
-        return (distance * meterConversion / 1000);
+        return (distance);
     }
 
 
