@@ -32,7 +32,7 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import co.id.roningrum.dolanapptugasakhir.R;
-import co.id.roningrum.dolanapptugasakhir.item.CategoryItem;
+import co.id.roningrum.dolanapptugasakhir.item.TourismItem;
 
 public class VillageCategoryMaps extends FragmentActivity implements OnMapReadyCallback {
 
@@ -70,12 +70,12 @@ public class VillageCategoryMaps extends FragmentActivity implements OnMapReadyC
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot dsNature : dataSnapshot.getChildren()) {
-                    CategoryItem categoryItem = dsNature.getValue(CategoryItem.class);
-                    double latNature = categoryItem.getLat_location_tourism();
-                    double lngNature = categoryItem.getLng_location_tourism();
+                    TourismItem tourismItem = dsNature.getValue(TourismItem.class);
+                    double latNature = tourismItem.getLat_location_tourism();
+                    double lngNature = tourismItem.getLng_location_tourism();
                     LatLng villagePlaceLoc = new LatLng(latNature, lngNature);
                     villageMap.moveCamera(CameraUpdateFactory.newLatLngZoom(villagePlaceLoc, 10.0f));
-                    villageMap.addMarker(new MarkerOptions().position(villagePlaceLoc).title(categoryItem.getName_tourism()).snippet(categoryItem.getLocation_tourism()));
+                    villageMap.addMarker(new MarkerOptions().position(villagePlaceLoc).title(tourismItem.getName_tourism()).snippet(tourismItem.getLocation_tourism()));
                 }
             }
 

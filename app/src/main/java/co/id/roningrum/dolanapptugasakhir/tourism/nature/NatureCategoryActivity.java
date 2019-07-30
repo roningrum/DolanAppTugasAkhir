@@ -45,13 +45,13 @@ import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.handler.NetworkHelper;
 import co.id.roningrum.dolanapptugasakhir.handler.PermissionHandler;
-import co.id.roningrum.dolanapptugasakhir.item.CategoryItem;
+import co.id.roningrum.dolanapptugasakhir.item.TourismItem;
 import co.id.roningrum.dolanapptugasakhir.tourism.nature.viewholder.NatureViewHolder;
 
 public class NatureCategoryActivity extends AppCompatActivity {
     private RecyclerView rvNatureList;
     private ShimmerFrameLayout shimmerFrameLayout;
-    private FirebaseRecyclerAdapter<CategoryItem, NatureViewHolder> natureFirebaseAdapter;
+    private FirebaseRecyclerAdapter<TourismItem, NatureViewHolder> natureFirebaseAdapter;
 
     private GPSHandler gpsHandler;
     private PermissionHandler permissionHandler;
@@ -64,7 +64,7 @@ public class NatureCategoryActivity extends AppCompatActivity {
         Toolbar toolbarNature = findViewById(R.id.toolbar_top_nature);
         shimmerFrameLayout = findViewById(R.id.shimmer_view_container);
         rvNatureList.setLayoutManager(new LinearLayoutManager(this));
-        ArrayList<CategoryItem> categoryItems = new ArrayList<>();
+        ArrayList<TourismItem> tourismItems = new ArrayList<>();
         checkConnection();
         setSupportActionBar(toolbarNature);
 //        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -83,13 +83,13 @@ public class NatureCategoryActivity extends AppCompatActivity {
         if (havePermission()) {
             DatabaseReference natureCategoryDB = FirebaseDatabase.getInstance().getReference();
             Query query = natureCategoryDB.child("Tourism").orderByChild("category_tourism").equalTo("alam");
-            FirebaseRecyclerOptions<CategoryItem> options = new FirebaseRecyclerOptions.Builder<CategoryItem>()
-                    .setQuery(query, CategoryItem.class)
+            FirebaseRecyclerOptions<TourismItem> options = new FirebaseRecyclerOptions.Builder<TourismItem>()
+                    .setQuery(query, TourismItem.class)
                     .build();
-            natureFirebaseAdapter = new FirebaseRecyclerAdapter<CategoryItem, NatureViewHolder>(options) {
+            natureFirebaseAdapter = new FirebaseRecyclerAdapter<TourismItem, NatureViewHolder>(options) {
 
                 @Override
-                protected void onBindViewHolder(@NonNull NatureViewHolder holder, int position, @NonNull CategoryItem model) {
+                protected void onBindViewHolder(@NonNull NatureViewHolder holder, int position, @NonNull TourismItem model) {
                     final DatabaseReference natureCategoryRef = getRef(position);
                     final String natureKey = natureCategoryRef.getKey();
 

@@ -24,14 +24,14 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 
 import co.id.roningrum.dolanapptugasakhir.R;
-import co.id.roningrum.dolanapptugasakhir.item.CategoryItem;
+import co.id.roningrum.dolanapptugasakhir.item.TourismItem;
 
 
 //public class CategoryViewHolder extends RecyclerView.Adapter<CategoryViewHolder.CategoryViewHolder> {
 //    Context context;
-//    ArrayList<CategoryItem> categoryItems;
+//    ArrayList<TourismItem> categoryItems;
 //
-//    public CategoryViewHolder(Context context, ArrayList<CategoryItem> categoryItems) {
+//    public CategoryViewHolder(Context context, ArrayList<TourismItem> categoryItems) {
 //        this.context = context;
 //        this.categoryItems = categoryItems;
 //    }
@@ -76,27 +76,27 @@ public class CategoryViewHolder extends RecyclerView.ViewHolder {
 
     }
 
-    public void showTourismData(CategoryItem categoryItem, double longitude, double latitude) {
+    public void showTourismData(TourismItem tourismItem, double longitude, double latitude) {
 //
 //        Location loc1 = new Location("");
 //        loc1.setLatitude(latitude);
 //        loc1.setLongitude(longitude);
 //        Location loc2 = new Location("");
-//        loc2.setLatitude(categoryItem.getLat_location_tourism());
-//        loc2.setLongitude(categoryItem.getLng_location_tourism());
+//        loc2.setLatitude(tourismItem.getLat_location_tourism());
+//        loc2.setLongitude(tourismItem.getLng_location_tourism());
 //
-        double lattitude_a = categoryItem.getLat_location_tourism();
-        double longitude_a = categoryItem.getLng_location_tourism();
+        double lattitude_a = tourismItem.getLat_location_tourism();
+        double longitude_a = tourismItem.getLng_location_tourism();
 
         float jarakMeter = (float) calculateDistance(latitude,longitude,lattitude_a,longitude_a);
 //        float jarakMeter = loc1.distanceTo(loc2);
         float jarakKM = jarakMeter/1000;
         @SuppressLint("DefaultLocale") String distanceFormat = String.format("%.2f",jarakKM);
 
-        name_tourisms.setText(categoryItem.getName_tourism());
-        location_tourism.setText(categoryItem.getLocation_tourism());
+        name_tourisms.setText(tourismItem.getName_tourism());
+        location_tourism.setText(tourismItem.getLocation_tourism());
         distance_tourism.setText(distanceFormat+" KM");
-        Glide.with(itemView.getContext()).load(categoryItem.getUrl_photo()).into(tourism_pic);
+        Glide.with(itemView.getContext()).load(tourismItem.getUrl_photo()).into(tourism_pic);
     }
 
     private double calculateDistance(double lat1, double long1, double lat2, double long2) {

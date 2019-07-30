@@ -32,7 +32,7 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import co.id.roningrum.dolanapptugasakhir.R;
-import co.id.roningrum.dolanapptugasakhir.item.CategoryItem;
+import co.id.roningrum.dolanapptugasakhir.item.TourismItem;
 
 public class NatureMapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
@@ -70,12 +70,12 @@ public class NatureMapsActivity extends FragmentActivity implements OnMapReadyCa
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for(DataSnapshot dsNature : dataSnapshot.getChildren()){
-                    CategoryItem categoryItem = dsNature.getValue(CategoryItem.class);
-                    double latNature = categoryItem.getLat_location_tourism();
-                    double lngNature = categoryItem.getLng_location_tourism();
+                    TourismItem tourismItem = dsNature.getValue(TourismItem.class);
+                    double latNature = tourismItem.getLat_location_tourism();
+                    double lngNature = tourismItem.getLng_location_tourism();
                     LatLng naturePlaceLoc = new LatLng(latNature, lngNature);
                     natureMap.moveCamera(CameraUpdateFactory.newLatLngZoom(naturePlaceLoc, 10.0f));
-                    natureMap.addMarker(new MarkerOptions().position(naturePlaceLoc).title(categoryItem.getName_tourism()).snippet(categoryItem.getLocation_tourism()));
+                    natureMap.addMarker(new MarkerOptions().position(naturePlaceLoc).title(tourismItem.getName_tourism()).snippet(tourismItem.getLocation_tourism()));
                 }
             }
 

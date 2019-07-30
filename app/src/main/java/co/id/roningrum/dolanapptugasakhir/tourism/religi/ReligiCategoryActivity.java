@@ -45,13 +45,13 @@ import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.handler.NetworkHelper;
 import co.id.roningrum.dolanapptugasakhir.handler.PermissionHandler;
-import co.id.roningrum.dolanapptugasakhir.item.CategoryItem;
+import co.id.roningrum.dolanapptugasakhir.item.TourismItem;
 import co.id.roningrum.dolanapptugasakhir.tourism.religi.viewholder.ReligiViewHolder;
 
 public class ReligiCategoryActivity extends AppCompatActivity {
     private RecyclerView rvReligiList;
     private ShimmerFrameLayout shimmerFrameLayout;
-    private FirebaseRecyclerAdapter<CategoryItem, ReligiViewHolder> religiFirebaseAdapter;
+    private FirebaseRecyclerAdapter<TourismItem, ReligiViewHolder> religiFirebaseAdapter;
 
     private GPSHandler gpsHandler;
     private PermissionHandler permissionHandler;
@@ -64,7 +64,7 @@ public class ReligiCategoryActivity extends AppCompatActivity {
         Toolbar toolbarReligi = findViewById(R.id.toolbar_top_religi);
         shimmerFrameLayout = findViewById(R.id.shimmer_view_container);
         rvReligiList.setLayoutManager(new LinearLayoutManager(this));
-        ArrayList<CategoryItem> categoryItems = new ArrayList<>();
+        ArrayList<TourismItem> tourismItems = new ArrayList<>();
         setSupportActionBar(toolbarReligi);
         checkConnection();
     }
@@ -82,13 +82,13 @@ public class ReligiCategoryActivity extends AppCompatActivity {
         if (havePermission()) {
             final DatabaseReference religiCategoryDB = FirebaseDatabase.getInstance().getReference();
             Query religiquery = religiCategoryDB.child("Tourism").orderByChild("category_tourism").equalTo("religi");
-            FirebaseRecyclerOptions<CategoryItem> options = new FirebaseRecyclerOptions.Builder<CategoryItem>()
-                    .setQuery(religiquery, CategoryItem.class)
+            FirebaseRecyclerOptions<TourismItem> options = new FirebaseRecyclerOptions.Builder<TourismItem>()
+                    .setQuery(religiquery, TourismItem.class)
                     .build();
-            religiFirebaseAdapter = new FirebaseRecyclerAdapter<CategoryItem, ReligiViewHolder>(options) {
+            religiFirebaseAdapter = new FirebaseRecyclerAdapter<TourismItem, ReligiViewHolder>(options) {
 
                 @Override
-                protected void onBindViewHolder(@NonNull ReligiViewHolder holder, int position, @NonNull CategoryItem model) {
+                protected void onBindViewHolder(@NonNull ReligiViewHolder holder, int position, @NonNull TourismItem model) {
                     final DatabaseReference religiCategoryRef = getRef(position);
                     final String religiKey = religiCategoryRef.getKey();
 

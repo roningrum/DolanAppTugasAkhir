@@ -44,7 +44,7 @@ import co.id.roningrum.dolanapptugasakhir.adapter.CategoryViewHolder;
 import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.handler.NetworkHelper;
 import co.id.roningrum.dolanapptugasakhir.handler.PermissionHandler;
-import co.id.roningrum.dolanapptugasakhir.item.CategoryItem;
+import co.id.roningrum.dolanapptugasakhir.item.TourismItem;
 
 public class CategoryMenuActivity extends AppCompatActivity {
 
@@ -53,7 +53,7 @@ public class CategoryMenuActivity extends AppCompatActivity {
     private DatabaseReference tourismDBRef;
     private RecyclerView rvTourismList;
     private ShimmerFrameLayout shimmerFrameLayout;
-    private FirebaseRecyclerAdapter<CategoryItem, CategoryViewHolder> firebaseAdapter;
+    private FirebaseRecyclerAdapter<TourismItem, CategoryViewHolder> firebaseAdapter;
 
     private GPSHandler gpsHandler;
     private PermissionHandler permissionHandler;
@@ -71,7 +71,7 @@ public class CategoryMenuActivity extends AppCompatActivity {
 
         rvTourismList.setLayoutManager(new LinearLayoutManager(this));
         //    ProgressBar progressBar;
-        ArrayList<CategoryItem> categoryItemList = new ArrayList<>();
+        ArrayList<TourismItem> tourismItemList = new ArrayList<>();
         setSupportActionBar(mToolbar);
 //        updateValuesFromBundle(savedInstanceState);
         checkConnection();
@@ -93,10 +93,10 @@ public class CategoryMenuActivity extends AppCompatActivity {
             tourismDBRef = FirebaseDatabase.getInstance().getReference();
             Query query = tourismDBRef.child("Tourism");
 
-            FirebaseRecyclerOptions<CategoryItem> options = new FirebaseRecyclerOptions.Builder<CategoryItem>()
-                    .setQuery(query, CategoryItem.class)
+            FirebaseRecyclerOptions<TourismItem> options = new FirebaseRecyclerOptions.Builder<TourismItem>()
+                    .setQuery(query, TourismItem.class)
                     .build();
-            firebaseAdapter = new FirebaseRecyclerAdapter<CategoryItem, CategoryViewHolder>(options) {
+            firebaseAdapter = new FirebaseRecyclerAdapter<TourismItem, CategoryViewHolder>(options) {
 
                 @NonNull
                 @Override
@@ -106,7 +106,7 @@ public class CategoryMenuActivity extends AppCompatActivity {
                 }
 
                 @Override
-                public void onBindViewHolder(@NonNull final CategoryViewHolder holder, int position, @NonNull final CategoryItem model) {
+                public void onBindViewHolder(@NonNull final CategoryViewHolder holder, int position, @NonNull final TourismItem model) {
 
 
                     final DatabaseReference touristRef = getRef(position);
@@ -229,11 +229,11 @@ public class CategoryMenuActivity extends AppCompatActivity {
 
     private void firebaseSearch(String searchText) {
         Query firebaseSearchquery = tourismDBRef.child("Tourism").orderByKey().startAt(searchText).endAt(searchText + "\uf8ff");
-        FirebaseRecyclerOptions<CategoryItem> options = new FirebaseRecyclerOptions.Builder<CategoryItem>()
-                .setQuery(firebaseSearchquery, CategoryItem.class)
+        FirebaseRecyclerOptions<TourismItem> options = new FirebaseRecyclerOptions.Builder<TourismItem>()
+                .setQuery(firebaseSearchquery, TourismItem.class)
                 .setLifecycleOwner(this)
                 .build();
-        firebaseAdapter = new FirebaseRecyclerAdapter<CategoryItem, CategoryViewHolder>(options) {
+        firebaseAdapter = new FirebaseRecyclerAdapter<TourismItem, CategoryViewHolder>(options) {
 
             @NonNull
             @Override
@@ -243,7 +243,7 @@ public class CategoryMenuActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onBindViewHolder(@NonNull final CategoryViewHolder holder, int position, @NonNull final CategoryItem model) {
+            public void onBindViewHolder(@NonNull final CategoryViewHolder holder, int position, @NonNull final TourismItem model) {
                 final DatabaseReference touristRef = getRef(position);
                 final String wiskey = touristRef.getKey();
                 gpsHandler = new GPSHandler(getApplicationContext());

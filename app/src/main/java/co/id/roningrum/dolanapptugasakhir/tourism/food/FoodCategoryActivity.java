@@ -44,13 +44,13 @@ import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.handler.NetworkHelper;
 import co.id.roningrum.dolanapptugasakhir.handler.PermissionHandler;
-import co.id.roningrum.dolanapptugasakhir.item.CategoryItem;
+import co.id.roningrum.dolanapptugasakhir.item.TourismItem;
 import co.id.roningrum.dolanapptugasakhir.tourism.food.viewholder.FoodViewHolder;
 
 public class FoodCategoryActivity extends AppCompatActivity {
     private RecyclerView rvFoodList;
     private ShimmerFrameLayout shimmerFrameLayout;
-    private FirebaseRecyclerAdapter<CategoryItem, FoodViewHolder> foodFirebaseAdapter;
+    private FirebaseRecyclerAdapter<TourismItem, FoodViewHolder> foodFirebaseAdapter;
     private GPSHandler gpsHandler;
     private PermissionHandler permissionHandler;
 
@@ -81,13 +81,13 @@ public class FoodCategoryActivity extends AppCompatActivity {
         if (havePermission()) {
             DatabaseReference foodCategoryDB = FirebaseDatabase.getInstance().getReference();
             Query educationQuery = foodCategoryDB.child("Tourism").orderByChild("category_tourism").equalTo("kuliner");
-            FirebaseRecyclerOptions<CategoryItem> foodOptions = new FirebaseRecyclerOptions.Builder<CategoryItem>()
-                    .setQuery(educationQuery, CategoryItem.class)
+            FirebaseRecyclerOptions<TourismItem> foodOptions = new FirebaseRecyclerOptions.Builder<TourismItem>()
+                    .setQuery(educationQuery, TourismItem.class)
                     .build();
 
-            foodFirebaseAdapter = new FirebaseRecyclerAdapter<CategoryItem, FoodViewHolder>(foodOptions) {
+            foodFirebaseAdapter = new FirebaseRecyclerAdapter<TourismItem, FoodViewHolder>(foodOptions) {
                 @Override
-                protected void onBindViewHolder(@NonNull FoodViewHolder holder, int position, @NonNull CategoryItem model) {
+                protected void onBindViewHolder(@NonNull FoodViewHolder holder, int position, @NonNull TourismItem model) {
                     final DatabaseReference foodCategoryRef = getRef(position);
                     final String foodKey = foodCategoryRef.getKey();
 

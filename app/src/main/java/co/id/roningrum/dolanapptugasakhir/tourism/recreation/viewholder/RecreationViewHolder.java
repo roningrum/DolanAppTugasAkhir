@@ -24,7 +24,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 
 import co.id.roningrum.dolanapptugasakhir.R;
-import co.id.roningrum.dolanapptugasakhir.item.CategoryItem;
+import co.id.roningrum.dolanapptugasakhir.item.TourismItem;
 
 
 public class RecreationViewHolder extends RecyclerView.ViewHolder {
@@ -68,20 +68,20 @@ public class RecreationViewHolder extends RecyclerView.ViewHolder {
     }
 
     @SuppressLint("SetTextI18n")
-    public void showRecreationTourismData(CategoryItem categoryItem, double latitude, double longitude) {
+    public void showRecreationTourismData(TourismItem tourismItem, double latitude, double longitude) {
 
-        double lattitude_a = categoryItem.getLat_location_tourism();
-        double longitude_a = categoryItem.getLng_location_tourism();
+        double lattitude_a = tourismItem.getLat_location_tourism();
+        double longitude_a = tourismItem.getLng_location_tourism();
 
         float jarakMeter = (float) calculateDistance(latitude, longitude, lattitude_a, longitude_a);
 //        float jarakMeter = loc1.distanceTo(loc2);
         float jarakKM = jarakMeter / 1000;
         @SuppressLint("DefaultLocale") String distanceFormat = String.format("%.2f", jarakKM);
 
-        name_recreation_tourisms.setText(categoryItem.getName_tourism());
-        location_recreation_tourisms.setText(categoryItem.getLocation_tourism());
+        name_recreation_tourisms.setText(tourismItem.getName_tourism());
+        location_recreation_tourisms.setText(tourismItem.getLocation_tourism());
         distance_recreation_tourisms.setText("" + distanceFormat + " km");
-        Glide.with(itemView.getContext()).load(categoryItem.getUrl_photo()).into(tourism_recreation_pic);
+        Glide.with(itemView.getContext()).load(tourismItem.getUrl_photo()).into(tourism_recreation_pic);
     }
 
     public void setOnClickListener(RecreationViewHolder.ClickListener clickListener) {

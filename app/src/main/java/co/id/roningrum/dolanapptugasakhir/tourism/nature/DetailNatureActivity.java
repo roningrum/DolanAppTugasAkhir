@@ -43,7 +43,7 @@ import java.util.Objects;
 
 import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
-import co.id.roningrum.dolanapptugasakhir.item.CategoryItem;
+import co.id.roningrum.dolanapptugasakhir.item.TourismItem;
 
 public class DetailNatureActivity extends AppCompatActivity implements OnMapReadyCallback {
     public static final String EXTRA_WISATA_KEY = "alam_key";
@@ -114,20 +114,20 @@ public class DetailNatureActivity extends AppCompatActivity implements OnMapRead
                 @SuppressLint("SetTextI18n")
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    final CategoryItem categoryItem = dataSnapshot.getValue(CategoryItem.class);
+                    final TourismItem tourismItem = dataSnapshot.getValue(TourismItem.class);
                     startLat = gpsHandler.getLatitude();
                     startlng = gpsHandler.getLongitude();
-                    assert categoryItem != null;
-                    endlat = categoryItem.getLat_location_tourism();
-                    endLng = categoryItem.getLng_location_tourism();
+                    assert tourismItem != null;
+                    endlat = tourismItem.getLat_location_tourism();
+                    endLng = tourismItem.getLng_location_tourism();
                     distance = calculateDistance(startLat,startlng,endlat,endLng);
 
                     @SuppressLint("DefaultLocale") String distanceFormat = String.format("%.2f",distance);
                     tvDistanceNature.setText("" + distanceFormat + " km");
-                    tvNameNatureDetail.setText(categoryItem.getName_tourism());
-                    tvAddressNature.setText(categoryItem.getLocation_tourism());
-                    tvDescNature.setText(categoryItem.getInfo_tourism());
-                    Glide.with(getApplicationContext()).load(categoryItem.getUrl_photo()).into(imgNature);
+                    tvNameNatureDetail.setText(tourismItem.getName_tourism());
+                    tvAddressNature.setText(tourismItem.getLocation_tourism());
+                    tvDescNature.setText(tourismItem.getInfo_tourism());
+                    Glide.with(getApplicationContext()).load(tourismItem.getUrl_photo()).into(imgNature);
 
                     AppBarLayout appBarLayout = findViewById(R.id.app_bar_nature);
                     appBarLayout.addOnOffsetChangedListener(new AppBarLayout.BaseOnOffsetChangedListener() {
@@ -140,7 +140,7 @@ public class DetailNatureActivity extends AppCompatActivity implements OnMapRead
                                 scrollRange = appBarLayout.getTotalScrollRange();
                             }
                             if (scrollRange + verticalOffset == 0) {
-                                collapsingToolbarLayout_nature.setTitle(categoryItem.getName_tourism());
+                                collapsingToolbarLayout_nature.setTitle(tourismItem.getName_tourism());
                                 isShow = true;
                             } else {
                                 collapsingToolbarLayout_nature.setTitle(" ");
@@ -198,10 +198,10 @@ public class DetailNatureActivity extends AppCompatActivity implements OnMapRead
         ValueEventListener eventListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                CategoryItem categoryItem = dataSnapshot.getValue(CategoryItem.class);
-                assert categoryItem != null;
-                double lattitude = categoryItem.getLat_location_tourism();
-                double longitude = categoryItem.getLng_location_tourism();
+                TourismItem tourismItem = dataSnapshot.getValue(TourismItem.class);
+                assert tourismItem != null;
+                double lattitude = tourismItem.getLat_location_tourism();
+                double longitude = tourismItem.getLng_location_tourism();
 
                 LatLng location = new LatLng(lattitude, longitude);
                 gMap.addMarker(new MarkerOptions().position(location));
