@@ -43,11 +43,12 @@ import java.util.Objects;
 
 import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
+import co.id.roningrum.dolanapptugasakhir.handler.HaversineHandler;
 import co.id.roningrum.dolanapptugasakhir.item.TourismItem;
 
 public class DetailNatureActivity extends AppCompatActivity implements OnMapReadyCallback {
     public static final String EXTRA_WISATA_KEY = "alam_key";
-    public static final String MAP_VIEW_KEY = "mapViewBundle";
+    private static final String MAP_VIEW_KEY = "mapViewBundle";
 
     private final static String TAG = "Pesan";
 
@@ -88,6 +89,7 @@ public class DetailNatureActivity extends AppCompatActivity implements OnMapRead
         setSupportActionBar(toolbarNature);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         Bundle mapViewBundle = null;
         if (savedInstanceState != null) {
@@ -120,7 +122,7 @@ public class DetailNatureActivity extends AppCompatActivity implements OnMapRead
                     assert tourismItem != null;
                     endlat = tourismItem.getLat_location_tourism();
                     endLng = tourismItem.getLng_location_tourism();
-                    distance = calculateDistance(startLat,startlng,endlat,endLng);
+                    distance = HaversineHandler.calculateDistance(startLat, startlng, endlat, endLng);
 
                     @SuppressLint("DefaultLocale") String distanceFormat = String.format("%.2f",distance);
                     tvDistanceNature.setText("" + distanceFormat + " km");

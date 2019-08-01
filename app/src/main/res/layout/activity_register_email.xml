@@ -86,6 +86,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.618"
         app:layout_constraintStart_toStartOf="parent"
+        android:contentDescription="@null"
         app:layout_constraintTop_toTopOf="@+id/photo_profile_edit" />
 
     <LinearLayout
@@ -110,7 +111,10 @@
             android:id="@+id/edt_nama_register"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textPersonName" />
+            android:hint="@string/txt_edit_text_register_nama"
+            android:importantForAutofill="no"
+            android:inputType="textPersonName"
+            tools:targetApi="o" />
     </LinearLayout>
 
     <LinearLayout
@@ -138,7 +142,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:inputType="textEmailAddress" />
+            android:importantForAutofill="no"
+            android:inputType="textEmailAddress"
+            tools:targetApi="o" />
     </LinearLayout>
 
     <LinearLayout
@@ -164,7 +170,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:inputType="textPassword" />
+            android:importantForAutofill="no"
+            android:inputType="textPassword"
+            tools:targetApi="o" />
     </LinearLayout>
 
     <Button

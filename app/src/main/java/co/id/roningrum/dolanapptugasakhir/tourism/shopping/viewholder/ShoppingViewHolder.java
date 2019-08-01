@@ -23,6 +23,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 
 import co.id.roningrum.dolanapptugasakhir.R;
+import co.id.roningrum.dolanapptugasakhir.handler.HaversineHandler;
 import co.id.roningrum.dolanapptugasakhir.item.TourismItem;
 
 public class ShoppingViewHolder extends RecyclerView.ViewHolder {
@@ -51,9 +52,9 @@ public class ShoppingViewHolder extends RecyclerView.ViewHolder {
         double lattitude_a = tourismItem.getLat_location_tourism();
         double longitude_a = tourismItem.getLng_location_tourism();
 
-        float jarakMeter = (float) calculateDistance(latitude, longitude, lattitude_a, longitude_a);
+        float jarakKM = (float) HaversineHandler.calculateDistance(latitude, longitude, lattitude_a, longitude_a);
 //        float jarakMeter = loc1.distanceTo(loc2);
-        float jarakKM = jarakMeter / 1000;
+//        float jarakKM = jarakMeter / 1000;
         @SuppressLint("DefaultLocale") String distanceFormat = String.format("%.2f", jarakKM);
 
         name_shopping_tourism.setText(tourismItem.getName_tourism());

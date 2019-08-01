@@ -23,6 +23,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 
 import co.id.roningrum.dolanapptugasakhir.R;
+import co.id.roningrum.dolanapptugasakhir.handler.HaversineHandler;
 import co.id.roningrum.dolanapptugasakhir.item.HotelItem;
 
 public class HotelViewHolder extends RecyclerView.ViewHolder {
@@ -53,8 +54,8 @@ public class HotelViewHolder extends RecyclerView.ViewHolder {
         double lattitude_a = hotelItem.getLat_location_hotel();
         double longitude_a = hotelItem.getLng_location_hotel();
 
-        float jarakMeter = (float) calculateDistance(latitude, longitude, lattitude_a, longitude_a);
-        float jarakKM = jarakMeter / 1000;
+        float jarakKM = (float) HaversineHandler.calculateDistance(latitude, longitude, lattitude_a, longitude_a);
+//        float jarakKM = jarakMeter / 1000;
         @SuppressLint("DefaultLocale") String distanceFormat = String.format("%.2f", jarakKM);
 
         nameHotel.setText(hotelItem.getName_hotel());
@@ -62,22 +63,22 @@ public class HotelViewHolder extends RecyclerView.ViewHolder {
         distanceHotel.setText(distanceFormat + " km");
         Glide.with(itemView.getContext()).load(hotelItem.getUrl_photo_hotel()).into(hotelPic);
     }
-
-    private double calculateDistance(double lat1, double long1, double lat2, double long2) {
-
-        double earthRadius = 6371;
-        double latDiff = Math.toRadians(lat1 - lat2);
-        double lngDiff = Math.toRadians(long1 - long2);
-        double a = Math.sin(latDiff / 2) * Math.sin(latDiff / 2) +
-                Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2)) *
-                        Math.sin(lngDiff / 2) * Math.sin(lngDiff / 2);
-        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-        double distance = earthRadius * c;
-
-        int meterConversion = 1609;
-
-        return (float) distance * meterConversion;
-    }
+//
+//    private double calculateDistance(double lat1, double long1, double lat2, double long2) {
+//
+//        double earthRadius = 6371;
+//        double latDiff = Math.toRadians(lat1 - lat2);
+//        double lngDiff = Math.toRadians(long1 - long2);
+//        double a = Math.sin(latDiff / 2) * Math.sin(latDiff / 2) +
+//                Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2)) *
+//                        Math.sin(lngDiff / 2) * Math.sin(lngDiff / 2);
+//        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+//        double distance = earthRadius * c;
+//
+//        int meterConversion = 1609;
+//
+//        return (float) distance * meterConversion;
+//    }
 
     public void setOnClickListener(HotelViewHolder.ClickListener clickListener) {
         hotelOnClick = clickListener;

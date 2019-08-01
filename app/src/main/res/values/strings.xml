@@ -94,5 +94,26 @@
     <string name="title_activity_ship_map">Peta Pelabuhan</string>
     <string name="search_bus_station_text">cari terminal</string>
     <string name="menu_icon_peta">peta</string>
+    <string name="title_activity_gas_station_maps">Peta SPBU</string>
+    <string name="title_activity_police_maps">Peta Kantor Polisi</string>
+    <string name="string_profile_menu">Profile</string>
+    <string name="string_edit_profile_menu">Edit profile</string>
+    <string name="string_about_aplikasi">Tentang aplikasi</string>
+    <string name="string_no_bookmark">Tidak ada bookmark</string>
+    <string name="string_how_to_bookmarked">Agar dapat menyimpan daftar sebagai favorit   Klik disini</string>
+    <string name="string_klik_to_menu">Temukan di kategori</string>
+    <string name="string_reset_sandi">Permintaan reset sandi   terkirim</string>
+    <string name="string_check_inbox">Silakan, cek kotak masuk email   untuk melakukan reset sandi</string>
+    <string name="string_continoue_sign_in">Lanjutkan</string>
+    <string name="string_success_register">Sukses Terdaftar</string>
+    <string name="string_confirm_email">Silakan, cek kotak masuk email   untuk melakukan konfirmasi email</string>
+    <string name="string_continoue_login">Lanjutkan</string>
+    <string name="string_email_forget_pass">email</string>
+    <string name="string_dummy_welcome">Selamat datang, Hailey Rhode Bieber</string>
+    <string name="string_all_home">semua</string>
+    <string name="string_recommendation">Rekomendasi tempat wisata</string>
+    <string name="string_must_try_food">Makanan yang wajib dicoba</string>
+    <string name="string_dummy_profname">Hailey Bieber</string>
+    <string name="string_email_dummy">haileyb1245@gmail.com</string>
     <!--<string name="title_activity_religi_category_maps">Peta Wisata Religi</string>-->
 </resources>

@@ -37,10 +37,9 @@ import android.util.Log;
 public class GPSHandler extends Service implements LocationListener {
 
     private Context context;
-    private boolean isGPSEnabled = false;
 
-    private boolean isNetworkEnabled = false;
     private boolean canGetLocation = false;
+
 
     private Location location;
     private double latitude;
@@ -70,9 +69,9 @@ public class GPSHandler extends Service implements LocationListener {
         try {
             locationManager = (LocationManager) context
                     .getSystemService(LOCATION_SERVICE);
-            isGPSEnabled = locationManager
+            boolean isGPSEnabled = locationManager
                     .isProviderEnabled(LocationManager.GPS_PROVIDER);
-            isNetworkEnabled = locationManager
+            boolean isNetworkEnabled = locationManager
                     .isProviderEnabled(LocationManager.NETWORK_PROVIDER);
 
             if (!isGPSEnabled && !isNetworkEnabled) {

@@ -11,18 +11,18 @@
  * limitations under the License.
  */
 
-package co.id.roningrum.dolanapptugasakhir.others;
+package co.id.roningrum.dolanapptugasakhir.hospital;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
 import co.id.roningrum.dolanapptugasakhir.R;
 
-public class GasStationActivity extends AppCompatActivity {
+public class HospitalDetailActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_gas_station);
+        setContentView(R.layout.activity_hospital_detail);
     }
 }

@@ -97,8 +97,7 @@ public class TourismItem implements ClusterItem {
 
     @Override
     public LatLng getPosition() {
-        LatLng position = new LatLng(lat_location_tourism, lng_location_tourism);
-        return position;
+        return new LatLng(lat_location_tourism, lng_location_tourism);
     }
 
     @Override

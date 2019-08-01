@@ -34,7 +34,7 @@
         android:layout_marginStart="168dp"
         android:layout_marginTop="24dp"
         android:fontFamily="@font/montserrat_bold"
-        android:text="Profile"
+        android:text="@string/string_profile_menu"
         android:textColor="@color/txtWhitePrimary"
         android:textSize="20sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -49,6 +49,7 @@
         android:background="@android:color/transparent"
         android:src="@drawable/ic_more"
         app:layout_constraintEnd_toEndOf="parent"
+        android:contentDescription="@null"
         app:layout_constraintTop_toTopOf="parent" />
 
     <android.support.v7.widget.CardView
@@ -85,7 +86,7 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="10dp"
                 android:fontFamily="@font/monsterrat_sembold"
-                android:text="Hailey Bieber"
+                android:text="@string/string_dummy_profname"
                 android:textColor="@color/blackTextPrimary"
                 android:textSize="16sp" />
 
@@ -95,7 +96,7 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="10dp"
                 android:fontFamily="@font/montserrat"
-                android:text="haileyb1245@gmail.com"
+                android:text="@string/string_email_dummy"
                 android:textColor="@color/blackTextPrimary"
                 android:textSize="14sp" />
         </LinearLayout>
@@ -123,14 +124,15 @@
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_marginStart="18dp"
-                android:background="@drawable/ic_perso_edit" />
+                android:background="@drawable/ic_perso_edit"
+                android:contentDescription="@null" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="27dp"
                 android:fontFamily="@font/montserrat"
-                android:text="Edit profile"
+                android:text="@string/string_edit_profile_menu"
                 android:textColor="@color/blackTextPrimary"
                 android:textSize="14sp" />
 
@@ -139,7 +141,8 @@
                 android:layout_height="32dp"
                 android:layout_marginStart="180dp"
                 android:layout_marginEnd="24dp"
-                android:background="@drawable/ic_keyboard_arrow_right_24dp" />
+                android:background="@drawable/ic_keyboard_arrow_right_24dp"
+                android:contentDescription="@null" />
         </LinearLayout>
 
         <View
@@ -160,14 +163,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="24dp"
                 android:layout_marginStart="18dp"
-                android:background="@drawable/ic_info_black_24dp" />
+                android:background="@drawable/ic_info_black_24dp"
+                android:contentDescription="@null" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="27dp"
                 android:fontFamily="@font/montserrat"
-                android:text="Tentang aplikasi"
+                android:text="@string/string_about_aplikasi"
                 android:textColor="@color/blackTextPrimary"
                 android:textSize="14sp" />
 
@@ -176,7 +180,8 @@
                 android:layout_height="32dp"
                 android:layout_marginStart="135dp"
                 android:layout_marginEnd="24dp"
-                android:background="@drawable/ic_keyboard_arrow_right_24dp" />
+                android:background="@drawable/ic_keyboard_arrow_right_24dp"
+                android:contentDescription="@null" />
         </LinearLayout>
     </LinearLayout>
 

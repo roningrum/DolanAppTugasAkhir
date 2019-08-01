@@ -43,11 +43,12 @@ import java.util.Objects;
 
 import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
+import co.id.roningrum.dolanapptugasakhir.handler.HaversineHandler;
 import co.id.roningrum.dolanapptugasakhir.item.TourismItem;
 
 public class DetailFoodActivity extends AppCompatActivity implements OnMapReadyCallback {
     public static final String EXTRA_WISATA_KEY = "kuliner_key";
-    public static final String MAP_VIEW_KEY = "mapViewBundle";
+    private static final String MAP_VIEW_KEY = "mapViewBundle";
     private final static String TAG = "Pesan";
 
     private GoogleMap foodMap;
@@ -84,6 +85,8 @@ public class DetailFoodActivity extends AppCompatActivity implements OnMapReadyC
         Toolbar toolbarFood = findViewById(R.id.toolbar_food_detail);
         setSupportActionBar(toolbarFood);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
 
         Bundle mapViewBundle = null;
@@ -116,7 +119,7 @@ public class DetailFoodActivity extends AppCompatActivity implements OnMapReadyC
                     assert tourismItem != null;
                     endlat = tourismItem.getLat_location_tourism();
                     endLng = tourismItem.getLng_location_tourism();
-                    distance = calculateDistance(startLat, startlng, endlat, endLng);
+                    distance = HaversineHandler.calculateDistance(startLat, startlng, endlat, endLng);
 
                     @SuppressLint("DefaultLocale") String distanceFormat = String.format("%.2f", distance);
                     tvDistanceFoodDetail.setText("" + distanceFormat + " KM");
@@ -156,21 +159,21 @@ public class DetailFoodActivity extends AppCompatActivity implements OnMapReadyC
 
         }
     }
-
-    private double calculateDistance(double startLat, double startlng, double endlat, double endLng) {
-        double earthRadius = 6371;
-        double latDiff = Math.toRadians(startLat - endlat);
-        double lngDiff = Math.toRadians(startlng - endLng);
-        double a = Math.sin(latDiff / 2) * Math.sin(latDiff / 2) +
-                Math.cos(Math.toRadians(startLat)) * Math.cos(Math.toRadians(endlat)) *
-                        Math.sin(lngDiff / 2) * Math.sin(lngDiff / 2);
-        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-        double distance = earthRadius * c;
-
-        int meterConversion = 1609;
-
-        return (distance * meterConversion / 1000);
-    }
+//
+//    private double calculateDistance(double startLat, double startlng, double endlat, double endLng) {
+//        double earthRadius = 6371;
+//        double latDiff = Math.toRadians(startLat - endlat);
+//        double lngDiff = Math.toRadians(startlng - endLng);
+//        double a = Math.sin(latDiff / 2) * Math.sin(latDiff / 2) +
+//                Math.cos(Math.toRadians(startLat)) * Math.cos(Math.toRadians(endlat)) *
+//                        Math.sin(lngDiff / 2) * Math.sin(lngDiff / 2);
+//        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+//        double distance = earthRadius * c;
+//
+//        int meterConversion = 1609;
+//
+//        return (distance * meterConversion / 1000);
+//    }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {

@@ -46,6 +46,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
+        android:contentDescription="@null"
         app:layout_constraintTop_toBottomOf="@+id/tv_heading_reset_page" />
 
     <TextView
@@ -80,7 +81,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/montserrat_light"
             android:lineSpacingExtra="15sp"
-            android:text="email"
+            android:text="@string/string_email_forget_pass"
             android:textColor="#000000" />
 
         <EditText
@@ -88,7 +89,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:inputType="textEmailAddress" />
+            android:hint="@string/txt_edit_text_email_signin_page"
+            android:importantForAutofill="no"
+            android:inputType="textEmailAddress"
+            tools:targetApi="o" />
     </LinearLayout>
 
     <Button

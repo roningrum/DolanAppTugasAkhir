@@ -43,12 +43,13 @@ import java.util.Objects;
 
 import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
+import co.id.roningrum.dolanapptugasakhir.handler.HaversineHandler;
 import co.id.roningrum.dolanapptugasakhir.item.TourismItem;
 
 public class DetailWaterActivity extends AppCompatActivity implements OnMapReadyCallback {
     public static final String EXTRA_WISATA_KEY = "air_key";
 
-    public static final String MAP_VIEW_KEY = "mapViewBundle";
+    private static final String MAP_VIEW_KEY = "mapViewBundle";
 
     private final static String TAG = "Pesan";
     private GoogleMap waterLocationMap;
@@ -87,6 +88,7 @@ public class DetailWaterActivity extends AppCompatActivity implements OnMapReady
         setSupportActionBar(toolbarWater);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         Bundle mapViewBundle = null;
         if (savedInstanceState != null) {
@@ -119,7 +121,7 @@ public class DetailWaterActivity extends AppCompatActivity implements OnMapReady
                     assert tourismItem != null;
                     endLat = tourismItem.getLat_location_tourism();
                     endLng = tourismItem.getLng_location_tourism();
-                    distance = calculateDistance(startLat,startLng,endLat,endLng);
+                    distance = HaversineHandler.calculateDistance(startLat, startLng, endLat, endLng);
 
                     @SuppressLint("DefaultLocale") String distanceFormat = String.format("%.2f",distance);
                     tvDistanceWaterDetail.setText(""+distanceFormat+" KM");

@@ -39,7 +39,7 @@
                 android:layout_height="wrap_content"
                 android:contentDescription="@null"
                 android:scaleType="centerCrop"
-                android:src="@drawable/imagedolanbg"
+                android:src="@drawable/nopic"
                 app:layout_collapseMode="parallax" />
             <!--<View-->
             <!--android:layout_width="match_parent"-->

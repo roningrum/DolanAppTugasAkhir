@@ -11,7 +11,7 @@
  * limitations under the License.
  */
 
-package co.id.roningrum.dolanapptugasakhir.transportation.ship;
+package co.id.roningrum.dolanapptugasakhir.transportation.ship.viewholder;
 
 import android.annotation.SuppressLint;
 import android.support.annotation.NonNull;
@@ -23,6 +23,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 
 import co.id.roningrum.dolanapptugasakhir.R;
+import co.id.roningrum.dolanapptugasakhir.handler.HaversineHandler;
 import co.id.roningrum.dolanapptugasakhir.item.TransportationItem;
 
 public class ShipViewHolder extends RecyclerView.ViewHolder {
@@ -54,8 +55,8 @@ public class ShipViewHolder extends RecyclerView.ViewHolder {
         double lattitude_a = transportationItem.getLat_transportation();
         double longitude_a = transportationItem.getLng_transportation();
 
-        float jarakMeter = (float) calculateDistance(latitude, longitude, lattitude_a, longitude_a);
-        float jarakKM = jarakMeter / 1000;
+        float jarakKM = (float) HaversineHandler.calculateDistance(latitude, longitude, lattitude_a, longitude_a);
+//        float jarakKM = jarakMeter / 1000;
 
         @SuppressLint("DefaultLocale") String distanceFormat = String.format("%.2f", jarakKM);
 
@@ -65,21 +66,21 @@ public class ShipViewHolder extends RecyclerView.ViewHolder {
         Glide.with(itemView.getContext()).load(transportationItem.getUrl_photo_transport()).into(shipPic);
     }
 
-    private double calculateDistance(double lat1, double long1, double lat2, double long2) {
-
-        double earthRadius = 6371;
-        double latDiff = Math.toRadians(lat1 - lat2);
-        double lngDiff = Math.toRadians(long1 - long2);
-        double a = Math.sin(latDiff / 2) * Math.sin(latDiff / 2) +
-                Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2)) *
-                        Math.sin(lngDiff / 2) * Math.sin(lngDiff / 2);
-        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-        double distance = earthRadius * c;
-
-        int meterConversion = 1609;
-
-        return (float) distance * meterConversion;
-    }
+//    private double calculateDistance(double lat1, double long1, double lat2, double long2) {
+//
+//        double earthRadius = 6371;
+//        double latDiff = Math.toRadians(lat1 - lat2);
+//        double lngDiff = Math.toRadians(long1 - long2);
+//        double a = Math.sin(latDiff / 2) * Math.sin(latDiff / 2) +
+//                Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2)) *
+//                        Math.sin(lngDiff / 2) * Math.sin(lngDiff / 2);
+//        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+//        double distance = earthRadius * c;
+//
+//        int meterConversion = 1609;
+//
+//        return (float) distance * meterConversion;
+//    }
 
     public void setOnClickListener(ShipViewHolder.ClickListener clickListener) {
         shipClickListener = clickListener;

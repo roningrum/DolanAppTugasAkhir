@@ -65,7 +65,7 @@
                     android:layout_marginStart="24dp"
                     android:layout_marginTop="16dp"
                     android:fontFamily="@font/montserrat"
-                    android:text="Selamat datang, Hailey Rhode Bieber"
+                    android:text="@string/string_dummy_welcome"
                     android:textColor="@color/txtWhitePrimary"
                     android:textSize="14sp"
                     app:layout_constraintStart_toStartOf="parent"
@@ -88,7 +88,7 @@
                     android:layout_marginTop="30dp"
                     android:layout_marginEnd="24dp"
                     android:background="@drawable/bg_search_bar"
-                    android:elevation="2dp"
+                    app:elevation="2dp"
                     android:fontFamily="@font/montserrat"
                     android:hint="@string/txt_ask_user_to_search"
                     android:textSize="14sp"
@@ -131,7 +131,7 @@
                 android:layout_marginEnd="34dp"
                 android:layout_marginBottom="2dp"
                 android:fontFamily="@font/montserrat"
-                android:text="semua"
+                android:text="@string/string_all_home"
                 android:textAlignment="center"
                 android:textColor="@color/orangePrimary"
                 android:textSize="14sp"
@@ -151,6 +151,7 @@
                 android:weightSum="5"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
+                android:baselineAligned="false"
                 app:layout_constraintTop_toBottomOf="@+id/tv_title_category_main_menu">
 
                 <LinearLayout
@@ -158,18 +159,20 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1.05"
                     android:gravity="center"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    tools:ignore="UseCompoundDrawables">
 
                     <ImageView
                         android:layout_width="55dp"
                         android:layout_height="55dp"
+                        android:contentDescription="@null"
                         android:src="@drawable/alam_menu" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/montserrat_light"
-                        android:text="Alam"
+                        android:text="@string/string_alam_wisata_category"
                         android:textColor="@color/blackTextPrimary" />
                 </LinearLayout>
 
@@ -178,18 +181,20 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1.45"
                     android:gravity="center"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    tools:ignore="UseCompoundDrawables">
 
                     <ImageView
                         android:layout_width="55dp"
                         android:layout_height="55dp"
+                        android:contentDescription="@null"
                         android:src="@drawable/hiburan_menu" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/montserrat_light"
-                        android:text="Hiburan"
+                        android:text="@string/string_hiburan_wisata_menu"
                         android:textColor="@color/blackTextPrimary" />
                 </LinearLayout>
 
@@ -198,18 +203,20 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1.45"
                     android:gravity="center"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    tools:ignore="UseCompoundDrawables">
 
                     <ImageView
                         android:layout_width="55dp"
                         android:layout_height="55dp"
+                        android:contentDescription="@null"
                         android:src="@drawable/belanja_menu" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/montserrat_light"
-                        android:text="Belanja"
+                        android:text="@string/string_belanja_wisata_menu"
                         android:textColor="@color/blackTextPrimary" />
                 </LinearLayout>
 
@@ -218,18 +225,20 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1.05"
                     android:gravity="center"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    tools:ignore="UseCompoundDrawables">
 
                     <ImageView
                         android:layout_width="55dp"
                         android:layout_height="55dp"
+                        android:contentDescription="@null"
                         android:src="@drawable/desa_menu" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/montserrat_light"
-                        android:text="Desa"
+                        android:text="@string/string_desa_wisata_menu"
                         android:textColor="@color/blackTextPrimary" />
                 </LinearLayout>
             </LinearLayout>
@@ -241,7 +250,7 @@
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="54dp"
                 android:fontFamily="@font/montserrat_bold"
-                android:text="Rekomendasi tempat wisata"
+                android:text="@string/string_recommendation"
                 android:textColor="@color/blackTextPrimary"
                 android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -268,24 +277,28 @@
                         android:layout_width="220dp"
                         android:layout_height="133dp"
                         android:layout_marginEnd="12dp"
+                        android:contentDescription="@null"
                         android:src="@drawable/dummy_place" />
 
                     <ImageView
                         android:layout_width="280dp"
                         android:layout_height="133dp"
                         android:layout_marginEnd="12dp"
+                        android:contentDescription="@null"
                         android:src="@drawable/dummy_place" />
 
                     <ImageView
                         android:layout_width="220dp"
                         android:layout_height="133dp"
                         android:layout_marginEnd="12dp"
+                        android:contentDescription="@null"
                         android:src="@drawable/dummy_place" />
 
                     <ImageView
                         android:layout_width="220dp"
                         android:layout_height="133dp"
                         android:layout_marginEnd="12dp"
+                        android:contentDescription="@null"
                         android:src="@drawable/dummy_place" />
 
                 </LinearLayout>
@@ -299,7 +312,7 @@
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="37dp"
                 android:fontFamily="@font/montserrat_bold"
-                android:text="Makanan yang wajib dicoba"
+                android:text="@string/string_must_try_food"
                 android:textColor="@color/blackTextPrimary"
                 android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -326,24 +339,28 @@
                         android:layout_width="220dp"
                         android:layout_height="133dp"
                         android:layout_marginEnd="10dp"
+                        android:contentDescription="@null"
                         android:src="@drawable/dummy_place" />
 
                     <ImageView
                         android:layout_width="280dp"
                         android:layout_height="133dp"
                         android:layout_marginEnd="10dp"
+                        android:contentDescription="@null"
                         android:src="@drawable/dummy_place" />
 
                     <ImageView
                         android:layout_width="220dp"
                         android:layout_height="133dp"
                         android:layout_marginEnd="10dp"
+                        android:contentDescription="@null"
                         android:src="@drawable/dummy_place" />
 
                     <ImageView
                         android:layout_width="220dp"
                         android:layout_height="133dp"
                         android:layout_marginEnd="10dp"
+                        android:contentDescription="@null"
                         android:src="@drawable/dummy_place" />
 
                 </LinearLayout>

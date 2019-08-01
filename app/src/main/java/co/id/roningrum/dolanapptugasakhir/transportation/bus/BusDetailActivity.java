@@ -44,12 +44,13 @@ import java.util.Objects;
 
 import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
+import co.id.roningrum.dolanapptugasakhir.handler.HaversineHandler;
 import co.id.roningrum.dolanapptugasakhir.item.TransportationItem;
 
 public class BusDetailActivity extends AppCompatActivity implements OnMapReadyCallback {
     public static final String EXTRA_BUS_KEY = "busKey";
 
-    public static final String MAP_VIEW_KEY = "mapViewBundle";
+    private static final String MAP_VIEW_KEY = "mapViewBundle";
 
     private final static String TAG = "Pesan";
 
@@ -88,6 +89,7 @@ public class BusDetailActivity extends AppCompatActivity implements OnMapReadyCa
         setSupportActionBar(toolbarBus);
         Objects.requireNonNull(getSupportActionBar()).setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
 
         Bundle mapViewBundle = null;
@@ -121,7 +123,10 @@ public class BusDetailActivity extends AppCompatActivity implements OnMapReadyCa
                     assert transportationItem != null;
                     endlat = transportationItem.getLat_transportation();
                     endLng = transportationItem.getLng_transportation();
-                    distance = calculateDistance(startLat, startlng, endlat, endLng);
+                    distance = HaversineHandler.calculateDistance(startLat, startlng, endlat, endLng);
+
+//                    Log.i("Haversine", "The Result : " +calculateDistance(gpsHandler.getLatitude(),gpsHandler.getLongitude(),endlat,endLng));
+
                     @SuppressLint("DefaultLocale") String distanceFormat = String.format("%.2f", distance);
                     tvDistanceAirport.setText("" + distanceFormat + " km");
                     tvNameBusDetail.setText(transportationItem.getName_transportation());
@@ -160,21 +165,27 @@ public class BusDetailActivity extends AppCompatActivity implements OnMapReadyCa
         }
     }
 
-    private double calculateDistance(double startLat, double startlng, double endlat, double endLng) {
-
-        double earthRadius = 6371;
-        double latDiff = Math.toRadians(startLat - endlat);
-        double lngDiff = Math.toRadians(startlng - endLng);
-        double a = Math.sin(latDiff / 2) * Math.sin(latDiff / 2) +
-                Math.cos(Math.toRadians(startLat)) * Math.cos(Math.toRadians(endlat)) *
-                        Math.sin(lngDiff / 2) * Math.sin(lngDiff / 2);
-        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-        double distance = earthRadius * c;
-
-        int meterConversion = 1609;
-
-        return (distance);
-    }
+//    private double calculateDistance(double startLat, double startlng, double endlat, double endLng) {
+//
+//        double earthRadius = 6372.8;
+//        double latDiff = Math.toRadians((endlat - startLat));
+//        double lngDiff = Math.toRadians((endLng - startlng));
+//
+//        startLat = Math.toRadians(startLat);
+//        endlat   = Math.toRadians(endlat);
+//
+//        double a    = Math.sin(latDiff / 2) * Math.sin(latDiff / 2);
+//        double c    = Math.sin(lngDiff / 2) * Math.sin(lngDiff / 2) * Math.cos(startLat) * Math.cos(endlat);
+//        return earthRadius * 2 * Math.asin(Math.sqrt(a + c));
+//
+//////        int meterConversion = 1609;
+////
+////        return earthRadius * c;
+//    }
+//
+//    public static double haversin(double val) {
+//        return Math.pow(Math.sin(val / 2), 2);
+//    }
 
 
     @Override

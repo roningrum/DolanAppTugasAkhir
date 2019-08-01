@@ -26,6 +26,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        android:contentDescription="@null"
         app:layout_constraintTop_toTopOf="parent" />
 
     <View
@@ -50,6 +51,7 @@
         android:src="@drawable/dolanlogo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        android:contentDescription="@null"
         app:layout_constraintTop_toTopOf="@+id/view" />
 
     <Button

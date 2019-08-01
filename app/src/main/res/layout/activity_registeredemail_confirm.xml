@@ -38,6 +38,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        android:contentDescription="@null"
         app:srcCompat="@drawable/deliveremail" />
 
     <TextView
@@ -49,7 +50,7 @@
         android:layout_marginEnd="56dp"
         android:fontFamily="@font/montserrat_bold"
         android:lineSpacingExtra="10dp"
-        android:text="Sukses Terdaftar"
+        android:text="@string/string_success_register"
         android:textAlignment="center"
         android:textColor="@color/blackTextPrimary"
         android:textSize="22sp"
@@ -66,7 +67,7 @@
         android:layout_marginEnd="8dp"
         android:fontFamily="@font/montserrat_light"
         android:lineSpacingExtra="10dp"
-        android:text="Silakan, cek kotak masuk email \n untuk melakukan konfirmasi email"
+        android:text="@string/string_confirm_email"
         android:textAlignment="center"
         android:textColor="@color/blackTextPrimary"
         android:textSize="16sp"
@@ -83,7 +84,7 @@
         android:layout_marginEnd="32dp"
         android:background="@drawable/bg_button_orange"
         android:fontFamily="@font/montserrat_medium"
-        android:text="Lanjutkan"
+        android:text="@string/string_continoue_login"
         android:textAllCaps="false"
         android:textColor="@color/txtWhitePrimary"
         android:textSize="14sp"

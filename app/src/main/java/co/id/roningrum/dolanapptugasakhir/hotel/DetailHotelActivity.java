@@ -48,11 +48,12 @@ import java.util.Objects;
 
 import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
+import co.id.roningrum.dolanapptugasakhir.handler.HaversineHandler;
 import co.id.roningrum.dolanapptugasakhir.item.HotelItem;
 
 public class DetailHotelActivity extends AppCompatActivity implements OnMapReadyCallback, View.OnClickListener {
     public static final String EXTRA_HOTEL_KEY = "hotel_key";
-    public static final String MAP_VIEW_KEY = "mapViewBundle";
+    private static final String MAP_VIEW_KEY = "mapViewBundle";
 
     private final static String TAG = "Pesan";
 
@@ -67,7 +68,6 @@ public class DetailHotelActivity extends AppCompatActivity implements OnMapReady
     private TextView tvNameHotelDetail, tvAddressHotelDetail, tvDistanceHotelEducation;
 
     private ImageView imgHotelDetail;
-    private LinearLayout btnOrderHotel1, btnOrderHotel;
     private CollapsingToolbarLayout collapsingToolbarHotel;
 
     private double startLat;
@@ -86,13 +86,14 @@ public class DetailHotelActivity extends AppCompatActivity implements OnMapReady
         imgHotelDetail = findViewById(R.id.img_hotel_detail);
         hotelMapView = findViewById(R.id.loc_hotel_map_detail);
         collapsingToolbarHotel = findViewById(R.id.collapseToolbar_hotel);
-        btnOrderHotel = findViewById(R.id.btn_order_link_hotel);
-        btnOrderHotel1 = findViewById(R.id.btn_order_link_hotel1);
+        LinearLayout btnOrderHotel = findViewById(R.id.btn_order_link_hotel);
+        LinearLayout btnOrderHotel1 = findViewById(R.id.btn_order_link_hotel1);
 
         Toolbar toolbarHotel = findViewById(R.id.toolbar_hotel_detail);
         setSupportActionBar(toolbarHotel);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         Bundle mapViewBundle = null;
         if (savedInstanceState != null) {
@@ -127,7 +128,7 @@ public class DetailHotelActivity extends AppCompatActivity implements OnMapReady
                     assert hotelItem != null;
                     endlat = hotelItem.getLat_location_hotel();
                     endLng = hotelItem.getLng_location_hotel();
-                    distance = calculateDistance(startLat, startlng, endlat, endLng);
+                    distance = HaversineHandler.calculateDistance(startLat, startlng, endlat, endLng);
 
                     @SuppressLint("DefaultLocale") String distanceFormat = String.format("%.2f", distance);
                     tvDistanceHotelEducation.setText("" + distanceFormat + " km");
@@ -167,20 +168,20 @@ public class DetailHotelActivity extends AppCompatActivity implements OnMapReady
         }
     }
 
-    private double calculateDistance(double startLat, double startlng, double endlat, double endLng) {
-        double earthRadius = 6371;
-        double latDiff = Math.toRadians(startLat - endlat);
-        double lngDiff = Math.toRadians(startlng - endLng);
-        double a = Math.sin(latDiff / 2) * Math.sin(latDiff / 2) +
-                Math.cos(Math.toRadians(startLat)) * Math.cos(Math.toRadians(endlat)) *
-                        Math.sin(lngDiff / 2) * Math.sin(lngDiff / 2);
-        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-        double distance = earthRadius * c;
-
-        int meterConversion = 1609;
-
-        return (distance * meterConversion / 1000);
-    }
+//    private double calculateDistance(double startLat, double startlng, double endlat, double endLng) {
+//        double earthRadius = 6371;
+//        double latDiff = Math.toRadians(startLat - endlat);
+//        double lngDiff = Math.toRadians(startlng - endLng);
+//        double a = Math.sin(latDiff / 2) * Math.sin(latDiff / 2) +
+//                Math.cos(Math.toRadians(startLat)) * Math.cos(Math.toRadians(endlat)) *
+//                        Math.sin(lngDiff / 2) * Math.sin(lngDiff / 2);
+//        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+//        double distance = earthRadius * c;
+//
+//        int meterConversion = 1609;
+//
+//        return (distance * meterConversion / 1000);
+//    }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {

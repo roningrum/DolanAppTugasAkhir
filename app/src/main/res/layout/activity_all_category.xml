@@ -78,8 +78,8 @@
                     tools:ignore="UseCompoundDrawables">
 
                     <ImageView
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
                         android:contentDescription="@null"
                         android:src="@drawable/alam_menu" />
 
@@ -102,8 +102,8 @@
                     tools:ignore="UseCompoundDrawables">
 
                     <ImageView
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
                         android:contentDescription="@null"
                         android:src="@drawable/hiburan_menu" />
 
@@ -126,8 +126,8 @@
                     tools:ignore="UseCompoundDrawables">
 
                     <ImageView
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
                         android:contentDescription="@null"
                         android:src="@drawable/belanja_menu" />
 
@@ -150,8 +150,8 @@
                     tools:ignore="UseCompoundDrawables">
 
                     <ImageView
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
                         android:contentDescription="@null"
                         android:src="@drawable/desa_menu" />
 
@@ -186,8 +186,8 @@
                     tools:ignore="UseCompoundDrawables">
 
                     <ImageView
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
                         android:contentDescription="@null"
                         android:src="@drawable/restoran_menu" />
 
@@ -210,8 +210,8 @@
                     tools:ignore="UseCompoundDrawables">
 
                     <ImageView
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
                         android:contentDescription="@null"
                         android:src="@drawable/edukasi_menu" />
 
@@ -234,8 +234,8 @@
                     tools:ignore="UseCompoundDrawables">
 
                     <ImageView
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
                         android:contentDescription="@null"
                         android:src="@drawable/sejarah_menu" />
 
@@ -258,8 +258,8 @@
                     tools:ignore="UseCompoundDrawables">
 
                     <ImageView
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
                         android:contentDescription="@null"
                         android:src="@drawable/air_menu" />
 
@@ -294,8 +294,8 @@
                     tools:ignore="UseCompoundDrawables,UselessParent">
 
                     <ImageView
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
                         android:contentDescription="@null"
                         android:src="@drawable/religi_menu" />
 
@@ -347,8 +347,8 @@
                         tools:ignore="UseCompoundDrawables">
 
                         <ImageView
-                            android:layout_width="48dp"
-                            android:layout_height="48dp"
+                            android:layout_width="36dp"
+                            android:layout_height="36dp"
                             android:contentDescription="@null"
                             android:src="@drawable/hotel_menu" />
 
@@ -371,8 +371,8 @@
                         tools:ignore="UseCompoundDrawables">
 
                         <ImageView
-                            android:layout_width="48dp"
-                            android:layout_height="48dp"
+                            android:layout_width="36dp"
+                            android:layout_height="36dp"
                             android:contentDescription="@null"
                             android:src="@drawable/bandara_menu" />
 
@@ -395,8 +395,8 @@
                         tools:ignore="UseCompoundDrawables">
 
                         <ImageView
-                            android:layout_width="48dp"
-                            android:layout_height="48dp"
+                            android:layout_width="36dp"
+                            android:layout_height="36dp"
                             android:contentDescription="@null"
                             android:src="@drawable/stasiun_kereta" />
 
@@ -420,8 +420,8 @@
                         tools:ignore="UseCompoundDrawables">
 
                         <ImageView
-                            android:layout_width="48dp"
-                            android:layout_height="48dp"
+                            android:layout_width="36dp"
+                            android:layout_height="36dp"
                             android:contentDescription="@null"
                             android:src="@drawable/terminal_menu" />
 
@@ -455,8 +455,8 @@
                         tools:ignore="UseCompoundDrawables,UselessParent">
 
                         <ImageView
-                            android:layout_width="48dp"
-                            android:layout_height="48dp"
+                            android:layout_width="36dp"
+                            android:layout_height="36dp"
                             android:contentDescription="@null"
                             android:src="@drawable/pelabuhan_menu" />
 
@@ -497,6 +497,7 @@
                 android:weightSum="5">
 
                 <LinearLayout
+                    android:id="@+id/ln_spbu_public"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1.05"
@@ -505,8 +506,8 @@
                     tools:ignore="UseCompoundDrawables">
 
                     <ImageView
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
                         android:contentDescription="@null"
                         android:src="@drawable/sbpu_menu" />
 
@@ -520,6 +521,7 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/ln_police_public"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1.45"
@@ -528,8 +530,8 @@
                     tools:ignore="UseCompoundDrawables">
 
                     <ImageView
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
                         android:contentDescription="@null"
                         android:src="@drawable/police_station" />
 
@@ -551,8 +553,8 @@
                     tools:ignore="UseCompoundDrawables">
 
                     <ImageView
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
                         android:contentDescription="@null"
                         android:src="@drawable/rumah_sakit_menu" />
 
