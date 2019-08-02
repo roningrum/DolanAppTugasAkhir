@@ -89,6 +89,7 @@ public class PoliceDetailActivity extends AppCompatActivity implements OnMapRead
         Objects.requireNonNull(getSupportActionBar()).setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back_24dp);
 
 
         Bundle mapViewBundle = null;

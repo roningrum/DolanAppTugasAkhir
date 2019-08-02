@@ -89,6 +89,7 @@ public class DetailRecreationActivity extends AppCompatActivity implements OnMap
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back_24dp);
 
         Bundle mapViewBundle = null;
         if (savedInstanceState != null) {

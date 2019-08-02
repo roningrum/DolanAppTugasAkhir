@@ -91,6 +91,7 @@ public class GasStationDetailActivity extends AppCompatActivity implements OnMap
         Objects.requireNonNull(getSupportActionBar()).setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back_24dp);
 
         Bundle mapViewBundle = null;
         if (savedInstanceState != null) {

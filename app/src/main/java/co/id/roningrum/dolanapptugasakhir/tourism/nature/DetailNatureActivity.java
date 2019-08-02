@@ -90,6 +90,7 @@ public class DetailNatureActivity extends AppCompatActivity implements OnMapRead
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back_24dp);
 
         Bundle mapViewBundle = null;
         if (savedInstanceState != null) {

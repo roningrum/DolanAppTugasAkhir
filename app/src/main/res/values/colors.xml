@@ -12,8 +12,8 @@
   -->
 
 <resources>
-    <color name="colorPrimary">#008577</color>
-    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorPrimary">#F15A22</color>
+    <color name="colorPrimaryDark">#FF3D00</color>
     <color name="colorAccent">#FF9C09</color>
     <color name="orangePrimary">#FF9C09</color>
     <color name="orangeFontLink">#FC7921</color>
