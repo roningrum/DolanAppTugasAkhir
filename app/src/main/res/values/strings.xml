@@ -115,5 +115,6 @@
     <string name="string_must_try_food">Makanan yang wajib dicoba</string>
     <string name="string_dummy_profname">Hailey Bieber</string>
     <string name="string_email_dummy">haileyb1245@gmail.com</string>
+    <string name="title_activity_hospital_maps">Peta Rumah Sakit</string>
     <!--<string name="title_activity_religi_category_maps">Peta Wisata Religi</string>-->
 </resources>

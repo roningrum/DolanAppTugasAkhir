@@ -11,7 +11,7 @@
  * limitations under the License.
  */
 
-package co.id.roningrum.dolanapptugasakhir.police;
+package co.id.roningrum.dolanapptugasakhir.hospital;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -31,22 +31,24 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import co.id.roningrum.dolanapptugasakhir.R;
-import co.id.roningrum.dolanapptugasakhir.item.PoliceItem;
+import co.id.roningrum.dolanapptugasakhir.item.HospitalItem;
 
-public class PoliceMapsActivity extends FragmentActivity implements OnMapReadyCallback {
-    private GoogleMap policeGoogleMap;
-    private DatabaseReference policeMapRef;
+public class HospitalMapsActivity extends FragmentActivity implements OnMapReadyCallback {
+
+    private GoogleMap hospitalGoogleMap;
+    private DatabaseReference hospitalMapRef;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_police_maps);
+        setContentView(R.layout.activity_hospital_maps);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.police_map);
+                .findFragmentById(R.id.hospital_map);
         assert mapFragment != null;
         mapFragment.getMapAsync(this);
-        policeMapRef = FirebaseDatabase.getInstance().getReference().child("Police");
+        hospitalMapRef = FirebaseDatabase.getInstance().getReference().child("Hospital");
     }
 
 
@@ -61,20 +63,18 @@ public class PoliceMapsActivity extends FragmentActivity implements OnMapReadyCa
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
-
-        policeGoogleMap = googleMap;
-        policeMapRef.addListenerForSingleValueEvent(new ValueEventListener() {
+        hospitalGoogleMap = googleMap;
+        hospitalMapRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot dsPolice : dataSnapshot.getChildren()) {
-                    PoliceItem policeItem = dsPolice.getValue(PoliceItem.class);
-                    assert policeItem != null;
-                    double latPolice = policeItem.getLat_police();
-                    double lngPolice = policeItem.getLng_police();
-                    LatLng policePlaceLoc = new LatLng(latPolice, lngPolice);
-                    policeGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(policePlaceLoc, 10.2f));
-                    policeGoogleMap.addMarker(new MarkerOptions().position(policePlaceLoc).title(policeItem.getName_police()).snippet(policeItem.getLocation_police()));
-
+                for (DataSnapshot dsHospital : dataSnapshot.getChildren()) {
+                    HospitalItem hospitalItem = dsHospital.getValue(HospitalItem.class);
+                    assert hospitalItem != null;
+                    double latHospital = hospitalItem.getLat_hospital();
+                    double lngHospital = hospitalItem.getLng_hospital();
+                    LatLng hospitalPlaceLoc = new LatLng(latHospital, lngHospital);
+                    hospitalGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(hospitalPlaceLoc, 10.2f));
+                    hospitalGoogleMap.addMarker(new MarkerOptions().position(hospitalPlaceLoc).title(hospitalItem.getName_hospital()).snippet(hospitalItem.getLocation_hospital()));
                 }
             }
 
@@ -84,10 +84,5 @@ public class PoliceMapsActivity extends FragmentActivity implements OnMapReadyCa
 
             }
         });
-
-        // Add a marker in Sydney and move the camera
-//        LatLng sydney = new LatLng(-34, 151);
-//        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-//        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
     }
 }

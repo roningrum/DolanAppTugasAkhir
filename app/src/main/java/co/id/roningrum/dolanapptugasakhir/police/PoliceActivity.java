@@ -87,8 +87,8 @@ public class PoliceActivity extends AppCompatActivity {
             policeFirebaseAdapter = new FirebaseRecyclerAdapter<PoliceItem, PoliceViewHolder>(policeOptions) {
                 @Override
                 protected void onBindViewHolder(@NonNull PoliceViewHolder holder, int position, @NonNull PoliceItem model) {
-                    final DatabaseReference gasRef = getRef(position);
-                    final String gasKey = gasRef.getKey();
+                    final DatabaseReference policeRef = getRef(position);
+                    final String policeKey = policeRef.getKey();
 
                     gpsHandler = new GPSHandler(getApplicationContext());
                     if (gpsHandler.isCanGetLocation()) {
@@ -105,7 +105,7 @@ public class PoliceActivity extends AppCompatActivity {
                             @Override
                             public void onItemClick(View view, int position) {
                                 Intent intent = new Intent(getApplicationContext(), PoliceDetailActivity.class);
-                                intent.putExtra(PoliceDetailActivity.EXTRA_POLICE_KEY, gasKey);
+                                intent.putExtra(PoliceDetailActivity.EXTRA_POLICE_KEY, policeKey);
                                 startActivity(intent);
                             }
                         });

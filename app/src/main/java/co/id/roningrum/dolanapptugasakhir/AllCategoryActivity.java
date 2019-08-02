@@ -19,6 +19,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.LinearLayout;
 
+import co.id.roningrum.dolanapptugasakhir.hospital.HospitalActivity;
 import co.id.roningrum.dolanapptugasakhir.hotel.HotelActivity;
 import co.id.roningrum.dolanapptugasakhir.police.PoliceActivity;
 import co.id.roningrum.dolanapptugasakhir.spbu.GasStationActivity;
@@ -58,6 +59,7 @@ public class AllCategoryActivity extends AppCompatActivity implements View.OnCli
         LinearLayout shipMenu = findViewById(R.id.ln_harbor_tour);
         LinearLayout spbuMenu = findViewById(R.id.ln_spbu_public);
         LinearLayout policeMenu = findViewById(R.id.ln_police_public);
+        LinearLayout hospitalMenu = findViewById(R.id.ln_hospital_public);
 
         natureMenu.setOnClickListener(this);
         entertaintMenu.setOnClickListener(this);
@@ -76,6 +78,7 @@ public class AllCategoryActivity extends AppCompatActivity implements View.OnCli
         shipMenu.setOnClickListener(this);
         spbuMenu.setOnClickListener(this);
         policeMenu.setOnClickListener(this);
+        hospitalMenu.setOnClickListener(this);
 
     }
 
@@ -129,6 +132,10 @@ public class AllCategoryActivity extends AppCompatActivity implements View.OnCli
                 break;
             case R.id.ln_police_public:
                 startActivity(new Intent(AllCategoryActivity.this, PoliceActivity.class));
+                break;
+
+            case R.id.ln_hospital_public:
+                startActivity(new Intent(AllCategoryActivity.this, HospitalActivity.class));
                 break;
 
 
