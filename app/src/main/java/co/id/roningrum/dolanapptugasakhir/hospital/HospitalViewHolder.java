@@ -24,7 +24,7 @@ import com.bumptech.glide.Glide;
 
 import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.handler.HaversineHandler;
-import co.id.roningrum.dolanapptugasakhir.item.HospitalItem;
+import co.id.roningrum.dolanapptugasakhir.model.HospitalItem;
 
 public class HospitalViewHolder extends RecyclerView.ViewHolder {
     private final TextView nameHospital;

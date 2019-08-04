@@ -45,7 +45,7 @@ import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.handler.NetworkHelper;
 import co.id.roningrum.dolanapptugasakhir.handler.PermissionHandler;
-import co.id.roningrum.dolanapptugasakhir.item.TourismItem;
+import co.id.roningrum.dolanapptugasakhir.model.TourismItem;
 import co.id.roningrum.dolanapptugasakhir.tourism.water.viewholder.WaterViewHolder;
 
 public class WaterCategoryActivity extends AppCompatActivity {

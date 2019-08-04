@@ -45,7 +45,7 @@ import java.util.Objects;
 import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.handler.HaversineHandler;
-import co.id.roningrum.dolanapptugasakhir.item.HospitalItem;
+import co.id.roningrum.dolanapptugasakhir.model.HospitalItem;
 
 public class HospitalDetailActivity extends AppCompatActivity implements OnMapReadyCallback {
     public static final String EXTRA_HOSPITAL_KEY = "hospitalKey";

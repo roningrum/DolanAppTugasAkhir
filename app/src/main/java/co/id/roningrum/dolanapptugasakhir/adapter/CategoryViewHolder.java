@@ -24,7 +24,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 
 import co.id.roningrum.dolanapptugasakhir.R;
-import co.id.roningrum.dolanapptugasakhir.item.TourismItem;
+import co.id.roningrum.dolanapptugasakhir.model.TourismItem;
 
 
 //public class CategoryViewHolder extends RecyclerView.Adapter<CategoryViewHolder.CategoryViewHolder> {
@@ -76,6 +76,7 @@ public class CategoryViewHolder extends RecyclerView.ViewHolder {
 
     }
 
+    @SuppressLint("SetTextI18n")
     public void showTourismData(TourismItem tourismItem, double longitude, double latitude) {
 //
 //        Location loc1 = new Location("");

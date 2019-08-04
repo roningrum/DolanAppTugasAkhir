@@ -29,7 +29,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.maps.android.clustering.ClusterManager;
 
-import co.id.roningrum.dolanapptugasakhir.item.TourismItem;
+import co.id.roningrum.dolanapptugasakhir.model.TourismItem;
 
 public class CategoryMapActivity extends FragmentActivity implements OnMapReadyCallback {
 
@@ -70,6 +70,7 @@ public class CategoryMapActivity extends FragmentActivity implements OnMapReadyC
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot s : dataSnapshot.getChildren()) {
                     TourismItem tourismItems = s.getValue(TourismItem.class);
+                    assert tourismItems != null;
                     double latitude = tourismItems.getLat_location_tourism();
                     double longitude = tourismItems.getLng_location_tourism();
 

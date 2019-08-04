@@ -45,7 +45,7 @@ import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.handler.NetworkHelper;
 import co.id.roningrum.dolanapptugasakhir.handler.PermissionHandler;
 import co.id.roningrum.dolanapptugasakhir.hotel.viewholder.HotelViewHolder;
-import co.id.roningrum.dolanapptugasakhir.item.HotelItem;
+import co.id.roningrum.dolanapptugasakhir.model.HotelItem;
 
 public class HotelActivity extends AppCompatActivity {
     private RecyclerView rvHotelList;

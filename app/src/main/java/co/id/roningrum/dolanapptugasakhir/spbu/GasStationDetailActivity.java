@@ -45,7 +45,7 @@ import java.util.Objects;
 import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.handler.HaversineHandler;
-import co.id.roningrum.dolanapptugasakhir.item.GasStationItem;
+import co.id.roningrum.dolanapptugasakhir.model.GasStationItem;
 
 public class GasStationDetailActivity extends AppCompatActivity implements OnMapReadyCallback {
 

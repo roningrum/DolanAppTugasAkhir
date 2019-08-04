@@ -32,7 +32,7 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import co.id.roningrum.dolanapptugasakhir.R;
-import co.id.roningrum.dolanapptugasakhir.item.TourismItem;
+import co.id.roningrum.dolanapptugasakhir.model.TourismItem;
 
 public class ShoppingCategoryMap extends FragmentActivity implements OnMapReadyCallback {
 
@@ -46,6 +46,7 @@ public class ShoppingCategoryMap extends FragmentActivity implements OnMapReadyC
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.shopping_tourism_map);
+        assert mapFragment != null;
         mapFragment.getMapAsync(this);
         shoppingRefMap = FirebaseDatabase.getInstance().getReference().child("Tourism");
     }
@@ -71,6 +72,7 @@ public class ShoppingCategoryMap extends FragmentActivity implements OnMapReadyC
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for(DataSnapshot dsNature : dataSnapshot.getChildren()){
                     TourismItem tourismItem = dsNature.getValue(TourismItem.class);
+                    assert tourismItem != null;
                     double latNature = tourismItem.getLat_location_tourism();
                     double lngNature = tourismItem.getLng_location_tourism();
                     LatLng naturePlaceLoc = new LatLng(latNature, lngNature);

@@ -11,7 +11,7 @@
  * limitations under the License.
  */
 
-package co.id.roningrum.dolanapptugasakhir.item;
+package co.id.roningrum.dolanapptugasakhir.model;
 
 public class PoliceItem {
     private String name_police;

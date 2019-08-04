@@ -44,7 +44,7 @@ import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.handler.NetworkHelper;
 import co.id.roningrum.dolanapptugasakhir.handler.PermissionHandler;
-import co.id.roningrum.dolanapptugasakhir.item.HospitalItem;
+import co.id.roningrum.dolanapptugasakhir.model.HospitalItem;
 
 public class HospitalActivity extends AppCompatActivity {
 

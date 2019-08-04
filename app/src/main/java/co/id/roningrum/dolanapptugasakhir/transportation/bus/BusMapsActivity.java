@@ -32,7 +32,7 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import co.id.roningrum.dolanapptugasakhir.R;
-import co.id.roningrum.dolanapptugasakhir.item.TransportationItem;
+import co.id.roningrum.dolanapptugasakhir.model.TransportationItem;
 
 public class BusMapsActivity extends FragmentActivity implements OnMapReadyCallback {
 

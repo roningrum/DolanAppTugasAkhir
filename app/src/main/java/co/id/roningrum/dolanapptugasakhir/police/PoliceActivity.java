@@ -44,7 +44,7 @@ import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.handler.NetworkHelper;
 import co.id.roningrum.dolanapptugasakhir.handler.PermissionHandler;
-import co.id.roningrum.dolanapptugasakhir.item.PoliceItem;
+import co.id.roningrum.dolanapptugasakhir.model.PoliceItem;
 import co.id.roningrum.dolanapptugasakhir.police.viewholder.PoliceViewHolder;
 
 public class PoliceActivity extends AppCompatActivity {

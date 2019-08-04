@@ -25,7 +25,7 @@ import com.bumptech.glide.Glide;
 
 import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.handler.HaversineHandler;
-import co.id.roningrum.dolanapptugasakhir.item.TourismItem;
+import co.id.roningrum.dolanapptugasakhir.model.TourismItem;
 
 
 public class RecreationViewHolder extends RecyclerView.ViewHolder {

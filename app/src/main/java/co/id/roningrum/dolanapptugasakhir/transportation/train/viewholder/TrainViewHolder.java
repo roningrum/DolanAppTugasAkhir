@@ -24,7 +24,7 @@ import com.bumptech.glide.Glide;
 
 import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.handler.HaversineHandler;
-import co.id.roningrum.dolanapptugasakhir.item.TransportationItem;
+import co.id.roningrum.dolanapptugasakhir.model.TransportationItem;
 
 public class TrainViewHolder extends RecyclerView.ViewHolder {
 

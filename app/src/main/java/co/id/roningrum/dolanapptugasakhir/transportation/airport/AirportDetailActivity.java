@@ -43,7 +43,7 @@ import java.util.Objects;
 import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.handler.HaversineHandler;
-import co.id.roningrum.dolanapptugasakhir.item.TransportationItem;
+import co.id.roningrum.dolanapptugasakhir.model.TransportationItem;
 
 public class AirportDetailActivity extends AppCompatActivity implements OnMapReadyCallback {
 

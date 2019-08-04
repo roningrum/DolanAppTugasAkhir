@@ -54,6 +54,7 @@ dependencies {
     implementation 'com.github.jd-alexander:LikeButton:0.2.3'
     implementation 'com.github.bumptech.glide:glide:4.9.0'
     implementation 'com.facebook.shimmer:shimmer:0.1.0@aar'
+    implementation 'com.romandanylyk:pageindicatorview:1.0.3@aar'
     implementation 'com.google.maps.android:android-maps-utils:0.5'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0'
 }

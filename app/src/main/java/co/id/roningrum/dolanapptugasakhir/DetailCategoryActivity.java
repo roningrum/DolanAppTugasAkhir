@@ -29,7 +29,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
-import co.id.roningrum.dolanapptugasakhir.item.TourismItem;
+import co.id.roningrum.dolanapptugasakhir.model.TourismItem;
 
 
 public class DetailCategoryActivity extends AppCompatActivity {
@@ -81,7 +81,6 @@ public class DetailCategoryActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                 TourismItem tourismItem = dataSnapshot.getValue(TourismItem.class);
-
 
                 startlat = gpsHandler.getLatitude();
                 startlng = gpsHandler.getLongitude();
