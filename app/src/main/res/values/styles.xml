@@ -27,9 +27,10 @@
 
     <style name="AppTheme" parent="AppTheme.Base" />
 
-    <style name="SplashThem" parent="Theme.AppCompat.DayNight.NoActionBar">
-        <item name="colorPrimary">#f9690e</item>
-    </style>
+    <!--<style name="SplashThem.AppThem" parent="Theme.AppCompat.DayNight.NoActionBar">-->
+    <!--<item name="colorPrimary">@color/colorPrimary</item>-->
+    <!--<item name="android:windowBackground">@drawable/bg_orange_splash</item>-->
+    <!--</style>-->
 
     <!--<style name="alternateTheme" parent="Theme.AppCompat.Light.NoActionBar">-->
     <!--<item name="colorPrimary">@color/colorPrimary</item>-->

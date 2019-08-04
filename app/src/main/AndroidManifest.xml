@@ -139,22 +139,19 @@
         <activity android:name=".RegisteredemailConfirmActivity" />
         <activity android:name=".DetailCategoryActivity" />
         <activity android:name=".CategoryMenuActivity" />
-        <activity android:name=".AllCategoryActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+        <activity android:name=".AllCategoryActivity" />
         <activity android:name=".MainMenuActivity" />
         <activity android:name=".ForgetPassSignInActivity" />
         <activity android:name=".RegisterEmailActivity" />
         <activity android:name=".SignInEmailActivity" />
         <activity android:name=".SignInActivity" />
-        <activity
-            android:name=".SplashScreenActivity"
-            android:theme="@style/SplashThem" />
+        <activity android:name=".SplashScreenActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity android:name=".MainActivity" />
         <activity android:name=".ResetSandiConfirmActivity" />
 
