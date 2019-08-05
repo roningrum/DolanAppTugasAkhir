@@ -29,7 +29,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
-import co.id.roningrum.dolanapptugasakhir.item.CategoryItem;
+import co.id.roningrum.dolanapptugasakhir.model.TourismItem;
 
 
 public class DetailCategoryActivity extends AppCompatActivity {
@@ -80,22 +80,21 @@ public class DetailCategoryActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                CategoryItem categoryItem = dataSnapshot.getValue(CategoryItem.class);
-
+                TourismItem tourismItem = dataSnapshot.getValue(TourismItem.class);
 
                 startlat = gpsHandler.getLatitude();
                 startlng = gpsHandler.getLongitude();
-                assert categoryItem != null;
-                endlat = categoryItem.getLat_location_tourism();
-                endLng = categoryItem.getLng_location_tourism();
+                assert tourismItem != null;
+                endlat = tourismItem.getLat_location_tourism();
+                endLng = tourismItem.getLng_location_tourism();
                 distance = calculateDistance(startlat,startlng,endlat,endLng);
 
                 @SuppressLint("DefaultLocale") String distanceFormat = String.format("%.2f",distance);
                 tvDistanceObject.setText(""+distanceFormat+" KM");
-                tvNameTourismObject.setText(categoryItem.getName_tourism());
-                tvAddressTourismObject.setText(categoryItem.getLocation_tourism());
-                tvInfoTourismObject.setText(categoryItem.getInfo_tourism());
-                Glide.with(getApplicationContext()).load(categoryItem.getUrl_photo()).into(imgTourismObject);
+                tvNameTourismObject.setText(tourismItem.getName_tourism());
+                tvAddressTourismObject.setText(tourismItem.getLocation_tourism());
+                tvInfoTourismObject.setText(tourismItem.getInfo_tourism());
+                Glide.with(getApplicationContext()).load(tourismItem.getUrl_photo()).into(imgTourismObject);
 
 
 //                showGalleryPhoto();

@@ -23,7 +23,8 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 
 import co.id.roningrum.dolanapptugasakhir.R;
-import co.id.roningrum.dolanapptugasakhir.item.CategoryItem;
+import co.id.roningrum.dolanapptugasakhir.handler.HaversineHandler;
+import co.id.roningrum.dolanapptugasakhir.model.TourismItem;
 
 public class VillageViewHolder extends RecyclerView.ViewHolder {
     private final TextView name_village_tourism;
@@ -46,37 +47,36 @@ public class VillageViewHolder extends RecyclerView.ViewHolder {
     }
 
     @SuppressLint("SetTextI18n")
-    public void showVillageTourismData(CategoryItem categoryItem, double latitude, double longitude) {
+    public void showVillageTourismData(TourismItem tourismItem, double latitude, double longitude) {
 
-        double lattitude_a = categoryItem.getLat_location_tourism();
-        double longitude_a = categoryItem.getLng_location_tourism();
-
-        float jarakMeter = (float) calculateDistance(latitude, longitude, lattitude_a, longitude_a);
+        double lattitude_a = tourismItem.getLat_location_tourism();
+        double longitude_a = tourismItem.getLng_location_tourism();
+        float jarakKM = (float) HaversineHandler.calculateDistance(latitude, longitude, lattitude_a, longitude_a);
 //        float jarakMeter = loc1.distanceTo(loc2);
-        float jarakKM = jarakMeter / 1000;
+//        float jarakKM = jarakMeter / 1000;
         @SuppressLint("DefaultLocale") String distanceFormat = String.format("%.2f", jarakKM);
 
-        name_village_tourism.setText(categoryItem.getName_tourism());
-        location_village_tourism.setText(categoryItem.getLocation_tourism());
+        name_village_tourism.setText(tourismItem.getName_tourism());
+        location_village_tourism.setText(tourismItem.getLocation_tourism());
         distance_village_tourism.setText(distanceFormat + " km");
-        Glide.with(itemView.getContext()).load(categoryItem.getUrl_photo()).into(village_tourism_pic);
+        Glide.with(itemView.getContext()).load(tourismItem.getUrl_photo()).into(village_tourism_pic);
     }
-
-    private double calculateDistance(double lat1, double long1, double lat2, double long2) {
-
-        double earthRadius = 6371;
-        double latDiff = Math.toRadians(lat1 - lat2);
-        double lngDiff = Math.toRadians(long1 - long2);
-        double a = Math.sin(latDiff / 2) * Math.sin(latDiff / 2) +
-                Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2)) *
-                        Math.sin(lngDiff / 2) * Math.sin(lngDiff / 2);
-        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-        double distance = earthRadius * c;
-
-        int meterConversion = 1609;
-
-        return (float) distance * meterConversion;
-    }
+//
+//    private double calculateDistance(double lat1, double long1, double lat2, double long2) {
+//
+//        double earthRadius = 6371;
+//        double latDiff = Math.toRadians(lat1 - lat2);
+//        double lngDiff = Math.toRadians(long1 - long2);
+//        double a = Math.sin(latDiff / 2) * Math.sin(latDiff / 2) +
+//                Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2)) *
+//                        Math.sin(lngDiff / 2) * Math.sin(lngDiff / 2);
+//        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+//        double distance = earthRadius * c;
+//
+//        int meterConversion = 1609;
+//
+//        return (float) distance * meterConversion;
+//    }
 
     //interface
     private VillageViewHolder.ClickListener categoryOnClick;

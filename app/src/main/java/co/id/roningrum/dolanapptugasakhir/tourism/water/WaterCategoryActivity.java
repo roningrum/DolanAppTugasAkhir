@@ -45,13 +45,13 @@ import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.handler.NetworkHelper;
 import co.id.roningrum.dolanapptugasakhir.handler.PermissionHandler;
-import co.id.roningrum.dolanapptugasakhir.item.CategoryItem;
+import co.id.roningrum.dolanapptugasakhir.model.TourismItem;
 import co.id.roningrum.dolanapptugasakhir.tourism.water.viewholder.WaterViewHolder;
 
 public class WaterCategoryActivity extends AppCompatActivity {
     private RecyclerView rvWaterList;
     private ShimmerFrameLayout shimmerFrameLayout;
-    private FirebaseRecyclerAdapter<CategoryItem, WaterViewHolder> waterFirebaseAdapter;
+    private FirebaseRecyclerAdapter<TourismItem, WaterViewHolder> waterFirebaseAdapter;
 
     private GPSHandler gpsHandler;
     private PermissionHandler permissionHandler;
@@ -65,7 +65,7 @@ public class WaterCategoryActivity extends AppCompatActivity {
         shimmerFrameLayout = findViewById(R.id.shimmer_view_container);
 
         rvWaterList.setLayoutManager(new LinearLayoutManager(this));
-        ArrayList<CategoryItem> categoryItems = new ArrayList<>();
+        ArrayList<TourismItem> tourismItems = new ArrayList<>();
         checkConnection();
         setSupportActionBar(toolbarWater);
 //        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -85,13 +85,13 @@ public class WaterCategoryActivity extends AppCompatActivity {
         if(havePermission()){
             DatabaseReference waterCategoryDB = FirebaseDatabase.getInstance().getReference();
             Query waterItemListQuery = waterCategoryDB.child("Tourism").orderByChild("category_tourism").equalTo("air");
-            FirebaseRecyclerOptions<CategoryItem> options = new FirebaseRecyclerOptions.Builder<CategoryItem>()
-                    .setQuery(waterItemListQuery, CategoryItem.class)
+            FirebaseRecyclerOptions<TourismItem> options = new FirebaseRecyclerOptions.Builder<TourismItem>()
+                    .setQuery(waterItemListQuery, TourismItem.class)
                     .build();
-            waterFirebaseAdapter = new FirebaseRecyclerAdapter<CategoryItem, WaterViewHolder>(options) {
+            waterFirebaseAdapter = new FirebaseRecyclerAdapter<TourismItem, WaterViewHolder>(options) {
 
                 @Override
-                protected void onBindViewHolder(@NonNull WaterViewHolder holder, int position, @NonNull CategoryItem model) {
+                protected void onBindViewHolder(@NonNull WaterViewHolder holder, int position, @NonNull TourismItem model) {
                     final DatabaseReference waterCategoryRef = getRef(position);
                     final String waterKey = waterCategoryRef.getKey();
 

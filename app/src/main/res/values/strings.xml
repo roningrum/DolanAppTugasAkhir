@@ -20,10 +20,10 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="txt_btn_kirim_email_reset">Kirim</string>
+    <string name="txt_btn_email_reset">Lanjutkan</string>
     <string name="txt_subtitle_reset_page">Silakan masukkan email kamu \n Agar dapat menerima link reset kata sandi</string>
     <string name="txt_heading_reset_page">Lupa kata sandi kamu?</string>
-    <string name="txt_heading_register_page">Daftar</string>
+    <string name="txt_heading_register_page">Daftarkan Akunmu Disini</string>
     <string name="txt_subtitle_register_page">Silakan daftarkan akun kamu di sini</string>
     <string name="txt_edit_text_register_nama">nama</string>
     <string name="txt_edit_text_email_register">email</string>
@@ -37,7 +37,7 @@
     <string name="txt_subtitle_signin_page">Silakan masukkan akun kamu</string>
     <string name="txt_heading_signin_page">Masuk</string>
     <string name="txt_home_main_menu">Beranda</string>
-    <string name="txt_nearby_main_menu">Terdekat</string>
+    <string name="txt_nearby_main_menu">History</string>
     <string name="txt_bookmark_main_menu">Bookmark</string>
     <string name="txt_profile_main_menu">profile</string>
     <string name="txt_heading_home_menu">Beranda</string>
@@ -74,7 +74,7 @@
     <string name="hotel_dan_transportasi_umum_kategori"><![CDATA[Hotel & Transportasi Umum]]></string>
     <string name="string_hotel_menu">Hotel</string>
     <string name="string_bandara_menu">Bandara</string>
-    <string name="string_stasiun_kereta_menu">Stasiun/nKereta</string>
+    <string name="string_stasiun_kereta_menu">Stasiun Kereta</string>
     <string name="string_terminal_menu">Terminal</string>
     <string name="string_fasilitas_umum">Fasilitas Umum</string>
     <string name="string_spbu">SPBU</string>
@@ -83,5 +83,43 @@
     <string name="string_photo_detail_info">Foto</string>
     <string name="string_lokasi_detail_menu">Lokasi</string>
     <string name="string_info_desc_detail">Informasi</string>
+    <string name="title_activity_hotel_maps">Peta Hotel</string>
+    <string name="title_hotel_order_available">Pesan Kamar Tersedia</string>
+    <string name="order_link_hotel_traveloka">Traveloka</string>
+    <string name="order_link_hotel_tiket">Tiket</string>
+    <string name="title_activity_airport_maps">Peta Bandara</string>
+    <string name="title_activity_bus_maps">Peta Terminal Bus</string>
+    <string name="title_activity_train_maps">Peta Stasiun Kereta</string>
+    <string name="string_pelabuhan_menu">Pelabuhan</string>
+    <string name="title_activity_ship_map">Peta Pelabuhan</string>
+    <string name="search_bus_station_text">cari terminal</string>
+    <string name="menu_icon_peta">peta</string>
+    <string name="title_activity_gas_station_maps">Peta SPBU</string>
+    <string name="title_activity_police_maps">Peta Kantor Polisi</string>
+    <string name="string_profile_menu">Profile</string>
+    <string name="string_edit_profile_menu">Edit profile</string>
+    <string name="string_about_aplikasi">Tentang aplikasi</string>
+    <string name="string_no_bookmark">Tidak ada bookmark</string>
+    <string name="string_how_to_bookmarked">Agar dapat menyimpan daftar sebagai favorit   Klik disini</string>
+    <string name="string_klik_to_menu">Temukan di kategori</string>
+    <string name="string_reset_sandi_heading">Permintaan reset sandi terkirim</string>
+    <string name="string_reset_sandi_sub_check_inbox">Silakan, cek kotak masuk email   untuk melakukan reset sandi</string>
+    <string name="string_continoue_sign_in">Lanjutkan</string>
+    <string name="string_success_register">Sukses Terdaftar</string>
+    <string name="string_confirm_email">Silakan, cek kotak masuk email   untuk melakukan konfirmasi email</string>
+    <string name="string_continoue_login">Lanjutkan</string>
+    <string name="string_email_forget_pass">email</string>
+    <string name="string_dummy_welcome">Selamat datang, Hailey Rhode Bieber</string>
+    <string name="string_all_home">semua</string>
+    <string name="string_recommendation">Rekomendasi tempat wisata</string>
+    <string name="string_must_try_food">Makanan yang wajib dicoba</string>
+    <string name="string_dummy_profname">Hailey Bieber</string>
+    <string name="string_email_dummy">haileyb1245@gmail.com</string>
+    <string name="title_activity_hospital_maps">Peta Rumah Sakit</string>
+    <string name="upcoming_event">Event Mendatang</string>
+    <string name="string_festival_culture_home">Festival dan Budaya</string>
+    <string name="register_email_2">Tambahkan foto dan nama</string>
+    <string name="sub_register_email2">untuk melengkapi data akun kamu tambahkan foto dan nama</string>
+    <string name="btn_reset_email_process">Reset</string>
     <!--<string name="title_activity_religi_category_maps">Peta Wisata Religi</string>-->
 </resources>

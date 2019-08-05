@@ -32,7 +32,7 @@
             android:background="@color/txtWhitePrimary"
             app:layout_collapseMode="pin"
             app:popupTheme="@style/ActionBarThemeOverlay"
-            app:title="Wisata Alam"
+            app:title="Wisata Sejarah"
             app:titleTextColor="@android:color/black" />
     </android.support.design.widget.AppBarLayout>
 

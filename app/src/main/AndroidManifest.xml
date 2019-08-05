@@ -9,6 +9,7 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="com.sec.android.provider.badge.permission.WRITE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission
         android:name="android.permission.WRITE_EXTERNAL_STORAGE"
@@ -27,7 +28,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
+        <activity android:name=".RegisterEmail2"></activity>
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -40,6 +41,46 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
+        <activity
+            android:name=".hospital.HospitalMapsActivity"
+            android:label="@string/title_activity_hospital_maps" />
+        <activity android:name=".hospital.HospitalDetailActivity" />
+        <activity android:name=".hospital.HospitalActivity" />
+        <activity
+            android:name=".police.PoliceMapsActivity"
+            android:label="@string/title_activity_police_maps" />
+        <activity android:name=".police.PoliceDetailActivity" />
+        <activity android:name=".police.PoliceActivity" />
+        <activity
+            android:name=".spbu.GasStationMapsActivity"
+            android:label="@string/title_activity_gas_station_maps" />
+        <activity android:name=".spbu.GasStationDetailActivity" />
+        <activity android:name=".spbu.GasStationActivity" />
+        <activity
+            android:name=".transportation.ship.ShipMapActivity"
+            android:label="@string/title_activity_ship_map" />
+        <activity android:name=".transportation.ship.ShipDetailActivity" />
+        <activity android:name=".transportation.ship.ShipActivity" />
+        <activity
+            android:name=".transportation.train.TrainMapsActivity"
+            android:label="@string/title_activity_train_maps" />
+        <activity android:name=".transportation.train.TrainDetailActivity" />
+        <activity android:name=".transportation.train.TrainActivity" />
+        <activity
+            android:name=".transportation.bus.BusMapsActivity"
+            android:label="@string/title_activity_bus_maps" />
+        <activity android:name=".transportation.bus.BusDetailActivity" />
+        <activity android:name=".transportation.bus.BusActivity" />
+        <activity
+            android:name=".transportation.airport.AirportMapsActivity"
+            android:label="@string/title_activity_airport_maps" />
+        <activity android:name=".transportation.airport.AirportDetailActivity" />
+        <activity android:name=".transportation.airport.AirportActivity" />
+        <activity
+            android:name=".hotel.HotelMapsActivity"
+            android:label="@string/title_activity_hotel_maps" />
+        <activity android:name=".hotel.DetailHotelActivity" />
+        <activity android:name=".hotel.HotelActivity" />
         <activity
             android:name=".tourism.food.FoodCategoryMap"
             android:label="@string/title_activity_food_category_map" />
@@ -97,7 +138,13 @@
         <activity android:name=".RegisteredemailConfirmActivity" />
         <activity android:name=".DetailCategoryActivity" />
         <activity android:name=".CategoryMenuActivity" />
-        <activity android:name=".AllCategoryActivity">
+        <activity android:name=".AllCategoryActivity" />
+        <activity android:name=".MainMenuActivity" />
+        <activity android:name=".ForgetPassSignInActivity" />
+        <activity android:name=".RegisterEmailActivity" />
+        <activity android:name=".SignInEmailActivity" />
+        <activity android:name=".SignInActivity" />
+        <activity android:name=".SplashScreenActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <action android:name="android.intent.action.MAIN" />
@@ -105,14 +152,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainMenuActivity" />
-        <activity android:name=".ForgetPassSignInActivity" />
-        <activity android:name=".RegisterEmailActivity" />
-        <activity android:name=".SignInEmailActivity" />
-        <activity android:name=".SignInActivity" />
-        <activity
-            android:name=".SplashScreenActivity"
-            android:theme="@style/SplashThem" />
         <activity android:name=".MainActivity" />
         <activity android:name=".ResetSandiConfirmActivity" />
 

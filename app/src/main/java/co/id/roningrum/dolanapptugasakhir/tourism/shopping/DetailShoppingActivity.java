@@ -35,21 +35,21 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.Objects;
 
 import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
-import co.id.roningrum.dolanapptugasakhir.item.CategoryItem;
+import co.id.roningrum.dolanapptugasakhir.handler.HaversineHandler;
+import co.id.roningrum.dolanapptugasakhir.model.TourismItem;
 
 public class DetailShoppingActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     public static final String EXTRA_WISATA_KEY = "shopping_key";
-    public static final String MAP_VIEW_KEY = "mapViewBundle";
+    private static final String MAP_VIEW_KEY = "mapViewBundle";
 
-    private final static String TAG = "Pesan";
+//    private final static String TAG = "Pesan";
 
     private GoogleMap shoppingLocationMap;
     private MapView shoppingMapView;
@@ -86,6 +86,8 @@ public class DetailShoppingActivity extends AppCompatActivity implements OnMapRe
         setSupportActionBar(toolbarShopping);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back_24dp);
 
         Bundle mapViewBundle = null;
         if (savedInstanceState != null) {
@@ -99,7 +101,7 @@ public class DetailShoppingActivity extends AppCompatActivity implements OnMapRe
             throw new IllegalArgumentException("Must pass Extra");
         }
         shoppingDetailRef = FirebaseDatabase.getInstance().getReference().child("Tourism").child(shoppingKey);
-        Query shoppingQuery = shoppingDetailRef.orderByChild("category_tourism").equalTo("belanja");
+//        Query shoppingQuery = shoppingDetailRef.orderByChild("category_tourism").equalTo("belanja");
         gpsHandler = new GPSHandler(this);
         
         LoadShoppingDetail();
@@ -111,20 +113,20 @@ public class DetailShoppingActivity extends AppCompatActivity implements OnMapRe
                 @SuppressLint("SetTextI18n")
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    final CategoryItem categoryItem = dataSnapshot.getValue(CategoryItem.class);
+                    final TourismItem tourismItem = dataSnapshot.getValue(TourismItem.class);
                     startLat = gpsHandler.getLatitude();
                     startLng = gpsHandler.getLongitude();
-                    assert categoryItem != null;
-                    endLat = categoryItem.getLat_location_tourism();
-                    endLng = categoryItem.getLng_location_tourism();
-                    distance = calculateDistance(startLat,startLng,endLat,endLng);
+                    assert tourismItem != null;
+                    endLat = tourismItem.getLat_location_tourism();
+                    endLng = tourismItem.getLng_location_tourism();
+                    distance = HaversineHandler.calculateDistance(startLat, startLng, endLat, endLng);
 
                     @SuppressLint("DefaultLocale") String distanceFormat = String.format("%.2f",distance);
                     tvDistanceShoppingDetail.setText(""+distanceFormat+" KM");
-                    tvNameShoppingDetail.setText(categoryItem.getName_tourism());
-                    tvAddressShoppingDetail.setText(categoryItem.getLocation_tourism());
-                    tvDescShoppingDetail.setText(categoryItem.getInfo_tourism());
-                    Glide.with(getApplicationContext()).load(categoryItem.getUrl_photo()).into(imgShoppingObject);
+                    tvNameShoppingDetail.setText(tourismItem.getName_tourism());
+                    tvAddressShoppingDetail.setText(tourismItem.getLocation_tourism());
+                    tvDescShoppingDetail.setText(tourismItem.getInfo_tourism());
+                    Glide.with(getApplicationContext()).load(tourismItem.getUrl_photo()).into(imgShoppingObject);
                     AppBarLayout appBarLayout = findViewById(R.id.app_bar_shopping);
                     appBarLayout.addOnOffsetChangedListener(new AppBarLayout.BaseOnOffsetChangedListener() {
                         boolean isShow = true;
@@ -136,7 +138,7 @@ public class DetailShoppingActivity extends AppCompatActivity implements OnMapRe
                                 scrollRange = appBarLayout.getTotalScrollRange();
                             }
                             if (scrollRange + verticalOffset == 0) {
-                                collapsingToolbarLayout_shopping.setTitle(categoryItem.getName_tourism());
+                                collapsingToolbarLayout_shopping.setTitle(tourismItem.getName_tourism());
                                 isShow = true;
                             } else {
                                 collapsingToolbarLayout_shopping.setTitle(" ");
@@ -157,20 +159,20 @@ public class DetailShoppingActivity extends AppCompatActivity implements OnMapRe
         }
     }
 
-    private double calculateDistance(double startLat, double startLng, double endLat, double endLng) {
-        double earthRadius = 6371;
-        double latDiff = Math.toRadians(startLat-endLat);
-        double lngDiff = Math.toRadians(startLng-endLng);
-        double a = Math.sin(latDiff /2) * Math.sin(latDiff /2) +
-                Math.cos(Math.toRadians(startLat)) * Math.cos(Math.toRadians(endLat)) *
-                        Math.sin(lngDiff /2) * Math.sin(lngDiff /2);
-        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-        double distance = earthRadius * c;
-
-        int meterConversion = 1609;
-
-        return (distance*meterConversion/1000);
-    }
+//    private double calculateDistance(double startLat, double startLng, double endLat, double endLng) {
+//        double earthRadius = 6371;
+//        double latDiff = Math.toRadians(startLat-endLat);
+//        double lngDiff = Math.toRadians(startLng-endLng);
+//        double a = Math.sin(latDiff /2) * Math.sin(latDiff /2) +
+//                Math.cos(Math.toRadians(startLat)) * Math.cos(Math.toRadians(endLat)) *
+//                        Math.sin(lngDiff /2) * Math.sin(lngDiff /2);
+//        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+//        double distance = earthRadius * c;
+//
+//        int meterConversion = 1609;
+//
+//        return (distance*meterConversion/1000);
+//    }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
@@ -192,10 +194,10 @@ public class DetailShoppingActivity extends AppCompatActivity implements OnMapRe
         ValueEventListener eventListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                CategoryItem categoryItem = dataSnapshot.getValue(CategoryItem.class);
-                assert categoryItem != null;
-                double lattitude = categoryItem.getLat_location_tourism();
-                double longitude = categoryItem.getLng_location_tourism();
+                TourismItem tourismItem = dataSnapshot.getValue(TourismItem.class);
+                assert tourismItem != null;
+                double lattitude = tourismItem.getLat_location_tourism();
+                double longitude = tourismItem.getLng_location_tourism();
 
                 LatLng location = new LatLng(lattitude, longitude);
                 shoppingLocationMap.addMarker(new MarkerOptions().position(location));

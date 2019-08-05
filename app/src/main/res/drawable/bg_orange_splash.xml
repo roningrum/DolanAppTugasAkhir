@@ -11,10 +11,10 @@
   ~ limitations under the License.
   -->
 
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".TestDetail">
-
-</android.support.constraint.ConstraintLayout>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <gradient
+        android:angle="-90"
+        android:centerColor="#F15A22"
+        android:endColor="@color/orangePrimary"
+        android:startColor="#FF3D00" />
+</shape>

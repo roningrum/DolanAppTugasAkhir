@@ -24,7 +24,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="56dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="8dp"
         android:fontFamily="@font/montserrat_bold"
         android:lineSpacingExtra="24sp"
@@ -32,21 +32,23 @@
         android:textColor="#27221F"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/imageView2" />
 
     <ImageView
         android:id="@+id/imageView2"
-        android:layout_width="106dp"
-        android:layout_height="126dp"
+        android:layout_width="250dp"
+        android:layout_height="150dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="56dp"
         android:layout_marginEnd="8dp"
-        android:src="@drawable/confused"
+        android:contentDescription="@null"
+        android:src="@drawable/forgotpass"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_heading_reset_page" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/tv_subtitle_reset_page"
@@ -56,14 +58,15 @@
         android:layout_marginTop="24dp"
         android:layout_marginEnd="24dp"
         android:fontFamily="@font/montserrat"
-        android:lineSpacingExtra="14dp"
+        android:lineSpacingExtra="8sp"
         android:text="@string/txt_subtitle_reset_page"
         android:textAlignment="center"
         android:textColor="#7B726A"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.478"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView2" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_heading_reset_page" />
 
     <LinearLayout
         android:id="@+id/layout_email_reset_form"
@@ -80,15 +83,19 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/montserrat_light"
             android:lineSpacingExtra="15sp"
-            android:text="email"
+            android:text="@string/string_email_forget_pass"
             android:textColor="#000000" />
 
         <EditText
             android:id="@+id/edt_email_address_login"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:inputType="textEmailAddress" />
+            android:layout_height="56dp"
+            android:layout_marginTop="8dp"
+            android:background="#EEEEEE"
+            android:fontFamily="@font/montserrat"
+            android:importantForAutofill="no"
+            android:inputType="textEmailAddress"
+            tools:targetApi="o" />
     </LinearLayout>
 
     <Button
@@ -99,11 +106,10 @@
         android:layout_marginTop="32dp"
         android:layout_marginEnd="32dp"
         android:background="@drawable/bg_button_orange"
-        android:fontFamily="@font/montserrat_medium"
-        android:text="@string/txt_btn_kirim_email_reset"
-        android:textAllCaps="false"
+        android:fontFamily="@font/montserrat"
+        android:text="@string/btn_reset_email_process"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         android:textColor="@color/txtWhitePrimary"
-        android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/layout_email_reset_form" />

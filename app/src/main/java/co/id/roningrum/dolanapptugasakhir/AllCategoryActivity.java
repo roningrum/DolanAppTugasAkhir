@@ -19,6 +19,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.LinearLayout;
 
+import co.id.roningrum.dolanapptugasakhir.hospital.HospitalActivity;
+import co.id.roningrum.dolanapptugasakhir.hotel.HotelActivity;
+import co.id.roningrum.dolanapptugasakhir.police.PoliceActivity;
+import co.id.roningrum.dolanapptugasakhir.spbu.GasStationActivity;
 import co.id.roningrum.dolanapptugasakhir.tourism.education.EducationCategoryActivity;
 import co.id.roningrum.dolanapptugasakhir.tourism.food.FoodCategoryActivity;
 import co.id.roningrum.dolanapptugasakhir.tourism.history.HistoryCategoryActivity;
@@ -28,24 +32,34 @@ import co.id.roningrum.dolanapptugasakhir.tourism.religi.ReligiCategoryActivity;
 import co.id.roningrum.dolanapptugasakhir.tourism.shopping.ShoppingCategoryActivity;
 import co.id.roningrum.dolanapptugasakhir.tourism.village.VillageCategoryActivity;
 import co.id.roningrum.dolanapptugasakhir.tourism.water.WaterCategoryActivity;
+import co.id.roningrum.dolanapptugasakhir.transportation.airport.AirportActivity;
+import co.id.roningrum.dolanapptugasakhir.transportation.bus.BusActivity;
+import co.id.roningrum.dolanapptugasakhir.transportation.ship.ShipActivity;
+import co.id.roningrum.dolanapptugasakhir.transportation.train.TrainActivity;
 
 public class AllCategoryActivity extends AppCompatActivity implements View.OnClickListener {
-    LinearLayout natureMenu, entertaintMenu, shoppingMenu, villageMenu,
-            foodMenu, educationMenu, historyMenu, waterMenu, religiMenu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_all_category);
-        natureMenu = findViewById(R.id.ln_nature_tour);
-        entertaintMenu = findViewById(R.id.ln_entertain_tour);
-        shoppingMenu = findViewById(R.id.ln_belanja_tour);
-        villageMenu = findViewById(R.id.ln_desa_tour);
-        foodMenu = findViewById(R.id.ln_kuliner_tour);
-        educationMenu = findViewById(R.id.ln_edukasi_tour);
-        historyMenu = findViewById(R.id.ln_sejarah_tour);
-        waterMenu = findViewById(R.id.ln_air_tour);
-        religiMenu = findViewById(R.id.ln_religi_tour);
+        LinearLayout natureMenu = findViewById(R.id.ln_nature_tour);
+        LinearLayout entertaintMenu = findViewById(R.id.ln_entertain_tour);
+        LinearLayout shoppingMenu = findViewById(R.id.ln_belanja_tour);
+        LinearLayout villageMenu = findViewById(R.id.ln_desa_tour);
+        LinearLayout foodMenu = findViewById(R.id.ln_kuliner_tour);
+        LinearLayout educationMenu = findViewById(R.id.ln_edukasi_tour);
+        LinearLayout historyMenu = findViewById(R.id.ln_sejarah_tour);
+        LinearLayout waterMenu = findViewById(R.id.ln_air_tour);
+        LinearLayout religiMenu = findViewById(R.id.ln_religi_tour);
+        LinearLayout hotelMenu = findViewById(R.id.ln_hotel_public);
+        LinearLayout airportMenu = findViewById(R.id.ln_bandara_public);
+        LinearLayout busMenu = findViewById(R.id.ln_bus_public);
+        LinearLayout trainMenu = findViewById(R.id.ln_train_public);
+        LinearLayout shipMenu = findViewById(R.id.ln_harbor_tour);
+        LinearLayout spbuMenu = findViewById(R.id.ln_spbu_public);
+        LinearLayout policeMenu = findViewById(R.id.ln_police_public);
+        LinearLayout hospitalMenu = findViewById(R.id.ln_hospital_public);
 
         natureMenu.setOnClickListener(this);
         entertaintMenu.setOnClickListener(this);
@@ -57,6 +71,14 @@ public class AllCategoryActivity extends AppCompatActivity implements View.OnCli
         waterMenu.setOnClickListener(this);
         religiMenu.setOnClickListener(this);
         shoppingMenu.setOnClickListener(this);
+        hotelMenu.setOnClickListener(this);
+        airportMenu.setOnClickListener(this);
+        busMenu.setOnClickListener(this);
+        trainMenu.setOnClickListener(this);
+        shipMenu.setOnClickListener(this);
+        spbuMenu.setOnClickListener(this);
+        policeMenu.setOnClickListener(this);
+        hospitalMenu.setOnClickListener(this);
 
     }
 
@@ -89,6 +111,31 @@ public class AllCategoryActivity extends AppCompatActivity implements View.OnCli
                 break;
             case R.id.ln_sejarah_tour:
                 startActivity(new Intent(AllCategoryActivity.this, HistoryCategoryActivity.class));
+                break;
+            case R.id.ln_hotel_public:
+                startActivity(new Intent(AllCategoryActivity.this, HotelActivity.class));
+                break;
+            case R.id.ln_bandara_public:
+                startActivity(new Intent(AllCategoryActivity.this, AirportActivity.class));
+                break;
+            case R.id.ln_bus_public:
+                startActivity(new Intent(AllCategoryActivity.this, BusActivity.class));
+                break;
+            case R.id.ln_train_public:
+                startActivity(new Intent(AllCategoryActivity.this, TrainActivity.class));
+                break;
+            case R.id.ln_harbor_tour:
+                startActivity(new Intent(AllCategoryActivity.this, ShipActivity.class));
+                break;
+            case R.id.ln_spbu_public:
+                startActivity(new Intent(AllCategoryActivity.this, GasStationActivity.class));
+                break;
+            case R.id.ln_police_public:
+                startActivity(new Intent(AllCategoryActivity.this, PoliceActivity.class));
+                break;
+
+            case R.id.ln_hospital_public:
+                startActivity(new Intent(AllCategoryActivity.this, HospitalActivity.class));
                 break;
 
 

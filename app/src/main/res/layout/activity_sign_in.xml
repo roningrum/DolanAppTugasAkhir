@@ -26,6 +26,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        android:contentDescription="@null"
         app:layout_constraintTop_toTopOf="parent" />
 
     <View
@@ -42,14 +43,15 @@
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="113dp"
-        android:layout_height="147dp"
+        android:layout_width="150dp"
+        android:layout_height="113dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="70dp"
         android:layout_marginEnd="8dp"
-        android:src="@drawable/dolanlogo"
+        android:src="@drawable/home_logo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        android:contentDescription="@null"
         app:layout_constraintTop_toTopOf="@+id/view" />
 
     <Button
@@ -57,7 +59,7 @@
         android:layout_width="300dp"
         android:layout_height="55dp"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="113dp"
+        android:layout_marginTop="105dp"
         android:layout_marginEnd="32dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

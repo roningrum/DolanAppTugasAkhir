@@ -36,6 +36,7 @@
         android:src="@drawable/nolistbookmark"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        android:contentDescription="@null"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
@@ -47,7 +48,7 @@
         android:layout_marginEnd="56dp"
         android:fontFamily="@font/montserrat_bold"
         android:lineSpacingExtra="10dp"
-        android:text="Tidak ada bookmark "
+        android:text="@string/string_no_bookmark"
         android:textAlignment="center"
         android:textColor="@color/blackTextPrimary"
         android:textSize="22sp"
@@ -64,7 +65,7 @@
         android:layout_marginEnd="8dp"
         android:fontFamily="@font/montserrat_light"
         android:lineSpacingExtra="10dp"
-        android:text="Agar dapat menyimpan daftar sebagai favorit \n Klik disini"
+        android:text="@string/string_how_to_bookmarked"
         android:textAlignment="center"
         android:textColor="@color/blackTextPrimary"
         android:textSize="16sp"
@@ -81,7 +82,7 @@
         android:layout_marginEnd="32dp"
         android:background="@drawable/bg_button_orange"
         android:fontFamily="@font/montserrat_medium"
-        android:text="Temukan di kategori"
+        android:text="@string/string_klik_to_menu"
         android:textAllCaps="false"
         android:textColor="@color/txtWhitePrimary"
         android:textSize="14sp"

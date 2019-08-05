@@ -25,6 +25,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,14 +45,14 @@ import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.handler.NetworkHelper;
 import co.id.roningrum.dolanapptugasakhir.handler.PermissionHandler;
-import co.id.roningrum.dolanapptugasakhir.item.CategoryItem;
+import co.id.roningrum.dolanapptugasakhir.model.TourismItem;
 import co.id.roningrum.dolanapptugasakhir.tourism.education.viewholder.EducationViewHolder;
 
 public class EducationCategoryActivity extends AppCompatActivity {
 
     private RecyclerView rvEducationList;
     private ShimmerFrameLayout shimmerFrameLayout;
-    private FirebaseRecyclerAdapter<CategoryItem, EducationViewHolder> educationFirebaseAdapter;
+    private FirebaseRecyclerAdapter<TourismItem, EducationViewHolder> educationFirebaseAdapter;
 
     private GPSHandler gpsHandler;
     private PermissionHandler permissionHandler;
@@ -64,7 +65,7 @@ public class EducationCategoryActivity extends AppCompatActivity {
         Toolbar toolbarEducation = findViewById(R.id.toolbar_top_education);
         shimmerFrameLayout = findViewById(R.id.shimmer_view_container);
         rvEducationList.setLayoutManager(new LinearLayoutManager(this));
-        ArrayList<CategoryItem> categoryItems = new ArrayList<>();
+        ArrayList<TourismItem> tourismItems = new ArrayList<>();
         setSupportActionBar(toolbarEducation);
         checkConnection();
     }
@@ -81,10 +82,10 @@ public class EducationCategoryActivity extends AppCompatActivity {
         if (havePermission()) {
             DatabaseReference educationCategoryDB = FirebaseDatabase.getInstance().getReference();
             Query educationQuery = educationCategoryDB.child("Tourism").orderByChild("category_tourism").equalTo("edukasi");
-            FirebaseRecyclerOptions<CategoryItem> educationOptions = new FirebaseRecyclerOptions.Builder<CategoryItem>()
-                    .setQuery(educationQuery, CategoryItem.class)
+            FirebaseRecyclerOptions<TourismItem> educationOptions = new FirebaseRecyclerOptions.Builder<TourismItem>()
+                    .setQuery(educationQuery, TourismItem.class)
                     .build();
-            educationFirebaseAdapter = new FirebaseRecyclerAdapter<CategoryItem, EducationViewHolder>(educationOptions) {
+            educationFirebaseAdapter = new FirebaseRecyclerAdapter<TourismItem, EducationViewHolder>(educationOptions) {
                 @NonNull
                 @Override
                 public EducationViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
@@ -92,7 +93,7 @@ public class EducationCategoryActivity extends AppCompatActivity {
                 }
 
                 @Override
-                protected void onBindViewHolder(@NonNull EducationViewHolder holder, int position, @NonNull CategoryItem model) {
+                protected void onBindViewHolder(@NonNull EducationViewHolder holder, int position, @NonNull TourismItem model) {
                     final DatabaseReference educationCategoryRef = getRef(position);
                     final String eductaionKey = educationCategoryRef.getKey();
 
@@ -160,6 +161,12 @@ public class EducationCategoryActivity extends AppCompatActivity {
                 permissionHandler.deniedPermission(Manifest.permission.ACCESS_COARSE_LOCATION);
             }
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.toolbar_menu, menu);
+        return super.onCreateOptionsMenu(menu);
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

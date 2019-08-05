@@ -19,337 +19,368 @@
     tools:context=".HomeFragment">
 
     <android.support.design.widget.AppBarLayout
-        android:id="@+id/app_bar"
+        android:id="@+id/appbar_fragment_home"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:background="#ffffff"
-        android:fitsSystemWindows="true">
+        android:layout_height="wrap_content"
+        android:fitsSystemWindows="true"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
-        <android.support.design.widget.CollapsingToolbarLayout
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar_top_fragment_home"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/txtWhitePrimary"
+            app:layout_collapseMode="pin">
 
-            <android.support.constraint.ConstraintLayout
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:layout_scrollFlags="scroll|exitUntilCollapsed">
-
-                <View
-                    android:id="@+id/view2"
-                    android:layout_width="match_parent"
-                    android:layout_height="157dp"
-                    android:background="@drawable/bg_gradient_orange"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="1.0"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/tv_heading_home_menu"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="24dp"
-                    android:layout_marginTop="36dp"
-                    android:fontFamily="@font/montserrat_bold"
-                    android:text="@string/txt_heading_home_menu"
-                    android:textColor="@color/txtWhitePrimary"
-                    android:textSize="24sp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/tv_subtitle_home_menu"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="24dp"
-                    android:layout_marginTop="16dp"
-                    android:fontFamily="@font/montserrat"
-                    android:text="Selamat datang, Hailey Rhode Bieber"
-                    android:textColor="@color/txtWhitePrimary"
-                    android:textSize="14sp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_heading_home_menu" />
-
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/photo_akun_beranda"
-                    android:layout_width="55dp"
-                    android:layout_height="55dp"
-                    android:layout_marginTop="46dp"
-                    android:layout_marginEnd="24dp"
-                    android:src="@drawable/icon_nopic"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <SearchView
-                    android:layout_width="match_parent"
-                    android:layout_height="46dp"
-                    android:layout_marginStart="24dp"
-                    android:layout_marginTop="30dp"
-                    android:layout_marginEnd="24dp"
-                    android:background="@drawable/bg_search_bar"
-                    android:elevation="2dp"
-                    android:fontFamily="@font/montserrat"
-                    android:hint="@string/txt_ask_user_to_search"
-                    android:textSize="14sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_subtitle_home_menu" />
-            </android.support.constraint.ConstraintLayout>
-        </android.support.design.widget.CollapsingToolbarLayout>
-
+            <ImageView
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:contentDescription="@null"
+                android:padding="8dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/toolbar_logo_home" />
+        </android.support.v7.widget.Toolbar>
     </android.support.design.widget.AppBarLayout>
 
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/txtWhitePrimary"
+        android:fillViewport="true"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <android.support.constraint.ConstraintLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/tv_title_category_main_menu"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
-                android:layout_marginTop="25dp"
-                android:fontFamily="@font/montserrat_bold"
-                android:text="@string/txt_category_main_menu"
-                android:textColor="@color/blackTextPrimary"
-                android:textSize="18sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/tv_subtitle_category_main_menu"
-                android:layout_width="wrap_content"
-                android:layout_height="25dp"
-                android:layout_marginTop="40dp"
-                android:layout_marginEnd="34dp"
-                android:layout_marginBottom="2dp"
-                android:fontFamily="@font/montserrat"
-                android:text="semua"
-                android:textAlignment="center"
-                android:textColor="@color/orangePrimary"
-                android:textSize="14sp"
-                app:layout_constraintBottom_toTopOf="@+id/ln_kategori_main_menu"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="1.0" />
-
-            <LinearLayout
-                android:id="@+id/ln_kategori_main_menu"
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
-                android:layout_marginTop="27dp"
                 android:layout_marginEnd="24dp"
-                android:orientation="horizontal"
-                android:weightSum="5"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_title_category_main_menu">
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_title_category_main_menu"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:fontFamily="@font/montserrat_medium"
+                    android:text="@string/txt_category_main_menu"
+                    android:textColor="@color/blackTextPrimary"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tv_subtitle_category_main_menu"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignEnd="@id/tv_title_category_main_menu"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginTop="14dp"
+                    android:fontFamily="@font/montserrat"
+                    android:text="@string/string_all_home"
+                    android:textColor="@color/orangePrimary"
+                    android:textSize="14sp" />
+
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="24dp"
+                android:orientation="vertical">
 
                 <LinearLayout
-                    android:layout_width="0dp"
+                    android:id="@+id/ln_kategori_main_menu"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1.05"
-                    android:gravity="center"
-                    android:orientation="vertical">
+                    android:baselineAligned="false"
+                    android:orientation="horizontal"
+                    android:weightSum="5">
 
-                    <ImageView
-                        android:layout_width="55dp"
-                        android:layout_height="55dp"
-                        android:src="@drawable/alam_menu" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:id="@+id/ln_alam_tour_home_menu"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/montserrat_light"
-                        android:text="Alam"
-                        android:textColor="@color/blackTextPrimary" />
+                        android:layout_weight="1.05"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        tools:ignore="UseCompoundDrawables">
+
+                        <ImageView
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:contentDescription="@null"
+                            android:src="@drawable/alam_menu" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/montserrat_light"
+                            android:text="@string/string_alam_wisata_category"
+                            android:textColor="@color/blackTextPrimary"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/ln_hiburan_tour_home_menu"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1.45"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        tools:ignore="UseCompoundDrawables">
+
+                        <ImageView
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:contentDescription="@null"
+                            android:src="@drawable/hiburan_menu" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/montserrat_light"
+                            android:text="@string/string_hiburan_wisata_menu"
+                            android:textColor="@color/blackTextPrimary"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/ln_belanja_tour_home_menu"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1.45"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        tools:ignore="UseCompoundDrawables">
+
+                        <ImageView
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:contentDescription="@null"
+                            android:src="@drawable/belanja_menu" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/montserrat_light"
+                            android:text="@string/string_belanja_wisata_menu"
+                            android:textColor="@color/blackTextPrimary"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/ln_desa_tour_home_menu"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1.05"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        tools:ignore="UseCompoundDrawables">
+
+                        <ImageView
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:contentDescription="@null"
+                            android:src="@drawable/desa_menu" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/montserrat_light"
+                            android:text="@string/string_desa_wisata_menu"
+                            android:textColor="@color/blackTextPrimary"
+                            android:textSize="12sp" />
+                    </LinearLayout>
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="0dp"
+                    android:id="@+id/ln_kategori_public_menu"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1.45"
-                    android:gravity="center"
-                    android:orientation="vertical">
+                    android:layout_marginTop="24dp"
+                    android:baselineAligned="false"
+                    android:orientation="horizontal"
+                    android:weightSum="5">
 
-                    <ImageView
-                        android:layout_width="55dp"
-                        android:layout_height="55dp"
-                        android:src="@drawable/hiburan_menu" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:id="@+id/ln_hotel_public_home"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/montserrat_light"
-                        android:text="Hiburan"
-                        android:textColor="@color/blackTextPrimary" />
-                </LinearLayout>
+                        android:layout_weight="1.05"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        tools:ignore="UseCompoundDrawables">
 
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1.45"
-                    android:gravity="center"
-                    android:orientation="vertical">
+                        <ImageView
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:contentDescription="@null"
+                            android:src="@drawable/hotel_menu" />
 
-                    <ImageView
-                        android:layout_width="55dp"
-                        android:layout_height="55dp"
-                        android:src="@drawable/belanja_menu" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/montserrat_light"
+                            android:text="@string/string_hotel_menu"
+                            android:textColor="@color/blackTextPrimary"
+                            android:textSize="12sp" />
+                    </LinearLayout>
 
-                    <TextView
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:id="@+id/ln_bandara_public_home"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/montserrat_light"
-                        android:text="Belanja"
-                        android:textColor="@color/blackTextPrimary" />
-                </LinearLayout>
+                        android:layout_weight="1.45"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        tools:ignore="UseCompoundDrawables">
 
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1.05"
-                    android:gravity="center"
-                    android:orientation="vertical">
+                        <ImageView
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:contentDescription="@null"
+                            android:src="@drawable/bandara_menu" />
 
-                    <ImageView
-                        android:layout_width="55dp"
-                        android:layout_height="55dp"
-                        android:src="@drawable/desa_menu" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/montserrat_light"
+                            android:text="@string/string_bandara_menu"
+                            android:textColor="@color/blackTextPrimary"
+                            android:textSize="12sp" />
+                    </LinearLayout>
 
-                    <TextView
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:id="@+id/ln_train_public_home"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/montserrat_light"
-                        android:text="Desa"
-                        android:textColor="@color/blackTextPrimary" />
+                        android:layout_weight="1.45"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        tools:ignore="UseCompoundDrawables">
+
+                        <ImageView
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:contentDescription="@null"
+                            android:src="@drawable/stasiun_kereta" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/montserrat_light"
+                            android:text="@string/string_stasiun_kereta_menu"
+                            android:textAlignment="center"
+                            android:textColor="@color/blackTextPrimary"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/ln_bus_public_home"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1.05"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        tools:ignore="UseCompoundDrawables">
+
+                        <ImageView
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:contentDescription="@null"
+                            android:src="@drawable/terminal_menu" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/montserrat_light"
+                            android:text="@string/string_terminal_menu"
+                            android:textColor="@color/blackTextPrimary"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+
                 </LinearLayout>
             </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:layout_marginTop="24dp"
+                android:background="#FAF0E8" />
 
             <TextView
                 android:id="@+id/tv_title_recommendation_main_menu"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
-                android:layout_marginTop="54dp"
+                android:layout_marginTop="24dp"
                 android:fontFamily="@font/montserrat_bold"
-                android:text="Rekomendasi tempat wisata"
+                android:text="@string/string_recommendation"
                 android:textColor="@color/blackTextPrimary"
-                android:textSize="16sp"
+                android:textSize="15sp"
+                android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/ln_kategori_main_menu" />
 
-            <HorizontalScrollView
-                android:id="@+id/sv_dummy_horizontal_recommended"
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_tourism_recommendation"
                 android:layout_width="match_parent"
-                android:layout_height="133dp"
+                android:layout_height="180dp"
                 android:layout_marginStart="24dp"
-                android:layout_marginTop="13dp"
+                android:layout_marginTop="8dp"
                 android:layout_marginEnd="24dp"
-                android:scrollbars="none"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_title_recommendation_main_menu">
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:layout_width="220dp"
-                        android:layout_height="133dp"
-                        android:layout_marginEnd="12dp"
-                        android:src="@drawable/dummy_place" />
-
-                    <ImageView
-                        android:layout_width="280dp"
-                        android:layout_height="133dp"
-                        android:layout_marginEnd="12dp"
-                        android:src="@drawable/dummy_place" />
-
-                    <ImageView
-                        android:layout_width="220dp"
-                        android:layout_height="133dp"
-                        android:layout_marginEnd="12dp"
-                        android:src="@drawable/dummy_place" />
-
-                    <ImageView
-                        android:layout_width="220dp"
-                        android:layout_height="133dp"
-                        android:layout_marginEnd="12dp"
-                        android:src="@drawable/dummy_place" />
-
-                </LinearLayout>
-
-            </HorizontalScrollView>
+                android:orientation="horizontal" />
 
             <TextView
                 android:id="@+id/tv_title_recommendation_food_main_menu"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
-                android:layout_marginTop="37dp"
+                android:layout_marginTop="8dp"
                 android:fontFamily="@font/montserrat_bold"
-                android:text="Makanan yang wajib dicoba"
+                android:text="@string/string_must_try_food"
                 android:textColor="@color/blackTextPrimary"
-                android:textSize="16sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/sv_dummy_horizontal_recommended" />
+                android:textSize="16sp" />
 
-            <HorizontalScrollView
-                android:id="@+id/sv_dummy_horizontal_recommended_food"
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_food_recommendation"
                 android:layout_width="match_parent"
-                android:layout_height="133dp"
+                android:layout_height="250dp"
                 android:layout_marginStart="24dp"
-                android:layout_marginTop="13dp"
+                android:layout_marginTop="8dp"
                 android:layout_marginEnd="24dp"
-                android:scrollbars="none"
-                app:layout_constraintEnd_toEndOf="parent"
+                android:orientation="horizontal" />
+
+            <TextView
+                android:id="@+id/tv_title_festival_menu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="8dp"
+                android:fontFamily="@font/montserrat_bold"
+                android:text="@string/string_festival_culture_home"
+                android:textColor="@color/blackTextPrimary"
+                android:textSize="15sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_title_recommendation_food_main_menu">
+                app:layout_constraintTop_toBottomOf="@+id/ln_kategori_main_menu" />
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_herritage"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginEnd="24dp"
+                android:orientation="horizontal" />
+        </LinearLayout>
 
-                    <ImageView
-                        android:layout_width="220dp"
-                        android:layout_height="133dp"
-                        android:layout_marginEnd="10dp"
-                        android:src="@drawable/dummy_place" />
 
-                    <ImageView
-                        android:layout_width="280dp"
-                        android:layout_height="133dp"
-                        android:layout_marginEnd="10dp"
-                        android:src="@drawable/dummy_place" />
-
-                    <ImageView
-                        android:layout_width="220dp"
-                        android:layout_height="133dp"
-                        android:layout_marginEnd="10dp"
-                        android:src="@drawable/dummy_place" />
-
-                    <ImageView
-                        android:layout_width="220dp"
-                        android:layout_height="133dp"
-                        android:layout_marginEnd="10dp"
-                        android:src="@drawable/dummy_place" />
-
-                </LinearLayout>
-
-            </HorizontalScrollView>
-        </android.support.constraint.ConstraintLayout>
     </android.support.v4.widget.NestedScrollView>
-
 </android.support.design.widget.CoordinatorLayout>

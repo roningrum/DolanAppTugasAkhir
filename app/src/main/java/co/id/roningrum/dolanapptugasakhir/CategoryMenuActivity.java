@@ -22,11 +22,9 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,12 +38,13 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import co.id.roningrum.dolanapptugasakhir.adapter.CategoryViewHolder;
 import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.handler.NetworkHelper;
 import co.id.roningrum.dolanapptugasakhir.handler.PermissionHandler;
-import co.id.roningrum.dolanapptugasakhir.item.CategoryItem;
+import co.id.roningrum.dolanapptugasakhir.model.TourismItem;
 
 public class CategoryMenuActivity extends AppCompatActivity {
 
@@ -54,7 +53,7 @@ public class CategoryMenuActivity extends AppCompatActivity {
     private DatabaseReference tourismDBRef;
     private RecyclerView rvTourismList;
     private ShimmerFrameLayout shimmerFrameLayout;
-    private FirebaseRecyclerAdapter<CategoryItem, CategoryViewHolder> firebaseAdapter;
+    private FirebaseRecyclerAdapter<TourismItem, CategoryViewHolder> firebaseAdapter;
 
     private GPSHandler gpsHandler;
     private PermissionHandler permissionHandler;
@@ -72,7 +71,7 @@ public class CategoryMenuActivity extends AppCompatActivity {
 
         rvTourismList.setLayoutManager(new LinearLayoutManager(this));
         //    ProgressBar progressBar;
-        ArrayList<CategoryItem> categoryItemList = new ArrayList<>();
+        ArrayList<TourismItem> tourismItemList = new ArrayList<>();
         setSupportActionBar(mToolbar);
 //        updateValuesFromBundle(savedInstanceState);
         checkConnection();
@@ -94,10 +93,10 @@ public class CategoryMenuActivity extends AppCompatActivity {
             tourismDBRef = FirebaseDatabase.getInstance().getReference();
             Query query = tourismDBRef.child("Tourism");
 
-            FirebaseRecyclerOptions<CategoryItem> options = new FirebaseRecyclerOptions.Builder<CategoryItem>()
-                    .setQuery(query, CategoryItem.class)
+            FirebaseRecyclerOptions<TourismItem> options = new FirebaseRecyclerOptions.Builder<TourismItem>()
+                    .setQuery(query, TourismItem.class)
                     .build();
-            firebaseAdapter = new FirebaseRecyclerAdapter<CategoryItem, CategoryViewHolder>(options) {
+            firebaseAdapter = new FirebaseRecyclerAdapter<TourismItem, CategoryViewHolder>(options) {
 
                 @NonNull
                 @Override
@@ -107,7 +106,7 @@ public class CategoryMenuActivity extends AppCompatActivity {
                 }
 
                 @Override
-                public void onBindViewHolder(@NonNull final CategoryViewHolder holder, int position, @NonNull final CategoryItem model) {
+                public void onBindViewHolder(@NonNull final CategoryViewHolder holder, int position, @NonNull final TourismItem model) {
 
 
                     final DatabaseReference touristRef = getRef(position);
@@ -180,8 +179,6 @@ public class CategoryMenuActivity extends AppCompatActivity {
                 permissionHandler.setActivity(this);
                 permissionHandler.deniedPermission();
             }
-        } else {
-
         }
         return true;
     }
@@ -191,7 +188,7 @@ public class CategoryMenuActivity extends AppCompatActivity {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         for (int i : grantResults) {
             if (i == PackageManager.PERMISSION_GRANTED) {
-                Log.d("test", "Permission" + permissions + "Success");
+                Log.d("test", "Permission" + Arrays.toString(permissions) + "Success");
             } else {
                 //denied
                 permissionHandler.deniedPermission(Manifest.permission.ACCESS_FINE_LOCATION);
@@ -208,35 +205,35 @@ public class CategoryMenuActivity extends AppCompatActivity {
 ////        fusedLocationProviderClient.removeLocationUpdates(locationCallback);
 //    }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.toolbar_menu, menu);
-        MenuItem mSearch = menu.findItem(R.id.searchMenu);
-        SearchView mSearchView = (SearchView) mSearch.getActionView();
-        mSearchView.setQueryHint("Search");
-        mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String searchText) {
-                firebaseSearch(searchText);
-                shimmerFrameLayout.clearAnimation();
-                return false;
-            }
-        });
-        return super.onCreateOptionsMenu(menu);
-    }
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        getMenuInflater().inflate(R.menu.toolbar_menu, menu);
+//        MenuItem mSearch = menu.findItem(R.id.searchMenu);
+//        SearchView mSearchView = (SearchView) mSearch.getActionView();
+//        mSearchView.setQueryHint("Search");
+//        mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+//            @Override
+//            public boolean onQueryTextSubmit(String query) {
+//                return false;
+//            }
+//
+//            @Override
+//            public boolean onQueryTextChange(String searchText) {
+//                firebaseSearch(searchText);
+//                shimmerFrameLayout.clearAnimation();
+//                return false;
+//            }
+//        });
+//        return super.onCreateOptionsMenu(menu);
+//    }
 
     private void firebaseSearch(String searchText) {
         Query firebaseSearchquery = tourismDBRef.child("Tourism").orderByKey().startAt(searchText).endAt(searchText + "\uf8ff");
-        FirebaseRecyclerOptions<CategoryItem> options = new FirebaseRecyclerOptions.Builder<CategoryItem>()
-                .setQuery(firebaseSearchquery, CategoryItem.class)
+        FirebaseRecyclerOptions<TourismItem> options = new FirebaseRecyclerOptions.Builder<TourismItem>()
+                .setQuery(firebaseSearchquery, TourismItem.class)
                 .setLifecycleOwner(this)
                 .build();
-        firebaseAdapter = new FirebaseRecyclerAdapter<CategoryItem, CategoryViewHolder>(options) {
+        firebaseAdapter = new FirebaseRecyclerAdapter<TourismItem, CategoryViewHolder>(options) {
 
             @NonNull
             @Override
@@ -246,7 +243,7 @@ public class CategoryMenuActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onBindViewHolder(@NonNull final CategoryViewHolder holder, int position, @NonNull final CategoryItem model) {
+            public void onBindViewHolder(@NonNull final CategoryViewHolder holder, int position, @NonNull final TourismItem model) {
                 final DatabaseReference touristRef = getRef(position);
                 final String wiskey = touristRef.getKey();
                 gpsHandler = new GPSHandler(getApplicationContext());

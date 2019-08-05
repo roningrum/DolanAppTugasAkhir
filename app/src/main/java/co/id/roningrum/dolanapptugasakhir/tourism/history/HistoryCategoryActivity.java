@@ -45,14 +45,14 @@ import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.handler.NetworkHelper;
 import co.id.roningrum.dolanapptugasakhir.handler.PermissionHandler;
-import co.id.roningrum.dolanapptugasakhir.item.CategoryItem;
+import co.id.roningrum.dolanapptugasakhir.model.TourismItem;
 import co.id.roningrum.dolanapptugasakhir.tourism.history.viewholder.HistoryViewHolder;
 
 public class HistoryCategoryActivity extends AppCompatActivity {
 
     private RecyclerView rvHistoryList;
     private ShimmerFrameLayout shimmerFrameLayout;
-    private FirebaseRecyclerAdapter<CategoryItem, HistoryViewHolder> historyFirebaseAdapter;
+    private FirebaseRecyclerAdapter<TourismItem, HistoryViewHolder> historyFirebaseAdapter;
 
     private GPSHandler gpsHandler;
     private PermissionHandler permissionHandler;
@@ -66,7 +66,7 @@ public class HistoryCategoryActivity extends AppCompatActivity {
         shimmerFrameLayout = findViewById(R.id.shimmer_view_container);
         rvHistoryList.setLayoutManager(new LinearLayoutManager(this));
         rvHistoryList.setHasFixedSize(true);
-        ArrayList<CategoryItem> categoryItems = new ArrayList<>();
+        ArrayList<TourismItem> tourismItems = new ArrayList<>();
         checkConnection();
         setSupportActionBar(toolbarHistory);
 
@@ -85,10 +85,10 @@ public class HistoryCategoryActivity extends AppCompatActivity {
         if (havePermission()) {
             DatabaseReference historyCategoryDB = FirebaseDatabase.getInstance().getReference();
             Query historyQuery = historyCategoryDB.child("Tourism").orderByChild("category_tourism").equalTo("sejarah");
-            FirebaseRecyclerOptions<CategoryItem> historyOptions = new FirebaseRecyclerOptions.Builder<CategoryItem>()
-                    .setQuery(historyQuery, CategoryItem.class)
+            FirebaseRecyclerOptions<TourismItem> historyOptions = new FirebaseRecyclerOptions.Builder<TourismItem>()
+                    .setQuery(historyQuery, TourismItem.class)
                     .build();
-            historyFirebaseAdapter = new FirebaseRecyclerAdapter<CategoryItem, HistoryViewHolder>(historyOptions) {
+            historyFirebaseAdapter = new FirebaseRecyclerAdapter<TourismItem, HistoryViewHolder>(historyOptions) {
 
                 @NonNull
                 @Override
@@ -97,7 +97,7 @@ public class HistoryCategoryActivity extends AppCompatActivity {
                 }
 
                 @Override
-                protected void onBindViewHolder(@NonNull HistoryViewHolder holder, int position, @NonNull CategoryItem model) {
+                protected void onBindViewHolder(@NonNull HistoryViewHolder holder, int position, @NonNull TourismItem model) {
                     final DatabaseReference historyCategoryRef = getRef(position);
                     final String historyKey = historyCategoryRef.getKey();
 

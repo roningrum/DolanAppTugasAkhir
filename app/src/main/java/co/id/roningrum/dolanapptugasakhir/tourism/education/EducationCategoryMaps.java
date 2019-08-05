@@ -32,7 +32,7 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import co.id.roningrum.dolanapptugasakhir.R;
-import co.id.roningrum.dolanapptugasakhir.item.CategoryItem;
+import co.id.roningrum.dolanapptugasakhir.model.TourismItem;
 
 public class EducationCategoryMaps extends FragmentActivity implements OnMapReadyCallback {
 
@@ -46,6 +46,7 @@ public class EducationCategoryMaps extends FragmentActivity implements OnMapRead
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.education_map);
+        assert mapFragment != null;
         mapFragment.getMapAsync(this);
         educationRefMap = FirebaseDatabase.getInstance().getReference().child("Tourism");
     }
@@ -63,19 +64,19 @@ public class EducationCategoryMaps extends FragmentActivity implements OnMapRead
     @Override
     public void onMapReady(GoogleMap googleMap) {
         educationPlaceMap = googleMap;
-
         Query educationMapQuery = educationRefMap.orderByChild("category_tourism").equalTo("edukasi");
-        educationRefMap.addListenerForSingleValueEvent(new ValueEventListener() {
+        educationMapQuery.addListenerForSingleValueEvent(new ValueEventListener() {
 
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot dsNature : dataSnapshot.getChildren()) {
-                    CategoryItem categoryItem = dsNature.getValue(CategoryItem.class);
-                    double latNature = categoryItem.getLat_location_tourism();
-                    double lngNature = categoryItem.getLng_location_tourism();
+                    TourismItem tourismItem = dsNature.getValue(TourismItem.class);
+                    assert tourismItem != null;
+                    double latNature = tourismItem.getLat_location_tourism();
+                    double lngNature = tourismItem.getLng_location_tourism();
                     LatLng naturePlaceLoc = new LatLng(latNature, lngNature);
                     educationPlaceMap.moveCamera(CameraUpdateFactory.newLatLngZoom(naturePlaceLoc, 10.0f));
-                    educationPlaceMap.addMarker(new MarkerOptions().position(naturePlaceLoc).title(categoryItem.getName_tourism()).snippet(categoryItem.getLocation_tourism()));
+                    educationPlaceMap.addMarker(new MarkerOptions().position(naturePlaceLoc).title(tourismItem.getName_tourism()).snippet(tourismItem.getLocation_tourism()));
                 }
             }
 

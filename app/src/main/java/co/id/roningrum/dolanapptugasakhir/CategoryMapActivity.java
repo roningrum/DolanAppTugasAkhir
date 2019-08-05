@@ -29,14 +29,14 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.maps.android.clustering.ClusterManager;
 
-import co.id.roningrum.dolanapptugasakhir.item.CategoryItem;
+import co.id.roningrum.dolanapptugasakhir.model.TourismItem;
 
 public class CategoryMapActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
     //    private GPSHandler gpsHandler;
     private DatabaseReference tourismMapObjectDB;
-    private ClusterManager<CategoryItem> clusterManager;
+    private ClusterManager<TourismItem> clusterManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,16 +69,17 @@ public class CategoryMapActivity extends FragmentActivity implements OnMapReadyC
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot s : dataSnapshot.getChildren()) {
-                    CategoryItem categoryItems = s.getValue(CategoryItem.class);
-                    double latitude = categoryItems.getLat_location_tourism();
-                    double longitude = categoryItems.getLng_location_tourism();
+                    TourismItem tourismItems = s.getValue(TourismItem.class);
+                    assert tourismItems != null;
+                    double latitude = tourismItems.getLat_location_tourism();
+                    double longitude = tourismItems.getLng_location_tourism();
 
                     LatLng location = new LatLng(latitude, longitude);
                     mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 8.0f));
-//                    mMap.addMarker(new MarkerOptions().position(location).title("" + categoryItems.getName_tourism()));
+//                    mMap.addMarker(new MarkerOptions().position(location).title("" + tourismItems.getName_tourism()));
                     mMap.setOnCameraIdleListener(clusterManager);
                     mMap.setOnInfoWindowClickListener(clusterManager);
-                    clusterManager.addItem(categoryItems);
+                    clusterManager.addItem(tourismItems);
 
 //                    mMap.moveCamera(CameraUpdateFactory.newLatLng(location));
 //                    mMap.animateCamera(CameraUpdateFactory.zoomIn());

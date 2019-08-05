@@ -37,10 +37,9 @@ import android.util.Log;
 public class GPSHandler extends Service implements LocationListener {
 
     private Context context;
-    private boolean isGPSEnabled = false;
 
-    private boolean isNetworkEnabled = false;
     private boolean canGetLocation = false;
+
 
     private Location location;
     private double latitude;
@@ -70,9 +69,9 @@ public class GPSHandler extends Service implements LocationListener {
         try {
             locationManager = (LocationManager) context
                     .getSystemService(LOCATION_SERVICE);
-            isGPSEnabled = locationManager
+            boolean isGPSEnabled = locationManager
                     .isProviderEnabled(LocationManager.GPS_PROVIDER);
-            isNetworkEnabled = locationManager
+            boolean isNetworkEnabled = locationManager
                     .isProviderEnabled(LocationManager.NETWORK_PROVIDER);
 
             if (!isGPSEnabled && !isNetworkEnabled) {
@@ -96,8 +95,7 @@ public class GPSHandler extends Service implements LocationListener {
                             longitude = location.getLongitude();
                         }
                     }
-                }
-                if (isGPSEnabled) {
+                } else if (isGPSEnabled) {
                     locationManager
                             .requestLocationUpdates(
                                     LocationManager.NETWORK_PROVIDER,
@@ -113,11 +111,13 @@ public class GPSHandler extends Service implements LocationListener {
                         }
                     }
                 }
+
             }
         } catch (Exception e) {
             e.printStackTrace();
 
         }
+        onLocationChanged(location);
         return location;
     }
 
@@ -197,7 +197,9 @@ public class GPSHandler extends Service implements LocationListener {
 
     @Override
     public void onLocationChanged(Location location) {
-
+        latitude = location.getLatitude();
+        longitude = location.getLongitude();
+        Log.d("this", "RLOC: Location USER" + latitude + "" + longitude);
     }
 
     @Override

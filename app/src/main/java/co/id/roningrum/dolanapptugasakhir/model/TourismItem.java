@@ -11,12 +11,12 @@
  * limitations under the License.
  */
 
-package co.id.roningrum.dolanapptugasakhir.item;
+package co.id.roningrum.dolanapptugasakhir.model;
 
 import com.google.android.gms.maps.model.LatLng;
 import com.google.maps.android.clustering.ClusterItem;
 
-public class CategoryItem implements ClusterItem {
+public class TourismItem implements ClusterItem {
     private String name_tourism;
     private String location_tourism;
     private String info_tourism;
@@ -25,11 +25,11 @@ public class CategoryItem implements ClusterItem {
     private double lat_location_tourism;
     private double lng_location_tourism;
 
-    public CategoryItem() {
+    public TourismItem() {
         //constructor untuk panggilan ke DataSnapshot.getValue
     }
 
-    public CategoryItem(String name_tourism, String location_tourism, String info_tourism, String telepon, String url_photo, double lat_location_tourism, double lng_location_tourism) {
+    public TourismItem(String name_tourism, String location_tourism, String info_tourism, String telepon, String url_photo, double lat_location_tourism, double lng_location_tourism) {
         this.name_tourism = name_tourism;
         this.location_tourism = location_tourism;
         this.info_tourism = info_tourism;
@@ -97,8 +97,7 @@ public class CategoryItem implements ClusterItem {
 
     @Override
     public LatLng getPosition() {
-        LatLng position = new LatLng(lat_location_tourism, lng_location_tourism);
-        return position;
+        return new LatLng(lat_location_tourism, lng_location_tourism);
     }
 
     @Override
