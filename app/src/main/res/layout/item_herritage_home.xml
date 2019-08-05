@@ -13,17 +13,19 @@
 
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/item_recommendation_food__layout"
-    android:layout_width="169dp"
+    android:id="@+id/item_recommendation_layout"
+    android:layout_width="250dp"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp"
-    android:orientation="vertical">
+    android:layout_marginStart="8dp"
+    android:layout_marginEnd="8dp"
+    android:layout_marginBottom="8dp">
 
-    <com.jcminarro.roundkornerlayout.RoundKornerFrameLayout
-        android:id="@+id/recommendation_food_round_layout"
-        android:layout_width="wrap_content"
+    <com.jcminarro.roundkornerlayout.RoundKornerRelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
         app:corner_radius="10dp"
         app:layout_constraintBottom_toBottomOf="@+id/view2"
         app:layout_constraintEnd_toEndOf="parent"
@@ -31,36 +33,37 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
-            android:id="@+id/recommendation_food_item_pic"
-            android:layout_width="170dp"
-            android:layout_height="210dp"
+            android:id="@+id/herritage_item_pic"
+            android:layout_width="match_parent"
+            android:layout_height="140dp"
             android:contentDescription="@null"
             android:scaleType="centerCrop"
             android:src="@drawable/nopic" />
-    </com.jcminarro.roundkornerlayout.RoundKornerFrameLayout>
+    </com.jcminarro.roundkornerlayout.RoundKornerRelativeLayout>
 
     <com.jcminarro.roundkornerlayout.RoundKornerFrameLayout
         android:id="@+id/view2"
-        android:layout_width="170dp"
-        android:layout_height="210dp"
+        android:layout_width="match_parent"
+        android:layout_height="140dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
         android:background="@drawable/bg_gradient_orange_view"
         android:padding="8dp"
         app:corner_radius="10dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/recommenadation_food_item_text"
+        android:id="@+id/herritage_item_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="72dp"
         android:fontFamily="@font/montserrat_bold"
-        android:textAlignment="center"
         android:textColor="@color/txtWhitePrimary"
-        android:textSize="12sp"
+        android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="@+id/view2"
         app:layout_constraintHorizontal_bias="0.487"
         app:layout_constraintStart_toStartOf="@+id/view2"

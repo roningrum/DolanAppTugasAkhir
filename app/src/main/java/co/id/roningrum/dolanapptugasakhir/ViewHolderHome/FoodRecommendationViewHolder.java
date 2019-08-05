@@ -11,7 +11,7 @@
  * limitations under the License.
  */
 
-package co.id.roningrum.dolanapptugasakhir.adapter_recomendation;
+package co.id.roningrum.dolanapptugasakhir.ViewHolderHome;
 
 import android.annotation.SuppressLint;
 import android.support.annotation.NonNull;
@@ -35,12 +35,12 @@ public class FoodRecommendationViewHolder extends RecyclerView.ViewHolder {
         super(itemView);
         nameFoodRecommendation = itemView.findViewById(R.id.recommenadation_food_item_text);
         foodRecommendationTourismPic = itemView.findViewById(R.id.recommendation_food_item_pic);
-        itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                categoryOnClick.onItemClick(v, getAdapterPosition());
-            }
-        });
+//        itemView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                categoryOnClick.onItemClick(v, getAdapterPosition());
+//            }
+//        });
     }
 
     @SuppressLint("SetTextI18n")

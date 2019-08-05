@@ -32,9 +32,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 
-import co.id.roningrum.dolanapptugasakhir.adapter_recomendation.FoodRecommendationViewHolder;
-import co.id.roningrum.dolanapptugasakhir.adapter_recomendation.TouristRecommendationViewHolder;
+import co.id.roningrum.dolanapptugasakhir.ViewHolderHome.FoodRecommendationViewHolder;
+import co.id.roningrum.dolanapptugasakhir.ViewHolderHome.HerritageHomeViewHolder;
+import co.id.roningrum.dolanapptugasakhir.ViewHolderHome.TouristRecommendationViewHolder;
 import co.id.roningrum.dolanapptugasakhir.hotel.HotelActivity;
+import co.id.roningrum.dolanapptugasakhir.model.HerritageItem;
 import co.id.roningrum.dolanapptugasakhir.model.TourismItem;
 import co.id.roningrum.dolanapptugasakhir.tourism.nature.NatureCategoryActivity;
 import co.id.roningrum.dolanapptugasakhir.tourism.recreation.RecreationCategoryActivity;
@@ -49,10 +51,11 @@ import co.id.roningrum.dolanapptugasakhir.transportation.train.TrainActivity;
  * A simple {@link Fragment} subclass.
  */
 public class HomeFragment extends Fragment implements View.OnClickListener {
-    private RecyclerView rvTouristRecommendation, rvFoodRecommendation;
+    private RecyclerView rvTouristRecommendation, rvFoodRecommendation, rvHeriitageHome;
 
     private FirebaseRecyclerAdapter<TourismItem, FoodRecommendationViewHolder> foodRecommendAdapter;
     private FirebaseRecyclerAdapter<TourismItem, TouristRecommendationViewHolder> touristRecommendAdapter;
+    private FirebaseRecyclerAdapter<HerritageItem, HerritageHomeViewHolder> herritageItemAdapter;
     private DatabaseReference recommendationDB;
 
     public HomeFragment() {
@@ -61,7 +64,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
@@ -88,18 +91,42 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         //rv
         rvTouristRecommendation = view.findViewById(R.id.rv_tourism_recommendation);
         rvFoodRecommendation = view.findViewById(R.id.rv_food_recommendation);
+        rvHeriitageHome = view.findViewById(R.id.rv_herritage);
 
-        rvFoodRecommendation.setLayoutManager(new LinearLayoutManager(getContext()));
-        rvTouristRecommendation.setLayoutManager(new LinearLayoutManager(getContext()));
+        rvFoodRecommendation.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+        rvTouristRecommendation.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+        rvHeriitageHome.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
 
         recommendationDB = FirebaseDatabase.getInstance().getReference();
         showFoodReccomendation();
         showTourismRecommendation();
+        showHerritageHome();
         return view;
     }
 
+    private void showHerritageHome() {
+        Query herritageQuery = recommendationDB.child("HerritageSemarang");
+        FirebaseRecyclerOptions<HerritageItem> herritageOption = new FirebaseRecyclerOptions.Builder<HerritageItem>()
+                .setQuery(herritageQuery, HerritageItem.class)
+                .build();
+        herritageItemAdapter = new FirebaseRecyclerAdapter<HerritageItem, HerritageHomeViewHolder>(herritageOption) {
+            @Override
+            protected void onBindViewHolder(@NonNull HerritageHomeViewHolder holder, int position, @NonNull HerritageItem model) {
+                holder.showHerritageData(model);
+            }
+
+            @NonNull
+            @Override
+            public HerritageHomeViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+                return new HerritageHomeViewHolder(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_herritage_home, viewGroup, false));
+            }
+        };
+        herritageItemAdapter.notifyDataSetChanged();
+        rvHeriitageHome.setAdapter(herritageItemAdapter);
+    }
+
     private void showTourismRecommendation() {
-        Query tourismRecommendQuery = recommendationDB.child("Tourism").limitToFirst(5);
+        Query tourismRecommendQuery = recommendationDB.child("BestPlaceTourism");
         FirebaseRecyclerOptions<TourismItem> tourismOption = new FirebaseRecyclerOptions.Builder<TourismItem>()
                 .setQuery(tourismRecommendQuery, TourismItem.class)
                 .build();
@@ -120,7 +147,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     }
 
     private void showFoodReccomendation() {
-        Query foodRecommendedQuery = recommendationDB.orderByChild("category_tourism").equalTo("kuliner").limitToFirst(5);
+        Query foodRecommendedQuery = recommendationDB.child("Tourism").orderByChild("category_tourism").equalTo("kuliner").limitToFirst(5);
         FirebaseRecyclerOptions<TourismItem> foodOption = new FirebaseRecyclerOptions.Builder<TourismItem>()
                 .setQuery(foodRecommendedQuery, TourismItem.class)
                 .build();
@@ -172,5 +199,33 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 break;
         }
 
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        if (touristRecommendAdapter != null) {
+            touristRecommendAdapter.startListening();
+        }
+        if (foodRecommendAdapter != null) {
+            foodRecommendAdapter.startListening();
+        }
+        if (herritageItemAdapter != null) {
+            herritageItemAdapter.startListening();
+        }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (touristRecommendAdapter != null) {
+            touristRecommendAdapter.stopListening();
+        }
+        if (foodRecommendAdapter != null) {
+            foodRecommendAdapter.stopListening();
+        }
+        if (herritageItemAdapter != null) {
+            herritageItemAdapter.stopListening();
+        }
     }
 }

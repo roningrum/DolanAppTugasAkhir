@@ -37,7 +37,7 @@
     <string name="txt_subtitle_signin_page">Silakan masukkan akun kamu</string>
     <string name="txt_heading_signin_page">Masuk</string>
     <string name="txt_home_main_menu">Beranda</string>
-    <string name="txt_nearby_main_menu">Terdekat</string>
+    <string name="txt_nearby_main_menu">History</string>
     <string name="txt_bookmark_main_menu">Bookmark</string>
     <string name="txt_profile_main_menu">profile</string>
     <string name="txt_heading_home_menu">Beranda</string>
@@ -116,5 +116,7 @@
     <string name="string_dummy_profname">Hailey Bieber</string>
     <string name="string_email_dummy">haileyb1245@gmail.com</string>
     <string name="title_activity_hospital_maps">Peta Rumah Sakit</string>
+    <string name="upcoming_event">Event Mendatang</string>
+    <string name="string_festival_culture_home">Festival dan Budaya</string>
     <!--<string name="title_activity_religi_category_maps">Peta Wisata Religi</string>-->
 </resources>

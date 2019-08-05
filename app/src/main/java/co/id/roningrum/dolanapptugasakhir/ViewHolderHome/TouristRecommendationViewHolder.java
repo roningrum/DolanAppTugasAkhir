@@ -11,9 +11,8 @@
  * limitations under the License.
  */
 
-package co.id.roningrum.dolanapptugasakhir.adapter_recomendation;
+package co.id.roningrum.dolanapptugasakhir.ViewHolderHome;
 
-import android.annotation.SuppressLint;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -35,15 +34,14 @@ public class TouristRecommendationViewHolder extends RecyclerView.ViewHolder {
         super(itemView);
         nameRecommendationTourism = itemView.findViewById(R.id.recommenadation_item_text);
         imageTourismPic = itemView.findViewById(R.id.recommendation_item_pic);
-        itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                categoryOnClick.onItemClick(v, getAdapterPosition());
-            }
-        });
+//        itemView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                categoryOnClick.onItemClick(v, getAdapterPosition());
+//            }
+//        });
     }
 
-    @SuppressLint("SetTextI18n")
     public void showRecommendationTourismData(TourismItem tourismItem) {
         nameRecommendationTourism.setText(tourismItem.getName_tourism());
         Glide.with(itemView.getContext()).load(tourismItem.getUrl_photo()).into(imageTourismPic);
