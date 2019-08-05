@@ -14,7 +14,7 @@
 <resources>
     <color name="colorPrimary">#F15A22</color>
     <color name="colorPrimaryDark">#FF3D00</color>
-    <color name="colorAccent">#FF9C09</color>
+    <color name="colorAccent">#EE4919</color>
     <color name="orangePrimary">#FF9C09</color>
     <color name="orangeFontLink">#FC7921</color>
     <color name="txtWhitePrimary">#FFFFFF</color>

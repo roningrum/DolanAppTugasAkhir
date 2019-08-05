@@ -20,10 +20,10 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="txt_btn_kirim_email_reset">Kirim</string>
+    <string name="txt_btn_email_reset">Lanjutkan</string>
     <string name="txt_subtitle_reset_page">Silakan masukkan email kamu \n Agar dapat menerima link reset kata sandi</string>
     <string name="txt_heading_reset_page">Lupa kata sandi kamu?</string>
-    <string name="txt_heading_register_page">Daftar</string>
+    <string name="txt_heading_register_page">Daftarkan Akunmu Disini</string>
     <string name="txt_subtitle_register_page">Silakan daftarkan akun kamu di sini</string>
     <string name="txt_edit_text_register_nama">nama</string>
     <string name="txt_edit_text_email_register">email</string>
@@ -102,8 +102,8 @@
     <string name="string_no_bookmark">Tidak ada bookmark</string>
     <string name="string_how_to_bookmarked">Agar dapat menyimpan daftar sebagai favorit   Klik disini</string>
     <string name="string_klik_to_menu">Temukan di kategori</string>
-    <string name="string_reset_sandi">Permintaan reset sandi   terkirim</string>
-    <string name="string_check_inbox">Silakan, cek kotak masuk email   untuk melakukan reset sandi</string>
+    <string name="string_reset_sandi_heading">Permintaan reset sandi terkirim</string>
+    <string name="string_reset_sandi_sub_check_inbox">Silakan, cek kotak masuk email   untuk melakukan reset sandi</string>
     <string name="string_continoue_sign_in">Lanjutkan</string>
     <string name="string_success_register">Sukses Terdaftar</string>
     <string name="string_confirm_email">Silakan, cek kotak masuk email   untuk melakukan konfirmasi email</string>
@@ -118,5 +118,8 @@
     <string name="title_activity_hospital_maps">Peta Rumah Sakit</string>
     <string name="upcoming_event">Event Mendatang</string>
     <string name="string_festival_culture_home">Festival dan Budaya</string>
+    <string name="register_email_2">Tambahkan foto dan nama</string>
+    <string name="sub_register_email2">untuk melengkapi data akun kamu tambahkan foto dan nama</string>
+    <string name="btn_reset_email_process">Reset</string>
     <!--<string name="title_activity_religi_category_maps">Peta Wisata Religi</string>-->
 </resources>

@@ -19,56 +19,45 @@
     android:background="#FFFFFF"
     tools:context=".SignInEmailActivity">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#FFFFFF"
-        android:elevation="3dp"
-        android:maxHeight="56dp"
+    <ImageView
+        android:id="@+id/img_login_page"
+        android:layout_width="212dp"
+        android:layout_height="195dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/Login"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:targetApi="lollipop" />
+        android:contentDescription="@null" />
 
     <TextView
         android:id="@+id/tv_heading_login_page"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="11dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="8dp"
         android:fontFamily="@font/montserrat_bold"
         android:lineSpacingExtra="24sp"
         android:text="@string/txt_heading_signin_page"
         android:textColor="#27221F"
         android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.472"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
-
-    <TextView
-        android:id="@+id/tv_subtitle_login_page"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="11dp"
-        android:fontFamily="@font/montserrat"
-        android:lineSpacingExtra="18sp"
-        android:text="@string/txt_subtitle_signin_page"
-        android:textColor="@color/greySubTextPrimary"
-        android:textSize="14sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_heading_login_page" />
+        app:layout_constraintTop_toBottomOf="@+id/img_login_page" />
 
     <LinearLayout
         android:id="@+id/layout_email_form"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="24dp"
         android:orientation="vertical"
-        app:layout_constraintTop_toBottomOf="@+id/tv_subtitle_login_page"
+        app:layout_constraintTop_toBottomOf="@+id/tv_heading_login_page"
         tools:layout_editor_absoluteX="71dp"
         tools:layout_editor_absoluteY="161dp">
 
@@ -76,16 +65,19 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/montserrat_light"
-            android:lineSpacingExtra="15sp"
             android:text="@string/txt_edit_text_email_signin_page"
             android:textColor="@color/blackPrimary" />
 
         <EditText
             android:id="@+id/edt_email_address_login"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:inputType="textEmailAddress" />
+            android:layout_height="56dp"
+            android:layout_marginTop="8dp"
+            android:background="#EEEEEE"
+            android:fontFamily="@font/montserrat"
+            android:importantForAutofill="no"
+            android:inputType="textEmailAddress"
+            tools:targetApi="o" />
     </LinearLayout>
 
     <LinearLayout
@@ -93,7 +85,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="18dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="24dp"
         android:orientation="vertical"
         app:layout_constraintTop_toBottomOf="@+id/layout_email_form"
@@ -104,16 +96,20 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/montserrat_light"
-            android:lineSpacingExtra="15sp"
+            android:lineSpacingExtra="4sp"
             android:text="@string/txt_kata_sandi_signin_page"
             android:textColor="@color/blackPrimary" />
 
         <EditText
             android:id="@+id/edt_password_login"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="56dp"
+            android:background="#EEEEEE"
+            android:fontFamily="@font/montserrat"
             android:layout_marginTop="10dp"
-            android:inputType="textPassword" />
+            android:importantForAutofill="no"
+            android:inputType="textPassword"
+            tools:targetApi="o" />
     </LinearLayout>
 
     <LinearLayout
@@ -121,7 +117,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="14dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="24dp"
         android:gravity="end"
         android:orientation="horizontal"
@@ -141,14 +137,14 @@
         android:layout_width="300dp"
         android:layout_height="55dp"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="27dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="32dp"
         android:background="@drawable/bg_button_orange"
-        android:fontFamily="@font/montserrat_medium"
+        android:fontFamily="@font/montserrat"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         android:text="@string/txt_btn_login"
         android:textAllCaps="false"
         android:textColor="@color/txtWhitePrimary"
-        android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/layout_forget_password_login" />
@@ -157,7 +153,7 @@
         android:layout_width="0dp"
         android:layout_height="28dp"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="44dp"
+        android:layout_marginTop="12dp"
         android:layout_marginEnd="32dp"
         android:gravity="center"
         android:orientation="horizontal"
