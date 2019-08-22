@@ -13,14 +13,26 @@
 
 package co.id.roningrum.dolanapptugasakhir;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.Button;
 
-public class WelcomingScreenActivity extends AppCompatActivity {
+public class WelcomingScreenActivity extends AppCompatActivity implements View.OnClickListener {
+    Button btnWelcomeScreen;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcoming_screen);
+        btnWelcomeScreen = findViewById(R.id.btn_welcome_screen);
+        btnWelcomeScreen.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View v) {
+        Intent welcomeIntent = new Intent(this, SignInActivity.class);
+        startActivity(welcomeIntent);
     }
 }
