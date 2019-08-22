@@ -16,7 +16,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AllCategoryActivity">
+    tools:context=".home.AllCategoryActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"

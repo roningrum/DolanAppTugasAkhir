@@ -13,14 +13,29 @@
 
 package co.id.roningrum.dolanapptugasakhir;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.Button;
 
-public class RegisteredemailConfirmActivity extends AppCompatActivity {
+public class RegisteredemailConfirmActivity extends AppCompatActivity implements View.OnClickListener {
+    private Button btnLoginPage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registeredemail_confirm);
+        btnLoginPage = findViewById(R.id.btn_login_page);
+        btnLoginPage.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (v.getId() == R.id.btn_login_page) {
+            startActivity(new Intent(RegisteredemailConfirmActivity.this, SignInEmailActivity.class));
+            finish();
+        }
+
     }
 }

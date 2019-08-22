@@ -13,14 +13,46 @@
 
 package co.id.roningrum.dolanapptugasakhir;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 
-public class SignInActivity extends AppCompatActivity {
-
+public class SignInActivity extends AppCompatActivity implements View.OnClickListener {
+    private Button btnSignInEmailPage;
+    private TextView tvRegisterLinkPage;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
+        btnSignInEmailPage = findViewById(R.id.btn_login_email);
+        tvRegisterLinkPage = findViewById(R.id.register_link);
+        btnSignInEmailPage.setOnClickListener(this);
+        tvRegisterLinkPage.setOnClickListener(this);
+
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.btn_login_email:
+                startActivity(new Intent(SignInActivity.this, SignInEmailActivity.class));
+                break;
+            case R.id.register_link:
+                startActivity(new Intent(SignInActivity.this, RegisterEmailActivity.class));
+                break;
+        }
+
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent startMain = new Intent(Intent.ACTION_MAIN);
+        startMain.addCategory(Intent.CATEGORY_HOME);
+        startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(startMain);
     }
 }

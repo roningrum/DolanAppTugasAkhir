@@ -23,7 +23,8 @@
         android:layout_width="match_parent"
         android:layout_height="256dp"
         android:fitsSystemWindows="true"
-        app:layout_scrollFlags="scroll|exitUntilCollapsed">
+
+        >
 
         <android.support.design.widget.CollapsingToolbarLayout
             android:id="@+id/collapseToolbar_spbu"

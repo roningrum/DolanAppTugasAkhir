@@ -16,7 +16,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".HomeFragment">
+    tools:context=".home.HomeFragment">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appbar_fragment_home"
@@ -283,29 +283,29 @@
                             android:textSize="12sp" />
                     </LinearLayout>
 
-                    <LinearLayout
-                        android:id="@+id/ln_bus_public_home"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1.05"
-                        android:gravity="center"
-                        android:orientation="vertical"
-                        tools:ignore="UseCompoundDrawables">
+                    <!--<LinearLayout-->
+                    <!--android:id="@+id/ln_bus_public_home"-->
+                    <!--android:layout_width="0dp"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_weight="1.05"-->
+                    <!--android:gravity="center"-->
+                    <!--android:orientation="vertical"-->
+                    <!--tools:ignore="UseCompoundDrawables">-->
 
-                        <ImageView
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:contentDescription="@null"
-                            android:src="@drawable/terminal_menu" />
+                    <!--<ImageView-->
+                    <!--android:layout_width="40dp"-->
+                    <!--android:layout_height="40dp"-->
+                    <!--android:contentDescription="@null"-->
+                    <!--android:src="@drawable/terminal_menu" />-->
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/montserrat_light"
-                            android:text="@string/string_terminal_menu"
-                            android:textColor="@color/blackTextPrimary"
-                            android:textSize="12sp" />
-                    </LinearLayout>
+                    <!--<TextView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:fontFamily="@font/montserrat_light"-->
+                    <!--android:text="@string/string_terminal_menu"-->
+                    <!--android:textColor="@color/blackTextPrimary"-->
+                    <!--android:textSize="12sp" />-->
+                    <!--</LinearLayout>-->
 
                 </LinearLayout>
             </LinearLayout>

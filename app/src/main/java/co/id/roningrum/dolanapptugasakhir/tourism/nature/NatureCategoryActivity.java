@@ -19,6 +19,7 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -38,12 +39,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 
 import co.id.roningrum.dolanapptugasakhir.R;
+import co.id.roningrum.dolanapptugasakhir.handler.CheckConnection;
 import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
-import co.id.roningrum.dolanapptugasakhir.handler.NetworkHelper;
 import co.id.roningrum.dolanapptugasakhir.handler.PermissionHandler;
 import co.id.roningrum.dolanapptugasakhir.model.TourismItem;
 import co.id.roningrum.dolanapptugasakhir.tourism.nature.viewholder.NatureViewHolder;
@@ -55,6 +55,8 @@ public class NatureCategoryActivity extends AppCompatActivity {
 
     private GPSHandler gpsHandler;
     private PermissionHandler permissionHandler;
+    protected ConstraintLayout layoutUnavailable;
+    private CheckConnection checkConnection;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,20 +64,18 @@ public class NatureCategoryActivity extends AppCompatActivity {
         setContentView(R.layout.activity_category_nature);
         rvNatureList = findViewById(R.id.tourism_nature_list);
         Toolbar toolbarNature = findViewById(R.id.toolbar_top_nature);
+        layoutUnavailable = findViewById(R.id.layout_connect);
         shimmerFrameLayout = findViewById(R.id.shimmer_view_container);
         rvNatureList.setLayoutManager(new LinearLayoutManager(this));
-        ArrayList<TourismItem> tourismItems = new ArrayList<>();
-        checkConnection();
         setSupportActionBar(toolbarNature);
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-    }
+        checkConnection = new CheckConnection(getApplicationContext());
 
-    private void checkConnection() {
-        if (NetworkHelper.isConnectedToNetwork(getApplicationContext())) {
+        if (checkConnection.isInternetAvailable()) {
+            shimmerFrameLayout.startShimmerAnimation();
             showData();
         } else {
-            Toast.makeText(this, "Check your connection", Toast.LENGTH_SHORT).show();
-            gpsHandler.stopUsingGPS();
+            shimmerFrameLayout.setVisibility(View.GONE);
+            layoutUnavailable.setVisibility(View.VISIBLE);
         }
     }
 
@@ -177,34 +177,18 @@ public class NatureCategoryActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        shimmerFrameLayout.startShimmerAnimation();
-        natureFirebaseAdapter.startListening();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        shimmerFrameLayout.stopShimmerAnimation();
-        natureFirebaseAdapter.stopListening();
-    }
-
-    @Override
     protected void onStart() {
         super.onStart();
-        if (natureFirebaseAdapter != null) {
+        if (natureFirebaseAdapter != null && checkConnection.isInternetAvailable()) {
             natureFirebaseAdapter.startListening();
         }
-
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        if (natureFirebaseAdapter != null) {
+        if (natureFirebaseAdapter != null && checkConnection.isInternetAvailable()) {
             natureFirebaseAdapter.stopListening();
         }
-
     }
 }

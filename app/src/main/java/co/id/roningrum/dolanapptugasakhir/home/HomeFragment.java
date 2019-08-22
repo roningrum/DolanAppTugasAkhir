@@ -11,7 +11,7 @@
  * limitations under the License.
  */
 
-package co.id.roningrum.dolanapptugasakhir;
+package co.id.roningrum.dolanapptugasakhir.home;
 
 
 import android.content.Intent;
@@ -32,6 +32,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 
+import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.ViewHolderHome.FoodRecommendationViewHolder;
 import co.id.roningrum.dolanapptugasakhir.ViewHolderHome.HerritageHomeViewHolder;
 import co.id.roningrum.dolanapptugasakhir.ViewHolderHome.TouristRecommendationViewHolder;
@@ -43,7 +44,6 @@ import co.id.roningrum.dolanapptugasakhir.tourism.recreation.RecreationCategoryA
 import co.id.roningrum.dolanapptugasakhir.tourism.shopping.ShoppingCategoryActivity;
 import co.id.roningrum.dolanapptugasakhir.tourism.village.VillageCategoryActivity;
 import co.id.roningrum.dolanapptugasakhir.transportation.airport.AirportActivity;
-import co.id.roningrum.dolanapptugasakhir.transportation.bus.BusActivity;
 import co.id.roningrum.dolanapptugasakhir.transportation.train.TrainActivity;
 
 
@@ -76,7 +76,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         LinearLayout airportMenu = view.findViewById(R.id.ln_bandara_public_home);
         LinearLayout hotelMenu = view.findViewById(R.id.ln_hotel_public_home);
         LinearLayout trainMenu = view.findViewById(R.id.ln_train_public_home);
-        LinearLayout busMenu = view.findViewById(R.id.ln_bus_public_home);
+//        LinearLayout busMenu = view.findViewById(R.id.ln_bus_public_home);
 
         tvAllCategory.setOnClickListener(this);
         natureMenu.setOnClickListener(this);
@@ -86,7 +86,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         airportMenu.setOnClickListener(this);
         hotelMenu.setOnClickListener(this);
         trainMenu.setOnClickListener(this);
-        busMenu.setOnClickListener(this);
+//        busMenu.setOnClickListener(this);
 
         //rv
         rvTouristRecommendation = view.findViewById(R.id.rv_tourism_recommendation);
@@ -191,9 +191,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             case R.id.ln_bandara_public_home:
                 startActivity(new Intent(getContext(), AirportActivity.class));
                 break;
-            case R.id.ln_bus_public_home:
-                startActivity(new Intent(getContext(), BusActivity.class));
-                break;
+//            case R.id.ln_bus_public_home:
+//                startActivity(new Intent(getContext(), BusActivity.class));
+//                break;
             case R.id.ln_train_public_home:
                 startActivity(new Intent(getContext(), TrainActivity.class));
                 break;

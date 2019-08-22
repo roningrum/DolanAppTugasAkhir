@@ -11,7 +11,7 @@
  * limitations under the License.
  */
 
-package co.id.roningrum.dolanapptugasakhir;
+package co.id.roningrum.dolanapptugasakhir.home;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -19,6 +19,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.LinearLayout;
 
+import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.hospital.HospitalActivity;
 import co.id.roningrum.dolanapptugasakhir.hotel.HotelActivity;
 import co.id.roningrum.dolanapptugasakhir.police.PoliceActivity;

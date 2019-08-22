@@ -50,7 +50,7 @@
         app:layout_constraintTop_toBottomOf="@+id/tv_heading_register2_page" />
 
     <ImageView
-        android:id="@+id/imageView6"
+        android:id="@+id/user_image_register"
         android:layout_width="105dp"
         android:layout_height="105dp"
         android:layout_marginStart="8dp"
@@ -63,6 +63,7 @@
         app:layout_constraintTop_toBottomOf="@+id/tv_sub_register2_page" />
 
     <ImageButton
+        android:id="@+id/btn_uplooad_image"
         android:layout_width="55dp"
         android:layout_height="55dp"
         android:layout_marginStart="8dp"
@@ -73,8 +74,8 @@
         android:src="@drawable/ic_photo_camera_24dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.371"
-        app:layout_constraintStart_toStartOf="@+id/imageView6"
-        app:layout_constraintTop_toTopOf="@+id/imageView6" />
+        app:layout_constraintStart_toStartOf="@+id/user_image_register"
+        app:layout_constraintTop_toTopOf="@+id/user_image_register" />
 
 
     <LinearLayout
@@ -88,7 +89,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView6">
+        app:layout_constraintTop_toBottomOf="@+id/user_image_register">
 
         <TextView
             android:layout_width="match_parent"
@@ -100,7 +101,7 @@
             android:textSize="14sp" />
 
         <EditText
-            android:id="@+id/edt_email_register"
+            android:id="@+id/edt_name_register"
             android:layout_width="match_parent"
             android:layout_height="56dp"
             android:layout_marginTop="8dp"
@@ -112,7 +113,7 @@
     </LinearLayout>
 
     <Button
-        android:id="@+id/btn_register1_page"
+        android:id="@+id/btn_registerfinal_page"
         android:layout_width="300dp"
         android:layout_height="55dp"
         android:layout_marginStart="8dp"

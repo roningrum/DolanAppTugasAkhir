@@ -106,7 +106,7 @@
     <string name="string_reset_sandi_sub_check_inbox">Silakan, cek kotak masuk email   untuk melakukan reset sandi</string>
     <string name="string_continoue_sign_in">Lanjutkan</string>
     <string name="string_success_register">Sukses Terdaftar</string>
-    <string name="string_confirm_email">Silakan, cek kotak masuk email   untuk melakukan konfirmasi email</string>
+    <string name="string_confirm_email">Terima kasih sudah mendaftar, klik lanjutkan untuk masuk</string>
     <string name="string_continoue_login">Lanjutkan</string>
     <string name="string_email_forget_pass">email</string>
     <string name="string_dummy_welcome">Selamat datang, Hailey Rhode Bieber</string>
@@ -121,5 +121,9 @@
     <string name="register_email_2">Tambahkan foto dan nama</string>
     <string name="sub_register_email2">untuk melengkapi data akun kamu tambahkan foto dan nama</string>
     <string name="btn_reset_email_process">Reset</string>
+    <string name="sign_out">Keluar Aplikasi</string>
+    <string name="noonnection">Maaf Jaringan tidak tersedia</string>
+    <string name="noConnection">Maaf Jaringan tidak tersedia</string>
+    <string name="checksetting">Jika jaringan tersedia, silakan tekan coba lagi untuk memuat ulang</string>
     <!--<string name="title_activity_religi_category_maps">Peta Wisata Religi</string>-->
 </resources>

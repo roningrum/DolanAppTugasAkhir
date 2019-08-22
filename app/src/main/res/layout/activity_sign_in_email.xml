@@ -26,7 +26,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="8dp"
-        android:background="@drawable/Login"
+        android:background="@drawable/login"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -133,7 +133,7 @@
     </LinearLayout>
 
     <Button
-        android:id="@+id/btn_login_page"
+        android:id="@+id/btn_login"
         android:layout_width="300dp"
         android:layout_height="55dp"
         android:layout_marginStart="32dp"
@@ -159,7 +159,7 @@
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_login_page">
+        app:layout_constraintTop_toBottomOf="@+id/btn_login">
 
         <TextView
             android:id="@+id/ask_to_register"
