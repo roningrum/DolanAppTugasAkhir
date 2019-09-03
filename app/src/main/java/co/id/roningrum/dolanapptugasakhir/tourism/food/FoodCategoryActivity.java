@@ -18,11 +18,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -30,6 +25,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
@@ -98,7 +99,7 @@ public class FoodCategoryActivity extends AppCompatActivity {
 
                         Log.i("Message", "CurLoc :" + latitude + "," + longitude);
 
-                        shimmerFrameLayout.stopShimmerAnimation();
+                        shimmerFrameLayout.stopShimmer();
                         shimmerFrameLayout.setVisibility(View.GONE);
 
                         holder.showFoodTourismData(model, latitude, longitude);
@@ -174,14 +175,14 @@ public class FoodCategoryActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        shimmerFrameLayout.startShimmerAnimation();
+        shimmerFrameLayout.startShimmer();
         foodFirebaseAdapter.startListening();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        shimmerFrameLayout.stopShimmerAnimation();
+        shimmerFrameLayout.stopShimmer();
         foodFirebaseAdapter.stopListening();
     }
 

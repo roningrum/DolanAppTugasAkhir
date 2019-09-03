@@ -28,7 +28,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".WelcomingScreenActivity"></activity>
+        <activity android:name=".HomeMenuActivity"></activity>
+        <activity android:name=".WelcomingScreenActivity" />
         <activity android:name=".RegisterEmail2" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.

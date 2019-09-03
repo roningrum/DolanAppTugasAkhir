@@ -20,7 +20,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".tourism.shopping.ShoppingCategoryMap">
 
-    <android.support.v7.widget.Toolbar
+    <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar_shopping_map"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"

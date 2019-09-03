@@ -19,7 +19,7 @@
     android:layout_height="match_parent"
     tools:context=".transportation.train.TrainMapsActivity">
 
-    <android.support.v7.widget.Toolbar
+    <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar_train_map"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"

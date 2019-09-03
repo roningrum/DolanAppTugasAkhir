@@ -18,12 +18,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.constraint.ConstraintLayout;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -31,6 +25,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
@@ -71,7 +72,7 @@ public class NatureCategoryActivity extends AppCompatActivity {
         checkConnection = new CheckConnection(getApplicationContext());
 
         if (checkConnection.isInternetAvailable()) {
-            shimmerFrameLayout.startShimmerAnimation();
+            shimmerFrameLayout.startShimmer();
             showData();
         } else {
             shimmerFrameLayout.setVisibility(View.GONE);
@@ -100,7 +101,7 @@ public class NatureCategoryActivity extends AppCompatActivity {
 
                         Log.i("Message", "CurLoc :" + latitude + "," + longitude);
 
-                        shimmerFrameLayout.stopShimmerAnimation();
+                        shimmerFrameLayout.stopShimmer();
                         shimmerFrameLayout.setVisibility(View.GONE);
 
                         holder.showTourismData(model, longitude, latitude);

@@ -17,7 +17,7 @@
     android:layout_height="match_parent"
     tools:context=".tourism.food.FoodCategoryMap">
 
-    <android.support.v7.widget.Toolbar
+    <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar_food_map"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"

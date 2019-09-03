@@ -16,14 +16,16 @@ package co.id.roningrum.dolanapptugasakhir;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
@@ -41,11 +43,11 @@ import de.hdodenhof.circleimageview.CircleImageView;
  * A simple {@link Fragment} subclass.
  */
 public class ProfileFragment extends Fragment implements View.OnClickListener {
-    CircleImageView photo_profile;
-    TextView tvNameProfile, tvEmailProfile;
-    FirebaseAuth firebaseAuthMain;
-    FirebaseUser user;
-    LinearLayout signOut;
+    private CircleImageView photo_profile;
+    private TextView tvNameProfile, tvEmailProfile;
+    private FirebaseAuth firebaseAuthMain;
+    private FirebaseUser user;
+    private LinearLayout signOut;
 
     DatabaseReference profileReference;
 
@@ -58,11 +60,17 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        final View v = inflater.inflate(R.layout.fragment_profile, container, false);
-        tvEmailProfile = v.findViewById(R.id.tv_emaill_profile);
-        tvNameProfile = v.findViewById(R.id.tv_name_profile);
-        photo_profile = v.findViewById(R.id.photo_akun_beranda);
-        signOut = v.findViewById(R.id.keluar);
+        return inflater.inflate(R.layout.fragment_profile, container, false);
+    }
+
+
+    @Override
+    public void onViewCreated(@NonNull final View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        tvEmailProfile = view.findViewById(R.id.tv_emaill_profile);
+        tvNameProfile = view.findViewById(R.id.tv_name_profile);
+        photo_profile = view.findViewById(R.id.photo_akun_beranda);
+        signOut = view.findViewById(R.id.keluar);
         signOut.setOnClickListener(this);
 
         firebaseAuthMain = FirebaseAuth.getInstance();
@@ -74,7 +82,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 tvNameProfile.setText(dataSnapshot.child("nama_lengkap").getValue().toString().trim());
                 tvEmailProfile.setText(dataSnapshot.child("email").getValue().toString().trim());
-                Glide.with(v.getContext()).load(dataSnapshot.child("url_photo_profile").toString()).into(photo_profile);
+                Glide.with(view.getContext()).load(dataSnapshot.child("url_photo_profile").toString()).into(photo_profile);
             }
 
             @Override
@@ -82,7 +90,6 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
 
             }
         });
-        return v;
     }
 
     @Override
