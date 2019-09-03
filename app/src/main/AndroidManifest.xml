@@ -28,7 +28,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".HomeMenuActivity"></activity>
+        <activity android:name=".HomeMenuActivity" />
         <activity android:name=".WelcomingScreenActivity" />
         <activity android:name=".RegisterEmail2" />
         <!--
@@ -134,12 +134,8 @@
             android:name=".tourism.nature.DetailNatureActivity"
             android:parentActivityName=".tourism.nature.NatureCategoryActivity" />
         <activity android:name=".tourism.nature.NatureCategoryActivity" />
-        <activity
-            android:name=".CategoryMapActivity"
-            android:label="@string/title_activity_category_map" />
         <activity android:name=".RegisteredemailConfirmActivity" />
         <activity android:name=".DetailCategoryActivity" />
-        <activity android:name=".CategoryMenuActivity" />
         <activity android:name=".home.AllCategoryActivity" />
         <activity android:name=".MainMenuActivity" />
         <activity android:name=".ForgetPassSignInActivity" />
