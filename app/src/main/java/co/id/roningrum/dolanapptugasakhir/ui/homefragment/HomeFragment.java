@@ -36,12 +36,12 @@ import com.google.firebase.database.Query;
 import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.model.HerritageItem;
 import co.id.roningrum.dolanapptugasakhir.model.TourismItem;
-import co.id.roningrum.dolanapptugasakhir.ui.categoryactivity.AirportActivity;
-import co.id.roningrum.dolanapptugasakhir.ui.categoryactivity.HotelActivity;
+import co.id.roningrum.dolanapptugasakhir.ui.categoryactivity.AirportCategoryActivity;
+import co.id.roningrum.dolanapptugasakhir.ui.categoryactivity.HotelCategoryActivity;
 import co.id.roningrum.dolanapptugasakhir.ui.categoryactivity.NatureCategoryActivity;
 import co.id.roningrum.dolanapptugasakhir.ui.categoryactivity.RecreationCategoryActivity;
 import co.id.roningrum.dolanapptugasakhir.ui.categoryactivity.ShoppingCategoryActivity;
-import co.id.roningrum.dolanapptugasakhir.ui.categoryactivity.TrainActivity;
+import co.id.roningrum.dolanapptugasakhir.ui.categoryactivity.TrainCategoryActivity;
 import co.id.roningrum.dolanapptugasakhir.ui.categoryactivity.VillageCategoryActivity;
 import co.id.roningrum.dolanapptugasakhir.ui.homeactivity.AllCategoryActivity;
 import co.id.roningrum.dolanapptugasakhir.viewholder.ViewHolderHome.FoodRecommendationViewHolder;
@@ -188,16 +188,16 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 startActivity(new Intent(getContext(), VillageCategoryActivity.class));
                 break;
             case R.id.ln_hotel_public_home:
-                startActivity(new Intent(getContext(), HotelActivity.class));
+                startActivity(new Intent(getContext(), HotelCategoryActivity.class));
                 break;
             case R.id.ln_bandara_public_home:
-                startActivity(new Intent(getContext(), AirportActivity.class));
+                startActivity(new Intent(getContext(), AirportCategoryActivity.class));
                 break;
 //            case R.id.ln_bus_public_home:
-//                startActivity(new Intent(getContext(), BusActivity.class));
+//                startActivity(new Intent(getContext(), BusCategoryActivity.class));
 //                break;
             case R.id.ln_train_public_home:
-                startActivity(new Intent(getContext(), TrainActivity.class));
+                startActivity(new Intent(getContext(), TrainCategoryActivity.class));
                 break;
         }
 

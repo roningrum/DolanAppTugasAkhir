@@ -47,7 +47,7 @@ import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.handler.NetworkHelper;
 import co.id.roningrum.dolanapptugasakhir.handler.PermissionHandler;
 import co.id.roningrum.dolanapptugasakhir.model.TourismItem;
-import co.id.roningrum.dolanapptugasakhir.ui.detailactivity.DetailEducationCategoryActivity;
+import co.id.roningrum.dolanapptugasakhir.ui.detailactivity.DetailEducatioActivity;
 import co.id.roningrum.dolanapptugasakhir.ui.mapsactivity.EducationCategoryMaps;
 import co.id.roningrum.dolanapptugasakhir.viewholder.categoryviewholder.EducationViewHolder;
 
@@ -63,7 +63,7 @@ public class EducationCategoryActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_education_category);
+        setContentView(R.layout.activity_category_education);
         rvEducationList = findViewById(R.id.tourism_education_list);
         Toolbar toolbarEducation = findViewById(R.id.toolbar_top_education);
         shimmerFrameLayout = findViewById(R.id.shimmer_view_container);
@@ -114,8 +114,8 @@ public class EducationCategoryActivity extends AppCompatActivity {
                         holder.setOnClickListener(new EducationViewHolder.ClickListener() {
                             @Override
                             public void onItemClick(View view, int position) {
-                                Intent intent = new Intent(getApplicationContext(), DetailEducationCategoryActivity.class);
-                                intent.putExtra(DetailEducationCategoryActivity.EXTRA_WISATA_KEY, eductaionKey);
+                                Intent intent = new Intent(getApplicationContext(), DetailEducatioActivity.class);
+                                intent.putExtra(DetailEducatioActivity.EXTRA_WISATA_KEY, eductaionKey);
                                 startActivity(intent);
                             }
                         });

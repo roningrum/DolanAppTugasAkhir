@@ -62,7 +62,7 @@ public class ReligiCategoryActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_religi_category);
+        setContentView(R.layout.activity_category_religi);
         rvReligiList = findViewById(R.id.tourism_religi_list);
         Toolbar toolbarReligi = findViewById(R.id.toolbar_top_religi);
         shimmerFrameLayout = findViewById(R.id.shimmer_view_container);

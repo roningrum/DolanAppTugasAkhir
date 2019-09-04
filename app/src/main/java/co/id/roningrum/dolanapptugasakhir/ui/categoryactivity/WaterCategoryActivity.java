@@ -62,7 +62,7 @@ public class WaterCategoryActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_water_category);
+        setContentView(R.layout.activity_category_water);
         rvWaterList = findViewById(R.id.tourism_water_list);
         Toolbar toolbarWater = findViewById(R.id.toolbar_top_water);
         shimmerFrameLayout = findViewById(R.id.shimmer_view_container);

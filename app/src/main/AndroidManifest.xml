@@ -42,43 +42,43 @@
         <activity
             android:name=".ui.mapsactivity.HospitalMapsActivity"
             android:label="@string/title_activity_hospital_maps" />
-        <activity android:name=".ui.detailactivity.HospitalDetailActivity" />
-        <activity android:name=".ui.categoryactivity.HospitalActivity" />
+        <activity android:name=".ui.detailactivity.DetailHospitalActivity" />
+        <activity android:name=".ui.categoryactivity.HospitalCategoryActivity" />
         <activity
             android:name=".ui.mapsactivity.PoliceMapsActivity"
             android:label="@string/title_activity_police_maps" />
-        <activity android:name=".ui.detailactivity.PoliceDetailActivity" />
-        <activity android:name=".ui.categoryactivity.PoliceActivity" />
+        <activity android:name=".ui.detailactivity.DetailPoliceActivity" />
+        <activity android:name=".ui.categoryactivity.PoliceCategoryActivity" />
         <activity
             android:name=".ui.mapsactivity.GasStationMapsActivity"
             android:label="@string/title_activity_gas_station_maps" />
-        <activity android:name=".ui.detailactivity.GasStationDetailActivity" />
-        <activity android:name=".ui.categoryactivity.GasStationActivity" />
+        <activity android:name=".ui.detailactivity.DetailGasStationActivity" />
+        <activity android:name=".ui.categoryactivity.GasStationCategoryActivity" />
         <activity
             android:name=".ui.mapsactivity.ShipMapActivity"
             android:label="@string/title_activity_ship_map" />
-        <activity android:name=".ui.detailactivity.ShipDetailActivity" />
-        <activity android:name=".ui.categoryactivity.ShipActivity" />
+        <activity android:name=".ui.detailactivity.DetailShipActivity" />
+        <activity android:name=".ui.categoryactivity.ShipCategoryActivity" />
         <activity
             android:name=".ui.mapsactivity.TrainMapsActivity"
             android:label="@string/title_activity_train_maps" />
-        <activity android:name=".ui.detailactivity.TrainDetailActivity" />
-        <activity android:name=".ui.categoryactivity.TrainActivity" />
+        <activity android:name=".ui.detailactivity.DetailTrainActivity" />
+        <activity android:name=".ui.categoryactivity.TrainCategoryActivity" />
         <activity
             android:name=".ui.mapsactivity.BusMapsActivity"
             android:label="@string/title_activity_bus_maps" />
-        <activity android:name=".ui.detailactivity.BusDetailActivity" />
-        <activity android:name=".ui.categoryactivity.BusActivity" />
+        <activity android:name=".ui.detailactivity.DetailBusActivity" />
+        <activity android:name=".ui.categoryactivity.BusCategoryActivity" />
         <activity
             android:name=".ui.mapsactivity.AirportMapsActivity"
             android:label="@string/title_activity_airport_maps" />
-        <activity android:name=".ui.detailactivity.AirportDetailActivity" />
-        <activity android:name=".ui.categoryactivity.AirportActivity" />
+        <activity android:name=".ui.detailactivity.DetailAirportActivity" />
+        <activity android:name=".ui.categoryactivity.AirportCategoryActivity" />
         <activity
             android:name=".ui.mapsactivity.HotelMapsActivity"
             android:label="@string/title_activity_hotel_maps" />
         <activity android:name=".ui.detailactivity.DetailHotelActivity" />
-        <activity android:name=".ui.categoryactivity.HotelActivity" />
+        <activity android:name=".ui.categoryactivity.HotelCategoryActivity" />
         <activity
             android:name=".ui.mapsactivity.FoodCategoryMap"
             android:label="@string/title_activity_food_category_map" />
@@ -103,7 +103,7 @@
             android:name=".ui.mapsactivity.EducationCategoryMaps"
             android:label="@string/title_activity_education_maps" />
         <activity android:name=".ui.categoryactivity.EducationCategoryActivity" />
-        <activity android:name=".ui.detailactivity.DetailEducationCategoryActivity" />
+        <activity android:name=".ui.detailactivity.DetailEducatioActivity" />
         <activity
             android:name=".ui.mapsactivity.VillageCategoryMaps"
             android:label="@string/title_activity_village_maps" />

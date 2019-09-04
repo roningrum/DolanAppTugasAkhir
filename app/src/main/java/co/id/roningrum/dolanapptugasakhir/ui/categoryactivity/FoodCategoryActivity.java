@@ -61,7 +61,7 @@ public class FoodCategoryActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_food_category);
+        setContentView(R.layout.activity_category_food);
         rvFoodList = findViewById(R.id.tourism_food_list);
         shimmerFrameLayout = findViewById(R.id.shimmer_view_container);
         Toolbar toolbarFood = findViewById(R.id.toolbar_top_food);

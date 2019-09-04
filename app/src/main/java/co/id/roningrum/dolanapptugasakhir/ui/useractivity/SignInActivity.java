@@ -29,7 +29,7 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sign_in);
+        setContentView(R.layout.activity_signin_account_options);
         btnSignInEmailPage = findViewById(R.id.btn_login_email);
         tvRegisterLinkPage = findViewById(R.id.register_link);
         btnSignInEmailPage.setOnClickListener(this);

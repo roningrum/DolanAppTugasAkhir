@@ -62,7 +62,7 @@ public class VillageCategoryActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_village_category);
+        setContentView(R.layout.activity_category_village);
         rvVillageList = findViewById(R.id.tourism_village_list);
         Toolbar toolbarVillage = findViewById(R.id.toolbar_top_village);
         shimmerFrameLayout = findViewById(R.id.shimmer_view_container);

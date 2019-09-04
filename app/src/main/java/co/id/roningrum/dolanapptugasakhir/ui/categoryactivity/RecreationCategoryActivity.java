@@ -62,7 +62,7 @@ public class RecreationCategoryActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_recreation_category);
+        setContentView(R.layout.activity_category_recreation);
         rvRecreationList = findViewById(R.id.tourism_recreation_list);
         Toolbar toolbarRecreation = findViewById(R.id.toolbar_top_recreation);
         shimmerFrameLayout = findViewById(R.id.shimmer_view_container);

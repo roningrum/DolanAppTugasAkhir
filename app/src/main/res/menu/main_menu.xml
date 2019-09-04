@@ -19,11 +19,6 @@
         android:title="@string/txt_home_main_menu"
         app:showAsAction="ifRoom" />
     <item
-        android:id="@+id/nearbyMenu"
-        android:icon="@drawable/ic_location_24dp"
-        android:title="@string/txt_nearby_main_menu"
-        app:showAsAction="ifRoom" />
-    <item
         android:id="@+id/bookmarkMenu"
         android:icon="@drawable/ic_bookmark_24dp"
         android:title="@string/txt_bookmark_main_menu"

@@ -45,7 +45,7 @@ public class SignInEmailActivity extends AppCompatActivity implements View.OnCli
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sign_in_email);
+        setContentView(R.layout.activity_signin_account_email);
         tvRegisterLink = findViewById(R.id.register_link);
         LoginEmail = findViewById(R.id.btn_login);
         emailLogin = findViewById(R.id.edt_email_address_login);

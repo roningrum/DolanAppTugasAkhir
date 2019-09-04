@@ -63,7 +63,7 @@ public class ShoppingCategoryActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_shopping_category);
+        setContentView(R.layout.activity_category_shopping);
         rvShoppingList = findViewById(R.id.tourism_shopping_list);
         Toolbar toolbarShopping = findViewById(R.id.toolbar_top_shopping);
         shimmerFrameLayout = findViewById(R.id.shimmer_view_container);

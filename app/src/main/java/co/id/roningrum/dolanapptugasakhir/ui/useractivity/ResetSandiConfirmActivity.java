@@ -24,7 +24,7 @@ public class ResetSandiConfirmActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_email_reset_send);
+        setContentView(R.layout.layout_success_send_reset_email);
 
     }
 }

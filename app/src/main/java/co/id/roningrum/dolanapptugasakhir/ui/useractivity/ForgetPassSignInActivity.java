@@ -24,6 +24,6 @@ public class ForgetPassSignInActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_forget_pass_sign_in);
+        setContentView(R.layout.activity_signin_forget_password);
     }
 }

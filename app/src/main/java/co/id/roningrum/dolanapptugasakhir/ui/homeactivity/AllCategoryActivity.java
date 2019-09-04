@@ -21,21 +21,21 @@ import android.widget.LinearLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
 import co.id.roningrum.dolanapptugasakhir.R;
-import co.id.roningrum.dolanapptugasakhir.ui.categoryactivity.AirportActivity;
-import co.id.roningrum.dolanapptugasakhir.ui.categoryactivity.BusActivity;
+import co.id.roningrum.dolanapptugasakhir.ui.categoryactivity.AirportCategoryActivity;
+import co.id.roningrum.dolanapptugasakhir.ui.categoryactivity.BusCategoryActivity;
 import co.id.roningrum.dolanapptugasakhir.ui.categoryactivity.EducationCategoryActivity;
 import co.id.roningrum.dolanapptugasakhir.ui.categoryactivity.FoodCategoryActivity;
-import co.id.roningrum.dolanapptugasakhir.ui.categoryactivity.GasStationActivity;
+import co.id.roningrum.dolanapptugasakhir.ui.categoryactivity.GasStationCategoryActivity;
 import co.id.roningrum.dolanapptugasakhir.ui.categoryactivity.HistoryCategoryActivity;
-import co.id.roningrum.dolanapptugasakhir.ui.categoryactivity.HospitalActivity;
-import co.id.roningrum.dolanapptugasakhir.ui.categoryactivity.HotelActivity;
+import co.id.roningrum.dolanapptugasakhir.ui.categoryactivity.HospitalCategoryActivity;
+import co.id.roningrum.dolanapptugasakhir.ui.categoryactivity.HotelCategoryActivity;
 import co.id.roningrum.dolanapptugasakhir.ui.categoryactivity.NatureCategoryActivity;
-import co.id.roningrum.dolanapptugasakhir.ui.categoryactivity.PoliceActivity;
+import co.id.roningrum.dolanapptugasakhir.ui.categoryactivity.PoliceCategoryActivity;
 import co.id.roningrum.dolanapptugasakhir.ui.categoryactivity.RecreationCategoryActivity;
 import co.id.roningrum.dolanapptugasakhir.ui.categoryactivity.ReligiCategoryActivity;
-import co.id.roningrum.dolanapptugasakhir.ui.categoryactivity.ShipActivity;
+import co.id.roningrum.dolanapptugasakhir.ui.categoryactivity.ShipCategoryActivity;
 import co.id.roningrum.dolanapptugasakhir.ui.categoryactivity.ShoppingCategoryActivity;
-import co.id.roningrum.dolanapptugasakhir.ui.categoryactivity.TrainActivity;
+import co.id.roningrum.dolanapptugasakhir.ui.categoryactivity.TrainCategoryActivity;
 import co.id.roningrum.dolanapptugasakhir.ui.categoryactivity.VillageCategoryActivity;
 import co.id.roningrum.dolanapptugasakhir.ui.categoryactivity.WaterCategoryActivity;
 
@@ -44,7 +44,7 @@ public class AllCategoryActivity extends AppCompatActivity implements View.OnCli
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_all_category);
+        setContentView(R.layout.activity_category_all_menu);
         LinearLayout natureMenu = findViewById(R.id.ln_nature_tour);
         LinearLayout entertaintMenu = findViewById(R.id.ln_entertain_tour);
         LinearLayout shoppingMenu = findViewById(R.id.ln_belanja_tour);
@@ -115,29 +115,29 @@ public class AllCategoryActivity extends AppCompatActivity implements View.OnCli
                 startActivity(new Intent(AllCategoryActivity.this, HistoryCategoryActivity.class));
                 break;
             case R.id.ln_hotel_public:
-                startActivity(new Intent(AllCategoryActivity.this, HotelActivity.class));
+                startActivity(new Intent(AllCategoryActivity.this, HotelCategoryActivity.class));
                 break;
             case R.id.ln_bandara_public:
-                startActivity(new Intent(AllCategoryActivity.this, AirportActivity.class));
+                startActivity(new Intent(AllCategoryActivity.this, AirportCategoryActivity.class));
                 break;
             case R.id.ln_bus_public:
-                startActivity(new Intent(AllCategoryActivity.this, BusActivity.class));
+                startActivity(new Intent(AllCategoryActivity.this, BusCategoryActivity.class));
                 break;
             case R.id.ln_train_public:
-                startActivity(new Intent(AllCategoryActivity.this, TrainActivity.class));
+                startActivity(new Intent(AllCategoryActivity.this, TrainCategoryActivity.class));
                 break;
             case R.id.ln_harbor_tour:
-                startActivity(new Intent(AllCategoryActivity.this, ShipActivity.class));
+                startActivity(new Intent(AllCategoryActivity.this, ShipCategoryActivity.class));
                 break;
             case R.id.ln_spbu_public:
-                startActivity(new Intent(AllCategoryActivity.this, GasStationActivity.class));
+                startActivity(new Intent(AllCategoryActivity.this, GasStationCategoryActivity.class));
                 break;
             case R.id.ln_police_public:
-                startActivity(new Intent(AllCategoryActivity.this, PoliceActivity.class));
+                startActivity(new Intent(AllCategoryActivity.this, PoliceCategoryActivity.class));
                 break;
 
             case R.id.ln_hospital_public:
-                startActivity(new Intent(AllCategoryActivity.this, HospitalActivity.class));
+                startActivity(new Intent(AllCategoryActivity.this, HospitalCategoryActivity.class));
                 break;
 
 

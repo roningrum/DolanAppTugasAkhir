@@ -74,7 +74,7 @@ public class DetailShoppingActivity extends AppCompatActivity implements OnMapRe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_detail_shopping_category);
+        setContentView(R.layout.activity_detail_shopping);
         tvNameShoppingDetail = findViewById(R.id.name_place_shopping_detail);
         tvAddressShoppingDetail = findViewById(R.id.address_place_shopping_detail);
         tvDescShoppingDetail = findViewById(R.id.info_place_shopping_detail);

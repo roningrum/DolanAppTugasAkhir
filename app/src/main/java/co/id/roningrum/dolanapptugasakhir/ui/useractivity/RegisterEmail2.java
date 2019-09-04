@@ -60,7 +60,7 @@ public class RegisterEmail2 extends AppCompatActivity implements View.OnClickLis
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_register_email2);
+        setContentView(R.layout.activity_register_account_name_photo);
         btnUserPhotoUpload = findViewById(R.id.btn_uplooad_image);
         btnRegisterFinal = findViewById(R.id.btn_registerfinal_page);
         edtNameRegister = findViewById(R.id.edt_name_register);

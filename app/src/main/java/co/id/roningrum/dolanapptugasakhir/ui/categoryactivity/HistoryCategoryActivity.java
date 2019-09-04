@@ -63,7 +63,7 @@ public class HistoryCategoryActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_history_catgeory);
+        setContentView(R.layout.activity_category_history);
         rvHistoryList = findViewById(R.id.tourism_history_list);
         Toolbar toolbarHistory = findViewById(R.id.toolbar_top_history);
         shimmerFrameLayout = findViewById(R.id.shimmer_view_container);

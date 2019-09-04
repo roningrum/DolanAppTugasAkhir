@@ -28,7 +28,7 @@ public class RegisteredemailConfirmActivity extends AppCompatActivity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_registeredemail_confirm);
+        setContentView(R.layout.layout_success_register_confirm);
         btnLoginPage = findViewById(R.id.btn_login_page);
         btnLoginPage.setOnClickListener(this);
     }

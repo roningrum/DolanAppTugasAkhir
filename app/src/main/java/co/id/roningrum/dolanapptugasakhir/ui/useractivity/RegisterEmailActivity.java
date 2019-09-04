@@ -54,7 +54,7 @@ public class RegisterEmailActivity extends AppCompatActivity implements View.OnC
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_register_email);
+        setContentView(R.layout.activity_register_account_email);
 
         emailRegister = findViewById(R.id.edt_email_register);
         passRegister = findViewById(R.id.edt_password_register);
