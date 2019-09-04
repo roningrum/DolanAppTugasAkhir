@@ -38,10 +38,10 @@
 
     <ImageView
         android:id="@+id/imageView2"
-        android:layout_width="250dp"
-        android:layout_height="150dp"
+        android:layout_width="185dp"
+        android:layout_height="142dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="56dp"
+        android:layout_marginTop="24dp"
         android:layout_marginEnd="8dp"
         android:contentDescription="@null"
         android:src="@drawable/forgotpass"
@@ -68,44 +68,23 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_heading_reset_page" />
 
-    <LinearLayout
-        android:id="@+id/layout_email_reset_form"
+    <include
+        android:id="@+id/layout_reset_form"
+        layout="@layout/layout_reset_password_form"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="24dp"
-        android:orientation="vertical"
-        app:layout_constraintTop_toBottomOf="@+id/tv_subtitle_reset_page">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/montserrat_light"
-            android:lineSpacingExtra="15sp"
-            android:text="@string/string_email_forget_pass"
-            android:textColor="#000000" />
-
-        <EditText
-            android:id="@+id/edt_email_address_login"
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:layout_marginTop="8dp"
-            android:background="#EEEEEE"
-            android:fontFamily="@font/montserrat"
-            android:importantForAutofill="no"
-            android:inputType="textEmailAddress"
-            tools:ignore="LabelFor"
-            tools:targetApi="o" />
-    </LinearLayout>
+        android:layout_marginTop="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_subtitle_reset_page" />
 
     <Button
         android:id="@+id/btn_reset_page"
         android:layout_width="300dp"
         android:layout_height="55dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="32dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="8dp"
         android:background="@drawable/bg_button_orange"
         android:fontFamily="@font/montserrat"
         android:text="@string/btn_reset_email_process"
@@ -113,5 +92,5 @@
         android:textColor="@color/txtWhitePrimary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/layout_email_reset_form" />
+        app:layout_constraintTop_toBottomOf="@+id/layout_reset_form" />
 </androidx.constraintlayout.widget.ConstraintLayout>

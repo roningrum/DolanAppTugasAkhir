@@ -131,8 +131,8 @@
             android:parentActivityName=".ui.categoryactivity.NatureCategoryActivity" />
         <activity android:name=".ui.categoryactivity.NatureCategoryActivity" />
         <activity android:name=".ui.useractivity.RegisteredemailConfirmActivity" />
-        <activity android:name=".ui.AllCategoryActivity" />
-        <activity android:name=".MainMenuActivity" />
+        <activity android:name=".ui.homeactivity.AllCategoryActivity" />
+        <activity android:name=".ui.homeactivity.MainMenuActivity" />
         <activity android:name=".ui.useractivity.ForgetPassSignInActivity" />
         <activity android:name=".ui.useractivity.RegisterEmailActivity" />
         <activity android:name=".ui.useractivity.SignInEmailActivity" />
@@ -145,7 +145,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity" />
         <activity android:name=".ui.useractivity.ResetSandiConfirmActivity" />
 
         <service

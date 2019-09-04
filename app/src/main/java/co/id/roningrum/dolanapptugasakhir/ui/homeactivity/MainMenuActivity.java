@@ -11,7 +11,7 @@
  * limitations under the License.
  */
 
-package co.id.roningrum.dolanapptugasakhir;
+package co.id.roningrum.dolanapptugasakhir.ui.homeactivity;
 
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -22,7 +22,10 @@ import androidx.fragment.app.Fragment;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-import co.id.roningrum.dolanapptugasakhir.home.HomeFragment;
+import co.id.roningrum.dolanapptugasakhir.R;
+import co.id.roningrum.dolanapptugasakhir.ui.homefragment.BookmarkFragment;
+import co.id.roningrum.dolanapptugasakhir.ui.homefragment.HomeFragment;
+import co.id.roningrum.dolanapptugasakhir.ui.homefragment.ProfileFragment;
 
 public class MainMenuActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
 
@@ -53,9 +56,9 @@ public class MainMenuActivity extends AppCompatActivity implements BottomNavigat
             case R.id.homeMenu:
                 fragment = new HomeFragment();
                 break;
-            case R.id.nearbyMenu:
-                fragment = new NearbyFragment();
-                break;
+//            case R.id.nearbyMenu:
+//                fragment = new NearbyFragment();
+//                break;
             case R.id.bookmarkMenu:
                 fragment = new BookmarkFragment();
                 break;

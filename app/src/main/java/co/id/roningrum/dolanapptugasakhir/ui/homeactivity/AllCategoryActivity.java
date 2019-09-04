@@ -11,7 +11,7 @@
  * limitations under the License.
  */
 
-package co.id.roningrum.dolanapptugasakhir.ui;
+package co.id.roningrum.dolanapptugasakhir.ui.homeactivity;
 
 import android.content.Intent;
 import android.os.Bundle;

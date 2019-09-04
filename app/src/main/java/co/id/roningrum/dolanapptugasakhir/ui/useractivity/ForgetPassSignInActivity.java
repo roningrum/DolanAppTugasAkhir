@@ -17,6 +17,8 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import co.id.roningrum.dolanapptugasakhir.R;
+
 public class ForgetPassSignInActivity extends AppCompatActivity {
 
     @Override

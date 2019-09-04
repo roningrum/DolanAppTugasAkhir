@@ -12,10 +12,10 @@
   -->
 
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.categoryactivity.GasStationActivity">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -32,7 +32,7 @@
             android:background="@color/txtWhitePrimary"
             app:layout_collapseMode="pin"
             app:popupTheme="@style/ActionBarThemeOverlay"
-            app:title="SPBU"
+            app:title="Pom Bensin"
             app:titleTextColor="@android:color/black" />
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -41,29 +41,7 @@
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <com.facebook.shimmer.ShimmerFrameLayout
-            android:id="@+id/shimmer_view_container"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:orientation="vertical"
-            app:shimmer_duration="1500">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <include layout="@layout/item_data_place_holder" />
-
-                <include layout="@layout/item_data_place_holder" />
-
-                <include layout="@layout/item_data_place_holder" />
-
-                <include layout="@layout/item_data_place_holder" />
-            </LinearLayout>
-
-        </com.facebook.shimmer.ShimmerFrameLayout>
+        <include layout="@layout/layout_shimmer_loading_vertical" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_spbu_list"

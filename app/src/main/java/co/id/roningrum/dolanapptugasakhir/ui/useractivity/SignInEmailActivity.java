@@ -31,8 +31,8 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-import co.id.roningrum.dolanapptugasakhir.MainMenuActivity;
 import co.id.roningrum.dolanapptugasakhir.R;
+import co.id.roningrum.dolanapptugasakhir.ui.homeactivity.MainMenuActivity;
 
 public class SignInEmailActivity extends AppCompatActivity implements View.OnClickListener {
     FirebaseAuth firebaseAuthLogin;

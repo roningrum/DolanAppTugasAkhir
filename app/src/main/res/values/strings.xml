@@ -122,14 +122,11 @@
     <string name="sub_register_email2">untuk melengkapi data akun kamu tambahkan foto dan nama</string>
     <string name="btn_reset_email_process">Reset</string>
     <string name="sign_out">Keluar Aplikasi</string>
-    <string name="noonnection">Maaf Jaringan tidak tersedia</string>
     <string name="noConnection">Maaf Jaringan tidak tersedia</string>
-    <string name="checksetting">Jika jaringan tersedia, silakan tekan coba lagi untuk memuat ulang</string>
     <!--<string name="title_activity_religi_category_maps">Peta Wisata Religi</string>-->
     <string name="judul_ta">PENGEMBANGAN APLIKASI PARIWISATA SEMARANG MENGGUNAKAN \n METODE EXTREME PROGRAMMING DENGAN IMPLEMENTASI FIREBASE BERBASIS ANDROID</string>
     <string name="nama_ta">Rizki Oktavia Ningrum</string>
     <string name="nim_ta">21120114120049</string>
     <string name="button_ta">Mulai</string>
-    <string name="no_connection_button">Jika jaringan tersedia, silakan tekan coba lagi untuk memuat ulang</string>
     <string name="coba_lagi">coba lagi</string>
 </resources>

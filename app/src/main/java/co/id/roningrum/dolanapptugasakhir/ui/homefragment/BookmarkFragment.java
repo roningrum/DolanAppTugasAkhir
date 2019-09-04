@@ -11,7 +11,7 @@
  * limitations under the License.
  */
 
-package co.id.roningrum.dolanapptugasakhir;
+package co.id.roningrum.dolanapptugasakhir.ui.homefragment;
 
 
 import android.os.Bundle;
@@ -20,6 +20,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
+
+import co.id.roningrum.dolanapptugasakhir.R;
 
 
 /**

@@ -11,7 +11,7 @@
  * limitations under the License.
  */
 
-package co.id.roningrum.dolanapptugasakhir.home;
+package co.id.roningrum.dolanapptugasakhir.ui.homefragment;
 
 
 import android.content.Intent;
@@ -36,7 +36,6 @@ import com.google.firebase.database.Query;
 import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.model.HerritageItem;
 import co.id.roningrum.dolanapptugasakhir.model.TourismItem;
-import co.id.roningrum.dolanapptugasakhir.ui.AllCategoryActivity;
 import co.id.roningrum.dolanapptugasakhir.ui.categoryactivity.AirportActivity;
 import co.id.roningrum.dolanapptugasakhir.ui.categoryactivity.HotelActivity;
 import co.id.roningrum.dolanapptugasakhir.ui.categoryactivity.NatureCategoryActivity;
@@ -44,6 +43,7 @@ import co.id.roningrum.dolanapptugasakhir.ui.categoryactivity.RecreationCategory
 import co.id.roningrum.dolanapptugasakhir.ui.categoryactivity.ShoppingCategoryActivity;
 import co.id.roningrum.dolanapptugasakhir.ui.categoryactivity.TrainActivity;
 import co.id.roningrum.dolanapptugasakhir.ui.categoryactivity.VillageCategoryActivity;
+import co.id.roningrum.dolanapptugasakhir.ui.homeactivity.AllCategoryActivity;
 import co.id.roningrum.dolanapptugasakhir.viewholder.ViewHolderHome.FoodRecommendationViewHolder;
 import co.id.roningrum.dolanapptugasakhir.viewholder.ViewHolderHome.HerritageHomeViewHolder;
 import co.id.roningrum.dolanapptugasakhir.viewholder.ViewHolderHome.TouristRecommendationViewHolder;
