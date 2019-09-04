@@ -35,7 +35,7 @@ public class WelcomingScreenActivity extends AppCompatActivity implements View.O
 
     @Override
     public void onClick(View v) {
-        Intent welcomeIntent = new Intent(this, SignInActivity.class);
+        Intent welcomeIntent = new Intent(this, SignInOptionActivity.class);
         startActivity(welcomeIntent);
     }
 }

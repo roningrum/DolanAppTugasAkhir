@@ -42,7 +42,7 @@ import com.google.firebase.storage.UploadTask;
 
 import co.id.roningrum.dolanapptugasakhir.R;
 
-public class RegisterEmail2 extends AppCompatActivity implements View.OnClickListener {
+public class RegisterAccountProfileActivity extends AppCompatActivity implements View.OnClickListener {
     Uri photo_location;
     Integer photo_max = 1;
     private ImageView userPhotoRegister;
@@ -126,7 +126,7 @@ public class RegisterEmail2 extends AppCompatActivity implements View.OnClickLis
                 @Override
                 public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
                     //Berpindah Activaty
-                    Intent gotoSuccess = new Intent(RegisterEmail2.this, RegisteredemailConfirmActivity.class);
+                    Intent gotoSuccess = new Intent(RegisterAccountProfileActivity.this, RegisterSuccessActivity.class);
                     startActivity(gotoSuccess);
                     finish();
                 }

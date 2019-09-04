@@ -37,7 +37,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import co.id.roningrum.dolanapptugasakhir.R;
-import co.id.roningrum.dolanapptugasakhir.ui.useractivity.SignInActivity;
+import co.id.roningrum.dolanapptugasakhir.ui.useractivity.SignInOptionActivity;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 
@@ -107,7 +107,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
 
     private void updateUI(FirebaseUser user) {
         if (user != null) {
-            startActivity(new Intent(getContext(), SignInActivity.class));
+            startActivity(new Intent(getContext(), SignInOptionActivity.class));
             Toast.makeText(getContext(), "Thanks for visiting", Toast.LENGTH_LONG).show();
         }
     }

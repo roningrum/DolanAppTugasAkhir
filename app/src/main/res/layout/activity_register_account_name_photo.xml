@@ -16,7 +16,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.useractivity.RegisterEmail2">
+    tools:context=".ui.useractivity.RegisterAccountProfileActivity">
 
     <TextView
         android:id="@+id/tv_heading_register2_page"

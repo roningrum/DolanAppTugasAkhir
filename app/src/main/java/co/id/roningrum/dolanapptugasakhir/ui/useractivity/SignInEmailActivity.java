@@ -62,7 +62,7 @@ public class SignInEmailActivity extends AppCompatActivity implements View.OnCli
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.register_link:
-                startActivity(new Intent(SignInEmailActivity.this, RegisterEmailActivity.class));
+                startActivity(new Intent(SignInEmailActivity.this, RegisterAccountEmailActivity.class));
                 break;
             case R.id.btn_login:
                 SignInEmail();
@@ -109,7 +109,7 @@ public class SignInEmailActivity extends AppCompatActivity implements View.OnCli
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        startActivity(new Intent(SignInEmailActivity.this, SignInActivity.class));
+        startActivity(new Intent(SignInEmailActivity.this, SignInOptionActivity.class));
     }
 
     @Override

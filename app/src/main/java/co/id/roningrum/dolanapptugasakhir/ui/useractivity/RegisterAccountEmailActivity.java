@@ -40,7 +40,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import co.id.roningrum.dolanapptugasakhir.R;
 
-public class RegisterEmailActivity extends AppCompatActivity implements View.OnClickListener {
+public class RegisterAccountEmailActivity extends AppCompatActivity implements View.OnClickListener {
 
     String EMAIL_KEY = "emailkey";
     String email_key = "";
@@ -77,7 +77,7 @@ public class RegisterEmailActivity extends AppCompatActivity implements View.OnC
                 registerPhase1();
                 break;
             case R.id.login_link:
-                startActivity(new Intent(RegisterEmailActivity.this, SignInEmailActivity.class));
+                startActivity(new Intent(RegisterAccountEmailActivity.this, SignInEmailActivity.class));
                 break;
         }
 
@@ -103,7 +103,7 @@ public class RegisterEmailActivity extends AppCompatActivity implements View.OnC
             editor.putString(email_key, email);
             editor.apply();
 
-            firebaseAuthReg1.createUserWithEmailAndPassword(email, password).addOnCompleteListener(RegisterEmailActivity.this, new OnCompleteListener<AuthResult>() {
+            firebaseAuthReg1.createUserWithEmailAndPassword(email, password).addOnCompleteListener(RegisterAccountEmailActivity.this, new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if (task.isSuccessful()) {
@@ -120,7 +120,7 @@ public class RegisterEmailActivity extends AppCompatActivity implements View.OnC
                             }
                         });
                         sendEmailVerification();
-                        startActivity(new Intent(RegisterEmailActivity.this, RegisterEmail2.class));
+                        startActivity(new Intent(RegisterAccountEmailActivity.this, RegisterAccountProfileActivity.class));
                     }
 
                 }
@@ -134,11 +134,11 @@ public class RegisterEmailActivity extends AppCompatActivity implements View.OnC
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {
-                    Toast.makeText(RegisterEmailActivity.this,
+                    Toast.makeText(RegisterAccountEmailActivity.this,
                             "Verification email sent to " + firebaseUserReg.getEmail(),
                             Toast.LENGTH_LONG).show();
                 } else {
-                    Toast.makeText(RegisterEmailActivity.this,
+                    Toast.makeText(RegisterAccountEmailActivity.this,
                             "Failed to send verification email.",
                             Toast.LENGTH_SHORT).show();
                 }
@@ -149,6 +149,6 @@ public class RegisterEmailActivity extends AppCompatActivity implements View.OnC
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        startActivity(new Intent(RegisterEmailActivity.this, SignInActivity.class));
+        startActivity(new Intent(RegisterAccountEmailActivity.this, SignInOptionActivity.class));
     }
 }

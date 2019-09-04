@@ -15,15 +15,16 @@ package co.id.roningrum.dolanapptugasakhir.ui.useractivity;
 
 import android.os.Bundle;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import co.id.roningrum.dolanapptugasakhir.R;
 
-public class ForgetPassSignInActivity extends AppCompatActivity {
-
+public class ResetSendEmailSuccessActivity extends AppCompatActivity {
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_signin_forget_password);
+        setContentView(R.layout.layout_success_send_reset_email);
+
     }
 }

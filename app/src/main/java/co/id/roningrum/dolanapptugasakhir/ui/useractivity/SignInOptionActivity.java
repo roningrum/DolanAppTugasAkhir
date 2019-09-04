@@ -23,7 +23,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import co.id.roningrum.dolanapptugasakhir.R;
 
-public class SignInActivity extends AppCompatActivity implements View.OnClickListener {
+public class SignInOptionActivity extends AppCompatActivity implements View.OnClickListener {
     private Button btnSignInEmailPage;
     private TextView tvRegisterLinkPage;
     @Override
@@ -41,10 +41,10 @@ public class SignInActivity extends AppCompatActivity implements View.OnClickLis
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_login_email:
-                startActivity(new Intent(SignInActivity.this, SignInEmailActivity.class));
+                startActivity(new Intent(SignInOptionActivity.this, SignInEmailActivity.class));
                 break;
             case R.id.register_link:
-                startActivity(new Intent(SignInActivity.this, RegisterEmailActivity.class));
+                startActivity(new Intent(SignInOptionActivity.this, RegisterAccountEmailActivity.class));
                 break;
         }
 

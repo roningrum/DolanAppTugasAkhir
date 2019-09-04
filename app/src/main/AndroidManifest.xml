@@ -26,7 +26,7 @@
         android:theme="@style/AppTheme">
         <activity android:name=".ui.HomeMenuActivity" />
         <activity android:name=".ui.useractivity.WelcomingScreenActivity" />
-        <activity android:name=".ui.useractivity.RegisterEmail2" />
+        <activity android:name=".ui.useractivity.RegisterAccountProfileActivity" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -130,13 +130,13 @@
             android:name=".ui.detailactivity.DetailNatureActivity"
             android:parentActivityName=".ui.categoryactivity.NatureCategoryActivity" />
         <activity android:name=".ui.categoryactivity.NatureCategoryActivity" />
-        <activity android:name=".ui.useractivity.RegisteredemailConfirmActivity" />
+        <activity android:name=".ui.useractivity.RegisterSuccessActivity" />
         <activity android:name=".ui.homeactivity.AllCategoryActivity" />
         <activity android:name=".ui.homeactivity.MainMenuActivity" />
-        <activity android:name=".ui.useractivity.ForgetPassSignInActivity" />
-        <activity android:name=".ui.useractivity.RegisterEmailActivity" />
+        <activity android:name=".ui.useractivity.ResetPasswordActivity" />
+        <activity android:name=".ui.useractivity.RegisterAccountEmailActivity" />
         <activity android:name=".ui.useractivity.SignInEmailActivity" />
-        <activity android:name=".ui.useractivity.SignInActivity" />
+        <activity android:name=".ui.useractivity.SignInOptionActivity" />
         <activity android:name=".ui.useractivity.SplashScreenActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -145,7 +145,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.useractivity.ResetSandiConfirmActivity" />
+        <activity android:name=".ui.useractivity.ResetSendEmailSuccessActivity" />
 
         <service
             android:name=".handler.GPSHandler"
