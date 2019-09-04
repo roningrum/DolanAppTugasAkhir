@@ -123,7 +123,7 @@ public class RecreationCategoryActivity extends AppCompatActivity {
                 @NonNull
                 @Override
                 public RecreationViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-                    View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_recreation_category_menu, viewGroup, false);
+                    View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_menu_recreation_category_tourism, viewGroup, false);
                     return new RecreationViewHolder(view);
                 }
 

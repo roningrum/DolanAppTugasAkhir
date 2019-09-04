@@ -124,7 +124,7 @@ public class NatureCategoryActivity extends AppCompatActivity {
                 @NonNull
                 @Override
                 public NatureViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-                    View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_nature_category_menu, viewGroup, false);
+                    View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_menu_nature_category_tourism, viewGroup, false);
                     return new NatureViewHolder(view);
                 }
 

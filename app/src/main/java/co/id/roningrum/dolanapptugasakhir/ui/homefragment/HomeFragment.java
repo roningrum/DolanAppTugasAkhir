@@ -141,7 +141,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             @NonNull
             @Override
             public TouristRecommendationViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-                return new TouristRecommendationViewHolder(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_tourism_recommendation_home, viewGroup, false));
+                return new TouristRecommendationViewHolder(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_content_tourism_recommend_home, viewGroup, false));
             }
         };
         touristRecommendAdapter.notifyDataSetChanged();

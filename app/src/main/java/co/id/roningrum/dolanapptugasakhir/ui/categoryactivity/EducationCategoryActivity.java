@@ -129,7 +129,7 @@ public class EducationCategoryActivity extends AppCompatActivity {
 //                @NonNull
 //                @Override
 //                public ShoppingViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-//                    View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_shopping_category_menu, viewGroup, false);
+//                    View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_menu_shopping_category_tourism, viewGroup, false);
 //                    return new ShoppingViewHolder(view);
 //                }
             };

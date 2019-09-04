@@ -120,7 +120,7 @@ public class HotelCategoryActivity extends AppCompatActivity {
                 @NonNull
                 @Override
                 public HotelViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-                    return new HotelViewHolder(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_hotel_menu, viewGroup, false));
+                    return new HotelViewHolder(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_menu_hotel_category_hotel, viewGroup, false));
                 }
             };
             hotelFirebaseAdapter.notifyDataSetChanged();

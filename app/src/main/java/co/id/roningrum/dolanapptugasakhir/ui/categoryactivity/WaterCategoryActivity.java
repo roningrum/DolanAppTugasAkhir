@@ -127,7 +127,7 @@ public class WaterCategoryActivity extends AppCompatActivity {
                 @NonNull
                 @Override
                 public WaterViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-                    View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_water_category_menu, viewGroup, false);
+                    View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_menu_water_category_tourism, viewGroup, false);
                     return new WaterViewHolder(view);
                 }
             };

@@ -124,13 +124,13 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <include layout="@layout/item_data_place_holder" />
+                <include layout="@layout/item_loading_shimmer_vertical" />
 
-                <include layout="@layout/item_data_place_holder" />
+                <include layout="@layout/item_loading_shimmer_vertical" />
 
-                <include layout="@layout/item_data_place_holder" />
+                <include layout="@layout/item_loading_shimmer_vertical" />
 
-                <include layout="@layout/item_data_place_holder" />
+                <include layout="@layout/item_loading_shimmer_vertical" />
             </LinearLayout>
 
         </com.facebook.shimmer.ShimmerFrameLayout>

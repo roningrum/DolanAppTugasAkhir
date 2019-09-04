@@ -120,7 +120,7 @@ public class ShipCategoryActivity extends AppCompatActivity {
                 @NonNull
                 @Override
                 public ShipViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-                    return new ShipViewHolder(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_ship_transport_menu, viewGroup, false));
+                    return new ShipViewHolder(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_menu_ship_category_transport, viewGroup, false));
                 }
             };
             shipFirebaseadapter.notifyDataSetChanged();

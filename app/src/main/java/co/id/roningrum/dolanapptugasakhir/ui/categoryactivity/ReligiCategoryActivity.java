@@ -123,7 +123,7 @@ public class ReligiCategoryActivity extends AppCompatActivity {
                 @NonNull
                 @Override
                 public ReligiViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-                    View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_religi_category_menu, viewGroup, false);
+                    View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_menu_religi_category_tourism, viewGroup, false);
                     return new ReligiViewHolder(view);
                 }
 

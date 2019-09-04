@@ -121,7 +121,7 @@ public class TrainCategoryActivity extends AppCompatActivity {
                 @NonNull
                 @Override
                 public TrainViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-                    return new TrainViewHolder(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_train_transport_menu, viewGroup, false));
+                    return new TrainViewHolder(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_menu_train_transport_category, viewGroup, false));
                 }
             };
             trainFirebaseadapter.notifyDataSetChanged();

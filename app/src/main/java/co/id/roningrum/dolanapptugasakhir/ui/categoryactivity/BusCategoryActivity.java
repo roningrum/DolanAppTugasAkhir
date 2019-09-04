@@ -121,7 +121,7 @@ public class BusCategoryActivity extends AppCompatActivity {
                 @NonNull
                 @Override
                 public BusViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-                    return new BusViewHolder(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_bus_transport_menu, viewGroup, false));
+                    return new BusViewHolder(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_menu_bus_category_transport, viewGroup, false));
                 }
             };
             busFirebaseadapter.notifyDataSetChanged();

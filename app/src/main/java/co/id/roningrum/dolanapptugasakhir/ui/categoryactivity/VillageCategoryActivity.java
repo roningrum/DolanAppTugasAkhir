@@ -92,7 +92,7 @@ public class VillageCategoryActivity extends AppCompatActivity {
                 @NonNull
                 @Override
                 public VillageViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-                    return new VillageViewHolder(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_village_category_menu, viewGroup, false));
+                    return new VillageViewHolder(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_menu_village_category_tourism, viewGroup, false));
                 }
 
                 @Override
@@ -128,7 +128,7 @@ public class VillageCategoryActivity extends AppCompatActivity {
 //                @NonNull
 //                @Override
 //                public ShoppingViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-//                    View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_shopping_category_menu, viewGroup, false);
+//                    View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_menu_shopping_category_tourism, viewGroup, false);
 //                    return new ShoppingViewHolder(view);
 //                }
             };

@@ -122,7 +122,7 @@ public class PoliceCategoryActivity extends AppCompatActivity {
                 @NonNull
                 @Override
                 public PoliceViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-                    return new PoliceViewHolder(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_police_facility_menu, viewGroup, false));
+                    return new PoliceViewHolder(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_menu_police_category_public, viewGroup, false));
                 }
             };
             policeFirebaseAdapter.notifyDataSetChanged();

@@ -121,7 +121,7 @@ public class AirportCategoryActivity extends AppCompatActivity {
                 @NonNull
                 @Override
                 public AirportViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-                    return new AirportViewHolder(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_airport_transport_menu, viewGroup, false));
+                    return new AirportViewHolder(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_menu_airport_category_transport, viewGroup, false));
                 }
             };
             airportFirebaseadapter.notifyDataSetChanged();

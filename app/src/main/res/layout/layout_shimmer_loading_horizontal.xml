@@ -19,8 +19,8 @@
 
     <com.facebook.shimmer.ShimmerFrameLayout
         android:id="@+id/shimmer_view_container"
-        android:layout_width="408dp"
-        android:layout_height="659dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_gravity="center"
         android:layout_marginTop="0dp"
         android:orientation="vertical"
@@ -34,15 +34,9 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="horizontal">
 
-            <include layout="@layout/item_loading_shimmer_vertical" />
-
-            <include layout="@layout/item_loading_shimmer_vertical" />
-
-            <include layout="@layout/item_loading_shimmer_vertical" />
-
-            <include layout="@layout/item_loading_shimmer_vertical" />
+            <include layout="@layout/item_loading_shimmer_horizontal" />
         </LinearLayout>
 
     </com.facebook.shimmer.ShimmerFrameLayout>
