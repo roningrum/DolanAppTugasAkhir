@@ -36,6 +36,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import co.id.roningrum.dolanapptugasakhir.ui.useractivity.SignInActivity;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 
@@ -49,7 +50,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
     private FirebaseUser user;
     private LinearLayout signOut;
 
-    DatabaseReference profileReference;
+    private DatabaseReference profileReference;
 
     public ProfileFragment() {
         // Required empty public constructor

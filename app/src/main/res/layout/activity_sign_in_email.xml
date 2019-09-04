@@ -17,7 +17,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FFFFFF"
-    tools:context=".SignInEmailActivity">
+    tools:context=".ui.useractivity.SignInEmailActivity">
 
     <ImageView
         android:id="@+id/img_login_page"

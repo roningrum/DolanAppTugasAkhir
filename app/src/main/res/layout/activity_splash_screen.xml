@@ -17,7 +17,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bg_orange_splash"
-    tools:context=".SplashScreenActivity">
+    tools:context=".ui.useractivity.SplashScreenActivity">
 
     <TextView
         android:id="@+id/tv_splash_screen_name_app"

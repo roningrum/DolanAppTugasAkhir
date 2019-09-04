@@ -17,7 +17,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FFFFFF"
-    tools:context=".ForgetPassSignInActivity">
+    tools:context=".ui.useractivity.ForgetPassSignInActivity">
 
     <TextView
         android:id="@+id/tv_heading_reset_page"
@@ -95,6 +95,7 @@
             android:fontFamily="@font/montserrat"
             android:importantForAutofill="no"
             android:inputType="textEmailAddress"
+            tools:ignore="LabelFor"
             tools:targetApi="o" />
     </LinearLayout>
 

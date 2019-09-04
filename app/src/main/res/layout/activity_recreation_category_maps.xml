@@ -16,7 +16,7 @@
     android:layout_width="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_height="match_parent"
-    tools:context=".tourism.recreation.RecreationCategoryMaps">
+    tools:context=".ui.mapsactivity.RecreationCategoryMaps">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar_recreation_map"

@@ -15,7 +15,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".tourism.religi.ReligiCategoryMaps">
+    tools:context=".ui.mapsactivity.ReligiCategoryMaps">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar_religi_map"

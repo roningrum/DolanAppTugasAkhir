@@ -130,4 +130,6 @@
     <string name="nama_ta">Rizki Oktavia Ningrum</string>
     <string name="nim_ta">21120114120049</string>
     <string name="button_ta">Mulai</string>
+    <string name="no_connection_button">Jika jaringan tersedia, silakan tekan coba lagi untuk memuat ulang</string>
+    <string name="coba_lagi">coba lagi</string>
 </resources>

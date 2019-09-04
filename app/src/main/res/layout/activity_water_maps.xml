@@ -16,7 +16,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".tourism.water.WaterMapsActivity">
+    tools:context=".ui.mapsactivity.WaterMapsActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar_nature_map"

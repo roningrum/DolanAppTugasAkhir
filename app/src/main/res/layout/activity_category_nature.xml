@@ -16,7 +16,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".tourism.nature.NatureCategoryActivity">
+    tools:context=".ui.categoryactivity.NatureCategoryActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appbar_layout_nature"
@@ -85,7 +85,7 @@
                 android:layout_marginEnd="32dp"
                 android:fontFamily="@font/montserrat"
                 android:lineSpacingExtra="5sp"
-                android:text="Jika jaringan tersedia, silakan tekan coba lagi untuk memuat ulang"
+                android:text="@string/no_connection_button"
                 android:textAlignment="center"
                 android:textColor="@color/blackTextPrimary"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -101,7 +101,7 @@
                 android:layout_marginEnd="8dp"
                 android:background="@drawable/bg_button_orange"
                 android:fontFamily="@font/montserrat"
-                android:text="coba lagi"
+                android:text="@string/coba_lagi"
                 android:textAllCaps="false"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 android:textColor="@android:color/white"

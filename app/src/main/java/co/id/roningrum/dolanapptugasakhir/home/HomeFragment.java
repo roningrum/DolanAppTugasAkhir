@@ -34,18 +34,19 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 
 import co.id.roningrum.dolanapptugasakhir.R;
-import co.id.roningrum.dolanapptugasakhir.ViewHolderHome.FoodRecommendationViewHolder;
-import co.id.roningrum.dolanapptugasakhir.ViewHolderHome.HerritageHomeViewHolder;
-import co.id.roningrum.dolanapptugasakhir.ViewHolderHome.TouristRecommendationViewHolder;
-import co.id.roningrum.dolanapptugasakhir.hotel.HotelActivity;
 import co.id.roningrum.dolanapptugasakhir.model.HerritageItem;
 import co.id.roningrum.dolanapptugasakhir.model.TourismItem;
-import co.id.roningrum.dolanapptugasakhir.tourism.nature.NatureCategoryActivity;
-import co.id.roningrum.dolanapptugasakhir.tourism.recreation.RecreationCategoryActivity;
-import co.id.roningrum.dolanapptugasakhir.tourism.shopping.ShoppingCategoryActivity;
-import co.id.roningrum.dolanapptugasakhir.tourism.village.VillageCategoryActivity;
-import co.id.roningrum.dolanapptugasakhir.transportation.airport.AirportActivity;
-import co.id.roningrum.dolanapptugasakhir.transportation.train.TrainActivity;
+import co.id.roningrum.dolanapptugasakhir.ui.AllCategoryActivity;
+import co.id.roningrum.dolanapptugasakhir.ui.categoryactivity.AirportActivity;
+import co.id.roningrum.dolanapptugasakhir.ui.categoryactivity.HotelActivity;
+import co.id.roningrum.dolanapptugasakhir.ui.categoryactivity.NatureCategoryActivity;
+import co.id.roningrum.dolanapptugasakhir.ui.categoryactivity.RecreationCategoryActivity;
+import co.id.roningrum.dolanapptugasakhir.ui.categoryactivity.ShoppingCategoryActivity;
+import co.id.roningrum.dolanapptugasakhir.ui.categoryactivity.TrainActivity;
+import co.id.roningrum.dolanapptugasakhir.ui.categoryactivity.VillageCategoryActivity;
+import co.id.roningrum.dolanapptugasakhir.viewholder.ViewHolderHome.FoodRecommendationViewHolder;
+import co.id.roningrum.dolanapptugasakhir.viewholder.ViewHolderHome.HerritageHomeViewHolder;
+import co.id.roningrum.dolanapptugasakhir.viewholder.ViewHolderHome.TouristRecommendationViewHolder;
 
 
 /**

@@ -16,7 +16,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".WelcomingScreenActivity">
+    tools:context=".ui.useractivity.WelcomingScreenActivity">
 
     <ImageView
         android:id="@+id/imageView3"
@@ -49,7 +49,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/logouniv" />
+        app:srcCompat="@drawable/logouniv"
+        tools:ignore="ContentDescription" />
 
     <TextView
         android:id="@+id/tv_judul_ta"
