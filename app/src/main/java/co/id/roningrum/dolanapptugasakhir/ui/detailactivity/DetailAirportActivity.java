@@ -121,6 +121,7 @@ public class DetailAirportActivity extends AppCompatActivity implements OnMapRea
                     endlat = transportationItem.getLat_transportation();
                     endLng = transportationItem.getLng_transportation();
                     distance = HaversineHandler.calculateDistance(startLat, startlng, endlat, endLng);
+
                     @SuppressLint("DefaultLocale") String distanceFormat = String.format("%.2f", distance);
                     tvDistanceAirport.setText("" + distanceFormat + " km");
                     tvNameAirportDetail.setText(transportationItem.getName_transportation());
