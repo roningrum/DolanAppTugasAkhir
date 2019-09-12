@@ -13,7 +13,6 @@
 
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -45,36 +44,24 @@
         app:layout_constraintStart_toStartOf="@+id/user_image_register"
         app:layout_constraintTop_toTopOf="@+id/user_image_register" />
 
-    <TextView
-        android:id="@+id/tv_name_register"
-        android:layout_width="match_parent"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/edt_name_register_layout"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="8dp"
-        android:fontFamily="@font/montserrat_light"
-        android:lineSpacingExtra="8sp"
-        android:text="@string/txt_edit_text_register_nama"
-        android:textColor="@color/blackTextPrimary"
-        android:textSize="14sp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="24dp"
+        android:hint="@string/txt_edit_text_register_nama"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/user_image_register" />
+        app:layout_constraintTop_toBottomOf="@+id/user_image_register">
 
-    <EditText
-        android:id="@+id/edt_name_register"
-        android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:background="#EEEEEE"
-        android:fontFamily="@font/montserrat"
-        android:importantForAutofill="no"
-        android:inputType="textEmailAddress"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_name_register"
-        tools:ignore="LabelFor"
-        tools:targetApi="o" />
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edt_name_register"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName" />
+    </com.google.android.material.textfield.TextInputLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

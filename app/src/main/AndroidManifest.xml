@@ -14,6 +14,8 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
+    <uses-feature android:name="android.hardware.location.gps" />
+
     <application
         android:allowBackup="true"
         android:fullBackupContent="true"
@@ -24,6 +26,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".SignFormActivity" />
         <activity android:name=".ui.HomeMenuActivity" />
         <activity android:name=".ui.useractivity.WelcomingScreenActivity" />
         <activity android:name=".ui.useractivity.RegisterAccountProfileActivity" />
@@ -134,10 +137,7 @@
         <activity android:name=".ui.homeactivity.AllCategoryActivity" />
         <activity android:name=".ui.homeactivity.MainMenuActivity" />
         <activity android:name=".ui.useractivity.ResetPasswordActivity" />
-        <activity android:name=".ui.useractivity.RegisterAccountEmailActivity" />
-        <activity android:name=".ui.useractivity.SignInEmailActivity" />
-        <activity android:name=".ui.useractivity.SignInOptionActivity" />
-        <activity android:name=".ui.useractivity.SplashScreenActivity">
+        <activity android:name=".ui.useractivity.RegisterAccountEmailActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <action android:name="android.intent.action.MAIN" />
@@ -145,10 +145,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".ui.useractivity.SignInEmailActivity" />
+        <activity android:name=".ui.useractivity.SignInOptionActivity" />
+        <activity android:name=".ui.useractivity.SplashScreenActivity" />
         <activity android:name=".ui.useractivity.ResetSendEmailSuccessActivity" />
 
         <service
             android:name=".handler.GPSHandler"
+            android:enabled="true"
             android:exported="true" />
 
         <meta-data
