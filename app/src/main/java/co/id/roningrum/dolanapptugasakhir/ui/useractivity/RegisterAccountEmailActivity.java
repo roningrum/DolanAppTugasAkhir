@@ -20,7 +20,6 @@ import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -64,6 +63,7 @@ public class RegisterAccountEmailActivity extends AppCompatActivity implements V
         FirebaseApp.initializeApp(this);
         tvLoginPage.setOnClickListener(this);
         btnRegisterEmail.setOnClickListener(this);
+
     }
 
     @Override
@@ -90,64 +90,58 @@ public class RegisterAccountEmailActivity extends AppCompatActivity implements V
         passwordRegister = edtPasswordRegister.getEditText().getText().toString();
 
         if (emailRegister.isEmpty()) {
-            edtEmailRegister.setError("Email Tidak Boleh Kosong");
-        } else {
+            edtEmailRegister.setError("Masukkan Email");
+        } else if (!isValidEmail(emailRegister)) {
+            edtEmailRegister.setError("Email tidak valid");
+        } else if (passwordRegister.isEmpty()) {
             edtEmailRegister.setErrorEnabled(false);
-            if (!isValidEmail(emailRegister)) {
-                edtEmailRegister.setErrorEnabled(true);
-                edtEmailRegister.setError("Email Tidak Valid");
-            } else {
-                edtEmailRegister.setErrorEnabled(false);
-            }
-        }
-        if (passwordRegister.isEmpty()) {
-            edtPasswordRegister.setError("Password Tidak Boleh Kosong");
+            edtPasswordRegister.setError("Masukkan Password");
+        } else if (passwordRegister.length() <= 6) {
+            edtPasswordRegister.setError("Password minimal 6 karakter");
         } else {
-            edtEmailRegister.setErrorEnabled(false);
-            if (passwordRegister.length() <= 6) {
-                edtPasswordRegister.setErrorEnabled(true);
-                edtPasswordRegister.setError("Password minimal 6 karakter");
-            } else {
-                edtPasswordRegister.setErrorEnabled(false);
-                authRegister.createUserWithEmailAndPassword(emailRegister, passwordRegister).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            Log.d(TAG, "Register Account: " + task.getResult());
-                            FirebaseUser userRegister = authRegister.getCurrentUser();
-                            if (userRegister != null) {
-                                String uid = userRegister.getUid();
+            authRegister.createUserWithEmailAndPassword(emailRegister, passwordRegister).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                @Override
+                public void onComplete(@NonNull Task<AuthResult> task) {
+                    if (task.isSuccessful()) {
+                        Log.d(TAG, "Register Account: " + task.getResult());
+                        FirebaseUser userRegister = authRegister.getCurrentUser();
+                        if (userRegister != null) {
+                            String uid = userRegister.getUid();
 
-                                final DatabaseReference userRegisterStoreDB = dbRegisterRef.child("Users").child(uid);
-                                userRegisterStoreDB.addListenerForSingleValueEvent(new ValueEventListener() {
-                                    @Override
-                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                        if (!dataSnapshot.exists()) {
-                                            userRegisterStoreDB.child("email").setValue(emailRegister);
-                                            userRegisterStoreDB.child("password").setValue(passwordRegister);
-                                            userRegisterStoreDB.child("login").setValue("email");
-                                        } else {
-                                            Log.d(TAG, "Data sudah ada di Database");
-                                        }
+                            final DatabaseReference userRegisterStoreDB = dbRegisterRef.child("Users").child(uid);
+                            userRegisterStoreDB.addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                    if (!dataSnapshot.exists()) {
+                                        userRegisterStoreDB.child("email").setValue(emailRegister);
+                                        userRegisterStoreDB.child("password").setValue(passwordRegister);
+                                        userRegisterStoreDB.child("login").setValue("email");
+                                    } else {
+                                        Log.d(TAG, "Data sudah ada di Database");
                                     }
+                                }
 
-                                    @Override
-                                    public void onCancelled(@NonNull DatabaseError databaseError) {
-                                        Log.e(TAG, databaseError.getMessage());
-                                    }
-                                });
-                                Toast.makeText(RegisterAccountEmailActivity.this, "Register Sukses", Toast.LENGTH_SHORT).show();
-                            }
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError databaseError) {
+                                    Log.e(TAG, databaseError.getMessage());
+                                }
+                            });
 
-                        } else {
-                            Log.w(TAG, "Register Account : " + task.getException());
+                            userRegister.sendEmailVerification();
+                            Intent registerNextStep = new Intent(RegisterAccountEmailActivity.this, RegisterAccountProfileActivity.class);
+                            startActivity(registerNextStep);
+                            finish();
                         }
-                    }
-                });
-            }
-        }
 
+                    } else {
+                        Log.w(TAG, "Register Account : " + task.getException());
+                    }
+                }
+            });
+
+        }
     }
+
 
     private boolean isValidEmail(String emailRegister) {
         return Patterns.EMAIL_ADDRESS.matcher(emailRegister).matches();

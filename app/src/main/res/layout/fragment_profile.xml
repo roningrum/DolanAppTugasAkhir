@@ -21,7 +21,7 @@
     <View
         android:id="@+id/view4"
         android:layout_width="match_parent"
-        android:layout_height="172dp"
+        android:layout_height="170dp"
         android:background="@drawable/bg_gradient_orange"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -31,77 +31,34 @@
         android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="168dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="18dp"
         android:fontFamily="@font/montserrat_bold"
         android:text="@string/string_profile_menu"
         android:textColor="@color/txtWhitePrimary"
         android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/view4" />
 
-    <!--<ImageButton-->
-    <!--android:id="@+id/imageButton"-->
-    <!--android:layout_width="15dp"-->
-    <!--android:layout_height="24dp"-->
-    <!--android:layout_marginTop="24dp"-->
-    <!--android:layout_marginEnd="24dp"-->
-    <!--android:background="@android:color/transparent"-->
-    <!--android:src="@drawable/ic_more"-->
-    <!--app:layout_constraintEnd_toEndOf="parent"-->
-    <!--android:contentDescription="@null"-->
-    <!--app:layout_constraintTop_toTopOf="parent" />-->
-
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"
-        android:layout_width="322dp"
-        android:layout_height="155dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="107dp"
-        android:layout_marginEnd="24dp"
+        android:layout_width="match_parent"
+        android:layout_height="125dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="18dp"
+        android:layout_marginEnd="16dp"
         app:cardCornerRadius="10dp"
-        app:cardElevation="3dp"
-        app:cardMaxElevation="0dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.493"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/view4">
+        app:layout_constraintTop_toBottomOf="@+id/textView3">
 
-        <LinearLayout
+        <include
+            android:id="@+id/layout_info_profile"
+            layout="@layout/layout_info_profile_fragment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/photo_akun_beranda"
-                android:layout_width="65dp"
-                android:layout_height="65dp"
-                android:layout_gravity="center"
-                android:layout_marginTop="10dp"
-                android:src="@drawable/dolanlogo" />
-
-            <TextView
-                android:id="@+id/tv_name_profile"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="10dp"
-                android:fontFamily="@font/monsterrat_sembold"
-                android:text="@string/string_dummy_profname"
-                android:textColor="@color/blackTextPrimary"
-                android:textSize="16sp" />
-
-            <TextView
-                android:id="@+id/tv_emaill_profile"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="10dp"
-                android:fontFamily="@font/montserrat"
-                android:text="@string/string_email_dummy"
-                android:textColor="@color/blackTextPrimary"
-                android:textSize="14sp" />
-        </LinearLayout>
+            android:layout_gravity="center" />
     </androidx.cardview.widget.CardView>
 
     <LinearLayout
@@ -110,17 +67,17 @@
         android:layout_marginTop="24dp"
         android:background="@color/txtWhitePrimary"
         android:orientation="vertical"
-        android:padding="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cardView">
 
         <LinearLayout
+            android:id="@+id/ln_edit_profile"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/txtWhitePrimary"
             android:orientation="horizontal"
-            android:padding="24dp">
+            android:padding="20dp">
 
             <ImageView
                 android:layout_width="24dp"
@@ -139,19 +96,13 @@
                 android:textSize="14sp" />
         </LinearLayout>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginStart="24dp"
-            android:layout_marginEnd="24dp"
-            android:background="#DFDFDF" />
-
         <LinearLayout
+            android:id="@+id/ln_about_app"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/txtWhitePrimary"
             android:orientation="horizontal"
-            android:padding="24dp">
+            android:padding="20dp">
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -171,18 +122,18 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/keluar"
+            android:id="@+id/ln_sign_out"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/txtWhitePrimary"
             android:orientation="horizontal"
-            android:padding="24dp">
+            android:background="@color/txtWhitePrimary"
+            android:padding="20dp">
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="24dp"
                 android:layout_marginStart="18dp"
-                android:background="@drawable/ic_info_black_24dp"
+                android:background="@drawable/ic_shutdown_24dp"
                 android:contentDescription="@null" />
 
             <TextView

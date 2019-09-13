@@ -106,7 +106,7 @@
     <string name="string_reset_sandi_sub_check_inbox">Silakan, cek kotak masuk email   untuk melakukan reset sandi</string>
     <string name="string_continoue_sign_in">Lanjutkan</string>
     <string name="string_success_register">Sukses Terdaftar</string>
-    <string name="string_confirm_email">Terima kasih sudah mendaftar, klik lanjutkan untuk masuk</string>
+    <string name="string_confirm_email">Terima kasih sudah mendaftar, Klik Lanjutkan agar dapat masuk</string>
     <string name="string_continoue_login">Lanjutkan</string>
     <string name="string_email_forget_pass">email</string>
     <string name="string_dummy_welcome">Selamat datang, Hailey Rhode Bieber</string>
@@ -129,4 +129,20 @@
     <string name="nim_ta">21120114120049</string>
     <string name="button_ta">Mulai</string>
     <string name="coba_lagi">coba lagi</string>
+    <string name="title_activity_profile_settings">ProfileSettings</string>
+
+    <!-- Preference Titles -->
+    <string name="messages_header">Messages</string>
+    <string name="sync_header">Sync</string>
+
+    <!-- Messages Preferences -->
+    <string name="signature_title">Your signature</string>
+    <string name="reply_title">Default reply action</string>
+
+    <!-- Sync Preferences -->
+    <string name="sync_title">Sync email periodically</string>
+    <string name="attachment_title">Download incoming attachments</string>
+    <string name="attachment_summary_on">Automatically download attachments for incoming emails
+    </string>
+    <string name="attachment_summary_off">Only download attachments when manually requested</string>
 </resources>

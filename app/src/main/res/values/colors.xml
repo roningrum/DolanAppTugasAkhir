@@ -24,5 +24,5 @@
     <color name="greyColorSelected">#A1A1A1</color>
     <color name="blackPrimary">#000000</color>
     <color name="orangePrimaryDark">#FF6701</color>
-    <color name="orangeWhitePrimary">#FFFAF3</color>
+    <color name="orangeWhitePrimary">#FFFAFA</color>
 </resources>

@@ -17,12 +17,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FFFFFF"
+    android:padding="8dp"
     tools:context=".ui.useractivity.SignInEmailActivity">
 
     <ImageView
         android:id="@+id/img_login_page"
         android:layout_width="170dp"
-        android:layout_height="153dp"
+        android:layout_height="145dp"
         android:layout_marginTop="16dp"
         android:background="@drawable/login"
         android:contentDescription="@null"
@@ -50,7 +51,9 @@
         layout="@layout/layout_sign_in_form"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_heading_login_page" />
@@ -92,7 +95,7 @@
             android:textSize="12sp" />
 
         <TextView
-            android:id="@+id/register_link"
+            android:id="@+id/tv_register_link"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="2dp"

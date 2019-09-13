@@ -13,18 +13,109 @@
 
 package co.id.roningrum.dolanapptugasakhir.ui.useractivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.util.Patterns;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import co.id.roningrum.dolanapptugasakhir.R;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
-public class SignInEmailActivity extends AppCompatActivity {
+import co.id.roningrum.dolanapptugasakhir.R;
+import co.id.roningrum.dolanapptugasakhir.ui.homeactivity.MainMenuActivity;
+
+public class SignInEmailActivity extends AppCompatActivity implements View.OnClickListener {
+    private static final String TAG = "STATUS_LOGIN";
+    private TextInputLayout edtEmailSignIn, edtPasswordSignIn;
+
+    private FirebaseAuth authLogin;
+
+    private String emailLogin, passwordLogin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signin_account_email);
+        edtEmailSignIn = findViewById(R.id.edt_email_login_layout);
+        edtPasswordSignIn = findViewById(R.id.edt_password_login_layout);
+        Button btnSignInAccount = findViewById(R.id.btn_login);
+        TextView tvRegisterPage = findViewById(R.id.tv_register_link);
+
+        authLogin = FirebaseAuth.getInstance();
+
+        tvRegisterPage.setOnClickListener(this);
+        btnSignInAccount.setOnClickListener(this);
+
+
     }
 
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.btn_login:
+                signInProcess();
+                break;
+            case R.id.tv_register_link:
+                goToRegisterPage();
+                break;
+        }
+
+
+    }
+
+    private void goToRegisterPage() {
+        Intent goToRegisterIntent = new Intent(this, RegisterAccountEmailActivity.class);
+        startActivity(goToRegisterIntent);
+    }
+
+    private void signInProcess() {
+        emailLogin = edtEmailSignIn.getEditText().getText().toString();
+        passwordLogin = edtPasswordSignIn.getEditText().getText().toString();
+        if (emailLogin.isEmpty()) {
+            edtEmailSignIn.setError("Masukkan Email");
+        } else if (!isValidEmail(emailLogin)) {
+            edtEmailSignIn.setError("Email tidak valid");
+        } else if (passwordLogin.isEmpty()) {
+            edtPasswordSignIn.setError("Masukkan Password");
+        } else if (passwordLogin.length() <= 6) {
+            edtPasswordSignIn.setError("Password minimal 6 karakter");
+        } else {
+            authLogin.signInWithEmailAndPassword(emailLogin, passwordLogin).addOnCompleteListener(SignInEmailActivity.this, new OnCompleteListener<AuthResult>() {
+                @Override
+                public void onComplete(@NonNull Task<AuthResult> task) {
+                    if (task.isSuccessful()) {
+                        FirebaseUser userLogin = authLogin.getCurrentUser();
+                        if (userLogin.isEmailVerified()) {
+                            {
+                                Intent goToHomeIntent = new Intent(SignInEmailActivity.this, MainMenuActivity.class);
+                                startActivity(goToHomeIntent);
+                                finish();
+                                Log.d(TAG, "Berhasil Masuk");
+                            }
+                        } else {
+                            Toast.makeText(SignInEmailActivity.this, "Pastikan email sudah diverifikasi", Toast.LENGTH_SHORT).show();
+                        }
+                    } else {
+                        Log.e(TAG, "Gagal Masuk");
+                    }
+                }
+            });
+
+        }
+    }
+
+    private boolean isValidEmail(String emailLogin) {
+        return Patterns.EMAIL_ADDRESS.matcher(emailLogin).matches();
+    }
 }

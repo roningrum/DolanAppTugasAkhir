@@ -37,6 +37,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import co.id.roningrum.dolanapptugasakhir.R;
+import co.id.roningrum.dolanapptugasakhir.ui.useractivity.EditProfileActivity;
 import co.id.roningrum.dolanapptugasakhir.ui.useractivity.SignInOptionActivity;
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -49,9 +50,6 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
     private TextView tvNameProfile, tvEmailProfile;
     private FirebaseAuth firebaseAuthMain;
     private FirebaseUser user;
-    private LinearLayout signOut;
-
-    private DatabaseReference profileReference;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -72,19 +70,24 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         tvEmailProfile = view.findViewById(R.id.tv_emaill_profile);
         tvNameProfile = view.findViewById(R.id.tv_name_profile);
         photo_profile = view.findViewById(R.id.photo_akun_beranda);
-        signOut = view.findViewById(R.id.keluar);
+        LinearLayout signOut = view.findViewById(R.id.ln_sign_out);
+        LinearLayout editProfile = view.findViewById(R.id.ln_edit_profile);
+        LinearLayout aboutApp = view.findViewById(R.id.ln_about_app);
+        
         signOut.setOnClickListener(this);
+        editProfile.setOnClickListener(this);
+        aboutApp.setOnClickListener(this);
 
         firebaseAuthMain = FirebaseAuth.getInstance();
         user = firebaseAuthMain.getCurrentUser();
 
-        profileReference = FirebaseDatabase.getInstance().getReference().child("Users").child(user.getUid());
+        DatabaseReference profileReference = FirebaseDatabase.getInstance().getReference().child("Users").child(user.getUid());
         profileReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                tvNameProfile.setText(dataSnapshot.child("nama_lengkap").getValue().toString().trim());
+                tvNameProfile.setText(dataSnapshot.child("nama_user").getValue().toString().trim());
                 tvEmailProfile.setText(dataSnapshot.child("email").getValue().toString().trim());
-                Glide.with(view.getContext()).load(dataSnapshot.child("url_photo_profile").toString()).into(photo_profile);
+                Glide.with(view).load(dataSnapshot.child("photo_user").getValue().toString()).into(photo_profile);
             }
 
             @Override
@@ -96,13 +99,26 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.keluar) {
-            if (user != null) {
+        switch (v.getId()) {
+            case R.id.ln_sign_out:
                 firebaseAuthMain.signOut();
                 updateUI(user);
-            }
-
+                break;
+            case R.id.ln_edit_profile:
+                goToEditProfile();
+                break;
+            case R.id.ln_about_app:
+                goToAboutPage();
+                break;
         }
+    }
+
+    private void goToAboutPage() {
+    }
+
+    private void goToEditProfile() {
+        Intent goToProfileIntent = new Intent(getContext(), EditProfileActivity.class);
+        startActivity(goToProfileIntent);
     }
 
     private void updateUI(FirebaseUser user) {

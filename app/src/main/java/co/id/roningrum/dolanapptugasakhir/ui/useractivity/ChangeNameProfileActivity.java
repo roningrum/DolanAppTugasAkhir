@@ -13,31 +13,17 @@
 
 package co.id.roningrum.dolanapptugasakhir.ui.useractivity;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import co.id.roningrum.dolanapptugasakhir.R;
 
-public class RegisterSuccessActivity extends AppCompatActivity implements View.OnClickListener {
+public class ChangeNameProfileActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.layout_success_register_confirm);
-        Button btnGoToLoginPage = findViewById(R.id.btn_next_to_login_page);
-        btnGoToLoginPage.setOnClickListener(this);
-    }
-
-    @Override
-    public void onClick(View view) {
-        if (view.getId() == R.id.btn_next_to_login_page) {
-            Intent nextToLogin = new Intent(this, SignInEmailActivity.class);
-            startActivity(nextToLogin);
-            finish();
-        }
+        setContentView(R.layout.activity_change_name_profile);
     }
 }

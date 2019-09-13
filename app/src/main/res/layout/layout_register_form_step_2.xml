@@ -16,8 +16,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ImageView
-        android:id="@+id/user_image_register"
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/image_profile_register"
         android:layout_width="105dp"
         android:layout_height="105dp"
         android:layout_marginStart="8dp"
@@ -30,7 +30,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
-        android:id="@+id/btn_uplooad_image"
+        android:id="@+id/btn_upload_image"
         android:layout_width="55dp"
         android:layout_height="55dp"
         android:layout_marginStart="8dp"
@@ -41,8 +41,8 @@
         android:src="@drawable/ic_photo_camera_24dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.371"
-        app:layout_constraintStart_toStartOf="@+id/user_image_register"
-        app:layout_constraintTop_toTopOf="@+id/user_image_register" />
+        app:layout_constraintStart_toStartOf="@+id/image_profile_register"
+        app:layout_constraintTop_toTopOf="@+id/image_profile_register" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/edt_name_register_layout"
@@ -53,9 +53,12 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="24dp"
         android:hint="@string/txt_edit_text_register_nama"
+        app:counterEnabled="true"
+        app:counterMaxLength="60"
+        app:errorEnabled="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/user_image_register">
+        app:layout_constraintTop_toBottomOf="@+id/image_profile_register">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/edt_name_register"

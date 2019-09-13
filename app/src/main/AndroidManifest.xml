@@ -26,6 +26,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".ui.useractivity.ChangeEmailProfileActivity"></activity>
+        <activity android:name=".ui.useractivity.ChangePasswordProfileActivity" />
+        <activity android:name=".ui.useractivity.ChangeNameProfileActivity" />
+        <activity
+            android:name=".ui.useractivity.ProfileSettingsActivity"
+            android:label="@string/title_activity_profile_settings"
+            android:parentActivityName=".ui.homeactivity.MainMenuActivity" />
+        <activity android:name=".ui.useractivity.EditProfileActivity" />
         <activity android:name=".SignFormActivity" />
         <activity android:name=".ui.HomeMenuActivity" />
         <activity android:name=".ui.useractivity.WelcomingScreenActivity" />
@@ -137,7 +145,9 @@
         <activity android:name=".ui.homeactivity.AllCategoryActivity" />
         <activity android:name=".ui.homeactivity.MainMenuActivity" />
         <activity android:name=".ui.useractivity.ResetPasswordActivity" />
-        <activity android:name=".ui.useractivity.RegisterAccountEmailActivity">
+        <activity android:name=".ui.useractivity.RegisterAccountEmailActivity" />
+        <activity android:name=".ui.useractivity.SignInEmailActivity" />
+        <activity android:name=".ui.useractivity.SignInOptionActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <action android:name="android.intent.action.MAIN" />
@@ -145,8 +155,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.useractivity.SignInEmailActivity" />
-        <activity android:name=".ui.useractivity.SignInOptionActivity" />
         <activity android:name=".ui.useractivity.SplashScreenActivity" />
         <activity android:name=".ui.useractivity.ResetSendEmailSuccessActivity" />
 

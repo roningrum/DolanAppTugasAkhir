@@ -17,15 +17,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FFFFFF"
-    tools:context=".ui.useractivity.RegisterAccountEmailActivity"
-    tools:layout_editor_absoluteY="25dp">
+    android:padding="8dp"
+    tools:context=".ui.useractivity.RegisterAccountEmailActivity">
 
     <ImageView
         android:id="@+id/img_heading_register_page"
-        android:layout_width="180dp"
-        android:layout_height="163dp"
+        android:layout_width="170dp"
+        android:layout_height="145dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
         android:contentDescription="@null"
         android:src="@drawable/register"
@@ -45,7 +45,7 @@
         android:lineSpacingExtra="24sp"
         android:text="@string/txt_heading_register_page"
         android:textColor="@color/blackPrimary"
-        android:textSize="20sp"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/img_heading_register_page" />
@@ -55,9 +55,10 @@
         layout="@layout/layout_register_form_step_1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_heading_register_page" />
 
@@ -65,45 +66,53 @@
         android:id="@+id/btn_register1_page"
         android:layout_width="0dp"
         android:layout_height="55dp"
-        android:layout_marginStart="32dp"
+        android:layout_marginStart="24dp"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="32dp"
+        android:layout_marginEnd="24dp"
         android:background="@drawable/bg_button_orange"
         android:fontFamily="@font/montserrat"
         android:text="@string/txt_btn_email_reset"
         android:textAllCaps="false"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         android:textColor="@color/txtWhitePrimary"
+        android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/layout_form_email_pass" />
 
 
-    <TextView
-        android:id="@+id/ask_to_register"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="108dp"
-        android:layout_marginTop="32dp"
-        android:fontFamily="@font/montserrat"
-        android:text="@string/txt_tanya_punya_akun_register_page"
-        android:textColor="@color/blackPrimary"
-        android:textSize="12sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_register1_page" />
-
-    <TextView
-        android:id="@+id/tv_login_page_link"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:fontFamily="@font/montserrat"
-        android:text="@string/txt_link_signin_page"
-        android:textColor="@color/orangePrimary"
-        android:textSize="12sp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:gravity="center"
+        android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.02"
-        app:layout_constraintStart_toEndOf="@+id/ask_to_register"
-        app:layout_constraintTop_toBottomOf="@+id/btn_register1_page" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_register1_page">
+
+        <TextView
+            android:id="@+id/ask_to_register"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/montserrat"
+            android:text="@string/txt_tanya_punya_akun_register_page"
+            android:textColor="@color/blackPrimary"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/tv_login_page_link"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:fontFamily="@font/montserrat"
+            android:text="@string/txt_link_signin_page"
+            android:textColor="#FF5722"
+            android:textSize="12sp" />
+    </LinearLayout>
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
