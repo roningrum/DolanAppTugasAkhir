@@ -15,6 +15,7 @@ package co.id.roningrum.dolanapptugasakhir.ui.useractivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -22,8 +23,11 @@ import android.widget.EditText;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -60,7 +64,7 @@ public class ChangeNameProfileActivity extends AppCompatActivity implements View
 
     private void showNameBeforeChanges() {
         if (changeNameUser != null) {
-            String uid = changeNameUser.getUid();
+            final String uid = changeNameUser.getUid();
             dbProfileRef.getRef().child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -69,7 +73,7 @@ public class ChangeNameProfileActivity extends AppCompatActivity implements View
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                    Log.e(TAG, "" + databaseError.getMessage());
                 }
             });
         }
@@ -77,10 +81,21 @@ public class ChangeNameProfileActivity extends AppCompatActivity implements View
 
     private void showNameAfterChange() {
         if (changeNameUser != null) {
-            String uid = changeNameUser.getUid();
-            dbProfileRef.child(uid).child("nama_user").setValue(edtChangeName.getText().toString().trim());
-            startActivity(new Intent(ChangeNameProfileActivity.this, EditProfileActivity.class));
-            finish();
+            final String uid = changeNameUser.getUid();
+            UserProfileChangeRequest userProfileChangeRequest = new UserProfileChangeRequest.Builder()
+                    .setDisplayName(edtChangeName.getText().toString())
+                    .build();
+            changeNameUser.updateProfile(userProfileChangeRequest).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    if (task.isSuccessful()) {
+                        dbProfileRef.child(uid).child("nama_user").setValue(edtChangeName.getText().toString().trim());
+                        startActivity(new Intent(ChangeNameProfileActivity.this, EditProfileActivity.class));
+                        finish();
+                    }
+                }
+            });
+
 
         }
 

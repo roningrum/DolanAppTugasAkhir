@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<!--
   ~ Copyright 2019 RONINGRUM. All rights reserved.
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
@@ -11,8 +11,13 @@
   ~ limitations under the License.
   -->
 
-<resources>
-    <dimen name="app_bar_height">147dp</dimen>
-    <dimen name="fab_margin">16dp</dimen>
-    <dimen name="text_margin">16dp</dimen>
-</resources>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="co.id.roningrum.dolanapptugasakhir.ScrollingActivity">
+    <item
+        android:id="@+id/action_settings"
+        android:orderInCategory="100"
+        android:title="@string/action_settings"
+        app:showAsAction="never" />
+</menu>

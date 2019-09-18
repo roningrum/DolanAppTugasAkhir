@@ -130,7 +130,7 @@ public class RegisterAccountProfileActivity extends AppCompatActivity implements
         }
     }
 
-    String getFileExtension(Uri uri) {
+    private String getFileExtension(Uri uri) {
         ContentResolver contentResolver = getContentResolver();
         MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
         return mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(uri));

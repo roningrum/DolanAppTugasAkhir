@@ -26,13 +26,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.useractivity.ChangeEmailProfileActivity"></activity>
+        <activity
+            android:name=".ScrollingActivity"
+            android:label="@string/title_activity_scrolling"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".ui.useractivity.ChangePhotoProfileActivity" />
+        <activity android:name=".ui.useractivity.ChangeEmailProfileActivity" />
         <activity android:name=".ui.useractivity.ChangePasswordProfileActivity" />
         <activity android:name=".ui.useractivity.ChangeNameProfileActivity" />
-        <activity
-            android:name=".ui.useractivity.ProfileSettingsActivity"
-            android:label="@string/title_activity_profile_settings"
-            android:parentActivityName=".ui.homeactivity.MainMenuActivity" />
         <activity android:name=".ui.useractivity.EditProfileActivity" />
         <activity android:name=".SignFormActivity" />
         <activity android:name=".ui.HomeMenuActivity" />

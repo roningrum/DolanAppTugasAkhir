@@ -33,12 +33,16 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.like.LikeButton;
+import com.like.OnLikeListener;
 
 import java.util.Objects;
 
@@ -47,7 +51,7 @@ import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.handler.HaversineHandler;
 import co.id.roningrum.dolanapptugasakhir.model.TourismItem;
 
-public class DetailRecreationActivity extends AppCompatActivity implements OnMapReadyCallback {
+public class DetailRecreationActivity extends AppCompatActivity implements OnMapReadyCallback, OnLikeListener {
     public static final String EXTRA_WISATA_KEY = "rekreasi_key";
     private static final String MAP_VIEW_KEY = "mapViewBundle";
 
@@ -56,6 +60,8 @@ public class DetailRecreationActivity extends AppCompatActivity implements OnMap
     private MapView recreationMapView;
 
     private DatabaseReference recreationDetailRef;
+    String recreationKey;
+    private FirebaseAuth firebaseAuth;
     private GPSHandler gpsHandler;
     private ValueEventListener valueEventListener;
 
@@ -70,6 +76,7 @@ public class DetailRecreationActivity extends AppCompatActivity implements OnMap
     private double endlat;
     private double endLng;
     private double distance;
+    private FirebaseUser user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,6 +89,7 @@ public class DetailRecreationActivity extends AppCompatActivity implements OnMap
         tvDistanceRecreationDetail = findViewById(R.id.distance_place_recreation_detail);
         imgRecreation = findViewById(R.id.img_recreation_place_detail);
         recreationMapView = findViewById(R.id.loc_recreation_map);
+        LikeButton likeButton = findViewById(R.id.heart);
         collapsingToolbarLayout_recreation = findViewById(R.id.collapseToolbar_recreation);
 
 
@@ -98,9 +106,10 @@ public class DetailRecreationActivity extends AppCompatActivity implements OnMap
         }
         recreationMapView.onCreate(mapViewBundle);
         recreationMapView.getMapAsync(this);
+        likeButton.setOnLikeListener(this);
 
 
-        String recreationKey = getIntent().getStringExtra(EXTRA_WISATA_KEY);
+        recreationKey = getIntent().getStringExtra(EXTRA_WISATA_KEY);
         if (recreationKey == null) {
             throw new IllegalArgumentException("Must pass Extra");
         }
@@ -258,5 +267,23 @@ public class DetailRecreationActivity extends AppCompatActivity implements OnMap
     protected void onPause() {
         super.onPause();
         recreationMapView.onPause();
+    }
+
+    @Override
+    public void liked(LikeButton likeButton) {
+        firebaseAuth = FirebaseAuth.getInstance();
+        user = firebaseAuth.getCurrentUser();
+        if (likeButton.isLiked() && user != null) {
+            String uid = user.getUid();
+            DatabaseReference favoritedb = FirebaseDatabase.getInstance().getReference("Favorite");
+            favoritedb.getRef().child(uid).child(recreationKey).setValue(true);
+        }
+
+
+    }
+
+    @Override
+    public void unLiked(LikeButton likeButton) {
+
     }
 }

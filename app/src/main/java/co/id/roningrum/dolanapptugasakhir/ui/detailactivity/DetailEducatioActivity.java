@@ -33,12 +33,16 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.like.LikeButton;
+import com.like.OnLikeListener;
 
 import java.util.Objects;
 
@@ -47,7 +51,7 @@ import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.handler.HaversineHandler;
 import co.id.roningrum.dolanapptugasakhir.model.TourismItem;
 
-public class DetailEducatioActivity extends AppCompatActivity implements OnMapReadyCallback {
+public class DetailEducatioActivity extends AppCompatActivity implements OnMapReadyCallback, OnLikeListener {
     public static final String EXTRA_WISATA_KEY = "edukasi_key";
     private static final String MAP_VIEW_KEY = "mapViewBundle";
 
@@ -71,6 +75,9 @@ public class DetailEducatioActivity extends AppCompatActivity implements OnMapRe
     private double endlat;
     private double endLng;
     private double distance;
+    String eduKey;
+    private FirebaseAuth firebaseAuth;
+    private FirebaseUser user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,6 +90,7 @@ public class DetailEducatioActivity extends AppCompatActivity implements OnMapRe
         imgEducation = findViewById(R.id.img_nature_education_detail);
         educationMapView = findViewById(R.id.loc_edu_map);
         collapsingToolbarLayout = findViewById(R.id.collapseToolbar);
+        LikeButton likeButton = findViewById(R.id.heart);
 
         Toolbar toolbarEducation = findViewById(R.id.toolbar_education_detail);
         setSupportActionBar(toolbarEducation);
@@ -91,6 +99,8 @@ public class DetailEducatioActivity extends AppCompatActivity implements OnMapRe
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back_24dp);
 
+        likeButton.setOnLikeListener(this);
+
         Bundle mapViewBundle = null;
         if (savedInstanceState != null) {
             mapViewBundle = savedInstanceState.getBundle(MAP_VIEW_KEY);
@@ -98,7 +108,7 @@ public class DetailEducatioActivity extends AppCompatActivity implements OnMapRe
         educationMapView.onCreate(mapViewBundle);
         educationMapView.getMapAsync(this);
 
-        String eduKey = getIntent().getStringExtra(EXTRA_WISATA_KEY);
+        eduKey = getIntent().getStringExtra(EXTRA_WISATA_KEY);
         if (eduKey == null) {
             throw new IllegalArgumentException("Must pass Extra");
         }
@@ -163,21 +173,6 @@ public class DetailEducatioActivity extends AppCompatActivity implements OnMapRe
             valueEventListener = eventListener;
         }
     }
-
-//    private double calculateDistance(double startLat, double startlng, double endlat, double endLng) {
-//        double earthRadius = 6371;
-//        double latDiff = Math.toRadians(startLat - endlat);
-//        double lngDiff = Math.toRadians(startlng - endLng);
-//        double a = Math.sin(latDiff / 2) * Math.sin(latDiff / 2) +
-//                Math.cos(Math.toRadians(startLat)) * Math.cos(Math.toRadians(endlat)) *
-//                        Math.sin(lngDiff / 2) * Math.sin(lngDiff / 2);
-//        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-//        double distance = earthRadius * c;
-//
-//        int meterConversion = 1609;
-//
-//        return (distance * meterConversion / 1000);
-//    }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
@@ -252,6 +247,40 @@ public class DetailEducatioActivity extends AppCompatActivity implements OnMapRe
     protected void onPause() {
         super.onPause();
         educationMapView.onPause();
+    }
+
+    @Override
+    public void liked(LikeButton likeButton) {
+//        likeButton.isLiked();
+        firebaseAuth = FirebaseAuth.getInstance();
+        user = firebaseAuth.getCurrentUser();
+        if (likeButton.isLiked() && user != null) {
+            final String uid = user.getUid();
+            final DatabaseReference favoritedb = FirebaseDatabase.getInstance().getReference("Favorite");
+            educationDetailRef.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    TourismItem tourismItem = dataSnapshot.getValue(TourismItem.class);
+                    assert tourismItem != null;
+                    favoritedb.getRef().child("Tourism").child(uid).child(eduKey).child("name_tourism").setValue(tourismItem.getName_tourism());
+                    favoritedb.getRef().child("Tourism").child(uid).child(eduKey).child("name_tourism").setValue(tourismItem.getName_tourism());
+                    favoritedb.getRef().child("Tourism").child(uid).child(eduKey).child("name_tourism").setValue(tourismItem.getName_tourism());
+                    favoritedb.getRef().child("Tourism").child(uid).child(eduKey).child("name_tourism").setValue(tourismItem.getName_tourism());
+                    favoritedb.getRef().child("Tourism").child(uid).child(eduKey).child("name_tourism").setValue(tourismItem.getName_tourism());
+                    favoritedb.getRef().child("Tourism").child(uid).child(eduKey).child("name_tourism").setValue(tourismItem.getName_tourism());
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+
+        }
+    }
+
+    @Override
+    public void unLiked(LikeButton likeButton) {
     }
 
 //    @Override

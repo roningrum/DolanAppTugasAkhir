@@ -13,17 +13,93 @@
 
 package co.id.roningrum.dolanapptugasakhir.ui.useractivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import co.id.roningrum.dolanapptugasakhir.R;
 
-public class ChangeEmailProfileActivity extends AppCompatActivity {
+public class ChangeEmailProfileActivity extends AppCompatActivity implements View.OnClickListener {
+    private static final String TAG = "UPDATE_EMAIL";
+    private EditText edtChangeEmail;
+
+    private DatabaseReference dbProfileRef;
+    private FirebaseUser changeEmailUser;
+    private FirebaseAuth changeEmailAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_change_email_profile);
+        edtChangeEmail = findViewById(R.id.edt_change_email);
+        Button btnSaveChangeEmail = findViewById(R.id.btn_save_change_email);
+
+        changeEmailAuth = FirebaseAuth.getInstance();
+        changeEmailUser = changeEmailAuth.getCurrentUser();
+        dbProfileRef = FirebaseDatabase.getInstance().getReference("Users");
+
+        btnSaveChangeEmail.setOnClickListener(this);
+        showEmailBeforeChange();
+
+    }
+
+    private void showEmailBeforeChange() {
+        if (changeEmailUser != null) {
+            final String uid = changeEmailUser.getUid();
+            dbProfileRef.getRef().child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    edtChangeEmail.setText(dataSnapshot.child("email").getValue().toString().trim());
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                    Log.e(TAG, "" + databaseError.getMessage());
+                }
+            });
+        }
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (v.getId() == R.id.btn_save_change_email) {
+            showEmailAfterChange();
+        }
+
+    }
+
+    private void showEmailAfterChange() {
+        if (changeEmailUser != null) {
+            final String uid = changeEmailUser.getUid();
+            changeEmailUser.updateEmail(edtChangeEmail.getText().toString().trim()).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    if (task.isSuccessful()) {
+                        dbProfileRef.child(uid).child("email").setValue(edtChangeEmail.getText().toString().trim());
+                        changeEmailAuth.signOut();
+                        startActivity(new Intent(ChangeEmailProfileActivity.this, SignInOptionActivity.class));
+                        finish();
+                    } else {
+                        Log.e(TAG, "" + task.getException());
+                    }
+                }
+            });
+        }
     }
 }

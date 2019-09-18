@@ -34,7 +34,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import co.id.roningrum.dolanapptugasakhir.R;
-import co.id.roningrum.dolanapptugasakhir.UploadDialogFragment;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class EditProfileActivity extends AppCompatActivity implements View.OnClickListener {
@@ -61,7 +60,8 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
         nameProfile.setOnClickListener(this);
         emailProfile.setOnClickListener(this);
         changeNameMenu.setOnClickListener(this);
-//        changeEmailMenu.setOnClickListener(this);
+        changeEmailMenu.setOnClickListener(this);
+        changePasswordmenu.setOnClickListener(this);
 //        changePasswordmenu.setOnClickListener(this);
 
         dbProfileReferece = FirebaseDatabase.getInstance().getReference();
@@ -90,12 +90,20 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_edit_profile_image:
-                UploadDialogFragment uploadDialogFragment = new UploadDialogFragment();
-                uploadDialogFragment.show(getSupportFragmentManager(), uploadDialogFragment.getTag());
+                Intent changePhotoIntent = new Intent(EditProfileActivity.this, ChangePhotoProfileActivity.class);
+                startActivity(changePhotoIntent);
                 break;
             case R.id.ln_change_name_menu:
                 Intent changeNameIntent = new Intent(EditProfileActivity.this, ChangeNameProfileActivity.class);
                 startActivity(changeNameIntent);
+                break;
+            case R.id.ln_change_email_menu:
+                Intent changeEmailIntent = new Intent(EditProfileActivity.this, ChangeEmailProfileActivity.class);
+                startActivity(changeEmailIntent);
+                break;
+            case R.id.ln_change_password_menu:
+                Intent changePasswordIntent = new Intent(EditProfileActivity.this, ChangePasswordProfileActivity.class);
+                startActivity(changePasswordIntent);
                 break;
         }
     }

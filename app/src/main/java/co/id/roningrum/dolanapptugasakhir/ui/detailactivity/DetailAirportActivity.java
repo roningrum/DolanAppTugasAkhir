@@ -17,6 +17,7 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -38,6 +39,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.like.LikeButton;
 
 import java.util.Objects;
 
@@ -46,7 +48,7 @@ import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.handler.HaversineHandler;
 import co.id.roningrum.dolanapptugasakhir.model.TransportationItem;
 
-public class DetailAirportActivity extends AppCompatActivity implements OnMapReadyCallback {
+public class DetailAirportActivity extends AppCompatActivity implements OnMapReadyCallback, View.OnClickListener {
 
     public static final String EXTRA_AIRPORT_KEY = "airportKey";
 
@@ -67,6 +69,8 @@ public class DetailAirportActivity extends AppCompatActivity implements OnMapRea
     private ImageView imgAirportDetail;
     private CollapsingToolbarLayout collapsingToolbarAiport;
 
+    private LikeButton likePlace;
+
     private double startLat;
     private double startlng;
     private double endlat;
@@ -83,6 +87,7 @@ public class DetailAirportActivity extends AppCompatActivity implements OnMapRea
         imgAirportDetail = findViewById(R.id.img_airport_detail);
         collapsingToolbarAiport = findViewById(R.id.collapseToolbar_airport);
         airportMapView = findViewById(R.id.location_airport_map_detail);
+        likePlace = findViewById(R.id.heart);
 
         Toolbar toolbarAirport = findViewById(R.id.toolbar_aiport_detail);
         setSupportActionBar(toolbarAirport);
@@ -254,4 +259,8 @@ public class DetailAirportActivity extends AppCompatActivity implements OnMapRea
     }
 
 
+    @Override
+    public void onClick(View v) {
+
+    }
 }
