@@ -16,6 +16,7 @@ package co.id.roningrum.dolanapptugasakhir.ui.detailactivity;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -23,6 +24,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 
 import com.bumptech.glide.Glide;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -41,8 +43,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
-import com.like.LikeButton;
-import com.like.OnLikeListener;
 
 import java.util.Objects;
 
@@ -51,7 +51,7 @@ import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.handler.HaversineHandler;
 import co.id.roningrum.dolanapptugasakhir.model.TourismItem;
 
-public class DetailEducatioActivity extends AppCompatActivity implements OnMapReadyCallback, OnLikeListener {
+public class DetailEducatioActivity extends AppCompatActivity implements OnMapReadyCallback {
     public static final String EXTRA_WISATA_KEY = "edukasi_key";
     private static final String MAP_VIEW_KEY = "mapViewBundle";
 
@@ -75,6 +75,9 @@ public class DetailEducatioActivity extends AppCompatActivity implements OnMapRe
     private double endlat;
     private double endLng;
     private double distance;
+
+    private boolean isFavorite = false;
+    private Menu menuItem = null;
     String eduKey;
     private FirebaseAuth firebaseAuth;
     private FirebaseUser user;
@@ -90,7 +93,6 @@ public class DetailEducatioActivity extends AppCompatActivity implements OnMapRe
         imgEducation = findViewById(R.id.img_nature_education_detail);
         educationMapView = findViewById(R.id.loc_edu_map);
         collapsingToolbarLayout = findViewById(R.id.collapseToolbar);
-        LikeButton likeButton = findViewById(R.id.heart);
 
         Toolbar toolbarEducation = findViewById(R.id.toolbar_education_detail);
         setSupportActionBar(toolbarEducation);
@@ -99,7 +101,9 @@ public class DetailEducatioActivity extends AppCompatActivity implements OnMapRe
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back_24dp);
 
-        likeButton.setOnLikeListener(this);
+        firebaseAuth = FirebaseAuth.getInstance();
+        user = firebaseAuth.getCurrentUser();
+
 
         Bundle mapViewBundle = null;
         if (savedInstanceState != null) {
@@ -212,15 +216,6 @@ public class DetailEducatioActivity extends AppCompatActivity implements OnMapRe
 
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Respond to the action bar's Up/Home button
-        if (item.getItemId() == android.R.id.home) {
-            finish();
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
 
     @Override
     protected void onResume() {
@@ -249,49 +244,74 @@ public class DetailEducatioActivity extends AppCompatActivity implements OnMapRe
         educationMapView.onPause();
     }
 
+
     @Override
-    public void liked(LikeButton likeButton) {
-//        likeButton.isLiked();
-        firebaseAuth = FirebaseAuth.getInstance();
-        user = firebaseAuth.getCurrentUser();
-        if (likeButton.isLiked() && user != null) {
-            final String uid = user.getUid();
-            final DatabaseReference favoritedb = FirebaseDatabase.getInstance().getReference("Favorite");
-            educationDetailRef.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    TourismItem tourismItem = dataSnapshot.getValue(TourismItem.class);
-                    assert tourismItem != null;
-                    favoritedb.getRef().child("Tourism").child(uid).child(eduKey).child("name_tourism").setValue(tourismItem.getName_tourism());
-                    favoritedb.getRef().child("Tourism").child(uid).child(eduKey).child("name_tourism").setValue(tourismItem.getName_tourism());
-                    favoritedb.getRef().child("Tourism").child(uid).child(eduKey).child("name_tourism").setValue(tourismItem.getName_tourism());
-                    favoritedb.getRef().child("Tourism").child(uid).child(eduKey).child("name_tourism").setValue(tourismItem.getName_tourism());
-                    favoritedb.getRef().child("Tourism").child(uid).child(eduKey).child("name_tourism").setValue(tourismItem.getName_tourism());
-                    favoritedb.getRef().child("Tourism").child(uid).child(eduKey).child("name_tourism").setValue(tourismItem.getName_tourism());
-                }
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.favorite_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
 
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                }
-            });
-
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Respond to the action bar's Up/Home button
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+            return true;
+        } else if (item.getItemId() == R.id.add_to_favorite) {
+            if (isFavorite)
+                removeFromFavorite();
+            else
+                addToFavorite();
+            isFavorite = !isFavorite;
+            setFavorite();
+            return true;
         }
+        return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public void unLiked(LikeButton likeButton) {
+    private void setFavorite() {
+        if (isFavorite)
+            menuItem.getItem(0).setIcon(ContextCompat.getDrawable(this, R.drawable.ic_bookmarkadded_24dp));
+        else {
+            menuItem.getItem(0).setIcon(ContextCompat.getDrawable(this, R.drawable.ic_unbookmarked_24dp));
+        }
+
     }
 
-//    @Override
-//    protected void onDestroy() {
-//        super.onDestroy();
-//        educationMapView.onDestroy();
-//    }
-//
-//    @Override
-//    public void onLowMemory() {
-//        super.onLowMemory();
-//        educationMapView.onLowMemory();
-//    }
+    private void removeFromFavorite() {
+        final String name = user.getDisplayName();
+        final DatabaseReference favoritedb = FirebaseDatabase.getInstance().getReference("Favorite");
+        educationDetailRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                TourismItem tourismItem = dataSnapshot.getValue(TourismItem.class);
+                assert tourismItem != null;
+                favoritedb.getRef().child(name).child(eduKey).child("name_tourism").removeValue();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    private void addToFavorite() {
+        final String name = user.getDisplayName();
+        final DatabaseReference favoritedb = FirebaseDatabase.getInstance().getReference("Favorite");
+        educationDetailRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                TourismItem tourismItem = dataSnapshot.getValue(TourismItem.class);
+                assert tourismItem != null;
+                favoritedb.getRef().child(name).child(eduKey).child("name_tourism").setValue(tourismItem.getName_tourism());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
 }

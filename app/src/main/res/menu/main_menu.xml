@@ -20,7 +20,7 @@
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/bookmarkMenu"
-        android:icon="@drawable/ic_bookmark_24dp"
+        android:icon="@drawable/ic_bookmarkadded_24dp"
         android:title="@string/txt_bookmark_main_menu"
         app:showAsAction="ifRoom" />
     <item

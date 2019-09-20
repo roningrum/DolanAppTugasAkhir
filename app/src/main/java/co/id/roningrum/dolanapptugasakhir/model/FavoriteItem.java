@@ -14,4 +14,16 @@
 package co.id.roningrum.dolanapptugasakhir.model;
 
 public class FavoriteItem {
+    private String name_tourism;
+
+    public FavoriteItem() {
+    }
+
+    public String getName_tourism() {
+        return name_tourism;
+    }
+
+    public void setName_tourism(String name_tourism) {
+        this.name_tourism = name_tourism;
+    }
 }
