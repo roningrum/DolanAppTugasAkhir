@@ -24,7 +24,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.ContextCompat;
 
 import com.bumptech.glide.Glide;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -33,6 +32,7 @@ import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.firebase.auth.FirebaseAuth;
@@ -77,7 +77,7 @@ public class DetailEducatioActivity extends AppCompatActivity implements OnMapRe
     private double distance;
 
     private boolean isFavorite = false;
-    private Menu menuItem = null;
+    TourismItem tourismItem = new TourismItem();
     String eduKey;
     private FirebaseAuth firebaseAuth;
     private FirebaseUser user;
@@ -131,7 +131,7 @@ public class DetailEducatioActivity extends AppCompatActivity implements OnMapRe
                 @SuppressLint("SetTextI18n")
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    final TourismItem tourismItem = dataSnapshot.getValue(TourismItem.class);
+                    tourismItem = dataSnapshot.getValue(TourismItem.class);
                     startLat = gpsHandler.getLatitude();
                     startlng = gpsHandler.getLongitude();
                     assert tourismItem != null;
@@ -196,7 +196,7 @@ public class DetailEducatioActivity extends AppCompatActivity implements OnMapRe
         ValueEventListener eventListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                TourismItem tourismItem = dataSnapshot.getValue(TourismItem.class);
+                tourismItem = dataSnapshot.getValue(TourismItem.class);
                 assert tourismItem != null;
                 double lattitude = tourismItem.getLat_location_tourism();
                 double longitude = tourismItem.getLng_location_tourism();
@@ -248,8 +248,16 @@ public class DetailEducatioActivity extends AppCompatActivity implements OnMapRe
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.favorite_menu, menu);
+        MenuItem favorite = menu.findItem(R.id.add_to_favorite);
+        checkIsFavorite();
+        if (isFavorite) {
+            favorite.setIcon(R.drawable.ic_bookmarkadded_24dp);
+        } else {
+            favorite.setIcon(R.drawable.ic_unbookmarked_24dp);
+        }
         return super.onCreateOptionsMenu(menu);
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -258,60 +266,67 @@ public class DetailEducatioActivity extends AppCompatActivity implements OnMapRe
             finish();
             return true;
         } else if (item.getItemId() == R.id.add_to_favorite) {
-            if (isFavorite)
-                removeFromFavorite();
-            else
-                addToFavorite();
-            isFavorite = !isFavorite;
-            setFavorite();
-            return true;
+            if (isFavorite) {
+                item.setIcon(R.drawable.ic_unbookmarked_24dp);
+                isFavorite = false;
+            } else {
+                item.setIcon(R.drawable.ic_bookmarkadded_24dp);
+                isFavorite = true;
+            }
         }
         return super.onOptionsItemSelected(item);
     }
 
-    private void setFavorite() {
-        if (isFavorite)
-            menuItem.getItem(0).setIcon(ContextCompat.getDrawable(this, R.drawable.ic_bookmarkadded_24dp));
-        else {
-            menuItem.getItem(0).setIcon(ContextCompat.getDrawable(this, R.drawable.ic_unbookmarked_24dp));
-        }
+    private void checkIsFavorite() {
+
+//        final String name = user.getDisplayName();
+//        final DatabaseReference favoritedb = FirebaseDatabase.getInstance().getReference("Favorite");
+//        educationDetailRef.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                final TourismItem tourismItem= dataSnapshot.getValue(TourismItem.class);
+//                assert tourismItem != null;
+//                favoritedb.getRef().child(name).child(eduKey).child("name_tourism").setValue(tourismItem.getName_tourism());
+//                favoritedb.getRef().child(name).child(eduKey).addListenerForSingleValueEvent(new ValueEventListener() {
+//                    @Override
+//                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                        boolean check = false;
+//                        for (DataSnapshot ds: dataSnapshot.getChildren()){
+//                            FavoriteItem favoriteItem = ds.getValue(FavoriteItem.class);
+//                            check = favoriteItem.getName_tourism().equals(tourismItem.getName_tourism());
+//                        }
+//                        isFavorite = check;
+//
+//                    }
+//
+//                    @Override
+//                    public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//                    }
+//                });
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//            }
+//        });
 
     }
 
     private void removeFromFavorite() {
         final String name = user.getDisplayName();
         final DatabaseReference favoritedb = FirebaseDatabase.getInstance().getReference("Favorite");
-        educationDetailRef.addValueEventListener(new ValueEventListener() {
+        favoritedb.getRef().child(name).child(eduKey).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                TourismItem tourismItem = dataSnapshot.getValue(TourismItem.class);
-                assert tourismItem != null;
-                favoritedb.getRef().child(name).child(eduKey).child("name_tourism").removeValue();
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
+            public void onSuccess(Void aVoid) {
+                Log.d("Sukses hapus", "hapus");
             }
         });
     }
 
     private void addToFavorite() {
-        final String name = user.getDisplayName();
-        final DatabaseReference favoritedb = FirebaseDatabase.getInstance().getReference("Favorite");
-        educationDetailRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                TourismItem tourismItem = dataSnapshot.getValue(TourismItem.class);
-                assert tourismItem != null;
-                favoritedb.getRef().child(name).child(eduKey).child("name_tourism").setValue(tourismItem.getName_tourism());
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
     }
 
 }
