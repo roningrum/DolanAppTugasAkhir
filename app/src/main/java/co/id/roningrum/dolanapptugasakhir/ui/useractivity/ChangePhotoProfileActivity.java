@@ -57,6 +57,7 @@ public class ChangePhotoProfileActivity extends AppCompatActivity implements Vie
     private FirebaseUser changePhotoUser;
 
     private CircleImageView photo_profile;
+    boolean isGoogleSignIn;
 
 
     private Uri photo_location;
@@ -88,7 +89,11 @@ public class ChangePhotoProfileActivity extends AppCompatActivity implements Vie
         profileReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                Glide.with(getApplicationContext()).load(dataSnapshot.child("photo_user").getValue().toString()).into(photo_profile);
+                isGoogleSignIn = getIntent().getBooleanExtra("isGoogle", true);
+                if (changePhotoUser != null) {
+                    Glide.with(getApplicationContext()).load(dataSnapshot.child("photo_user").getValue().toString()).into(photo_profile);
+
+                }
             }
 
             @Override
@@ -122,8 +127,6 @@ public class ChangePhotoProfileActivity extends AppCompatActivity implements Vie
         if (photo_location != null) {
             btnUploadPhoto.setEnabled(false);
             btnSaveChange.setEnabled(true);
-            btnCancelChange.setEnabled(true);
-            btnRemovePhoto.setEnabled(true);
             StorageReference storageReference = storagePhoto.child(System.currentTimeMillis() + "." + getFileExtension(photo_location));
             storageReference.putFile(photo_location).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override

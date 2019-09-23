@@ -147,7 +147,8 @@
         <activity android:name=".ui.homeactivity.MainMenuActivity" />
         <activity android:name=".ui.useractivity.ResetPasswordActivity" />
         <activity android:name=".ui.useractivity.RegisterAccountEmailActivity" />
-        <activity android:name=".ui.useractivity.SignInEmailActivity">
+        <activity android:name=".ui.useractivity.SignInEmailActivity" />
+        <activity android:name=".ui.useractivity.SignInOptionActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <action android:name="android.intent.action.MAIN" />
@@ -155,7 +156,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.useractivity.SignInOptionActivity" />
         <activity android:name=".ui.useractivity.SplashScreenActivity" />
         <activity android:name=".ui.useractivity.ResetSendEmailSuccessActivity" />
 

@@ -57,7 +57,7 @@
                 android:ellipsize="end"
                 android:fontFamily="@font/monsterrat_sembold"
                 android:maxLines="1"
-                android:textColor="@color/blackPrimary"
+                android:textColor="@color/blackTextPrimary"
                 android:textSize="14sp" />
 
             <TextView
@@ -79,7 +79,7 @@
                 android:drawableStart="@drawable/ic_location_orange"
                 android:drawablePadding="2dp"
                 android:fontFamily="@font/roboto_regular"
-                android:textColor="@color/blackPrimary"
+                android:textColor="@color/blackTextPrimary"
                 android:textSize="14sp" />
         </LinearLayout>
 

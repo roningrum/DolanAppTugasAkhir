@@ -76,7 +76,7 @@ public class BookmarkFragment extends Fragment {
 
         //untuk menampilkan data favorite
         dbFavoritRef = FirebaseDatabase.getInstance().getReference();
-        dbFavoritRef.child("Favorite").child(user.getDisplayName()).addValueEventListener(new ValueEventListener() {
+        dbFavoritRef.child("Favorite").child("Tourism").child(user.getDisplayName()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 final String userId = dataSnapshot.getKey();

@@ -70,7 +70,7 @@
                 android:fontFamily="@font/montserrat_bold"
                 android:lineSpacingExtra="6sp"
                 android:text="@string/noConnection"
-                android:textColor="@color/blackPrimary"
+                android:textColor="@color/blackTextPrimary"
                 android:textSize="16sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

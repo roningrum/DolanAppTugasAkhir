@@ -238,4 +238,5 @@
         "when a user tries to pick up one of cards.\n\n"
     </string>
     <string name="action_settings">Settings</string>
+    <string name="rationale_location">This app needs access to your location to know where you are</string>
 </resources>

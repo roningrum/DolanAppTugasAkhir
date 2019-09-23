@@ -23,7 +23,7 @@
         android:layout_height="?attr/actionBarSize"
         android:fitsSystemWindows="true"
         app:title="Peta Wisata Air"
-        app:titleTextColor="@color/blackPrimary" />
+        app:titleTextColor="@color/blackTextPrimary" />
 
     <FrameLayout
         android:id="@+id/frame_layout_religi_map"

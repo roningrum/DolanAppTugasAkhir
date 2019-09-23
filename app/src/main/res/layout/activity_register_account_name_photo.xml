@@ -28,7 +28,7 @@
         android:layout_marginEnd="64dp"
         android:fontFamily="@font/monsterrat_sembold"
         android:text="@string/register_email_2"
-        android:textColor="@color/blackPrimary"
+        android:textColor="@color/blackTextPrimary"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.09"

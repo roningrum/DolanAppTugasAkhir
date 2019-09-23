@@ -182,7 +182,7 @@ public class NatureCategoryActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        if (natureFirebaseAdapter != null && checkConnection.isInternetAvailable()) {
+        if (natureFirebaseAdapter != null) {
             natureFirebaseAdapter.startListening();
         }
     }

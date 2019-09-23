@@ -44,14 +44,17 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
     private FirebaseAuth editProfileAuth;
     private String TAG = "PROFILE_STATUS";
 
+    boolean isGoogleSignIn = false;
+    private LinearLayout changeEmailMenu, changePasswordmenu;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_profile);
         ImageButton btnStartUploadImage = findViewById(R.id.btn_edit_profile_image);
         LinearLayout changeNameMenu = findViewById(R.id.ln_change_name_menu);
-        LinearLayout changeEmailMenu = findViewById(R.id.ln_change_email_menu);
-        LinearLayout changePasswordmenu = findViewById(R.id.ln_change_password_menu);
+        changeEmailMenu = findViewById(R.id.ln_change_email_menu);
+        changePasswordmenu = findViewById(R.id.ln_change_password_menu);
         nameProfile = findViewById(R.id.tv_name_edit_profile);
         emailProfile = findViewById(R.id.tv_email_edit_profile);
         imageEditprofile = findViewById(R.id.image_profile_edit);
@@ -74,9 +77,19 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
         dbProfileReferece.child("Users").child(editUser.getUid()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                isGoogleSignIn = getIntent().getBooleanExtra("isGoogle", true);
                 nameProfile.setText(dataSnapshot.child("nama_user").getValue().toString().trim());
                 emailProfile.setText(dataSnapshot.child("email").getValue().toString().trim());
                 Glide.with(EditProfileActivity.this).load(dataSnapshot.child("photo_user").getValue().toString()).into(imageEditprofile);
+                String loginStatus = dataSnapshot.child("Login").getValue().toString();
+                if (loginStatus.equals("Google")) {
+                    changeEmailMenu.setEnabled(false);
+                    changePasswordmenu.setEnabled(false);
+                }
+                if (loginStatus.equals("Email")) {
+                    changeEmailMenu.setEnabled(true);
+                    changePasswordmenu.setEnabled(true);
+                }
             }
 
             @Override
@@ -104,7 +117,6 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
             case R.id.ln_change_password_menu:
                 Intent changePasswordIntent = new Intent(EditProfileActivity.this, ChangePasswordProfileActivity.class);
                 startActivity(changePasswordIntent);
-                break;
         }
     }
 }

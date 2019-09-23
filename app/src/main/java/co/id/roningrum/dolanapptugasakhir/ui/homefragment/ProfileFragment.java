@@ -16,6 +16,7 @@ package co.id.roningrum.dolanapptugasakhir.ui.homefragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +29,12 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -45,11 +52,16 @@ import de.hdodenhof.circleimageview.CircleImageView;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ProfileFragment extends Fragment implements View.OnClickListener {
+public class ProfileFragment extends Fragment implements View.OnClickListener, GoogleApiClient.OnConnectionFailedListener {
     private CircleImageView photo_profile;
     private TextView tvNameProfile, tvEmailProfile;
     private FirebaseAuth firebaseAuthMain;
     private FirebaseUser user;
+
+    private static final String TAG = "Pesan";
+    boolean isGooglesignIn;
+
+    private GoogleApiClient mGoogleApiClient;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -73,25 +85,39 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         LinearLayout signOut = view.findViewById(R.id.ln_sign_out);
         LinearLayout editProfile = view.findViewById(R.id.ln_edit_profile);
         LinearLayout aboutApp = view.findViewById(R.id.ln_about_app);
-        
-        signOut.setOnClickListener(this);
+
+
         editProfile.setOnClickListener(this);
         aboutApp.setOnClickListener(this);
 
         firebaseAuthMain = FirebaseAuth.getInstance();
         user = firebaseAuthMain.getCurrentUser();
 
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build();
+        mGoogleApiClient = new GoogleApiClient.Builder(getActivity())
+                .enableAutoManage(getActivity(), 0, this /* OnConnectionFailedListener */)
+                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+                .build();
+        signOut.setOnClickListener(this);
+
         DatabaseReference profileReference = FirebaseDatabase.getInstance().getReference().child("Users").child(user.getUid());
         profileReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                tvNameProfile.setText(dataSnapshot.child("nama_user").getValue().toString().trim());
-                tvEmailProfile.setText(dataSnapshot.child("email").getValue().toString().trim());
-                Glide.with(view).load(dataSnapshot.child("photo_user").getValue().toString()).into(photo_profile);
+                isGooglesignIn = getActivity().getIntent().getBooleanExtra("isGoogle", true);
+                if (user != null) {
+                    tvNameProfile.setText(dataSnapshot.child("nama_user").getValue().toString().trim());
+                    tvEmailProfile.setText(dataSnapshot.child("email").getValue().toString().trim());
+                    Glide.with(view).load(dataSnapshot.child("photo_user").getValue().toString()).into(photo_profile);
+                }
+
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
+                Log.e(TAG, "Gagal Load" + databaseError.getMessage());
 
             }
         });
@@ -123,8 +149,30 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
 
     private void updateUI(FirebaseUser user) {
         if (user != null) {
-            startActivity(new Intent(getContext(), SignInOptionActivity.class));
+            firebaseAuthMain.signOut();
+            Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(new ResultCallback<Status>() {
+                @Override
+                public void onResult(@NonNull Status status) {
+                    startActivity(new Intent(getActivity(), SignInOptionActivity.class));
+                }
+            });
             Toast.makeText(getContext(), "Thanks for visiting", Toast.LENGTH_LONG).show();
+        } else {
+            Log.e("Status", "Gagal Keluar");
+        }
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+        Log.e(TAG, "message" + connectionResult.getErrorMessage());
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (mGoogleApiClient != null && mGoogleApiClient.isConnected()) {
+            mGoogleApiClient.stopAutoManage(getActivity());
+            mGoogleApiClient.disconnect();
         }
     }
 }

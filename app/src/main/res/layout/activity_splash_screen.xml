@@ -16,8 +16,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_orange_splash"
     tools:context=".ui.useractivity.SplashScreenActivity">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/bg_orange_splash"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/tv_splash_screen_name_app"
@@ -29,8 +37,9 @@
         android:layout_marginBottom="291dp"
         android:fontFamily="@font/montserrat_bold"
         android:text="@string/txt_nama_app"
+        android:lineSpacingExtra="5sp"
         android:textColor="@color/txtWhitePrimary"
-        android:textSize="48sp"
+        android:textSize="42sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

@@ -83,7 +83,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/montserrat_bold"
-                        android:textColor="@color/blackPrimary"
+                        android:textColor="@color/blackTextPrimary"
                         android:textSize="24sp" />
 
                     <LinearLayout
@@ -131,7 +131,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="18dp"
                 android:fontFamily="@font/montserrat_bold"
-                android:textColor="@color/blackPrimary"
+                android:textColor="@color/blackTextPrimary"
                 android:textSize="18sp" />
 
             <View

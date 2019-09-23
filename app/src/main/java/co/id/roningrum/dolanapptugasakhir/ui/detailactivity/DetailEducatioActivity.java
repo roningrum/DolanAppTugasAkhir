@@ -32,7 +32,6 @@ import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.firebase.auth.FirebaseAuth;
@@ -248,85 +247,73 @@ public class DetailEducatioActivity extends AppCompatActivity implements OnMapRe
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.favorite_menu, menu);
+
         MenuItem favorite = menu.findItem(R.id.add_to_favorite);
-        checkIsFavorite();
         if (isFavorite) {
             favorite.setIcon(R.drawable.ic_bookmarkadded_24dp);
+//            isFavorite = false;
         } else {
             favorite.setIcon(R.drawable.ic_unbookmarked_24dp);
+//            isFavorite = true;
+
         }
         return super.onCreateOptionsMenu(menu);
     }
 
-
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(final MenuItem item) {
         // Respond to the action bar's Up/Home button
+        final String name = user.getDisplayName();
+        final DatabaseReference favoritedb = FirebaseDatabase.getInstance().getReference("Favorite");
         if (item.getItemId() == android.R.id.home) {
             finish();
             return true;
         } else if (item.getItemId() == R.id.add_to_favorite) {
-            if (isFavorite) {
-                item.setIcon(R.drawable.ic_unbookmarked_24dp);
-                isFavorite = false;
-            } else {
-                item.setIcon(R.drawable.ic_bookmarkadded_24dp);
-                isFavorite = true;
-            }
+            favoritedb.getRef().child("Tourism").child(name).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    if (isFavorite && dataSnapshot.exists()) {
+//                        if(eduKey.equals(name) && dataSnapshot.exists()){
+//                            item.setIcon(R.drawable.ic_bookmarkadded_24dp);
+//                        }
+                        item.setIcon(R.drawable.ic_unbookmarked_24dp);
+
+                        favoritedb.getRef().child("Tourism").child(name).child(eduKey).removeValue();
+                        isFavorite = false;
+                    } else {
+//                        if(eduKey.equals(name) && !dataSnapshot.exists()){
+//
+//                        }
+                        item.setIcon(R.drawable.ic_bookmarkadded_24dp);
+                        favoritedb.getRef().child("Tourism").child(name).child(eduKey).setValue(true);
+                        isFavorite = true;
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+
         }
         return super.onOptionsItemSelected(item);
     }
 
-    private void checkIsFavorite() {
 
+//    private void removeFromFavorite() {
 //        final String name = user.getDisplayName();
 //        final DatabaseReference favoritedb = FirebaseDatabase.getInstance().getReference("Favorite");
-//        educationDetailRef.addValueEventListener(new ValueEventListener() {
+//        favoritedb.getRef().child(name).child(eduKey).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
 //            @Override
-//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                final TourismItem tourismItem= dataSnapshot.getValue(TourismItem.class);
-//                assert tourismItem != null;
-//                favoritedb.getRef().child(name).child(eduKey).child("name_tourism").setValue(tourismItem.getName_tourism());
-//                favoritedb.getRef().child(name).child(eduKey).addListenerForSingleValueEvent(new ValueEventListener() {
-//                    @Override
-//                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                        boolean check = false;
-//                        for (DataSnapshot ds: dataSnapshot.getChildren()){
-//                            FavoriteItem favoriteItem = ds.getValue(FavoriteItem.class);
-//                            check = favoriteItem.getName_tourism().equals(tourismItem.getName_tourism());
-//                        }
-//                        isFavorite = check;
-//
-//                    }
-//
-//                    @Override
-//                    public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//                    }
-//                });
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError databaseError) {
-//
+//            public void onSuccess(Void aVoid) {
+//                Log.d("Sukses hapus", "hapus");
 //            }
 //        });
-
-    }
-
-    private void removeFromFavorite() {
-        final String name = user.getDisplayName();
-        final DatabaseReference favoritedb = FirebaseDatabase.getInstance().getReference("Favorite");
-        favoritedb.getRef().child(name).child(eduKey).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void aVoid) {
-                Log.d("Sukses hapus", "hapus");
-            }
-        });
-    }
-
-    private void addToFavorite() {
-
-    }
+//    }
+//
+//    private void addToFavorite() {
+//
+//    }
 
 }

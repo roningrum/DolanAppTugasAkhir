@@ -44,7 +44,7 @@
         android:fontFamily="@font/montserrat_bold"
         android:lineSpacingExtra="24sp"
         android:text="@string/txt_heading_register_page"
-        android:textColor="@color/blackPrimary"
+        android:textColor="@color/blackTextPrimary"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -100,7 +100,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/montserrat"
             android:text="@string/txt_tanya_punya_akun_register_page"
-            android:textColor="@color/blackPrimary"
+            android:textColor="@color/blackTextPrimary"
             android:textSize="12sp" />
 
         <TextView

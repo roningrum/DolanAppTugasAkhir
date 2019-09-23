@@ -55,7 +55,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/monsterrat_sembold"
-                android:textColor="@color/blackPrimary"
+                android:textColor="@color/blackTextPrimary"
                 android:textSize="14sp" />
 
             <TextView
@@ -75,7 +75,7 @@
                 android:layout_marginTop="35dp"
                 android:layout_marginBottom="13dp"
                 android:fontFamily="@font/montserrat"
-                android:textColor="@color/blackPrimary"
+                android:textColor="@color/blackTextPrimary"
                 android:textSize="14sp" />
         </LinearLayout>
 

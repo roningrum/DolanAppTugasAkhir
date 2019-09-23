@@ -17,6 +17,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.maps.android.clustering.ClusterItem;
 
 public class TourismItem implements ClusterItem {
+    private String id;
     private String name_tourism;
     private String location_tourism;
     private String info_tourism;
@@ -108,5 +109,13 @@ public class TourismItem implements ClusterItem {
     @Override
     public String getSnippet() {
         return location_tourism;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }
