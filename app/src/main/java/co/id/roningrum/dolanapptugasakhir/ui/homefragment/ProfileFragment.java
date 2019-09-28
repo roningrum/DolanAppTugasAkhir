@@ -15,6 +15,7 @@ package co.id.roningrum.dolanapptugasakhir.ui.homefragment;
 
 
 import android.content.Intent;
+import android.content.IntentSender;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -32,6 +33,7 @@ import com.bumptech.glide.Glide;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
@@ -53,13 +55,13 @@ import de.hdodenhof.circleimageview.CircleImageView;
  * A simple {@link Fragment} subclass.
  */
 public class ProfileFragment extends Fragment implements View.OnClickListener, GoogleApiClient.OnConnectionFailedListener {
+    private static final int RESOLVE_CONNECTION_REQUEST_CODE = 123;
     private CircleImageView photo_profile;
     private TextView tvNameProfile, tvEmailProfile;
     private FirebaseAuth firebaseAuthMain;
     private FirebaseUser user;
 
     private static final String TAG = "Pesan";
-    boolean isGooglesignIn;
 
     private GoogleApiClient mGoogleApiClient;
 
@@ -96,8 +98,8 @@ public class ProfileFragment extends Fragment implements View.OnClickListener, G
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
                 .build();
-        mGoogleApiClient = new GoogleApiClient.Builder(getActivity())
-                .enableAutoManage(getActivity(), 0, this /* OnConnectionFailedListener */)
+        mGoogleApiClient = new GoogleApiClient.Builder(requireContext())
+                .enableAutoManage(requireActivity(), this)
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
         signOut.setOnClickListener(this);
@@ -106,12 +108,10 @@ public class ProfileFragment extends Fragment implements View.OnClickListener, G
         profileReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                isGooglesignIn = getActivity().getIntent().getBooleanExtra("isGoogle", true);
-                if (user != null) {
-                    tvNameProfile.setText(dataSnapshot.child("nama_user").getValue().toString().trim());
-                    tvEmailProfile.setText(dataSnapshot.child("email").getValue().toString().trim());
-                    Glide.with(view).load(dataSnapshot.child("photo_user").getValue().toString()).into(photo_profile);
-                }
+//                isGooglesignIn = getActivity().getIntent().getBooleanExtra("isGoogle", true);
+                tvNameProfile.setText(dataSnapshot.child("nama_user").getValue().toString().trim());
+                tvEmailProfile.setText(dataSnapshot.child("email").getValue().toString().trim());
+                Glide.with(view).load(dataSnapshot.child("photo_user").getValue().toString()).into(photo_profile);
 
             }
 
@@ -165,14 +165,48 @@ public class ProfileFragment extends Fragment implements View.OnClickListener, G
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
         Log.e(TAG, "message" + connectionResult.getErrorMessage());
+        if (connectionResult.hasResolution()) {
+            try {
+                connectionResult.startResolutionForResult(getActivity(), RESOLVE_CONNECTION_REQUEST_CODE);
+            } catch (IntentSender.SendIntentException e) {
+                // Unable to resolve, message user appropriately
+            }
+        } else {
+            GooglePlayServicesUtil.getErrorDialog(connectionResult.getErrorCode(), getActivity(), 0).show();
+        }
     }
 
     @Override
-    public void onStop() {
-        super.onStop();
-        if (mGoogleApiClient != null && mGoogleApiClient.isConnected()) {
-            mGoogleApiClient.stopAutoManage(getActivity());
-            mGoogleApiClient.disconnect();
-        }
+    public void onStart() {
+        super.onStart();
+        mGoogleApiClient.connect();
     }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mGoogleApiClient.stopAutoManage(getActivity());
+        mGoogleApiClient.disconnect();
+    }
+
+//    @Override
+//    public void onStart() {
+//        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+//                .requestEmail()
+//                .build();
+//        mGoogleApiClient = new GoogleApiClient.Builder(getActivity())
+//                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+//                .build();
+//        mGoogleApiClient.connect();
+//        super.onStart();
+//    }
+//
+//    @Override
+//    public void onStop() {
+//        super.onStop();
+//        if (mGoogleApiClient != null && mGoogleApiClient.isConnected()) {
+//            mGoogleApiClient.stopAutoManage(getActivity());
+//            mGoogleApiClient.disconnect();
+//        }
+//    }
 }

@@ -162,7 +162,8 @@
         <service
             android:name=".handler.GPSHandler"
             android:enabled="true"
-            android:exported="true" />
+            android:exported="true"
+            android:permission="android.permission.ACCESS_FINE_LOCATION"></service>
 
         <meta-data
             android:name="preloaded_fonts"

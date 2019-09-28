@@ -73,7 +73,7 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
     }
 
     private void showProfileData() {
-        FirebaseUser editUser = editProfileAuth.getCurrentUser();
+        final FirebaseUser editUser = editProfileAuth.getCurrentUser();
         dbProfileReferece.child("Users").child(editUser.getUid()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -81,15 +81,7 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
                 nameProfile.setText(dataSnapshot.child("nama_user").getValue().toString().trim());
                 emailProfile.setText(dataSnapshot.child("email").getValue().toString().trim());
                 Glide.with(EditProfileActivity.this).load(dataSnapshot.child("photo_user").getValue().toString()).into(imageEditprofile);
-                String loginStatus = dataSnapshot.child("Login").getValue().toString();
-                if (loginStatus.equals("Google")) {
-                    changeEmailMenu.setEnabled(false);
-                    changePasswordmenu.setEnabled(false);
-                }
-                if (loginStatus.equals("Email")) {
-                    changeEmailMenu.setEnabled(true);
-                    changePasswordmenu.setEnabled(true);
-                }
+
             }
 
             @Override

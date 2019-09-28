@@ -11,28 +11,7 @@
  * limitations under the License.
  */
 
-package co.id.roningrum.dolanapptugasakhir.model;
+package co.id.roningrum.dolanapptugasakhir;
 
-public class FavoriteItem {
-    private String uid;
-    private Boolean idTourism;
-
-    public FavoriteItem() {
-    }
-
-    public String getUid() {
-        return uid;
-    }
-
-    public void setUid(String uid) {
-        this.uid = uid;
-    }
-
-    public Boolean getIdTourism() {
-        return idTourism;
-    }
-
-    public void setIdTourism(Boolean idTourism) {
-        this.idTourism = idTourism;
-    }
+public class FavoritViewHolder {
 }

@@ -23,13 +23,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
-import co.id.roningrum.dolanapptugasakhir.model.FavoriteItem;
+import co.id.roningrum.dolanapptugasakhir.model.TourismItem;
 
 public class FavoritAdapter extends RecyclerView.Adapter<FavoritAdapter.FavoritViewHolder> {
-    private ArrayList<FavoriteItem> favoriteItems = new ArrayList<>();
+    private ArrayList<TourismItem> tourismItems;
 
-    public void setFavoriteItems(ArrayList<FavoriteItem> favoriteItems) {
-        this.favoriteItems = favoriteItems;
+    public FavoritAdapter(ArrayList<TourismItem> tourismItems) {
+        this.tourismItems = tourismItems;
     }
 
     @NonNull
@@ -40,12 +40,12 @@ public class FavoritAdapter extends RecyclerView.Adapter<FavoritAdapter.FavoritV
 
     @Override
     public void onBindViewHolder(@NonNull FavoritViewHolder holder, int position) {
-        holder.bindName(favoriteItems.get(position));
+        holder.bindName(tourismItems.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return favoriteItems.size();
+        return tourismItems.size();
     }
 
     class FavoritViewHolder extends RecyclerView.ViewHolder {
@@ -56,7 +56,7 @@ public class FavoritAdapter extends RecyclerView.Adapter<FavoritAdapter.FavoritV
             tvFavoritTest = itemView.findViewById(R.id.tv_bookmark_item);
         }
 
-        void bindName(FavoriteItem favoriteItem) {
+        void bindName(TourismItem favoriteItem) {
             tvFavoritTest.setText(favoriteItem.getName_tourism());
         }
     }

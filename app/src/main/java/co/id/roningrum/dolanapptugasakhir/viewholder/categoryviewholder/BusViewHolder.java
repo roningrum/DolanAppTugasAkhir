@@ -65,21 +65,6 @@ public class BusViewHolder extends RecyclerView.ViewHolder {
         Glide.with(itemView.getContext()).load(transportationItem.getUrl_photo_transport()).into(busPic);
     }
 
-//    private double calculateDistance(double lat1, double long1, double lat2, double long2) {
-//
-//        double earthRadius = 6371;
-//        double latDiff = Math.toRadians(lat1 - lat2);
-//        double lngDiff = Math.toRadians(long1 - long2);
-//        double a = Math.sin(latDiff / 2) * Math.sin(latDiff / 2) +
-//                Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2)) *
-//                        Math.sin(lngDiff / 2) * Math.sin(lngDiff / 2);
-//        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-//        double distance = earthRadius * c;
-//
-//        int meterConversion = 1609;
-//
-//        return (float) distance * meterConversion;
-//    }
 
     public void setOnClickListener(BusViewHolder.ClickListener clickListener) {
         busClickListener = clickListener;

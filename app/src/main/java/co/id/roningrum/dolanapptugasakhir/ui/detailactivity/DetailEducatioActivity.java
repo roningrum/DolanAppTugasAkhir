@@ -75,11 +75,12 @@ public class DetailEducatioActivity extends AppCompatActivity implements OnMapRe
     private double endLng;
     private double distance;
 
-    private boolean isFavorite = false;
+    boolean isFavorite;
     TourismItem tourismItem = new TourismItem();
     String eduKey;
     private FirebaseAuth firebaseAuth;
     private FirebaseUser user;
+    DatabaseReference favoritedb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,6 +119,7 @@ public class DetailEducatioActivity extends AppCompatActivity implements OnMapRe
         educationDetailRef = FirebaseDatabase.getInstance().getReference().child("Tourism").child(eduKey);
         Query eduQuery = educationDetailRef.orderByChild("category_tourism").equalTo("edukasi");
         gpsHandler = new GPSHandler(this);
+        favoritedb = FirebaseDatabase.getInstance().getReference("Favorite");
 
 
         LoadEducationDetail();
@@ -248,46 +250,52 @@ public class DetailEducatioActivity extends AppCompatActivity implements OnMapRe
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.favorite_menu, menu);
 
-        MenuItem favorite = menu.findItem(R.id.add_to_favorite);
-        if (isFavorite) {
-            favorite.setIcon(R.drawable.ic_bookmarkadded_24dp);
-//            isFavorite = false;
-        } else {
-            favorite.setIcon(R.drawable.ic_unbookmarked_24dp);
-//            isFavorite = true;
+        final MenuItem item = menu.findItem(R.id.add_to_favorite);
+        final String uid = user.getUid();
+        favoritedb.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.child(uid).child(eduKey).exists()) {
+                    item.setIcon(R.drawable.ic_bookmarkadded_24dp);
+                } else {
+//                    item.setIcon(R.drawable.ic_unbookmarked_24dp);
+                }
 
-        }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(final MenuItem item) {
         // Respond to the action bar's Up/Home button
-        final String name = user.getDisplayName();
-        final DatabaseReference favoritedb = FirebaseDatabase.getInstance().getReference("Favorite");
         if (item.getItemId() == android.R.id.home) {
-            finish();
+            onBackPressed();
             return true;
-        } else if (item.getItemId() == R.id.add_to_favorite) {
-            favoritedb.getRef().child("Tourism").child(name).addListenerForSingleValueEvent(new ValueEventListener() {
+        }
+        if (item.getItemId() == R.id.add_to_favorite) {
+
+            final String uid = user.getUid();
+            favoritedb.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    if (isFavorite && dataSnapshot.exists()) {
-//                        if(eduKey.equals(name) && dataSnapshot.exists()){
-//                            item.setIcon(R.drawable.ic_bookmarkadded_24dp);
-//                        }
+//                    DataSnapshot favorit = dataSnapshot.child(uid);
+                    if (isFavorite) {
                         item.setIcon(R.drawable.ic_unbookmarked_24dp);
-
-                        favoritedb.getRef().child("Tourism").child(name).child(eduKey).removeValue();
+                        favoritedb.getRef().child(uid).child(eduKey).removeValue();
                         isFavorite = false;
+
                     } else {
-//                        if(eduKey.equals(name) && !dataSnapshot.exists()){
-//
-//                        }
                         item.setIcon(R.drawable.ic_bookmarkadded_24dp);
-                        favoritedb.getRef().child("Tourism").child(name).child(eduKey).setValue(true);
+                        favoritedb.getRef().child(uid).child(eduKey).setValue(true);
                         isFavorite = true;
                     }
+
                 }
 
                 @Override
@@ -295,25 +303,10 @@ public class DetailEducatioActivity extends AppCompatActivity implements OnMapRe
 
                 }
             });
+            return true;
 
         }
         return super.onOptionsItemSelected(item);
     }
-
-
-//    private void removeFromFavorite() {
-//        final String name = user.getDisplayName();
-//        final DatabaseReference favoritedb = FirebaseDatabase.getInstance().getReference("Favorite");
-//        favoritedb.getRef().child(name).child(eduKey).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
-//            @Override
-//            public void onSuccess(Void aVoid) {
-//                Log.d("Sukses hapus", "hapus");
-//            }
-//        });
-//    }
-//
-//    private void addToFavorite() {
-//
-//    }
 
 }

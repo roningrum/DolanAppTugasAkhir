@@ -24,7 +24,7 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:fitsSystemWindows="true"
-        app:title="Peta Wisata Alam"
+        app:title="Peta Wisata Edukasi"
         app:titleTextColor="@color/blackTextPrimary" />
 
     <FrameLayout

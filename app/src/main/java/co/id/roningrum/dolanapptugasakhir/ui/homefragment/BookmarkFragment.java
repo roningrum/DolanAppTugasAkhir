@@ -35,22 +35,23 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import co.id.roningrum.dolanapptugasakhir.FavoritAdapter;
 import co.id.roningrum.dolanapptugasakhir.R;
-import co.id.roningrum.dolanapptugasakhir.model.FavoriteItem;
+import co.id.roningrum.dolanapptugasakhir.model.TourismItem;
 
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class BookmarkFragment extends Fragment {
-    private ArrayList<FavoriteItem> favoriteItems = new ArrayList<>();
-    private DatabaseReference dbFavoritRef;
-    private FavoritAdapter favoritAdapter;
+    private ArrayList<TourismItem> tourismItemList;
+    private List<String> checkUserList = new ArrayList<>();
     private RecyclerView rvFavoritList;
     private FirebaseAuth firebaseAuth;
     private FirebaseUser user;
+    private FavoritAdapter favoritAdapter;
 
 
     public BookmarkFragment() {
@@ -74,30 +75,60 @@ public class BookmarkFragment extends Fragment {
         rvFavoritList.setHasFixedSize(true);
         rvFavoritList.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        //untuk menampilkan data favorite
-        dbFavoritRef = FirebaseDatabase.getInstance().getReference();
-        dbFavoritRef.child("Favorite").child("Tourism").child(user.getDisplayName()).addValueEventListener(new ValueEventListener() {
+        checkUser();
+    }
+
+    private void showFavorite() {
+        tourismItemList = new ArrayList<>();
+        final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("Tourism");
+        databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                final String userId = dataSnapshot.getKey();
-                Log.d("cek id tourism", "idTourism : " + userId + "");
+                tourismItemList.clear();
+//                DatabaseReference tourismRef = databaseReference.getRef();
 
-                for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
-                    FavoriteItem favoriteItem = dataSnapshot1.getValue(FavoriteItem.class);
-                    favoriteItems.add(favoriteItem);
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    TourismItem tourismItem = snapshot.getValue(TourismItem.class);
+
+                    String idTourism = snapshot.getKey();
+                    Log.d("check id user", "" + idTourism);
+                    for (String id : checkUserList) {
+                        if (idTourism.equals(id)) {
+                            tourismItemList.add(tourismItem);
+                        }
+
+                    }
                 }
-
-                favoritAdapter = new FavoritAdapter();
-                favoritAdapter.setFavoriteItems(favoriteItems);
-                favoritAdapter.notifyDataSetChanged();
+                favoritAdapter = new FavoritAdapter(tourismItemList);
                 rvFavoritList.setAdapter(favoritAdapter);
+                favoritAdapter.notifyDataSetChanged();
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                Log.e("GAGAL MUAT", "Pesan : " + databaseError.getMessage());
+
             }
         });
-
     }
+
+    private void checkUser() {
+        final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Favorite").child(user.getUid());
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                checkUserList.clear();
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    checkUserList.add(snapshot.getKey());
+                    Log.d("check id user", "" + checkUserList);
+                }
+                showFavorite();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
 }

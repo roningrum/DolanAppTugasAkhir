@@ -167,29 +167,6 @@ public class DetailBusActivity extends AppCompatActivity implements OnMapReadyCa
         }
     }
 
-//    private double calculateDistance(double startLat, double startlng, double endlat, double endLng) {
-//
-//        double earthRadius = 6372.8;
-//        double latDiff = Math.toRadians((endlat - startLat));
-//        double lngDiff = Math.toRadians((endLng - startlng));
-//
-//        startLat = Math.toRadians(startLat);
-//        endlat   = Math.toRadians(endlat);
-//
-//        double a    = Math.sin(latDiff / 2) * Math.sin(latDiff / 2);
-//        double c    = Math.sin(lngDiff / 2) * Math.sin(lngDiff / 2) * Math.cos(startLat) * Math.cos(endlat);
-//        return earthRadius * 2 * Math.asin(Math.sqrt(a + c));
-//
-//////        int meterConversion = 1609;
-////
-////        return earthRadius * c;
-//    }
-//
-//    public static double haversin(double val) {
-//        return Math.pow(Math.sin(val / 2), 2);
-//    }
-
-
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
@@ -221,7 +198,7 @@ public class DetailBusActivity extends AppCompatActivity implements OnMapReadyCa
                     busGoogleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
                         @Override
                         public void onMapClick(LatLng latLng) {
-                            String uri = "http://maps.google.com/maps?saddr=" + gpsHandler.getLatitude() + "," + gpsHandler.getLongitude() + "&daddr=" + endlat + "," + endLng + "&mode=driving";
+                            String uri = "http://maps.google.com/maps?saddr=" + startLat + "," + startlng + "&daddr=" + endlat + "," + endLng + "&mode=driving";
                             Intent intent = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(uri));
                             startActivity(Intent.createChooser(intent, "Select an application"));
                         }
@@ -237,13 +214,10 @@ public class DetailBusActivity extends AppCompatActivity implements OnMapReadyCa
             valueEventListener = eventListener;
 
         }
-
-
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Respond to the action bar's Up/Home button
         if (item.getItemId() == android.R.id.home) {
             finish();
             return true;

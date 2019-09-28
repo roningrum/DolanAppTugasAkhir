@@ -92,7 +92,6 @@ public class ChangePhotoProfileActivity extends AppCompatActivity implements Vie
                 isGoogleSignIn = getIntent().getBooleanExtra("isGoogle", true);
                 if (changePhotoUser != null) {
                     Glide.with(getApplicationContext()).load(dataSnapshot.child("photo_user").getValue().toString()).into(photo_profile);
-
                 }
             }
 
@@ -116,17 +115,39 @@ public class ChangePhotoProfileActivity extends AppCompatActivity implements Vie
                 uploadPhotoProcess();
                 break;
             case R.id.btn_cancel_upload:
+                cancelProcess();
                 break;
         }
     }
 
+    private void cancelProcess() {
+        finish();
+    }
+
     private void removePhotoProcess() {
+        if (photo_location != null) {
+            final DatabaseReference profileDb = dbProfileRef.getRef().child(changePhotoUser.getUid());
+            profileDb.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    if (changePhotoUser != null && dataSnapshot.exists()) {
+                        profileDb.child("photo_user").setValue("https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png");
+                        Log.d(TAG, "Profile Data sukses ke Daftar");
+                    }
+
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                    Log.e(TAG, "" + databaseError.getMessage());
+                }
+            });
+        }
+
     }
 
     private void uploadPhotoProcess() {
         if (photo_location != null) {
-            btnUploadPhoto.setEnabled(false);
-            btnSaveChange.setEnabled(true);
             StorageReference storageReference = storagePhoto.child(System.currentTimeMillis() + "." + getFileExtension(photo_location));
             storageReference.putFile(photo_location).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
@@ -170,6 +191,12 @@ public class ChangePhotoProfileActivity extends AppCompatActivity implements Vie
         }
     }
 
+    String getFileExtension(Uri uri) {
+        ContentResolver contentResolver = getContentResolver();
+        MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
+        return mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(uri));
+    }
+
     private void uploadPhotoFromFile() {
         Intent photoIntent = new Intent();
         photoIntent.setType("image/*");
@@ -178,17 +205,13 @@ public class ChangePhotoProfileActivity extends AppCompatActivity implements Vie
 
     }
 
-    private String getFileExtension(Uri uri) {
-        ContentResolver contentResolver = getContentResolver();
-        MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
-        return mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(uri));
-    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == photo_max && resultCode == RESULT_OK && data != null && data.getData() != null) {
             photo_location = data.getData();
+            Glide.with(this).load(photo_location).into(photo_profile);
         }
     }
 }

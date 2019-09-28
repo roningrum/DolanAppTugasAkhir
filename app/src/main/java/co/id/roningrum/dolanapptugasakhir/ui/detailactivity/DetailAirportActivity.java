@@ -14,10 +14,11 @@
 package co.id.roningrum.dolanapptugasakhir.ui.detailactivity;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -39,7 +40,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.like.LikeButton;
 
 import java.util.Objects;
 
@@ -48,7 +48,7 @@ import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.handler.HaversineHandler;
 import co.id.roningrum.dolanapptugasakhir.model.TransportationItem;
 
-public class DetailAirportActivity extends AppCompatActivity implements OnMapReadyCallback, View.OnClickListener {
+public class DetailAirportActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     public static final String EXTRA_AIRPORT_KEY = "airportKey";
 
@@ -69,7 +69,6 @@ public class DetailAirportActivity extends AppCompatActivity implements OnMapRea
     private ImageView imgAirportDetail;
     private CollapsingToolbarLayout collapsingToolbarAiport;
 
-    private LikeButton likePlace;
 
     private double startLat;
     private double startlng;
@@ -87,7 +86,6 @@ public class DetailAirportActivity extends AppCompatActivity implements OnMapRea
         imgAirportDetail = findViewById(R.id.img_airport_detail);
         collapsingToolbarAiport = findViewById(R.id.collapseToolbar_airport);
         airportMapView = findViewById(R.id.location_airport_map_detail);
-        likePlace = findViewById(R.id.heart);
 
         Toolbar toolbarAirport = findViewById(R.id.toolbar_aiport_detail);
         setSupportActionBar(toolbarAirport);
@@ -164,22 +162,6 @@ public class DetailAirportActivity extends AppCompatActivity implements OnMapRea
             valueEventListener = eventListener;
         }
     }
-    //buat jarak
-
-//    private double calculateDistance(double startLat, double startlng, double endlat, double endLng) {
-//        double earthRadius = 6371;
-//        double latDiff = Math.toRadians(startLat - endlat);
-//        double lngDiff = Math.toRadians(startlng - endLng);
-//        double a = Math.sin(latDiff / 2) * Math.sin(latDiff / 2) +
-//                Math.cos(Math.toRadians(startLat)) * Math.cos(Math.toRadians(endlat)) *
-//                        Math.sin(lngDiff / 2) * Math.sin(lngDiff / 2);
-//        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-//        double distance = earthRadius * c;
-//
-//        int meterConversion = 1609;
-//
-//        return (distance * meterConversion / 1000);
-//    }
 
 
     @Override
@@ -201,7 +183,7 @@ public class DetailAirportActivity extends AppCompatActivity implements OnMapRea
         ValueEventListener eventListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                TransportationItem transportationItem = dataSnapshot.getValue(TransportationItem.class);
+                final TransportationItem transportationItem = dataSnapshot.getValue(TransportationItem.class);
                 assert transportationItem != null;
                 endlat = transportationItem.getLat_transportation();
                 endLng = transportationItem.getLng_transportation();
@@ -209,6 +191,15 @@ public class DetailAirportActivity extends AppCompatActivity implements OnMapRea
                 LatLng location = new LatLng(endlat, endLng);
                 airportGoogleMap.addMarker(new MarkerOptions().position(location));
                 airportGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 16.0f));
+
+                airportGoogleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+                    @Override
+                    public void onMapClick(LatLng latLng) {
+                        String uri = "http://maps.google.com/maps?saddr=" + startLat + "," + startlng + "&daddr=" + endlat + "," + endLng + "&mode=driving";
+                        Intent intent = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(uri));
+                        startActivity(Intent.createChooser(intent, "Select an application"));
+                    }
+                });
             }
 
             @Override
@@ -218,6 +209,7 @@ public class DetailAirportActivity extends AppCompatActivity implements OnMapRea
         };
         airportDetailRef.addValueEventListener(eventListener);
         valueEventListener = eventListener;
+
 
     }
 
@@ -259,8 +251,4 @@ public class DetailAirportActivity extends AppCompatActivity implements OnMapRea
     }
 
 
-    @Override
-    public void onClick(View v) {
-
-    }
 }

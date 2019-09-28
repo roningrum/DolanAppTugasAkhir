@@ -99,6 +99,7 @@ public class EducationCategoryActivity extends AppCompatActivity {
                 protected void onBindViewHolder(@NonNull EducationViewHolder holder, int position, @NonNull TourismItem model) {
                     final DatabaseReference educationCategoryRef = getRef(position);
                     final String eductaionKey = educationCategoryRef.getKey();
+                    Log.d("Check eduKey", "" + eductaionKey);
 
                     gpsHandler = new GPSHandler(getApplicationContext());
                     if (gpsHandler.isCanGetLocation()) {
