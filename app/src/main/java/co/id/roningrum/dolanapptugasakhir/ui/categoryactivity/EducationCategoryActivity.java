@@ -126,13 +126,6 @@ public class EducationCategoryActivity extends AppCompatActivity {
                         gpsHandler.showSettingsAlert();
                     }
                 }
-
-//                @NonNull
-//                @Override
-//                public ShoppingViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-//                    View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_menu_shopping_category_tourism, viewGroup, false);
-//                    return new ShoppingViewHolder(view);
-//                }
             };
             educationFirebaseAdapter.notifyDataSetChanged();
             rvEducationList.setAdapter(educationFirebaseAdapter);

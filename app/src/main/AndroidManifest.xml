@@ -26,6 +26,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".FavTourismDetailActivity"></activity>
         <activity
             android:name=".ScrollingActivity"
             android:label="@string/title_activity_scrolling"
@@ -163,7 +164,7 @@
             android:name=".handler.GPSHandler"
             android:enabled="true"
             android:exported="true"
-            android:permission="android.permission.ACCESS_FINE_LOCATION"></service>
+            android:permission="android.permission.ACCESS_FINE_LOCATION" />
 
         <meta-data
             android:name="preloaded_fonts"

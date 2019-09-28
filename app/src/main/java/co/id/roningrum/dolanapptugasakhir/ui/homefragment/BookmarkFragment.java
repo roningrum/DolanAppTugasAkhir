@@ -14,11 +14,15 @@
 package co.id.roningrum.dolanapptugasakhir.ui.homefragment;
 
 
+import android.Manifest;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -35,10 +39,12 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import co.id.roningrum.dolanapptugasakhir.FavoritAdapter;
 import co.id.roningrum.dolanapptugasakhir.R;
+import co.id.roningrum.dolanapptugasakhir.handler.PermissionHandler;
 import co.id.roningrum.dolanapptugasakhir.model.TourismItem;
 
 
@@ -52,6 +58,7 @@ public class BookmarkFragment extends Fragment {
     private FirebaseAuth firebaseAuth;
     private FirebaseUser user;
     private FavoritAdapter favoritAdapter;
+    private PermissionHandler permissionHandler;
 
 
     public BookmarkFragment() {
@@ -79,36 +86,39 @@ public class BookmarkFragment extends Fragment {
     }
 
     private void showFavorite() {
-        tourismItemList = new ArrayList<>();
-        final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("Tourism");
-        databaseReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                tourismItemList.clear();
+        if (havePermission()) {
+            tourismItemList = new ArrayList<>();
+            final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("Tourism");
+            databaseReference.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    tourismItemList.clear();
 //                DatabaseReference tourismRef = databaseReference.getRef();
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                        TourismItem tourismItem = snapshot.getValue(TourismItem.class);
 
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    TourismItem tourismItem = snapshot.getValue(TourismItem.class);
+                        String idTourism = snapshot.getKey();
+                        Log.d("check id user", "" + idTourism);
+                        for (String id : checkUserList) {
+                            assert idTourism != null;
+                            if (idTourism.equals(id)) {
+                                tourismItemList.add(tourismItem);
+                            }
 
-                    String idTourism = snapshot.getKey();
-                    Log.d("check id user", "" + idTourism);
-                    for (String id : checkUserList) {
-                        if (idTourism.equals(id)) {
-                            tourismItemList.add(tourismItem);
                         }
-
                     }
+                    favoritAdapter = new FavoritAdapter(tourismItemList, getContext());
+                    rvFavoritList.setAdapter(favoritAdapter);
+                    favoritAdapter.notifyDataSetChanged();
                 }
-                favoritAdapter = new FavoritAdapter(tourismItemList);
-                rvFavoritList.setAdapter(favoritAdapter);
-                favoritAdapter.notifyDataSetChanged();
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
 
-            }
-        });
+                }
+            });
+        }
+
     }
 
     private void checkUser() {
@@ -129,6 +139,35 @@ public class BookmarkFragment extends Fragment {
 
             }
         });
+    }
+
+    private boolean havePermission() {
+        if (Build.VERSION.SDK_INT >= 23) {
+            permissionHandler = PermissionHandler.getInstance(getActivity());
+            if (permissionHandler.isAllPermissionAvailable()) {
+                Log.d("Pesan", "Permissions have done");
+            } else {
+                permissionHandler.setActivity(getActivity());
+                permissionHandler.deniedPermission();
+            }
+        } else {
+            Toast.makeText(getActivity(), "Check your permission", Toast.LENGTH_SHORT).show();
+        }
+        return true;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        for (int i : grantResults) {
+            if (i == PackageManager.PERMISSION_GRANTED) {
+                Log.d("test", "Permission" + Arrays.toString(permissions) + "Success");
+            } else {
+                //denied
+                permissionHandler.deniedPermission(Manifest.permission.ACCESS_FINE_LOCATION);
+                permissionHandler.deniedPermission(Manifest.permission.ACCESS_COARSE_LOCATION);
+            }
+        }
     }
 
 }

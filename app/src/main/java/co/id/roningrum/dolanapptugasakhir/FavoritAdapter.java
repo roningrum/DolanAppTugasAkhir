@@ -13,34 +13,54 @@
 
 package co.id.roningrum.dolanapptugasakhir;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+
 import java.util.ArrayList;
 
+import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
+import co.id.roningrum.dolanapptugasakhir.handler.HaversineHandler;
 import co.id.roningrum.dolanapptugasakhir.model.TourismItem;
 
 public class FavoritAdapter extends RecyclerView.Adapter<FavoritAdapter.FavoritViewHolder> {
     private ArrayList<TourismItem> tourismItems;
+    private GPSHandler gpsHandler;
+    private Context context;
 
-    public FavoritAdapter(ArrayList<TourismItem> tourismItems) {
+    public FavoritAdapter(ArrayList<TourismItem> tourismItems, Context context) {
         this.tourismItems = tourismItems;
+        this.context = context;
     }
 
     @NonNull
     @Override
     public FavoritViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new FavoritViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_favorite_fragment, parent, false));
+        return new FavoritViewHolder(LayoutInflater.from(context).inflate(R.layout.item_favorite_fragment, parent, false));
     }
 
     @Override
     public void onBindViewHolder(@NonNull FavoritViewHolder holder, int position) {
-        holder.bindName(tourismItems.get(position));
+        gpsHandler = new GPSHandler(context);
+        if (gpsHandler.isCanGetLocation()) {
+            double latitude = gpsHandler.getLatitude();
+            double longitude = gpsHandler.getLongitude();
+
+            holder.bindName(tourismItems.get(position), latitude, longitude);
+        } else {
+            gpsHandler.stopUsingGPS();
+            gpsHandler.showSettingsAlert();
+        }
+
     }
 
     @Override
@@ -49,15 +69,31 @@ public class FavoritAdapter extends RecyclerView.Adapter<FavoritAdapter.FavoritV
     }
 
     class FavoritViewHolder extends RecyclerView.ViewHolder {
-        private TextView tvFavoritTest;
+        private TextView nameFavTourism;
+        private TextView locationFavTourism;
+        private TextView distanceFavTourism;
+        private ImageView favTourismPic;
 
         FavoritViewHolder(@NonNull View itemView) {
             super(itemView);
-            tvFavoritTest = itemView.findViewById(R.id.tv_bookmark_item);
+            nameFavTourism = itemView.findViewById(R.id.name_fav_item_tourism);
+            locationFavTourism = itemView.findViewById(R.id.location_fav_item_tourism);
+            distanceFavTourism = itemView.findViewById(R.id.distance_fav_item_tourism);
+            favTourismPic = itemView.findViewById(R.id.tourism_fav_pic);
         }
 
-        void bindName(TourismItem favoriteItem) {
-            tvFavoritTest.setText(favoriteItem.getName_tourism());
+        @SuppressLint("SetTextI18n")
+        void bindName(TourismItem favoriteItem, double lat, double lng) {
+
+            double lattitude_a = favoriteItem.getLat_location_tourism();
+            double longitude_a = favoriteItem.getLng_location_tourism();
+
+            float jarakKM = (float) HaversineHandler.calculateDistance(lat, lng, lattitude_a, longitude_a);
+            nameFavTourism.setText(favoriteItem.getName_tourism());
+            locationFavTourism.setText(favoriteItem.getLocation_tourism());
+            @SuppressLint("DefaultLocale") String distanceFormat = String.format("%.2f", jarakKM);
+            distanceFavTourism.setText(distanceFormat + " km");
+            Glide.with(itemView.getContext()).load(favoriteItem.getUrl_photo()).into(favTourismPic);
         }
     }
 }
