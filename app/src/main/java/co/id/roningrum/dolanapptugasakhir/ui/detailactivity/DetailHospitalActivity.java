@@ -165,7 +165,10 @@ public class DetailHospitalActivity extends AppCompatActivity implements OnMapRe
     @Override
     public void onMapReady(GoogleMap googleMap) {
         hospitalGoogleMap = googleMap;
+        showMapDetail(hospitalGoogleMap);
+    }
 
+    private void showMapDetail(final GoogleMap hospitalGoogleMap) {
         if (gpsHandler.isCanGetLocation()) {
             ValueEventListener eventListener = new ValueEventListener() {
                 @SuppressLint("SetTextI18n")

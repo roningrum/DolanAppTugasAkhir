@@ -14,9 +14,12 @@
 package co.id.roningrum.dolanapptugasakhir.ui.homeactivity;
 
 import android.Manifest;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -24,44 +27,41 @@ import androidx.fragment.app.Fragment;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-import java.util.List;
+import java.util.Arrays;
 
 import co.id.roningrum.dolanapptugasakhir.R;
+import co.id.roningrum.dolanapptugasakhir.handler.PermissionHandler;
 import co.id.roningrum.dolanapptugasakhir.ui.homefragment.BookmarkFragment;
 import co.id.roningrum.dolanapptugasakhir.ui.homefragment.HomeFragment;
 import co.id.roningrum.dolanapptugasakhir.ui.homefragment.ProfileFragment;
-import pub.devrel.easypermissions.AfterPermissionGranted;
-import pub.devrel.easypermissions.EasyPermissions;
 
-public class MainMenuActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener, EasyPermissions.PermissionCallbacks, EasyPermissions.RationaleCallbacks {
-    private static final String TAG = "Permission";
-    private static final int RC_LOCATION = 123;
+public class MainMenuActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
+    private PermissionHandler permissionHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
         loadFragment(new HomeFragment());
-        locationTask();
+        havePermission();
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
     }
 
-    @AfterPermissionGranted(RC_LOCATION)
-    private void locationTask() {
-        if (hasLocationPermission()) {
-            Log.d(TAG, "Permission Location Active");
+    private boolean havePermission() {
+        if (Build.VERSION.SDK_INT >= 23) {
+            permissionHandler = PermissionHandler.getInstance(this);
+            if (permissionHandler.isAllPermissionAvailable()) {
+                Log.d("Pesan", "Permissions have done");
+            } else {
+                permissionHandler.setActivity(this);
+                permissionHandler.deniedPermission();
+            }
         } else {
-            EasyPermissions.requestPermissions(this, getString(R.string.rationale_location),
-                    RC_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION);
+            Toast.makeText(this, "Check your permission", Toast.LENGTH_SHORT).show();
         }
-
-    }
-
-    private boolean hasLocationPermission() {
-        return EasyPermissions.hasPermissions(this, Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION);
-
+        return true;
     }
 
     private boolean loadFragment(Fragment fragment) {
@@ -81,9 +81,6 @@ public class MainMenuActivity extends AppCompatActivity implements BottomNavigat
             case R.id.homeMenu:
                 fragment = new HomeFragment();
                 break;
-//            case R.id.nearbyMenu:
-//                fragment = new NearbyFragment();
-//                break;
             case R.id.bookmarkMenu:
                 fragment = new BookmarkFragment();
                 break;
@@ -97,30 +94,14 @@ public class MainMenuActivity extends AppCompatActivity implements BottomNavigat
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
-
-    }
-
-    @Override
-    public void onPermissionsGranted(int requestCode, @NonNull List<String> perms) {
-        Log.d(TAG, "onPermissionsGranted:" + requestCode + ":" + perms.size());
-    }
-
-    @Override
-    public void onPermissionsDenied(int requestCode, @NonNull List<String> perms) {
-        Log.d(TAG, "onPermissionsDenied:" + requestCode + ":" + perms.size());
-    }
-
-    @Override
-    public void onRationaleAccepted(int requestCode) {
-        Log.d(TAG, "onRationaleAccepted:" + requestCode);
-
-    }
-
-    @Override
-    public void onRationaleDenied(int requestCode) {
-        Log.d(TAG, "onRationaleDenied:" + requestCode);
-
+        for (int i : grantResults) {
+            if (i == PackageManager.PERMISSION_GRANTED) {
+                Log.d("test", "Permission" + Arrays.toString(permissions) + "Success");
+            } else {
+                permissionHandler.deniedPermission(Manifest.permission.ACCESS_FINE_LOCATION);
+                permissionHandler.deniedPermission(Manifest.permission.ACCESS_COARSE_LOCATION);
+            }
+        }
     }
 
 }

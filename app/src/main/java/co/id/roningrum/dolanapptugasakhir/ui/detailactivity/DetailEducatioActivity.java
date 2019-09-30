@@ -40,8 +40,9 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
@@ -117,7 +118,6 @@ public class DetailEducatioActivity extends AppCompatActivity implements OnMapRe
             throw new IllegalArgumentException("Must pass Extra");
         }
         educationDetailRef = FirebaseDatabase.getInstance().getReference().child("Tourism").child(eduKey);
-        Query eduQuery = educationDetailRef.orderByChild("category_tourism").equalTo("edukasi");
         gpsHandler = new GPSHandler(this);
         favoritedb = FirebaseDatabase.getInstance().getReference("Favorite");
 
@@ -180,7 +180,7 @@ public class DetailEducatioActivity extends AppCompatActivity implements OnMapRe
     }
 
     @Override
-    protected void onSaveInstanceState(Bundle outState) {
+    protected void onSaveInstanceState(@NotNull Bundle outState) {
         super.onSaveInstanceState(outState);
         Bundle mapViewBundle = outState.getBundle(MAP_VIEW_KEY);
         if (mapViewBundle == null) {
@@ -258,9 +258,8 @@ public class DetailEducatioActivity extends AppCompatActivity implements OnMapRe
                 if (dataSnapshot.child(uid).child(eduKey).exists()) {
                     item.setIcon(R.drawable.ic_bookmarkadded_24dp);
                 } else {
-//                    item.setIcon(R.drawable.ic_unbookmarked_24dp);
+                    item.setIcon(R.drawable.ic_unbookmarked_24dp);
                 }
-
             }
 
             @Override

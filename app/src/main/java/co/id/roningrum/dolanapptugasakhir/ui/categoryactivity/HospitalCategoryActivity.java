@@ -68,10 +68,10 @@ public class HospitalCategoryActivity extends AppCompatActivity {
         Toolbar toolbarHospital = findViewById(R.id.toolbar_top_hospital);
         rvHospitalList.setLayoutManager(new LinearLayoutManager(this));
         setSupportActionBar(toolbarHospital);
-        checConnection();
+        checkConnection();
     }
 
-    private void checConnection() {
+    private void checkConnection() {
         if (NetworkHelper.isConnectedToNetwork(getApplicationContext())) {
             showHospitalData();
         } else {

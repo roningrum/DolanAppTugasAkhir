@@ -55,10 +55,10 @@ public class BookmarkFragment extends Fragment {
     private ArrayList<TourismItem> tourismItemList;
     private List<String> checkUserList = new ArrayList<>();
     private RecyclerView rvFavoritList;
-    private FirebaseAuth firebaseAuth;
     private FirebaseUser user;
     private FavoritAdapter favoritAdapter;
     private PermissionHandler permissionHandler;
+    private DatabaseReference databaseReference;
 
 
     public BookmarkFragment() {
@@ -76,40 +76,39 @@ public class BookmarkFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        firebaseAuth = FirebaseAuth.getInstance();
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         user = firebaseAuth.getCurrentUser();
         rvFavoritList = view.findViewById(R.id.rv_bookmark);
         rvFavoritList.setHasFixedSize(true);
         rvFavoritList.setLayoutManager(new LinearLayoutManager(getContext()));
-
+        databaseReference = FirebaseDatabase.getInstance().getReference().child("Tourism");
         checkUser();
     }
 
     private void showFavorite() {
         if (havePermission()) {
             tourismItemList = new ArrayList<>();
-            final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("Tourism");
             databaseReference.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     tourismItemList.clear();
-//                DatabaseReference tourismRef = databaseReference.getRef();
+
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                         TourismItem tourismItem = snapshot.getValue(TourismItem.class);
-
-                        String idTourism = snapshot.getKey();
+                        final String idTourism = snapshot.getKey();
                         Log.d("check id user", "" + idTourism);
                         for (String id : checkUserList) {
                             assert idTourism != null;
                             if (idTourism.equals(id)) {
                                 tourismItemList.add(tourismItem);
-                            }
 
+                            }
                         }
                     }
                     favoritAdapter = new FavoritAdapter(tourismItemList, getContext());
                     rvFavoritList.setAdapter(favoritAdapter);
                     favoritAdapter.notifyDataSetChanged();
+
                 }
 
                 @Override

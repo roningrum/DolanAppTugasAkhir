@@ -43,8 +43,8 @@ import com.google.firebase.database.Query;
 import java.util.Arrays;
 
 import co.id.roningrum.dolanapptugasakhir.R;
-import co.id.roningrum.dolanapptugasakhir.handler.CheckConnection;
 import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
+import co.id.roningrum.dolanapptugasakhir.handler.NetworkHelper;
 import co.id.roningrum.dolanapptugasakhir.handler.PermissionHandler;
 import co.id.roningrum.dolanapptugasakhir.model.TourismItem;
 import co.id.roningrum.dolanapptugasakhir.ui.detailactivity.DetailNatureActivity;
@@ -59,7 +59,6 @@ public class NatureCategoryActivity extends AppCompatActivity {
     private GPSHandler gpsHandler;
     private PermissionHandler permissionHandler;
     protected ConstraintLayout layoutUnavailable;
-    private CheckConnection checkConnection;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,14 +70,14 @@ public class NatureCategoryActivity extends AppCompatActivity {
         shimmerFrameLayout = findViewById(R.id.shimmer_view_container);
         rvNatureList.setLayoutManager(new LinearLayoutManager(this));
         setSupportActionBar(toolbarNature);
-        checkConnection = new CheckConnection(getApplicationContext());
+        checkConnection();
+    }
 
-        if (checkConnection.isInternetAvailable()) {
-            shimmerFrameLayout.startShimmer();
+    private void checkConnection() {
+        if (NetworkHelper.isConnectedToNetwork(getApplicationContext())) {
             showData();
         } else {
-            shimmerFrameLayout.setVisibility(View.GONE);
-            layoutUnavailable.setVisibility(View.VISIBLE);
+            Toast.makeText(this, "Check your connection", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -190,7 +189,7 @@ public class NatureCategoryActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        if (natureFirebaseAdapter != null && checkConnection.isInternetAvailable()) {
+        if (natureFirebaseAdapter != null) {
             natureFirebaseAdapter.stopListening();
         }
     }

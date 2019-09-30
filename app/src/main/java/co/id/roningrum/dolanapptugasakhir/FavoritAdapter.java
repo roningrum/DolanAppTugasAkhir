@@ -34,7 +34,6 @@ import co.id.roningrum.dolanapptugasakhir.model.TourismItem;
 
 public class FavoritAdapter extends RecyclerView.Adapter<FavoritAdapter.FavoritViewHolder> {
     private ArrayList<TourismItem> tourismItems;
-    private GPSHandler gpsHandler;
     private Context context;
 
     public FavoritAdapter(ArrayList<TourismItem> tourismItems, Context context) {
@@ -49,8 +48,8 @@ public class FavoritAdapter extends RecyclerView.Adapter<FavoritAdapter.FavoritV
     }
 
     @Override
-    public void onBindViewHolder(@NonNull FavoritViewHolder holder, int position) {
-        gpsHandler = new GPSHandler(context);
+    public void onBindViewHolder(@NonNull FavoritViewHolder holder, final int position) {
+        GPSHandler gpsHandler = new GPSHandler(context);
         if (gpsHandler.isCanGetLocation()) {
             double latitude = gpsHandler.getLatitude();
             double longitude = gpsHandler.getLongitude();
@@ -68,6 +67,7 @@ public class FavoritAdapter extends RecyclerView.Adapter<FavoritAdapter.FavoritV
         return tourismItems.size();
     }
 
+
     class FavoritViewHolder extends RecyclerView.ViewHolder {
         private TextView nameFavTourism;
         private TextView locationFavTourism;
@@ -83,7 +83,7 @@ public class FavoritAdapter extends RecyclerView.Adapter<FavoritAdapter.FavoritV
         }
 
         @SuppressLint("SetTextI18n")
-        void bindName(TourismItem favoriteItem, double lat, double lng) {
+        void bindName(final TourismItem favoriteItem, double lat, double lng) {
 
             double lattitude_a = favoriteItem.getLat_location_tourism();
             double longitude_a = favoriteItem.getLng_location_tourism();
@@ -96,4 +96,5 @@ public class FavoritAdapter extends RecyclerView.Adapter<FavoritAdapter.FavoritV
             Glide.with(itemView.getContext()).load(favoriteItem.getUrl_photo()).into(favTourismPic);
         }
     }
+
 }

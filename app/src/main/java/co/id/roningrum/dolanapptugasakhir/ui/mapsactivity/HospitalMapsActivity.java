@@ -65,6 +65,11 @@ public class HospitalMapsActivity extends FragmentActivity implements OnMapReady
     @Override
     public void onMapReady(GoogleMap googleMap) {
         hospitalGoogleMap = googleMap;
+        showHospitalMap(hospitalGoogleMap);
+
+    }
+
+    private void showHospitalMap(final GoogleMap hospitalGoogleMap) {
         hospitalMapRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
