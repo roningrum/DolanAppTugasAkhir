@@ -11,7 +11,7 @@
  * limitations under the License.
  */
 
-package co.id.roningrum.dolanapptugasakhir.tourism.food.viewholder;
+package co.id.roningrum.dolanapptugasakhir.hotel.viewholder;
 
 import android.annotation.SuppressLint;
 import android.support.annotation.NonNull;
@@ -23,45 +23,45 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 
 import co.id.roningrum.dolanapptugasakhir.R;
-import co.id.roningrum.dolanapptugasakhir.item.CategoryItem;
+import co.id.roningrum.dolanapptugasakhir.item.HotelItem;
 
-public class FoodViewHolder extends RecyclerView.ViewHolder {
-    private final TextView nameFoodTourism;
-    private final TextView locationFoodTourism;
-    private final TextView distanceFoodTourism;
-    private final ImageView foodTourismPic;
+public class HotelViewHolder extends RecyclerView.ViewHolder {
+    private final TextView nameHotel;
+    private final TextView locationHotel;
+    private final TextView distanceHotel;
+    private final ImageView hotelPic;
     //interface
-    public FoodViewHolder.ClickListener categoryOnClick;
+    private HotelViewHolder.ClickListener hotelOnClick;
 
-    public FoodViewHolder(@NonNull View itemView) {
+    public HotelViewHolder(@NonNull View itemView) {
         super(itemView);
-        nameFoodTourism = itemView.findViewById(R.id.name_food_item_tourism);
-        locationFoodTourism = itemView.findViewById(R.id.location_food_item_tourism);
-        distanceFoodTourism = itemView.findViewById(R.id.distance_food_item_tourism);
-        foodTourismPic = itemView.findViewById(R.id.tourism_food_pic);
+        nameHotel = itemView.findViewById(R.id.name_hotel_item_tourism);
+        locationHotel = itemView.findViewById(R.id.location_hotel_item_tourism);
+        distanceHotel = itemView.findViewById(R.id.distance_hotel_item_tourism);
+        hotelPic = itemView.findViewById(R.id.hotel_pic);
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                categoryOnClick.onItemClick(v, getAdapterPosition());
+                hotelOnClick.onItemClick(v, getAdapterPosition());
             }
         });
     }
 
     @SuppressLint("SetTextI18n")
-    public void showFoodTourismData(CategoryItem categoryItem, double latitude, double longitude) {
+    public void showHotelData(HotelItem hotelItem, double latitude, double longitude) {
 
-        double lattitude_a = categoryItem.getLat_location_tourism();
-        double longitude_a = categoryItem.getLng_location_tourism();
+        double lattitude_a = hotelItem.getLat_location_hotel();
+        double longitude_a = hotelItem.getLng_location_hotel();
 
         float jarakMeter = (float) calculateDistance(latitude, longitude, lattitude_a, longitude_a);
 //        float jarakMeter = loc1.distanceTo(loc2);
         float jarakKM = jarakMeter / 1000;
         @SuppressLint("DefaultLocale") String distanceFormat = String.format("%.2f", jarakKM);
 
-        nameFoodTourism.setText(categoryItem.getName_tourism());
-        locationFoodTourism.setText(categoryItem.getLocation_tourism());
-        distanceFoodTourism.setText(distanceFormat + " km");
-        Glide.with(itemView.getContext()).load(categoryItem.getUrl_photo()).into(foodTourismPic);
+        nameHotel.setText(hotelItem.getName_hotel());
+        locationHotel.setText(hotelItem.getLocation_hotel());
+        distanceHotel.setText(distanceFormat + " km");
+        Glide.with(itemView.getContext()).load(hotelItem.getUrl_photo_hotel()).into(hotelPic);
     }
 
     private double calculateDistance(double lat1, double long1, double lat2, double long2) {
@@ -80,8 +80,8 @@ public class FoodViewHolder extends RecyclerView.ViewHolder {
         return (float) distance * meterConversion;
     }
 
-    public void setOnClickListener(FoodViewHolder.ClickListener clickListener) {
-        categoryOnClick = clickListener;
+    public void setOnClickListener(HotelViewHolder.ClickListener clickListener) {
+        hotelOnClick = clickListener;
     }
 
     public interface ClickListener {

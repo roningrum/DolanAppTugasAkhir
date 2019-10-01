@@ -51,7 +51,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="25dp"
-                android:fontFamily="@font/montserrat_bold"
+                android:fontFamily="@font/monsterrat_sembold"
                 android:text="@string/string_category_wisata_menu"
                 android:textColor="@color/blackTextPrimary"
                 android:textSize="16sp" />
@@ -315,7 +315,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="50dp"
-                android:fontFamily="@font/montserrat_bold"
+                android:fontFamily="@font/monsterrat_sembold"
                 android:text="@string/hotel_dan_transportasi_umum_kategori"
                 android:textColor="@color/blackTextPrimary"
                 android:textSize="16sp" />
@@ -332,6 +332,7 @@
                 android:weightSum="5">
 
                 <LinearLayout
+                    android:id="@+id/ln_hotel_public"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1.05"
@@ -431,7 +432,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="50dp"
-                android:fontFamily="@font/montserrat_bold"
+                android:fontFamily="@font/monsterrat_sembold"
                 android:text="@string/string_fasilitas_umum"
                 android:textColor="@color/blackTextPrimary"
                 android:textSize="16sp" />
