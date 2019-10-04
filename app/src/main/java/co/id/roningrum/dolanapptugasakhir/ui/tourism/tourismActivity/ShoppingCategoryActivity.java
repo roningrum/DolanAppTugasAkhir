@@ -46,7 +46,7 @@ import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.handler.NetworkHelper;
 import co.id.roningrum.dolanapptugasakhir.handler.PermissionHandler;
-import co.id.roningrum.dolanapptugasakhir.model.TourismItem;
+import co.id.roningrum.dolanapptugasakhir.model.Tourism;
 import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismDetailActivity.DetailShoppingActivity;
 import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismMapActivity.ShoppingCategoryMap;
 import co.id.roningrum.dolanapptugasakhir.viewholderActivity.tourism.ShoppingViewHolder;
@@ -55,7 +55,7 @@ public class ShoppingCategoryActivity extends AppCompatActivity {
 
     private RecyclerView rvShoppingList;
     private ShimmerFrameLayout shimmerFrameLayout;
-    private FirebaseRecyclerAdapter<TourismItem, ShoppingViewHolder> shoppingFirebaseAdapter;
+    private FirebaseRecyclerAdapter<Tourism, ShoppingViewHolder> shoppingFirebaseAdapter;
 
     private GPSHandler gpsHandler;
     private PermissionHandler permissionHandler;
@@ -68,7 +68,7 @@ public class ShoppingCategoryActivity extends AppCompatActivity {
         Toolbar toolbarShopping = findViewById(R.id.toolbar_top_shopping);
         shimmerFrameLayout = findViewById(R.id.shimmer_view_container);
         rvShoppingList.setLayoutManager(new LinearLayoutManager(this));
-        ArrayList<TourismItem> tourismItems = new ArrayList<>();
+        ArrayList<Tourism> tourisms = new ArrayList<>();
         checkConnection();
         setSupportActionBar(toolbarShopping);
     }
@@ -86,12 +86,12 @@ public class ShoppingCategoryActivity extends AppCompatActivity {
         if (havePermission()) {
             DatabaseReference shoppingCategoryDB = FirebaseDatabase.getInstance().getReference();
             Query shoppingQuery = shoppingCategoryDB.child("Tourism").orderByChild("category_tourism").equalTo("belanja");
-            FirebaseRecyclerOptions<TourismItem> shoppingOptions = new FirebaseRecyclerOptions.Builder<TourismItem>()
-                    .setQuery(shoppingQuery, TourismItem.class)
+            FirebaseRecyclerOptions<Tourism> shoppingOptions = new FirebaseRecyclerOptions.Builder<Tourism>()
+                    .setQuery(shoppingQuery, Tourism.class)
                     .build();
-            shoppingFirebaseAdapter = new FirebaseRecyclerAdapter<TourismItem, ShoppingViewHolder>(shoppingOptions) {
+            shoppingFirebaseAdapter = new FirebaseRecyclerAdapter<Tourism, ShoppingViewHolder>(shoppingOptions) {
                 @Override
-                protected void onBindViewHolder(@NonNull ShoppingViewHolder holder, int position, @NonNull TourismItem model) {
+                protected void onBindViewHolder(@NonNull ShoppingViewHolder holder, int position, @NonNull Tourism model) {
                     final DatabaseReference shoppingCategoryRef = getRef(position);
                     final String shoppingKey = shoppingCategoryRef.getKey();
 

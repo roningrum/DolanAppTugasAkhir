@@ -45,13 +45,13 @@ import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.handler.NetworkHelper;
 import co.id.roningrum.dolanapptugasakhir.handler.PermissionHandler;
-import co.id.roningrum.dolanapptugasakhir.model.GasStationItem;
+import co.id.roningrum.dolanapptugasakhir.model.GasStation;
 import co.id.roningrum.dolanapptugasakhir.viewholderActivity.gasstation.GasViewHolder;
 
 public class GasStationCategory extends AppCompatActivity {
     private RecyclerView rvSpbuList;
     private ShimmerFrameLayout shimmerFrameLayout;
-    private FirebaseRecyclerAdapter<GasStationItem, GasViewHolder> gasFirebaseAdapter;
+    private FirebaseRecyclerAdapter<GasStation, GasViewHolder> gasFirebaseAdapter;
 
     private GPSHandler gpsHandler;
     private PermissionHandler permissionHandler;
@@ -81,13 +81,13 @@ public class GasStationCategory extends AppCompatActivity {
         if (havePermission()) {
             DatabaseReference spbuRef = FirebaseDatabase.getInstance().getReference();
             Query spbuQuery = spbuRef.child("GasStation");
-            FirebaseRecyclerOptions<GasStationItem> gasOptions = new FirebaseRecyclerOptions.Builder<GasStationItem>()
-                    .setQuery(spbuQuery, GasStationItem.class)
+            FirebaseRecyclerOptions<GasStation> gasOptions = new FirebaseRecyclerOptions.Builder<GasStation>()
+                    .setQuery(spbuQuery, GasStation.class)
                     .build();
 
-            gasFirebaseAdapter = new FirebaseRecyclerAdapter<GasStationItem, GasViewHolder>(gasOptions) {
+            gasFirebaseAdapter = new FirebaseRecyclerAdapter<GasStation, GasViewHolder>(gasOptions) {
                 @Override
-                protected void onBindViewHolder(@NonNull GasViewHolder holder, int position, @NonNull GasStationItem model) {
+                protected void onBindViewHolder(@NonNull GasViewHolder holder, int position, @NonNull GasStation model) {
                     final DatabaseReference gasRef = getRef(position);
                     final String gasKey = gasRef.getKey();
 

@@ -31,14 +31,14 @@ import java.util.ArrayList;
 import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.handler.HaversineHandler;
-import co.id.roningrum.dolanapptugasakhir.model.TourismItem;
+import co.id.roningrum.dolanapptugasakhir.model.Tourism;
 
 public class FavoritAdapter extends RecyclerView.Adapter<FavoritAdapter.FavoritViewHolder> {
-    private ArrayList<TourismItem> tourismItems;
+    private ArrayList<Tourism> tourisms;
     private Context context;
 
-    public FavoritAdapter(ArrayList<TourismItem> tourismItems, Context context) {
-        this.tourismItems = tourismItems;
+    FavoritAdapter(ArrayList<Tourism> tourisms, Context context) {
+        this.tourisms = tourisms;
         this.context = context;
     }
 
@@ -55,7 +55,7 @@ public class FavoritAdapter extends RecyclerView.Adapter<FavoritAdapter.FavoritV
             double latitude = gpsHandler.getLatitude();
             double longitude = gpsHandler.getLongitude();
 
-            holder.bindName(tourismItems.get(position), latitude, longitude);
+            holder.bindName(tourisms.get(position), latitude, longitude);
         } else {
             gpsHandler.stopUsingGPS();
             gpsHandler.showSettingsAlert();
@@ -65,7 +65,7 @@ public class FavoritAdapter extends RecyclerView.Adapter<FavoritAdapter.FavoritV
 
     @Override
     public int getItemCount() {
-        return tourismItems.size();
+        return tourisms.size();
     }
 
 
@@ -84,7 +84,7 @@ public class FavoritAdapter extends RecyclerView.Adapter<FavoritAdapter.FavoritV
         }
 
         @SuppressLint("SetTextI18n")
-        void bindName(final TourismItem favoriteItem, double lat, double lng) {
+        void bindName(final Tourism favoriteItem, double lat, double lng) {
 
             double lattitude_a = favoriteItem.getLat_location_tourism();
             double longitude_a = favoriteItem.getLng_location_tourism();

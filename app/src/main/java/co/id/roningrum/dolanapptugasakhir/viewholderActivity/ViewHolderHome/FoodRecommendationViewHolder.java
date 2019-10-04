@@ -24,7 +24,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 
 import co.id.roningrum.dolanapptugasakhir.R;
-import co.id.roningrum.dolanapptugasakhir.model.TourismItem;
+import co.id.roningrum.dolanapptugasakhir.model.Tourism;
 
 public class FoodRecommendationViewHolder extends RecyclerView.ViewHolder {
     private final TextView nameFoodRecommendation;
@@ -39,9 +39,9 @@ public class FoodRecommendationViewHolder extends RecyclerView.ViewHolder {
     }
 
     @SuppressLint("SetTextI18n")
-    public void showFoodRecommendationTourismData(TourismItem tourismItem) {
-        nameFoodRecommendation.setText(tourismItem.getName_tourism());
-        Glide.with(itemView.getContext()).load(tourismItem.getUrl_photo()).into(foodRecommendationTourismPic);
+    public void showFoodRecommendationTourismData(Tourism tourism) {
+        nameFoodRecommendation.setText(tourism.getName_tourism());
+        Glide.with(itemView.getContext()).load(tourism.getUrl_photo()).into(foodRecommendationTourismPic);
     }
 
     public void setOnClickListener(FoodRecommendationViewHolder.ClickListener clickListener) {

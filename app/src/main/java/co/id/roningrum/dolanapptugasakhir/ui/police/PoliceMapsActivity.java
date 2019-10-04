@@ -40,7 +40,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import co.id.roningrum.dolanapptugasakhir.R;
-import co.id.roningrum.dolanapptugasakhir.model.PoliceItem;
+import co.id.roningrum.dolanapptugasakhir.model.Police;
 
 public class PoliceMapsActivity extends FragmentActivity implements OnMapReadyCallback {
     private DatabaseReference policeMapRef;
@@ -80,13 +80,13 @@ public class PoliceMapsActivity extends FragmentActivity implements OnMapReadyCa
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot dsPolice : dataSnapshot.getChildren()) {
-                    PoliceItem policeItem = dsPolice.getValue(PoliceItem.class);
-                    assert policeItem != null;
-                    double latPolice = policeItem.getLat_police();
-                    double lngPolice = policeItem.getLng_police();
+                    Police police = dsPolice.getValue(Police.class);
+                    assert police != null;
+                    double latPolice = police.getLat_police();
+                    double lngPolice = police.getLng_police();
                     LatLng policePlaceLoc = new LatLng(latPolice, lngPolice);
                     policeMap.moveCamera(CameraUpdateFactory.newLatLngZoom(policePlaceLoc, 10.2f));
-                    policeMap.addMarker(new MarkerOptions().position(policePlaceLoc).icon(getBitmapDescriptor()).title(policeItem.getName_police()).snippet(policeItem.getLocation_police()));
+                    policeMap.addMarker(new MarkerOptions().position(policePlaceLoc).icon(getBitmapDescriptor()).title(police.getName_police()).snippet(police.getLocation_police()));
 
                 }
             }

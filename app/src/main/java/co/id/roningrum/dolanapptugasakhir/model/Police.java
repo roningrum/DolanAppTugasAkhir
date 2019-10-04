@@ -13,7 +13,7 @@
 
 package co.id.roningrum.dolanapptugasakhir.model;
 
-public class PoliceItem {
+public class Police {
     private String name_police;
     private String location_police;
     private double lat_police;
@@ -21,10 +21,10 @@ public class PoliceItem {
     private String url_photo_police;
 
 
-    public PoliceItem() {
+    public Police() {
     }
 
-    public PoliceItem(String name_police, String location_police, double lat_police, double lng_police, String url_photo_police) {
+    public Police(String name_police, String location_police, double lat_police, double lng_police, String url_photo_police) {
         this.name_police = name_police;
         this.location_police = location_police;
         this.lat_police = lat_police;

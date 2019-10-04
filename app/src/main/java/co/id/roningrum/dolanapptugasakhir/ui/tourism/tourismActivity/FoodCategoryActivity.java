@@ -45,7 +45,7 @@ import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.handler.NetworkHelper;
 import co.id.roningrum.dolanapptugasakhir.handler.PermissionHandler;
-import co.id.roningrum.dolanapptugasakhir.model.TourismItem;
+import co.id.roningrum.dolanapptugasakhir.model.Tourism;
 import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismDetailActivity.DetailFoodActivity;
 import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismMapActivity.FoodCategoryMap;
 import co.id.roningrum.dolanapptugasakhir.viewholderActivity.tourism.FoodViewHolder;
@@ -53,7 +53,7 @@ import co.id.roningrum.dolanapptugasakhir.viewholderActivity.tourism.FoodViewHol
 public class FoodCategoryActivity extends AppCompatActivity {
     private RecyclerView rvFoodList;
     private ShimmerFrameLayout shimmerFrameLayout;
-    private FirebaseRecyclerAdapter<TourismItem, FoodViewHolder> foodFirebaseAdapter;
+    private FirebaseRecyclerAdapter<Tourism, FoodViewHolder> foodFirebaseAdapter;
     private GPSHandler gpsHandler;
     private PermissionHandler permissionHandler;
 
@@ -84,13 +84,13 @@ public class FoodCategoryActivity extends AppCompatActivity {
         if (havePermission()) {
             DatabaseReference foodCategoryDB = FirebaseDatabase.getInstance().getReference();
             Query educationQuery = foodCategoryDB.child("Tourism").orderByChild("category_tourism").equalTo("kuliner");
-            FirebaseRecyclerOptions<TourismItem> foodOptions = new FirebaseRecyclerOptions.Builder<TourismItem>()
-                    .setQuery(educationQuery, TourismItem.class)
+            FirebaseRecyclerOptions<Tourism> foodOptions = new FirebaseRecyclerOptions.Builder<Tourism>()
+                    .setQuery(educationQuery, Tourism.class)
                     .build();
 
-            foodFirebaseAdapter = new FirebaseRecyclerAdapter<TourismItem, FoodViewHolder>(foodOptions) {
+            foodFirebaseAdapter = new FirebaseRecyclerAdapter<Tourism, FoodViewHolder>(foodOptions) {
                 @Override
-                protected void onBindViewHolder(@NonNull FoodViewHolder holder, int position, @NonNull TourismItem model) {
+                protected void onBindViewHolder(@NonNull FoodViewHolder holder, int position, @NonNull Tourism model) {
                     final DatabaseReference foodCategoryRef = getRef(position);
                     final String foodKey = foodCategoryRef.getKey();
 

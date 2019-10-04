@@ -45,7 +45,7 @@ import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.handler.NetworkHelper;
 import co.id.roningrum.dolanapptugasakhir.handler.PermissionHandler;
-import co.id.roningrum.dolanapptugasakhir.model.TransportationItem;
+import co.id.roningrum.dolanapptugasakhir.model.Transportation;
 import co.id.roningrum.dolanapptugasakhir.ui.transportation.transportationDetailActivity.DetailTrainActivity;
 import co.id.roningrum.dolanapptugasakhir.ui.transportation.transportationMapActivity.TrainMapsActivity;
 import co.id.roningrum.dolanapptugasakhir.viewholderActivity.transportation.TrainViewHolder;
@@ -53,7 +53,7 @@ import co.id.roningrum.dolanapptugasakhir.viewholderActivity.transportation.Trai
 public class TrainCategoryActivity extends AppCompatActivity {
     private RecyclerView rvTrainList;
     private ShimmerFrameLayout shimmerFrameLayout;
-    private FirebaseRecyclerAdapter<TransportationItem, TrainViewHolder> trainFirebaseadapter;
+    private FirebaseRecyclerAdapter<Transportation, TrainViewHolder> trainFirebaseadapter;
 
     private GPSHandler gpsHandler;
     private PermissionHandler permissionHandler;
@@ -82,13 +82,13 @@ public class TrainCategoryActivity extends AppCompatActivity {
         if (havePermission()) {
             DatabaseReference busRef = FirebaseDatabase.getInstance().getReference();
             Query trainQuery = busRef.child("Transportation").orderByChild("category_transportation").equalTo("train");
-            FirebaseRecyclerOptions<TransportationItem> busOptions = new FirebaseRecyclerOptions.Builder<TransportationItem>()
-                    .setQuery(trainQuery, TransportationItem.class)
+            FirebaseRecyclerOptions<Transportation> busOptions = new FirebaseRecyclerOptions.Builder<Transportation>()
+                    .setQuery(trainQuery, Transportation.class)
                     .build();
 
-            trainFirebaseadapter = new FirebaseRecyclerAdapter<TransportationItem, TrainViewHolder>(busOptions) {
+            trainFirebaseadapter = new FirebaseRecyclerAdapter<Transportation, TrainViewHolder>(busOptions) {
                 @Override
-                protected void onBindViewHolder(@NonNull TrainViewHolder holder, int position, @NonNull TransportationItem model) {
+                protected void onBindViewHolder(@NonNull TrainViewHolder holder, int position, @NonNull Transportation model) {
                     final DatabaseReference trainRef = getRef(position);
                     final String trainKey = trainRef.getKey();
 

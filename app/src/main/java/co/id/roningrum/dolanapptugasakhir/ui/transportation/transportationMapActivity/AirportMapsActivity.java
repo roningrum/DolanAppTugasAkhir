@@ -41,7 +41,7 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import co.id.roningrum.dolanapptugasakhir.R;
-import co.id.roningrum.dolanapptugasakhir.model.TransportationItem;
+import co.id.roningrum.dolanapptugasakhir.model.Transportation;
 
 public class AirportMapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
@@ -84,15 +84,15 @@ public class AirportMapsActivity extends FragmentActivity implements OnMapReadyC
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot dsAirport : dataSnapshot.getChildren()) {
-                    TransportationItem transportationItem = dsAirport.getValue(TransportationItem.class);
-                    assert transportationItem != null;
-                    double latAirport = transportationItem.getLat_transportation();
-                    double lngAirport = transportationItem.getLng_transportation();
+                    Transportation transportation = dsAirport.getValue(Transportation.class);
+                    assert transportation != null;
+                    double latAirport = transportation.getLat_transportation();
+                    double lngAirport = transportation.getLng_transportation();
                     LatLng airportPlaceLoc = new LatLng(latAirport, lngAirport);
                     airportMaps.moveCamera(CameraUpdateFactory.newLatLngZoom(airportPlaceLoc, 14.6f));
 
                     airportMaps.addMarker(new MarkerOptions().position(airportPlaceLoc).icon(getBitmapDescriptor()).
-                            title(transportationItem.getName_transportation()).snippet(transportationItem.getLocation_transportation()));
+                            title(transportation.getName_transportation()).snippet(transportation.getLocation_transportation()));
 
                 }
             }

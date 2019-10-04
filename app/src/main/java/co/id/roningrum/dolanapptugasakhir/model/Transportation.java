@@ -13,17 +13,17 @@
 
 package co.id.roningrum.dolanapptugasakhir.model;
 
-public class TransportationItem {
+public class Transportation {
     private String name_transportation;
     private String location_transportation;
     private String url_photo_transport;
     private double lat_transportation;
     private double lng_transportation;
 
-    public TransportationItem() {
+    public Transportation() {
     }
 
-    public TransportationItem(String name_transportation, String location_transportation, String url_photo_transport, double lat_transportation, double lng_transportation) {
+    public Transportation(String name_transportation, String location_transportation, String url_photo_transport, double lat_transportation, double lng_transportation) {
         this.name_transportation = name_transportation;
         this.location_transportation = location_transportation;
         this.url_photo_transport = url_photo_transport;

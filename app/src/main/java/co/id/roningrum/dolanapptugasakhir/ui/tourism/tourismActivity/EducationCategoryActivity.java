@@ -45,7 +45,7 @@ import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.handler.NetworkHelper;
 import co.id.roningrum.dolanapptugasakhir.handler.PermissionHandler;
-import co.id.roningrum.dolanapptugasakhir.model.TourismItem;
+import co.id.roningrum.dolanapptugasakhir.model.Tourism;
 import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismDetailActivity.DetailEducatioActivity;
 import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismMapActivity.EducationCategoryMaps;
 import co.id.roningrum.dolanapptugasakhir.viewholderActivity.tourism.EducationViewHolder;
@@ -54,7 +54,7 @@ public class EducationCategoryActivity extends AppCompatActivity {
 
     private RecyclerView rvEducationList;
     private ShimmerFrameLayout shimmerFrameLayout;
-    private FirebaseRecyclerAdapter<TourismItem, EducationViewHolder> educationFirebaseAdapter;
+    private FirebaseRecyclerAdapter<Tourism, EducationViewHolder> educationFirebaseAdapter;
 
     private GPSHandler gpsHandler;
     private PermissionHandler permissionHandler;
@@ -83,10 +83,10 @@ public class EducationCategoryActivity extends AppCompatActivity {
         if (havePermission()) {
             DatabaseReference educationCategoryDB = FirebaseDatabase.getInstance().getReference();
             Query educationQuery = educationCategoryDB.child("Tourism").orderByChild("category_tourism").equalTo("edukasi");
-            FirebaseRecyclerOptions<TourismItem> educationOptions = new FirebaseRecyclerOptions.Builder<TourismItem>()
-                    .setQuery(educationQuery, TourismItem.class)
+            FirebaseRecyclerOptions<Tourism> educationOptions = new FirebaseRecyclerOptions.Builder<Tourism>()
+                    .setQuery(educationQuery, Tourism.class)
                     .build();
-            educationFirebaseAdapter = new FirebaseRecyclerAdapter<TourismItem, EducationViewHolder>(educationOptions) {
+            educationFirebaseAdapter = new FirebaseRecyclerAdapter<Tourism, EducationViewHolder>(educationOptions) {
                 @NonNull
                 @Override
                 public EducationViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
@@ -94,7 +94,7 @@ public class EducationCategoryActivity extends AppCompatActivity {
                 }
 
                 @Override
-                protected void onBindViewHolder(@NonNull EducationViewHolder holder, int position, @NonNull TourismItem model) {
+                protected void onBindViewHolder(@NonNull EducationViewHolder holder, int position, @NonNull Tourism model) {
                     final DatabaseReference educationCategoryRef = getRef(position);
                     final String eductaionKey = educationCategoryRef.getKey();
                     Log.d("Check eduKey", "" + eductaionKey);

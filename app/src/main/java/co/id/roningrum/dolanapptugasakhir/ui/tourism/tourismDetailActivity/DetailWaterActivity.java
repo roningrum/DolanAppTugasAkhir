@@ -47,7 +47,7 @@ import java.util.Objects;
 import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.handler.HaversineHandler;
-import co.id.roningrum.dolanapptugasakhir.model.TourismItem;
+import co.id.roningrum.dolanapptugasakhir.model.Tourism;
 
 public class DetailWaterActivity extends AppCompatActivity implements OnMapReadyCallback {
     public static final String EXTRA_WISATA_KEY = "air_key";
@@ -119,20 +119,20 @@ public class DetailWaterActivity extends AppCompatActivity implements OnMapReady
                 @SuppressLint("SetTextI18n")
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    final TourismItem tourismItem = dataSnapshot.getValue(TourismItem.class);
+                    final Tourism tourism = dataSnapshot.getValue(Tourism.class);
                     startLat = gpsHandler.getLatitude();
                     startLng = gpsHandler.getLongitude();
-                    assert tourismItem != null;
-                    endLat = tourismItem.getLat_location_tourism();
-                    endLng = tourismItem.getLng_location_tourism();
+                    assert tourism != null;
+                    endLat = tourism.getLat_location_tourism();
+                    endLng = tourism.getLng_location_tourism();
                     distance = HaversineHandler.calculateDistance(startLat, startLng, endLat, endLng);
 
                     @SuppressLint("DefaultLocale") String distanceFormat = String.format("%.2f",distance);
                     tvDistanceWaterDetail.setText(""+distanceFormat+" KM");
-                    tvNameWaterDetail.setText(tourismItem.getName_tourism());
-                    tvAddressWaterDetail.setText(tourismItem.getLocation_tourism());
-                    tvDescWaterDetail.setText(tourismItem.getInfo_tourism());
-                    Glide.with(getApplicationContext()).load(tourismItem.getUrl_photo()).into(imgWaterObject);
+                    tvNameWaterDetail.setText(tourism.getName_tourism());
+                    tvAddressWaterDetail.setText(tourism.getLocation_tourism());
+                    tvDescWaterDetail.setText(tourism.getInfo_tourism());
+                    Glide.with(getApplicationContext()).load(tourism.getUrl_photo()).into(imgWaterObject);
                     AppBarLayout appBarLayout = findViewById(R.id.app_bar_water);
                     appBarLayout.addOnOffsetChangedListener(new AppBarLayout.BaseOnOffsetChangedListener() {
                         boolean isShow = true;
@@ -144,7 +144,7 @@ public class DetailWaterActivity extends AppCompatActivity implements OnMapReady
                                 scrollRange = appBarLayout.getTotalScrollRange();
                             }
                             if (scrollRange + verticalOffset == 0) {
-                                collapsingToolbarLayout_water.setTitle(tourismItem.getName_tourism());
+                                collapsingToolbarLayout_water.setTitle(tourism.getName_tourism());
                                 isShow = true;
                             } else {
                                 collapsingToolbarLayout_water.setTitle(" ");
@@ -200,10 +200,10 @@ public class DetailWaterActivity extends AppCompatActivity implements OnMapReady
         ValueEventListener eventListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                TourismItem tourismItem = dataSnapshot.getValue(TourismItem.class);
-                assert tourismItem != null;
-                double lattitude = tourismItem.getLat_location_tourism();
-                double longitude = tourismItem.getLng_location_tourism();
+                Tourism tourism = dataSnapshot.getValue(Tourism.class);
+                assert tourism != null;
+                double lattitude = tourism.getLat_location_tourism();
+                double longitude = tourism.getLng_location_tourism();
 
                 LatLng location = new LatLng(lattitude, longitude);
                 waterLocationMap.addMarker(new MarkerOptions().position(location));

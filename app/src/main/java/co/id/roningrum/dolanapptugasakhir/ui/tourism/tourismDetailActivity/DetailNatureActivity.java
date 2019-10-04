@@ -40,12 +40,14 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.Objects;
 
 import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.handler.HaversineHandler;
-import co.id.roningrum.dolanapptugasakhir.model.TourismItem;
+import co.id.roningrum.dolanapptugasakhir.model.Tourism;
 
 public class DetailNatureActivity extends AppCompatActivity implements OnMapReadyCallback {
     public static final String EXTRA_WISATA_KEY = "alam_key";
@@ -118,20 +120,20 @@ public class DetailNatureActivity extends AppCompatActivity implements OnMapRead
                 @SuppressLint("SetTextI18n")
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    final TourismItem tourismItem = dataSnapshot.getValue(TourismItem.class);
+                    final Tourism tourism = dataSnapshot.getValue(Tourism.class);
                     startLat = gpsHandler.getLatitude();
                     startlng = gpsHandler.getLongitude();
-                    assert tourismItem != null;
-                    endlat = tourismItem.getLat_location_tourism();
-                    endLng = tourismItem.getLng_location_tourism();
+                    assert tourism != null;
+                    endlat = tourism.getLat_location_tourism();
+                    endLng = tourism.getLng_location_tourism();
                     distance = HaversineHandler.calculateDistance(startLat, startlng, endlat, endLng);
 
                     @SuppressLint("DefaultLocale") String distanceFormat = String.format("%.2f",distance);
                     tvDistanceNature.setText("" + distanceFormat + " km");
-                    tvNameNatureDetail.setText(tourismItem.getName_tourism());
-                    tvAddressNature.setText(tourismItem.getLocation_tourism());
-                    tvDescNature.setText(tourismItem.getInfo_tourism());
-                    Glide.with(getApplicationContext()).load(tourismItem.getUrl_photo()).into(imgNature);
+                    tvNameNatureDetail.setText(tourism.getName_tourism());
+                    tvAddressNature.setText(tourism.getLocation_tourism());
+                    tvDescNature.setText(tourism.getInfo_tourism());
+                    Glide.with(getApplicationContext()).load(tourism.getUrl_photo()).into(imgNature);
 
                     AppBarLayout appBarLayout = findViewById(R.id.app_bar_nature);
                     appBarLayout.addOnOffsetChangedListener(new AppBarLayout.BaseOnOffsetChangedListener() {
@@ -144,7 +146,7 @@ public class DetailNatureActivity extends AppCompatActivity implements OnMapRead
                                 scrollRange = appBarLayout.getTotalScrollRange();
                             }
                             if (scrollRange + verticalOffset == 0) {
-                                collapsingToolbarLayout_nature.setTitle(tourismItem.getName_tourism());
+                                collapsingToolbarLayout_nature.setTitle(tourism.getName_tourism());
                                 isShow = true;
                             } else {
                                 collapsingToolbarLayout_nature.setTitle(" ");
@@ -185,7 +187,7 @@ public class DetailNatureActivity extends AppCompatActivity implements OnMapRead
 
 
     @Override
-    protected void onSaveInstanceState(Bundle outState) {
+    protected void onSaveInstanceState(@NotNull Bundle outState) {
         super.onSaveInstanceState(outState);
         Bundle mapViewBundle = outState.getBundle(MAP_VIEW_KEY);
         if (mapViewBundle == null) {
@@ -202,10 +204,10 @@ public class DetailNatureActivity extends AppCompatActivity implements OnMapRead
         ValueEventListener eventListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                TourismItem tourismItem = dataSnapshot.getValue(TourismItem.class);
-                assert tourismItem != null;
-                double lattitude = tourismItem.getLat_location_tourism();
-                double longitude = tourismItem.getLng_location_tourism();
+                Tourism tourism = dataSnapshot.getValue(Tourism.class);
+                assert tourism != null;
+                double lattitude = tourism.getLat_location_tourism();
+                double longitude = tourism.getLng_location_tourism();
 
                 LatLng location = new LatLng(lattitude, longitude);
                 gMap.addMarker(new MarkerOptions().position(location));

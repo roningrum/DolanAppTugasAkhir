@@ -41,7 +41,7 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import co.id.roningrum.dolanapptugasakhir.R;
-import co.id.roningrum.dolanapptugasakhir.model.TourismItem;
+import co.id.roningrum.dolanapptugasakhir.model.Tourism;
 
 public class RecreationCategoryMaps extends FragmentActivity implements OnMapReadyCallback {
 
@@ -83,14 +83,14 @@ public class RecreationCategoryMaps extends FragmentActivity implements OnMapRea
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot dsNature : dataSnapshot.getChildren()) {
-                    TourismItem tourismItem = dsNature.getValue(TourismItem.class);
-                    assert tourismItem != null;
-                    double latNature = tourismItem.getLat_location_tourism();
-                    double lngNature = tourismItem.getLng_location_tourism();
+                    Tourism tourism = dsNature.getValue(Tourism.class);
+                    assert tourism != null;
+                    double latNature = tourism.getLat_location_tourism();
+                    double lngNature = tourism.getLng_location_tourism();
                     LatLng naturePlaceLoc = new LatLng(latNature, lngNature);
                     recreationMap.moveCamera(CameraUpdateFactory.newLatLngZoom(naturePlaceLoc, 10.0f));
-                    recreationMap.addMarker(new MarkerOptions().position(naturePlaceLoc).title(tourismItem.getName_tourism()).
-                            icon(getBitmapDescriptor()).snippet(tourismItem.getLocation_tourism()));
+                    recreationMap.addMarker(new MarkerOptions().position(naturePlaceLoc).title(tourism.getName_tourism()).
+                            icon(getBitmapDescriptor()).snippet(tourism.getLocation_tourism()));
                 }
             }
 

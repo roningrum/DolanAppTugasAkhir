@@ -41,13 +41,13 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.maps.android.clustering.ClusterManager;
 
 import co.id.roningrum.dolanapptugasakhir.R;
-import co.id.roningrum.dolanapptugasakhir.model.HotelItem;
+import co.id.roningrum.dolanapptugasakhir.model.Hotel;
 
 public class HotelMapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private DatabaseReference hotelRefMap;
     private GoogleMap hotelMap;
-    private ClusterManager<HotelItem> hotelclusterManager;
+    private ClusterManager<Hotel> hotelclusterManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,17 +86,17 @@ public class HotelMapsActivity extends FragmentActivity implements OnMapReadyCal
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot dsHotel : dataSnapshot.getChildren()) {
-                    HotelItem hotelItem = dsHotel.getValue(HotelItem.class);
-                    assert hotelItem != null;
-                    double latHotel = hotelItem.getLat_location_hotel();
-                    double lngHotel = hotelItem.getLng_location_hotel();
+                    Hotel hotel = dsHotel.getValue(Hotel.class);
+                    assert hotel != null;
+                    double latHotel = hotel.getLat_location_hotel();
+                    double lngHotel = hotel.getLng_location_hotel();
                     LatLng naturePlaceLoc = new LatLng(latHotel, lngHotel);
                     hotelMap.moveCamera(CameraUpdateFactory.newLatLngZoom(naturePlaceLoc, 8.0f));
-//                    hotelMap.addMarker(new MarkerOptions().position(naturePlaceLoc).title(hotelItem.getName_hotel()).snippet(hotelItem.getLocation_hotel()));
+//                    hotelMap.addMarker(new MarkerOptions().position(naturePlaceLoc).title(hotel.getName_hotel()).snippet(hotel.getLocation_hotel()));
                     hotelMap.setOnCameraIdleListener(hotelclusterManager);
                     hotelMap.addMarker(new MarkerOptions().icon(getBitmapDescriptor()));
                     hotelMap.setOnInfoWindowClickListener(hotelclusterManager);
-                    hotelclusterManager.addItem(hotelItem);
+                    hotelclusterManager.addItem(hotel);
                 }
                 hotelclusterManager.cluster();
             }

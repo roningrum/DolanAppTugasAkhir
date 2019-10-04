@@ -46,7 +46,7 @@ import java.util.Objects;
 import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.handler.HaversineHandler;
-import co.id.roningrum.dolanapptugasakhir.model.HospitalItem;
+import co.id.roningrum.dolanapptugasakhir.model.Hospital;
 
 public class DetailHospitalActivity extends AppCompatActivity implements OnMapReadyCallback {
     public static final String EXTRA_HOSPITAL_KEY = "hospitalKey";
@@ -115,20 +115,20 @@ public class DetailHospitalActivity extends AppCompatActivity implements OnMapRe
                 @SuppressLint("SetTextI18n")
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    final HospitalItem hospitalItem = dataSnapshot.getValue(HospitalItem.class);
+                    final Hospital hospital = dataSnapshot.getValue(Hospital.class);
                     startLat = gpsHandler.getLatitude();
                     startlng = gpsHandler.getLongitude();
-                    assert hospitalItem != null;
-                    endlat = hospitalItem.getLat_hospital();
-                    endLng = hospitalItem.getLng_hospital();
+                    assert hospital != null;
+                    endlat = hospital.getLat_hospital();
+                    endLng = hospital.getLng_hospital();
                     distance = HaversineHandler.calculateDistance(startLat, startlng, endlat, endLng);
 
 
                     @SuppressLint("DefaultLocale") String distanceFormat = String.format("%.2f", distance);
                     tvDistanceHospitalDetail.setText("" + distanceFormat + " km");
-                    tvNameHospitalDetail.setText(hospitalItem.getName_hospital());
-                    tvAddressHospitalDetail.setText(hospitalItem.getLocation_hospital());
-                    Glide.with(getApplicationContext()).load(hospitalItem.getUrl_photo_hospital()).into(imgHospitalDetail);
+                    tvNameHospitalDetail.setText(hospital.getName_hospital());
+                    tvAddressHospitalDetail.setText(hospital.getLocation_hospital());
+                    Glide.with(getApplicationContext()).load(hospital.getUrl_photo_hospital()).into(imgHospitalDetail);
                     AppBarLayout appBarLayout = findViewById(R.id.app_bar_hospital);
                     appBarLayout.addOnOffsetChangedListener(new AppBarLayout.BaseOnOffsetChangedListener() {
                         boolean isShow = true;
@@ -140,7 +140,7 @@ public class DetailHospitalActivity extends AppCompatActivity implements OnMapRe
                                 scrollRange = appBarLayout.getTotalScrollRange();
                             }
                             if (scrollRange + verticalOffset == 0) {
-                                collapsingToolbarHospital.setTitle(hospitalItem.getName_hospital());
+                                collapsingToolbarHospital.setTitle(hospital.getName_hospital());
                                 isShow = true;
                             } else {
                                 collapsingToolbarHospital.setTitle(" ");
@@ -174,13 +174,13 @@ public class DetailHospitalActivity extends AppCompatActivity implements OnMapRe
                 @SuppressLint("SetTextI18n")
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    final HospitalItem hospitalItem = dataSnapshot.getValue(HospitalItem.class);
+                    final Hospital hospital = dataSnapshot.getValue(Hospital.class);
                     startLat = gpsHandler.getLatitude();
                     startlng = gpsHandler.getLongitude();
 
-                    assert hospitalItem != null;
-                    endlat = hospitalItem.getLat_hospital();
-                    endLng = hospitalItem.getLng_hospital();
+                    assert hospital != null;
+                    endlat = hospital.getLat_hospital();
+                    endLng = hospital.getLng_hospital();
 
                     LatLng location = new LatLng(endlat, endLng);
                     hospitalGoogleMap.addMarker(new MarkerOptions().position(location));

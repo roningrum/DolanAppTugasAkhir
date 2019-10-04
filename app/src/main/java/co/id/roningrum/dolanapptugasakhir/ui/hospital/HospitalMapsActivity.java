@@ -32,7 +32,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import co.id.roningrum.dolanapptugasakhir.R;
-import co.id.roningrum.dolanapptugasakhir.model.HospitalItem;
+import co.id.roningrum.dolanapptugasakhir.model.Hospital;
 
 public class HospitalMapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
@@ -72,13 +72,13 @@ public class HospitalMapsActivity extends FragmentActivity implements OnMapReady
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot dsHospital : dataSnapshot.getChildren()) {
-                    HospitalItem hospitalItem = dsHospital.getValue(HospitalItem.class);
-                    assert hospitalItem != null;
-                    double latHospital = hospitalItem.getLat_hospital();
-                    double lngHospital = hospitalItem.getLng_hospital();
+                    Hospital hospital = dsHospital.getValue(Hospital.class);
+                    assert hospital != null;
+                    double latHospital = hospital.getLat_hospital();
+                    double lngHospital = hospital.getLng_hospital();
                     LatLng hospitalPlaceLoc = new LatLng(latHospital, lngHospital);
                     hospitalGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(hospitalPlaceLoc, 10.2f));
-                    hospitalGoogleMap.addMarker(new MarkerOptions().position(hospitalPlaceLoc).title(hospitalItem.getName_hospital()).snippet(hospitalItem.getLocation_hospital()));
+                    hospitalGoogleMap.addMarker(new MarkerOptions().position(hospitalPlaceLoc).title(hospital.getName_hospital()).snippet(hospital.getLocation_hospital()));
                 }
             }
 

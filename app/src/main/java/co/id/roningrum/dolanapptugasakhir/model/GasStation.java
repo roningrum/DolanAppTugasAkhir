@@ -13,17 +13,17 @@
 
 package co.id.roningrum.dolanapptugasakhir.model;
 
-public class GasStationItem {
+public class GasStation {
     private String name_gasstation;
     private String location_gasstation;
     private double lat_gasstation;
     private double lng_gasstation;
     private String url_photo_gasstation;
 
-    public GasStationItem() {
+    public GasStation() {
     }
 
-    public GasStationItem(String name_gasstation, String location_gasstation, double lat_gasstation, double lng_gasstation, String url_photo_gasstation) {
+    public GasStation(String name_gasstation, String location_gasstation, double lat_gasstation, double lng_gasstation, String url_photo_gasstation) {
         this.name_gasstation = name_gasstation;
         this.location_gasstation = location_gasstation;
         this.lat_gasstation = lat_gasstation;

@@ -47,7 +47,7 @@ import java.util.Objects;
 import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.handler.HaversineHandler;
-import co.id.roningrum.dolanapptugasakhir.model.TourismItem;
+import co.id.roningrum.dolanapptugasakhir.model.Tourism;
 
 public class DetailReligiActivity extends AppCompatActivity implements OnMapReadyCallback {
     public static final String EXTRA_WISATA_KEY = "religi_key";
@@ -121,19 +121,19 @@ public class DetailReligiActivity extends AppCompatActivity implements OnMapRead
                 @SuppressLint("SetTextI18n")
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    final TourismItem tourismItem = dataSnapshot.getValue(TourismItem.class);
+                    final Tourism tourism = dataSnapshot.getValue(Tourism.class);
                     startLat = gpsHandler.getLatitude();
                     startlng = gpsHandler.getLongitude();
-                    assert tourismItem != null;
-                    endlat = tourismItem.getLat_location_tourism();
-                    endLng = tourismItem.getLng_location_tourism();
+                    assert tourism != null;
+                    endlat = tourism.getLat_location_tourism();
+                    endLng = tourism.getLng_location_tourism();
                     distance = HaversineHandler.calculateDistance(startLat, startlng, endlat, endLng);
                     @SuppressLint("DefaultLocale") String distanceFormat = String.format("%.2f", distance);
                     tvDistanceReligiDetail.setText("" + distanceFormat + " km");
-                    tvNameReligiDetail.setText(tourismItem.getName_tourism());
-                    tvAddressReligiDetail.setText(tourismItem.getLocation_tourism());
-                    tvDescReligiDetail.setText(tourismItem.getInfo_tourism());
-                    Glide.with(getApplicationContext()).load(tourismItem.getUrl_photo()).into(imgReligiDetail);
+                    tvNameReligiDetail.setText(tourism.getName_tourism());
+                    tvAddressReligiDetail.setText(tourism.getLocation_tourism());
+                    tvDescReligiDetail.setText(tourism.getInfo_tourism());
+                    Glide.with(getApplicationContext()).load(tourism.getUrl_photo()).into(imgReligiDetail);
 
                     AppBarLayout appBarLayout = findViewById(R.id.app_bar_religi);
                     appBarLayout.addOnOffsetChangedListener(new AppBarLayout.BaseOnOffsetChangedListener() {
@@ -146,7 +146,7 @@ public class DetailReligiActivity extends AppCompatActivity implements OnMapRead
                                 scrollRange = appBarLayout.getTotalScrollRange();
                             }
                             if (scrollRange + verticalOffset == 0) {
-                                collapsingToolbarLayout_religi.setTitle(tourismItem.getName_tourism());
+                                collapsingToolbarLayout_religi.setTitle(tourism.getName_tourism());
                                 isShow = true;
                             } else {
                                 collapsingToolbarLayout_religi.setTitle(" ");
@@ -203,10 +203,10 @@ public class DetailReligiActivity extends AppCompatActivity implements OnMapRead
         ValueEventListener eventListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                TourismItem tourismItem = dataSnapshot.getValue(TourismItem.class);
-                assert tourismItem != null;
-                double lattitude = tourismItem.getLat_location_tourism();
-                double longitude = tourismItem.getLng_location_tourism();
+                Tourism tourism = dataSnapshot.getValue(Tourism.class);
+                assert tourism != null;
+                double lattitude = tourism.getLat_location_tourism();
+                double longitude = tourism.getLng_location_tourism();
 
                 LatLng location = new LatLng(lattitude, longitude);
                 religiMap.addMarker(new MarkerOptions().position(location));

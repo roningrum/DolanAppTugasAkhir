@@ -45,14 +45,14 @@ import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.handler.NetworkHelper;
 import co.id.roningrum.dolanapptugasakhir.handler.PermissionHandler;
-import co.id.roningrum.dolanapptugasakhir.model.PoliceItem;
+import co.id.roningrum.dolanapptugasakhir.model.Police;
 import co.id.roningrum.dolanapptugasakhir.viewholderActivity.police.PoliceViewHolder;
 
 public class PoliceCategoryActivity extends AppCompatActivity {
 
     private RecyclerView rvPoliceList;
     private ShimmerFrameLayout shimmerFrameLayout;
-    private FirebaseRecyclerAdapter<PoliceItem, PoliceViewHolder> policeFirebaseAdapter;
+    private FirebaseRecyclerAdapter<Police, PoliceViewHolder> policeFirebaseAdapter;
 
     private GPSHandler gpsHandler;
     private PermissionHandler permissionHandler;
@@ -81,13 +81,13 @@ public class PoliceCategoryActivity extends AppCompatActivity {
         if (havePermission()) {
             DatabaseReference policeRef = FirebaseDatabase.getInstance().getReference();
             Query policeQuery = policeRef.child("Police");
-            FirebaseRecyclerOptions<PoliceItem> policeOptions = new FirebaseRecyclerOptions.Builder<PoliceItem>()
-                    .setQuery(policeQuery, PoliceItem.class)
+            FirebaseRecyclerOptions<Police> policeOptions = new FirebaseRecyclerOptions.Builder<Police>()
+                    .setQuery(policeQuery, Police.class)
                     .build();
 
-            policeFirebaseAdapter = new FirebaseRecyclerAdapter<PoliceItem, PoliceViewHolder>(policeOptions) {
+            policeFirebaseAdapter = new FirebaseRecyclerAdapter<Police, PoliceViewHolder>(policeOptions) {
                 @Override
-                protected void onBindViewHolder(@NonNull PoliceViewHolder holder, int position, @NonNull PoliceItem model) {
+                protected void onBindViewHolder(@NonNull PoliceViewHolder holder, int position, @NonNull Police model) {
                     final DatabaseReference policeRef = getRef(position);
                     final String policeKey = policeRef.getKey();
 

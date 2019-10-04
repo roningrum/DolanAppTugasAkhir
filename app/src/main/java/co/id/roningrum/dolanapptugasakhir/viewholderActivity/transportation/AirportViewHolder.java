@@ -25,7 +25,7 @@ import com.bumptech.glide.Glide;
 
 import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.handler.HaversineHandler;
-import co.id.roningrum.dolanapptugasakhir.model.TransportationItem;
+import co.id.roningrum.dolanapptugasakhir.model.Transportation;
 
 public class AirportViewHolder extends RecyclerView.ViewHolder {
 
@@ -52,20 +52,20 @@ public class AirportViewHolder extends RecyclerView.ViewHolder {
     }
 
     @SuppressLint("SetTextI18n")
-    public void showAirportData(TransportationItem transportationItem, double latitude, double longitude) {
+    public void showAirportData(Transportation transportation, double latitude, double longitude) {
 
-        double lattitude_a = transportationItem.getLat_transportation();
-        double longitude_a = transportationItem.getLng_transportation();
+        double lattitude_a = transportation.getLat_transportation();
+        double longitude_a = transportation.getLng_transportation();
 
         float jarakKM = (float) HaversineHandler.calculateDistance(latitude, longitude, lattitude_a, longitude_a);
 //        float jarakMeter = loc1.distanceTo(loc2);
 //        float jarakKM = jarakMeter / 1000;
         @SuppressLint("DefaultLocale") String distanceFormat = String.format("%.2f", jarakKM);
 
-        nameAirport.setText(transportationItem.getName_transportation());
-        locationAirport.setText(transportationItem.getLocation_transportation());
+        nameAirport.setText(transportation.getName_transportation());
+        locationAirport.setText(transportation.getLocation_transportation());
         distanceAirport.setText(distanceFormat + " km");
-        Glide.with(itemView.getContext()).load(transportationItem.getUrl_photo_transport()).into(airportPic);
+        Glide.with(itemView.getContext()).load(transportation.getUrl_photo_transport()).into(airportPic);
     }
 
 //    private double calculateDistance(double lat1, double long1, double lat2, double long2) {

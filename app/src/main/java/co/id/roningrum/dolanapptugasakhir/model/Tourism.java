@@ -13,7 +13,7 @@
 
 package co.id.roningrum.dolanapptugasakhir.model;
 
-public class TourismItem {
+public class Tourism {
     private String name_tourism;
     private String location_tourism;
     private String info_tourism;
@@ -22,11 +22,11 @@ public class TourismItem {
     private double lat_location_tourism;
     private double lng_location_tourism;
 
-    public TourismItem() {
+    public Tourism() {
         //constructor untuk panggilan ke DataSnapshot.getValue
     }
 
-    public TourismItem(String name_tourism, String location_tourism, String info_tourism, String telepon, String url_photo, double lat_location_tourism, double lng_location_tourism) {
+    public Tourism(String name_tourism, String location_tourism, String info_tourism, String telepon, String url_photo, double lat_location_tourism, double lng_location_tourism) {
         this.name_tourism = name_tourism;
         this.location_tourism = location_tourism;
         this.info_tourism = info_tourism;

@@ -23,7 +23,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 
 import co.id.roningrum.dolanapptugasakhir.R;
-import co.id.roningrum.dolanapptugasakhir.model.HerritageItem;
+import co.id.roningrum.dolanapptugasakhir.model.Herritage;
 
 public class HerritageHomeViewHolder extends RecyclerView.ViewHolder {
     private final TextView nameHerritageItem;
@@ -35,8 +35,8 @@ public class HerritageHomeViewHolder extends RecyclerView.ViewHolder {
         imgHerritageItem = itemView.findViewById(R.id.herritage_item_pic);
     }
 
-    public void showHerritageData(HerritageItem herritageItem) {
-        nameHerritageItem.setText(herritageItem.getName_herritage());
-        Glide.with(itemView.getContext()).load(herritageItem.getUrl_photo_herritage()).into(imgHerritageItem);
+    public void showHerritageData(Herritage herritage) {
+        nameHerritageItem.setText(herritage.getName_herritage());
+        Glide.with(itemView.getContext()).load(herritage.getUrl_photo_herritage()).into(imgHerritageItem);
     }
 }

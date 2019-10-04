@@ -44,14 +44,14 @@ import java.util.List;
 
 import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.handler.PermissionHandler;
-import co.id.roningrum.dolanapptugasakhir.model.TourismItem;
+import co.id.roningrum.dolanapptugasakhir.model.Tourism;
 
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class BookmarkFragment extends Fragment {
-    private ArrayList<TourismItem> tourismItemList;
+    private ArrayList<Tourism> tourismList;
     private List<String> checkUserList = new ArrayList<>();
     private RecyclerView rvFavoritList;
     private FirebaseUser user;
@@ -86,25 +86,25 @@ public class BookmarkFragment extends Fragment {
 
     private void showFavorite() {
         if (havePermission()) {
-            tourismItemList = new ArrayList<>();
+            tourismList = new ArrayList<>();
             databaseReference.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    tourismItemList.clear();
+                    tourismList.clear();
 
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                        TourismItem tourismItem = snapshot.getValue(TourismItem.class);
+                        Tourism tourism = snapshot.getValue(Tourism.class);
                         final String idTourism = snapshot.getKey();
                         Log.d("check id user", "" + idTourism);
                         for (String id : checkUserList) {
                             assert idTourism != null;
                             if (idTourism.equals(id)) {
-                                tourismItemList.add(tourismItem);
+                                tourismList.add(tourism);
 
                             }
                         }
                     }
-                    favoritAdapter = new FavoritAdapter(tourismItemList, getContext());
+                    favoritAdapter = new FavoritAdapter(tourismList, getContext());
                     rvFavoritList.setAdapter(favoritAdapter);
                     favoritAdapter.notifyDataSetChanged();
 

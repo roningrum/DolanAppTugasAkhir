@@ -48,7 +48,7 @@ import java.util.Objects;
 import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.handler.HaversineHandler;
-import co.id.roningrum.dolanapptugasakhir.model.GasStationItem;
+import co.id.roningrum.dolanapptugasakhir.model.GasStation;
 
 public class GasStationDetail extends AppCompatActivity implements OnMapReadyCallback {
 
@@ -118,20 +118,20 @@ public class GasStationDetail extends AppCompatActivity implements OnMapReadyCal
                 @SuppressLint("SetTextI18n")
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    final GasStationItem gasStationItem = dataSnapshot.getValue(GasStationItem.class);
+                    final GasStation gasStation = dataSnapshot.getValue(GasStation.class);
                     startLat = gpsHandler.getLatitude();
                     startlng = gpsHandler.getLongitude();
-                    assert gasStationItem != null;
-                    endlat = gasStationItem.getLat_gasstation();
-                    endLng = gasStationItem.getLng_gasstation();
+                    assert gasStation != null;
+                    endlat = gasStation.getLat_gasstation();
+                    endLng = gasStation.getLng_gasstation();
                     distance = HaversineHandler.calculateDistance(startLat, startlng, endlat, endLng);
 
 
                     @SuppressLint("DefaultLocale") String distanceFormat = String.format("%.2f", distance);
                     tvDistanceGasDetail.setText("" + distanceFormat + " km");
-                    tvNameGasDetail.setText(gasStationItem.getName_gasstation());
-                    tvAddressGasDetail.setText(gasStationItem.getLocation_gasstation());
-                    Glide.with(getApplicationContext()).load(gasStationItem.getUrl_photo_gasstation()).into(imgGasDetail);
+                    tvNameGasDetail.setText(gasStation.getName_gasstation());
+                    tvAddressGasDetail.setText(gasStation.getLocation_gasstation());
+                    Glide.with(getApplicationContext()).load(gasStation.getUrl_photo_gasstation()).into(imgGasDetail);
                     AppBarLayout appBarLayout = findViewById(R.id.app_bar_spbu);
                     appBarLayout.addOnOffsetChangedListener(new AppBarLayout.BaseOnOffsetChangedListener() {
                         boolean isShow = true;
@@ -143,7 +143,7 @@ public class GasStationDetail extends AppCompatActivity implements OnMapReadyCal
                                 scrollRange = appBarLayout.getTotalScrollRange();
                             }
                             if (scrollRange + verticalOffset == 0) {
-                                collapsingToolbarGas.setTitle(gasStationItem.getName_gasstation());
+                                collapsingToolbarGas.setTitle(gasStation.getName_gasstation());
                                 isShow = true;
                             } else {
                                 collapsingToolbarGas.setTitle(" ");
@@ -189,13 +189,13 @@ public class GasStationDetail extends AppCompatActivity implements OnMapReadyCal
                 @SuppressLint("SetTextI18n")
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    final GasStationItem gasStationItem = dataSnapshot.getValue(GasStationItem.class);
+                    final GasStation gasStation = dataSnapshot.getValue(GasStation.class);
                     startLat = gpsHandler.getLatitude();
                     startlng = gpsHandler.getLongitude();
 
-                    assert gasStationItem != null;
-                    endlat = gasStationItem.getLat_gasstation();
-                    endLng = gasStationItem.getLng_gasstation();
+                    assert gasStation != null;
+                    endlat = gasStation.getLat_gasstation();
+                    endLng = gasStation.getLng_gasstation();
 
                     LatLng location = new LatLng(endlat, endLng);
                     gasGoogleMap.addMarker(new MarkerOptions().position(location));

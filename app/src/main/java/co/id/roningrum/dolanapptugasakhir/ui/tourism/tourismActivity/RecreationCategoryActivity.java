@@ -46,7 +46,7 @@ import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.handler.NetworkHelper;
 import co.id.roningrum.dolanapptugasakhir.handler.PermissionHandler;
-import co.id.roningrum.dolanapptugasakhir.model.TourismItem;
+import co.id.roningrum.dolanapptugasakhir.model.Tourism;
 import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismDetailActivity.DetailRecreationActivity;
 import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismMapActivity.RecreationCategoryMaps;
 import co.id.roningrum.dolanapptugasakhir.viewholderActivity.tourism.RecreationViewHolder;
@@ -54,7 +54,7 @@ import co.id.roningrum.dolanapptugasakhir.viewholderActivity.tourism.RecreationV
 public class RecreationCategoryActivity extends AppCompatActivity {
     private RecyclerView rvRecreationList;
     private ShimmerFrameLayout shimmerFrameLayout;
-    private FirebaseRecyclerAdapter<TourismItem, RecreationViewHolder> recreationFirebaseAdapter;
+    private FirebaseRecyclerAdapter<Tourism, RecreationViewHolder> recreationFirebaseAdapter;
 
     private GPSHandler gpsHandler;
     private PermissionHandler permissionHandler;
@@ -67,7 +67,7 @@ public class RecreationCategoryActivity extends AppCompatActivity {
         Toolbar toolbarRecreation = findViewById(R.id.toolbar_top_recreation);
         shimmerFrameLayout = findViewById(R.id.shimmer_view_container);
         rvRecreationList.setLayoutManager(new LinearLayoutManager(this));
-        ArrayList<TourismItem> tourismItems = new ArrayList<>();
+        ArrayList<Tourism> tourisms = new ArrayList<>();
         setSupportActionBar(toolbarRecreation);
         checkConnection();
     }
@@ -85,13 +85,13 @@ public class RecreationCategoryActivity extends AppCompatActivity {
         if (havePermission()) {
             DatabaseReference recreationCategoryDB = FirebaseDatabase.getInstance().getReference();
             Query recreationQuery = recreationCategoryDB.child("Tourism").orderByChild("category_tourism").equalTo("rekreasi");
-            FirebaseRecyclerOptions<TourismItem> recreationOptions = new FirebaseRecyclerOptions.Builder<TourismItem>()
-                    .setQuery(recreationQuery, TourismItem.class)
+            FirebaseRecyclerOptions<Tourism> recreationOptions = new FirebaseRecyclerOptions.Builder<Tourism>()
+                    .setQuery(recreationQuery, Tourism.class)
                     .build();
-            recreationFirebaseAdapter = new FirebaseRecyclerAdapter<TourismItem, RecreationViewHolder>(recreationOptions) {
+            recreationFirebaseAdapter = new FirebaseRecyclerAdapter<Tourism, RecreationViewHolder>(recreationOptions) {
 
                 @Override
-                protected void onBindViewHolder(@NonNull RecreationViewHolder holder, int position, @NonNull TourismItem model) {
+                protected void onBindViewHolder(@NonNull RecreationViewHolder holder, int position, @NonNull Tourism model) {
                     final DatabaseReference recreationCategoryRef = getRef(position);
                     final String recreationKey = recreationCategoryRef.getKey();
 

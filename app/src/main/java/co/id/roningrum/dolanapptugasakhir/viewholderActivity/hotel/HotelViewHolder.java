@@ -25,7 +25,7 @@ import com.bumptech.glide.Glide;
 
 import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.handler.HaversineHandler;
-import co.id.roningrum.dolanapptugasakhir.model.HotelItem;
+import co.id.roningrum.dolanapptugasakhir.model.Hotel;
 
 public class HotelViewHolder extends RecyclerView.ViewHolder {
     private final TextView nameHotel;
@@ -50,19 +50,19 @@ public class HotelViewHolder extends RecyclerView.ViewHolder {
     }
 
     @SuppressLint("SetTextI18n")
-    public void showHotelData(HotelItem hotelItem, double latitude, double longitude) {
+    public void showHotelData(Hotel hotel, double latitude, double longitude) {
 
-        double lattitude_a = hotelItem.getLat_location_hotel();
-        double longitude_a = hotelItem.getLng_location_hotel();
+        double lattitude_a = hotel.getLat_location_hotel();
+        double longitude_a = hotel.getLng_location_hotel();
 
         float jarakKM = (float) HaversineHandler.calculateDistance(latitude, longitude, lattitude_a, longitude_a);
 //        float jarakKM = jarakMeter / 1000;
         @SuppressLint("DefaultLocale") String distanceFormat = String.format("%.2f", jarakKM);
 
-        nameHotel.setText(hotelItem.getName_hotel());
-        locationHotel.setText(hotelItem.getLocation_hotel());
+        nameHotel.setText(hotel.getName_hotel());
+        locationHotel.setText(hotel.getLocation_hotel());
         distanceHotel.setText(distanceFormat + " km");
-        Glide.with(itemView.getContext()).load(hotelItem.getUrl_photo_hotel()).into(hotelPic);
+        Glide.with(itemView.getContext()).load(hotel.getUrl_photo_hotel()).into(hotelPic);
     }
 
 

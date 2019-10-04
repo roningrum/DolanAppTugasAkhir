@@ -41,12 +41,14 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.Objects;
 
 import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.handler.HaversineHandler;
-import co.id.roningrum.dolanapptugasakhir.model.TransportationItem;
+import co.id.roningrum.dolanapptugasakhir.model.Transportation;
 
 public class DetailAirportActivity extends AppCompatActivity implements OnMapReadyCallback {
 
@@ -117,19 +119,19 @@ public class DetailAirportActivity extends AppCompatActivity implements OnMapRea
                 @SuppressLint("SetTextI18n")
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    final TransportationItem transportationItem = dataSnapshot.getValue(TransportationItem.class);
+                    final Transportation transportation = dataSnapshot.getValue(Transportation.class);
                     startLat = gpsHandler.getLatitude();
                     startlng = gpsHandler.getLongitude();
-                    assert transportationItem != null;
-                    endlat = transportationItem.getLat_transportation();
-                    endLng = transportationItem.getLng_transportation();
+                    assert transportation != null;
+                    endlat = transportation.getLat_transportation();
+                    endLng = transportation.getLng_transportation();
                     distance = HaversineHandler.calculateDistance(startLat, startlng, endlat, endLng);
 
                     @SuppressLint("DefaultLocale") String distanceFormat = String.format("%.2f", distance);
                     tvDistanceAirport.setText("" + distanceFormat + " km");
-                    tvNameAirportDetail.setText(transportationItem.getName_transportation());
-                    tvAddressAiportDetail.setText(transportationItem.getLocation_transportation());
-                    Glide.with(getApplicationContext()).load(transportationItem.getUrl_photo_transport()).into(imgAirportDetail);
+                    tvNameAirportDetail.setText(transportation.getName_transportation());
+                    tvAddressAiportDetail.setText(transportation.getLocation_transportation());
+                    Glide.with(getApplicationContext()).load(transportation.getUrl_photo_transport()).into(imgAirportDetail);
                     AppBarLayout appBarLayout = findViewById(R.id.app_bar_airport);
                     appBarLayout.addOnOffsetChangedListener(new AppBarLayout.BaseOnOffsetChangedListener() {
                         boolean isShow = true;
@@ -141,7 +143,7 @@ public class DetailAirportActivity extends AppCompatActivity implements OnMapRea
                                 scrollRange = appBarLayout.getTotalScrollRange();
                             }
                             if (scrollRange + verticalOffset == 0) {
-                                collapsingToolbarAiport.setTitle(transportationItem.getName_transportation());
+                                collapsingToolbarAiport.setTitle(transportation.getName_transportation());
                                 isShow = true;
                             } else {
                                 collapsingToolbarAiport.setTitle(" ");
@@ -165,7 +167,7 @@ public class DetailAirportActivity extends AppCompatActivity implements OnMapRea
 
 
     @Override
-    protected void onSaveInstanceState(Bundle outState) {
+    protected void onSaveInstanceState(@NotNull Bundle outState) {
         super.onSaveInstanceState(outState);
         Bundle mapViewBundle = outState.getBundle(MAP_VIEW_KEY);
         if (mapViewBundle == null) {
@@ -183,10 +185,10 @@ public class DetailAirportActivity extends AppCompatActivity implements OnMapRea
         ValueEventListener eventListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                final TransportationItem transportationItem = dataSnapshot.getValue(TransportationItem.class);
-                assert transportationItem != null;
-                endlat = transportationItem.getLat_transportation();
-                endLng = transportationItem.getLng_transportation();
+                final Transportation transportation = dataSnapshot.getValue(Transportation.class);
+                assert transportation != null;
+                endlat = transportation.getLat_transportation();
+                endLng = transportation.getLng_transportation();
 
                 LatLng location = new LatLng(endlat, endLng);
                 airportGoogleMap.addMarker(new MarkerOptions().position(location));

@@ -32,7 +32,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import co.id.roningrum.dolanapptugasakhir.R;
-import co.id.roningrum.dolanapptugasakhir.model.GasStationItem;
+import co.id.roningrum.dolanapptugasakhir.model.GasStation;
 
 public class GasStationMap extends FragmentActivity implements OnMapReadyCallback {
 
@@ -71,13 +71,13 @@ public class GasStationMap extends FragmentActivity implements OnMapReadyCallbac
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot dsGasStation : dataSnapshot.getChildren()) {
-                    GasStationItem gasStationItem = dsGasStation.getValue(GasStationItem.class);
-                    assert gasStationItem != null;
-                    double latGas = gasStationItem.getLat_gasstation();
-                    double lngGas = gasStationItem.getLng_gasstation();
+                    GasStation gasStation = dsGasStation.getValue(GasStation.class);
+                    assert gasStation != null;
+                    double latGas = gasStation.getLat_gasstation();
+                    double lngGas = gasStation.getLng_gasstation();
                     LatLng busPlaceLoc = new LatLng(latGas, lngGas);
                     gasGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(busPlaceLoc, 10.2f));
-                    gasGoogleMap.addMarker(new MarkerOptions().position(busPlaceLoc).title(gasStationItem.getName_gasstation()).snippet(gasStationItem.getLocation_gasstation()));
+                    gasGoogleMap.addMarker(new MarkerOptions().position(busPlaceLoc).title(gasStation.getName_gasstation()).snippet(gasStation.getLocation_gasstation()));
 
                 }
             }

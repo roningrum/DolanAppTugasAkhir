@@ -45,7 +45,7 @@ import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.handler.NetworkHelper;
 import co.id.roningrum.dolanapptugasakhir.handler.PermissionHandler;
-import co.id.roningrum.dolanapptugasakhir.model.TransportationItem;
+import co.id.roningrum.dolanapptugasakhir.model.Transportation;
 import co.id.roningrum.dolanapptugasakhir.ui.transportation.transportationDetailActivity.DetailShipActivity;
 import co.id.roningrum.dolanapptugasakhir.ui.transportation.transportationMapActivity.ShipMapActivity;
 import co.id.roningrum.dolanapptugasakhir.viewholderActivity.transportation.ShipViewHolder;
@@ -53,7 +53,7 @@ import co.id.roningrum.dolanapptugasakhir.viewholderActivity.transportation.Ship
 public class ShipCategoryActivity extends AppCompatActivity {
     private RecyclerView rvShipList;
     private ShimmerFrameLayout shimmerFrameLayout;
-    private FirebaseRecyclerAdapter<TransportationItem, ShipViewHolder> shipFirebaseadapter;
+    private FirebaseRecyclerAdapter<Transportation, ShipViewHolder> shipFirebaseadapter;
 
     private GPSHandler gpsHandler;
     private PermissionHandler permissionHandler;
@@ -82,12 +82,12 @@ public class ShipCategoryActivity extends AppCompatActivity {
         if (havePermission()) {
             DatabaseReference shipRef = FirebaseDatabase.getInstance().getReference();
             Query shipQuery = shipRef.child("Transportation").orderByChild("category_transportation").equalTo("harbor");
-            final FirebaseRecyclerOptions<TransportationItem> shipOptions = new FirebaseRecyclerOptions.Builder<TransportationItem>()
-                    .setQuery(shipQuery, TransportationItem.class)
+            final FirebaseRecyclerOptions<Transportation> shipOptions = new FirebaseRecyclerOptions.Builder<Transportation>()
+                    .setQuery(shipQuery, Transportation.class)
                     .build();
-            shipFirebaseadapter = new FirebaseRecyclerAdapter<TransportationItem, ShipViewHolder>(shipOptions) {
+            shipFirebaseadapter = new FirebaseRecyclerAdapter<Transportation, ShipViewHolder>(shipOptions) {
                 @Override
-                protected void onBindViewHolder(@NonNull ShipViewHolder holder, int position, @NonNull TransportationItem model) {
+                protected void onBindViewHolder(@NonNull ShipViewHolder holder, int position, @NonNull Transportation model) {
                     final DatabaseReference shipRef = getRef(position);
                     final String shipKey = shipRef.getKey();
                     gpsHandler = new GPSHandler(getApplicationContext());

@@ -45,12 +45,14 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.Objects;
 
 import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.handler.HaversineHandler;
-import co.id.roningrum.dolanapptugasakhir.model.HotelItem;
+import co.id.roningrum.dolanapptugasakhir.model.Hotel;
 
 public class DetailHotelActivity extends AppCompatActivity implements OnMapReadyCallback, View.OnClickListener {
     public static final String EXTRA_HOTEL_KEY = "hotel_key";
@@ -124,19 +126,19 @@ public class DetailHotelActivity extends AppCompatActivity implements OnMapReady
                 @SuppressLint("SetTextI18n")
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    final HotelItem hotelItem = dataSnapshot.getValue(HotelItem.class);
+                    final Hotel hotel = dataSnapshot.getValue(Hotel.class);
                     startLat = gpsHandler.getLatitude();
                     startlng = gpsHandler.getLongitude();
-                    assert hotelItem != null;
-                    endlat = hotelItem.getLat_location_hotel();
-                    endLng = hotelItem.getLng_location_hotel();
+                    assert hotel != null;
+                    endlat = hotel.getLat_location_hotel();
+                    endLng = hotel.getLng_location_hotel();
                     distance = HaversineHandler.calculateDistance(startLat, startlng, endlat, endLng);
 
                     @SuppressLint("DefaultLocale") String distanceFormat = String.format("%.2f", distance);
                     tvDistanceHotelEducation.setText("" + distanceFormat + " km");
-                    tvNameHotelDetail.setText(hotelItem.getName_hotel());
-                    tvAddressHotelDetail.setText(hotelItem.getLocation_hotel());
-                    Glide.with(getApplicationContext()).load(hotelItem.getUrl_photo_hotel()).into(imgHotelDetail);
+                    tvNameHotelDetail.setText(hotel.getName_hotel());
+                    tvAddressHotelDetail.setText(hotel.getLocation_hotel());
+                    Glide.with(getApplicationContext()).load(hotel.getUrl_photo_hotel()).into(imgHotelDetail);
                     AppBarLayout appBarLayout = findViewById(R.id.app_bar_hotel);
                     appBarLayout.addOnOffsetChangedListener(new AppBarLayout.BaseOnOffsetChangedListener() {
                         boolean isShow = true;
@@ -148,7 +150,7 @@ public class DetailHotelActivity extends AppCompatActivity implements OnMapReady
                                 scrollRange = appBarLayout.getTotalScrollRange();
                             }
                             if (scrollRange + verticalOffset == 0) {
-                                collapsingToolbarHotel.setTitle(hotelItem.getName_hotel());
+                                collapsingToolbarHotel.setTitle(hotel.getName_hotel());
                                 isShow = true;
                             } else {
                                 collapsingToolbarHotel.setTitle(" ");
@@ -171,7 +173,7 @@ public class DetailHotelActivity extends AppCompatActivity implements OnMapReady
     }
 
     @Override
-    protected void onSaveInstanceState(Bundle outState) {
+    protected void onSaveInstanceState(@NotNull Bundle outState) {
         super.onSaveInstanceState(outState);
         Bundle mapViewBundle = outState.getBundle(MAP_VIEW_KEY);
         if (mapViewBundle == null) {
@@ -188,10 +190,10 @@ public class DetailHotelActivity extends AppCompatActivity implements OnMapReady
         ValueEventListener eventListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                HotelItem hotelItem = dataSnapshot.getValue(HotelItem.class);
-                assert hotelItem != null;
-                endlat = hotelItem.getLat_location_hotel();
-                endLng = hotelItem.getLng_location_hotel();
+                Hotel hotel = dataSnapshot.getValue(Hotel.class);
+                assert hotel != null;
+                endlat = hotel.getLat_location_hotel();
+                endLng = hotel.getLng_location_hotel();
 
                 LatLng location = new LatLng(endlat, endLng);
                 hotelGoogleMap.addMarker(new MarkerOptions().position(location));
@@ -226,9 +228,9 @@ public class DetailHotelActivity extends AppCompatActivity implements OnMapReady
         orderHotelLinkQuery.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                HotelItem hotelItem = dataSnapshot.getValue(HotelItem.class);
-                assert hotelItem != null;
-                String orderLink = hotelItem.getOrder_link_hotel1();
+                Hotel hotel = dataSnapshot.getValue(Hotel.class);
+                assert hotel != null;
+                String orderLink = hotel.getOrder_link_hotel1();
 
                 if (orderLink.equals("tidak tersedia")) {
                     Toast.makeText(DetailHotelActivity.this, "Maaf Link Tidak tersedia", Toast.LENGTH_SHORT).show();
@@ -252,9 +254,9 @@ public class DetailHotelActivity extends AppCompatActivity implements OnMapReady
         orderHotelLinkQuery.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                HotelItem hotelItem = dataSnapshot.getValue(HotelItem.class);
-                assert hotelItem != null;
-                String orderLink = hotelItem.getOrder_link_hotel();
+                Hotel hotel = dataSnapshot.getValue(Hotel.class);
+                assert hotel != null;
+                String orderLink = hotel.getOrder_link_hotel();
 
                 if (orderLink.equals("tidak tersedia")) {
                     Toast.makeText(DetailHotelActivity.this, "Maaf Link Tidak tersedia", Toast.LENGTH_SHORT).show();

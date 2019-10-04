@@ -34,8 +34,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 
 import co.id.roningrum.dolanapptugasakhir.R;
-import co.id.roningrum.dolanapptugasakhir.model.HerritageItem;
-import co.id.roningrum.dolanapptugasakhir.model.TourismItem;
+import co.id.roningrum.dolanapptugasakhir.model.Herritage;
+import co.id.roningrum.dolanapptugasakhir.model.Tourism;
 import co.id.roningrum.dolanapptugasakhir.ui.homeactivity.AllCategoryActivity;
 import co.id.roningrum.dolanapptugasakhir.ui.hotel.HotelCategoryActivity;
 import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismActivity.NatureCategoryActivity;
@@ -55,9 +55,9 @@ import co.id.roningrum.dolanapptugasakhir.viewholderActivity.ViewHolderHome.Tour
 public class HomeFragment extends Fragment implements View.OnClickListener {
     private RecyclerView rvTouristRecommendation, rvFoodRecommendation, rvHeriitageHome;
 
-    private FirebaseRecyclerAdapter<TourismItem, FoodRecommendationViewHolder> foodRecommendAdapter;
-    private FirebaseRecyclerAdapter<TourismItem, TouristRecommendationViewHolder> touristRecommendAdapter;
-    private FirebaseRecyclerAdapter<HerritageItem, HerritageHomeViewHolder> herritageItemAdapter;
+    private FirebaseRecyclerAdapter<Tourism, FoodRecommendationViewHolder> foodRecommendAdapter;
+    private FirebaseRecyclerAdapter<Tourism, TouristRecommendationViewHolder> touristRecommendAdapter;
+    private FirebaseRecyclerAdapter<Herritage, HerritageHomeViewHolder> herritageItemAdapter;
     private DatabaseReference recommendationDB;
 
     public HomeFragment() {
@@ -108,12 +108,12 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
     private void showHerritageHome() {
         Query herritageQuery = recommendationDB.child("HerritageSemarang");
-        FirebaseRecyclerOptions<HerritageItem> herritageOption = new FirebaseRecyclerOptions.Builder<HerritageItem>()
-                .setQuery(herritageQuery, HerritageItem.class)
+        FirebaseRecyclerOptions<Herritage> herritageOption = new FirebaseRecyclerOptions.Builder<Herritage>()
+                .setQuery(herritageQuery, Herritage.class)
                 .build();
-        herritageItemAdapter = new FirebaseRecyclerAdapter<HerritageItem, HerritageHomeViewHolder>(herritageOption) {
+        herritageItemAdapter = new FirebaseRecyclerAdapter<Herritage, HerritageHomeViewHolder>(herritageOption) {
             @Override
-            protected void onBindViewHolder(@NonNull HerritageHomeViewHolder holder, int position, @NonNull HerritageItem model) {
+            protected void onBindViewHolder(@NonNull HerritageHomeViewHolder holder, int position, @NonNull Herritage model) {
                 holder.showHerritageData(model);
             }
 
@@ -129,12 +129,12 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
     private void showTourismRecommendation() {
         Query tourismRecommendQuery = recommendationDB.child("BestPlaceTourism");
-        FirebaseRecyclerOptions<TourismItem> tourismOption = new FirebaseRecyclerOptions.Builder<TourismItem>()
-                .setQuery(tourismRecommendQuery, TourismItem.class)
+        FirebaseRecyclerOptions<Tourism> tourismOption = new FirebaseRecyclerOptions.Builder<Tourism>()
+                .setQuery(tourismRecommendQuery, Tourism.class)
                 .build();
-        touristRecommendAdapter = new FirebaseRecyclerAdapter<TourismItem, TouristRecommendationViewHolder>(tourismOption) {
+        touristRecommendAdapter = new FirebaseRecyclerAdapter<Tourism, TouristRecommendationViewHolder>(tourismOption) {
             @Override
-            protected void onBindViewHolder(@NonNull TouristRecommendationViewHolder holder, int position, @NonNull TourismItem model) {
+            protected void onBindViewHolder(@NonNull TouristRecommendationViewHolder holder, int position, @NonNull Tourism model) {
                 holder.showRecommendationTourismData(model);
             }
 
@@ -150,12 +150,12 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
     private void showFoodReccomendation() {
         Query foodRecommendedQuery = recommendationDB.child("Tourism").orderByChild("category_tourism").equalTo("kuliner").limitToFirst(5);
-        FirebaseRecyclerOptions<TourismItem> foodOption = new FirebaseRecyclerOptions.Builder<TourismItem>()
-                .setQuery(foodRecommendedQuery, TourismItem.class)
+        FirebaseRecyclerOptions<Tourism> foodOption = new FirebaseRecyclerOptions.Builder<Tourism>()
+                .setQuery(foodRecommendedQuery, Tourism.class)
                 .build();
-        foodRecommendAdapter = new FirebaseRecyclerAdapter<TourismItem, FoodRecommendationViewHolder>(foodOption) {
+        foodRecommendAdapter = new FirebaseRecyclerAdapter<Tourism, FoodRecommendationViewHolder>(foodOption) {
             @Override
-            protected void onBindViewHolder(@NonNull FoodRecommendationViewHolder holder, int position, @NonNull TourismItem model) {
+            protected void onBindViewHolder(@NonNull FoodRecommendationViewHolder holder, int position, @NonNull Tourism model) {
                 holder.showFoodRecommendationTourismData(model);
             }
 

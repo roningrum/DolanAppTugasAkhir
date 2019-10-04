@@ -13,17 +13,17 @@
 
 package co.id.roningrum.dolanapptugasakhir.model;
 
-public class HospitalItem {
+public class Hospital {
     private String name_hospital;
     private String location_hospital;
     private double lat_hospital;
     private double lng_hospital;
     private String url_photo_hospital;
 
-    public HospitalItem() {
+    public Hospital() {
     }
 
-    public HospitalItem(String name_hospital, String location_hospital, double lat_hospital, double lng_hospital, String url_photo_hospital) {
+    public Hospital(String name_hospital, String location_hospital, double lat_hospital, double lng_hospital, String url_photo_hospital) {
         this.name_hospital = name_hospital;
         this.location_hospital = location_hospital;
         this.lat_hospital = lat_hospital;

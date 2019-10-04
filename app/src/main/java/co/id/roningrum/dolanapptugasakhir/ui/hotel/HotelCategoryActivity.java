@@ -45,13 +45,13 @@ import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.handler.NetworkHelper;
 import co.id.roningrum.dolanapptugasakhir.handler.PermissionHandler;
-import co.id.roningrum.dolanapptugasakhir.model.HotelItem;
+import co.id.roningrum.dolanapptugasakhir.model.Hotel;
 import co.id.roningrum.dolanapptugasakhir.viewholderActivity.hotel.HotelViewHolder;
 
 public class HotelCategoryActivity extends AppCompatActivity {
     private RecyclerView rvHotelList;
     private ShimmerFrameLayout shimmerFrameLayout;
-    private FirebaseRecyclerAdapter<HotelItem, HotelViewHolder> hotelFirebaseAdapter;
+    private FirebaseRecyclerAdapter<Hotel, HotelViewHolder> hotelFirebaseAdapter;
 
     private GPSHandler gpsHandler;
     private PermissionHandler permissionHandler;
@@ -80,12 +80,12 @@ public class HotelCategoryActivity extends AppCompatActivity {
         if (havePermission()) {
             DatabaseReference hotelRef = FirebaseDatabase.getInstance().getReference();
             Query hotelQuery = hotelRef.child("Hotel");
-            FirebaseRecyclerOptions<HotelItem> hotelOptions = new FirebaseRecyclerOptions.Builder<HotelItem>()
-                    .setQuery(hotelQuery, HotelItem.class)
+            FirebaseRecyclerOptions<Hotel> hotelOptions = new FirebaseRecyclerOptions.Builder<Hotel>()
+                    .setQuery(hotelQuery, Hotel.class)
                     .build();
-            hotelFirebaseAdapter = new FirebaseRecyclerAdapter<HotelItem, HotelViewHolder>(hotelOptions) {
+            hotelFirebaseAdapter = new FirebaseRecyclerAdapter<Hotel, HotelViewHolder>(hotelOptions) {
                 @Override
-                protected void onBindViewHolder(@NonNull HotelViewHolder holder, int position, @NonNull HotelItem model) {
+                protected void onBindViewHolder(@NonNull HotelViewHolder holder, int position, @NonNull Hotel model) {
                     final DatabaseReference hotelCategoryRef = getRef(position);
                     final String hotelKey = hotelCategoryRef.getKey();
 

@@ -25,7 +25,7 @@ import com.bumptech.glide.Glide;
 
 import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.handler.HaversineHandler;
-import co.id.roningrum.dolanapptugasakhir.model.TransportationItem;
+import co.id.roningrum.dolanapptugasakhir.model.Transportation;
 
 public class BusViewHolder extends RecyclerView.ViewHolder {
 
@@ -51,18 +51,18 @@ public class BusViewHolder extends RecyclerView.ViewHolder {
     }
 
     @SuppressLint("SetTextI18n")
-    public void showBusData(TransportationItem transportationItem, double latitude, double longitude) {
-        double lattitude_a = transportationItem.getLat_transportation();
-        double longitude_a = transportationItem.getLng_transportation();
+    public void showBusData(Transportation transportation, double latitude, double longitude) {
+        double lattitude_a = transportation.getLat_transportation();
+        double longitude_a = transportation.getLng_transportation();
 
         float jarakKM = (float) HaversineHandler.calculateDistance(latitude, longitude, lattitude_a, longitude_a);
 
         @SuppressLint("DefaultLocale") String distanceFormat = String.format("%.2f", jarakKM);
 
-        nameBus.setText(transportationItem.getName_transportation());
-        locationBus.setText(transportationItem.getLocation_transportation());
+        nameBus.setText(transportation.getName_transportation());
+        locationBus.setText(transportation.getLocation_transportation());
         distanceBus.setText(distanceFormat + " km");
-        Glide.with(itemView.getContext()).load(transportationItem.getUrl_photo_transport()).into(busPic);
+        Glide.with(itemView.getContext()).load(transportation.getUrl_photo_transport()).into(busPic);
     }
 
 

@@ -25,7 +25,7 @@ import com.bumptech.glide.Glide;
 
 import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.handler.HaversineHandler;
-import co.id.roningrum.dolanapptugasakhir.model.HospitalItem;
+import co.id.roningrum.dolanapptugasakhir.model.Hospital;
 
 public class HospitalViewHolder extends RecyclerView.ViewHolder {
     private final TextView nameHospital;
@@ -50,17 +50,17 @@ public class HospitalViewHolder extends RecyclerView.ViewHolder {
     }
 
     @SuppressLint("SetTextI18n")
-    public void showHospitalData(HospitalItem hospitalItem, double latitude, double longitude) {
+    public void showHospitalData(Hospital hospital, double latitude, double longitude) {
 
-        double latitude_a = hospitalItem.getLat_hospital();
-        double longitude_a = hospitalItem.getLng_hospital();
+        double latitude_a = hospital.getLat_hospital();
+        double longitude_a = hospital.getLng_hospital();
 
         float jarakKM = (float) HaversineHandler.calculateDistance(latitude, longitude, latitude_a, longitude_a);
-        nameHospital.setText(hospitalItem.getName_hospital());
-        locationHospital.setText(hospitalItem.getLocation_hospital());
+        nameHospital.setText(hospital.getName_hospital());
+        locationHospital.setText(hospital.getLocation_hospital());
         @SuppressLint("DefaultLocale") String distanceFormat = String.format("%.2f", jarakKM);
         distaceHospital.setText(distanceFormat + "km");
-        Glide.with(itemView.getContext()).load(hospitalItem.getUrl_photo_hospital()).into(hospitalPic);
+        Glide.with(itemView.getContext()).load(hospital.getUrl_photo_hospital()).into(hospitalPic);
     }
 
     public void setOnClickListener(HospitalViewHolder.ClickListener clickListener) {

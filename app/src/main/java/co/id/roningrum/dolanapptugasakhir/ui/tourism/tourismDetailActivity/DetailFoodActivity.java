@@ -47,7 +47,7 @@ import java.util.Objects;
 import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.handler.HaversineHandler;
-import co.id.roningrum.dolanapptugasakhir.model.TourismItem;
+import co.id.roningrum.dolanapptugasakhir.model.Tourism;
 
 public class DetailFoodActivity extends AppCompatActivity implements OnMapReadyCallback {
     public static final String EXTRA_WISATA_KEY = "kuliner_key";
@@ -117,20 +117,20 @@ public class DetailFoodActivity extends AppCompatActivity implements OnMapReadyC
                 @SuppressLint("SetTextI18n")
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    final TourismItem tourismItem = dataSnapshot.getValue(TourismItem.class);
+                    final Tourism tourism = dataSnapshot.getValue(Tourism.class);
                     startLat = gpsHandler.getLatitude();
                     startlng = gpsHandler.getLongitude();
-                    assert tourismItem != null;
-                    endlat = tourismItem.getLat_location_tourism();
-                    endLng = tourismItem.getLng_location_tourism();
+                    assert tourism != null;
+                    endlat = tourism.getLat_location_tourism();
+                    endLng = tourism.getLng_location_tourism();
                     distance = HaversineHandler.calculateDistance(startLat, startlng, endlat, endLng);
 
                     @SuppressLint("DefaultLocale") String distanceFormat = String.format("%.2f", distance);
                     tvDistanceFoodDetail.setText("" + distanceFormat + " KM");
-                    tvNameFoodDetail.setText(tourismItem.getName_tourism());
-                    tvAddressFoodDetail.setText(tourismItem.getLocation_tourism());
-                    tvDescFoodDetail.setText(tourismItem.getInfo_tourism());
-                    Glide.with(getApplicationContext()).load(tourismItem.getUrl_photo()).into(imgFoodDetail);
+                    tvNameFoodDetail.setText(tourism.getName_tourism());
+                    tvAddressFoodDetail.setText(tourism.getLocation_tourism());
+                    tvDescFoodDetail.setText(tourism.getInfo_tourism());
+                    Glide.with(getApplicationContext()).load(tourism.getUrl_photo()).into(imgFoodDetail);
                     AppBarLayout appBarLayout = findViewById(R.id.app_bar_food);
                     appBarLayout.addOnOffsetChangedListener(new AppBarLayout.BaseOnOffsetChangedListener() {
                         boolean isShow = true;
@@ -142,7 +142,7 @@ public class DetailFoodActivity extends AppCompatActivity implements OnMapReadyC
                                 scrollRange = appBarLayout.getTotalScrollRange();
                             }
                             if (scrollRange + verticalOffset == 0) {
-                                collapsingToolbarLayout.setTitle(tourismItem.getName_tourism());
+                                collapsingToolbarLayout.setTitle(tourism.getName_tourism());
                                 isShow = true;
                             } else {
                                 collapsingToolbarLayout.setTitle(" ");
@@ -197,11 +197,11 @@ public class DetailFoodActivity extends AppCompatActivity implements OnMapReadyC
         ValueEventListener eventListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                TourismItem tourismItem = dataSnapshot.getValue(TourismItem.class);
-//                assert tourismItem != null;
-                assert tourismItem != null;
-                double lattitude = tourismItem.getLat_location_tourism();
-                double longitude = tourismItem.getLng_location_tourism();
+                Tourism tourism = dataSnapshot.getValue(Tourism.class);
+//                assert tourism != null;
+                assert tourism != null;
+                double lattitude = tourism.getLat_location_tourism();
+                double longitude = tourism.getLng_location_tourism();
 
                 LatLng location = new LatLng(lattitude, longitude);
                 foodMap.addMarker(new MarkerOptions().position(location));

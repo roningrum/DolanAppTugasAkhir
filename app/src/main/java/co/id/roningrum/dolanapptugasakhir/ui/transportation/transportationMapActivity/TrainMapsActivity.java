@@ -39,7 +39,7 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import co.id.roningrum.dolanapptugasakhir.R;
-import co.id.roningrum.dolanapptugasakhir.model.TransportationItem;
+import co.id.roningrum.dolanapptugasakhir.model.Transportation;
 
 public class TrainMapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
@@ -80,14 +80,14 @@ public class TrainMapsActivity extends FragmentActivity implements OnMapReadyCal
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot dsAirport : dataSnapshot.getChildren()) {
-                    TransportationItem transportationItem = dsAirport.getValue(TransportationItem.class);
-                    assert transportationItem != null;
-                    double latBus = transportationItem.getLat_transportation();
-                    double lngBus = transportationItem.getLng_transportation();
+                    Transportation transportation = dsAirport.getValue(Transportation.class);
+                    assert transportation != null;
+                    double latBus = transportation.getLat_transportation();
+                    double lngBus = transportation.getLng_transportation();
                     LatLng airportPlaceLoc = new LatLng(latBus, lngBus);
                     trainMap.moveCamera(CameraUpdateFactory.newLatLngZoom(airportPlaceLoc, 11.2f));
                     trainMap.addMarker(new MarkerOptions().position(airportPlaceLoc).icon(getBitmapDescriptor()).
-                            title(transportationItem.getName_transportation()).snippet(transportationItem.getLocation_transportation()));
+                            title(transportation.getName_transportation()).snippet(transportation.getLocation_transportation()));
 
                 }
             }

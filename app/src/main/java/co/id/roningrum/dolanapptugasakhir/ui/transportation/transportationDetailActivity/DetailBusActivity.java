@@ -41,12 +41,14 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.Objects;
 
 import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.handler.HaversineHandler;
-import co.id.roningrum.dolanapptugasakhir.model.TransportationItem;
+import co.id.roningrum.dolanapptugasakhir.model.Transportation;
 
 public class DetailBusActivity extends AppCompatActivity implements OnMapReadyCallback {
     public static final String EXTRA_BUS_KEY = "busKey";
@@ -119,21 +121,21 @@ public class DetailBusActivity extends AppCompatActivity implements OnMapReadyCa
                 @SuppressLint("SetTextI18n")
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    final TransportationItem transportationItem = dataSnapshot.getValue(TransportationItem.class);
+                    final Transportation transportation = dataSnapshot.getValue(Transportation.class);
                     startLat = gpsHandler.getLatitude();
                     startlng = gpsHandler.getLongitude();
-                    assert transportationItem != null;
-                    endlat = transportationItem.getLat_transportation();
-                    endLng = transportationItem.getLng_transportation();
+                    assert transportation != null;
+                    endlat = transportation.getLat_transportation();
+                    endLng = transportation.getLng_transportation();
                     distance = HaversineHandler.calculateDistance(startLat, startlng, endlat, endLng);
 
 //                    Log.i("Haversine", "The Result : " +calculateDistance(gpsHandler.getLatitude(),gpsHandler.getLongitude(),endlat,endLng));
 
                     @SuppressLint("DefaultLocale") String distanceFormat = String.format("%.2f", distance);
                     tvDistanceAirport.setText("" + distanceFormat + " km");
-                    tvNameBusDetail.setText(transportationItem.getName_transportation());
-                    tvAddressBusDetail.setText(transportationItem.getLocation_transportation());
-                    Glide.with(getApplicationContext()).load(transportationItem.getUrl_photo_transport()).into(imgBusDetail);
+                    tvNameBusDetail.setText(transportation.getName_transportation());
+                    tvAddressBusDetail.setText(transportation.getLocation_transportation());
+                    Glide.with(getApplicationContext()).load(transportation.getUrl_photo_transport()).into(imgBusDetail);
                     AppBarLayout appBarLayout = findViewById(R.id.app_bar_bus);
                     appBarLayout.addOnOffsetChangedListener(new AppBarLayout.BaseOnOffsetChangedListener() {
                         boolean isShow = true;
@@ -145,7 +147,7 @@ public class DetailBusActivity extends AppCompatActivity implements OnMapReadyCa
                                 scrollRange = appBarLayout.getTotalScrollRange();
                             }
                             if (scrollRange + verticalOffset == 0) {
-                                collapsingToolbarBus.setTitle(transportationItem.getName_transportation());
+                                collapsingToolbarBus.setTitle(transportation.getName_transportation());
                                 isShow = true;
                             } else {
                                 collapsingToolbarBus.setTitle(" ");
@@ -168,7 +170,7 @@ public class DetailBusActivity extends AppCompatActivity implements OnMapReadyCa
     }
 
     @Override
-    protected void onSaveInstanceState(Bundle outState) {
+    protected void onSaveInstanceState(@NotNull Bundle outState) {
         super.onSaveInstanceState(outState);
         Bundle mapViewBundle = outState.getBundle(MAP_VIEW_KEY);
         if (mapViewBundle == null) {
@@ -187,10 +189,10 @@ public class DetailBusActivity extends AppCompatActivity implements OnMapReadyCa
             ValueEventListener eventListener = new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    TransportationItem transportationItem = dataSnapshot.getValue(TransportationItem.class);
-                    assert transportationItem != null;
-                    endlat = transportationItem.getLat_transportation();
-                    endLng = transportationItem.getLng_transportation();
+                    Transportation transportation = dataSnapshot.getValue(Transportation.class);
+                    assert transportation != null;
+                    endlat = transportation.getLat_transportation();
+                    endLng = transportation.getLng_transportation();
 
                     LatLng location = new LatLng(endlat, endLng);
                     busGoogleMap.addMarker(new MarkerOptions().position(location));

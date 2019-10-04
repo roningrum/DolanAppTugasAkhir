@@ -23,7 +23,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 
 import co.id.roningrum.dolanapptugasakhir.R;
-import co.id.roningrum.dolanapptugasakhir.model.TourismItem;
+import co.id.roningrum.dolanapptugasakhir.model.Tourism;
 
 public class TouristRecommendationViewHolder extends RecyclerView.ViewHolder {
     private final TextView nameRecommendationTourism;
@@ -43,9 +43,9 @@ public class TouristRecommendationViewHolder extends RecyclerView.ViewHolder {
 //        });
     }
 
-    public void showRecommendationTourismData(TourismItem tourismItem) {
-        nameRecommendationTourism.setText(tourismItem.getName_tourism());
-        Glide.with(itemView.getContext()).load(tourismItem.getUrl_photo()).into(imageTourismPic);
+    public void showRecommendationTourismData(Tourism tourism) {
+        nameRecommendationTourism.setText(tourism.getName_tourism());
+        Glide.with(itemView.getContext()).load(tourism.getUrl_photo()).into(imageTourismPic);
     }
 
     public void setOnClickListener(TouristRecommendationViewHolder.ClickListener clickListener) {

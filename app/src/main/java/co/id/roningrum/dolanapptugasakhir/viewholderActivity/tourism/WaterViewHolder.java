@@ -25,7 +25,7 @@ import com.bumptech.glide.Glide;
 
 import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.handler.HaversineHandler;
-import co.id.roningrum.dolanapptugasakhir.model.TourismItem;
+import co.id.roningrum.dolanapptugasakhir.model.Tourism;
 
 public class WaterViewHolder extends RecyclerView.ViewHolder {
     private final TextView name_water_tourism;
@@ -48,20 +48,20 @@ public class WaterViewHolder extends RecyclerView.ViewHolder {
     }
 
     @SuppressLint("SetTextI18n")
-    public void showWaterTourismData(TourismItem tourismItem, double latitude, double longitude) {
+    public void showWaterTourismData(Tourism tourism, double latitude, double longitude) {
 
-        double lattitude_a = tourismItem.getLat_location_tourism();
-        double longitude_a = tourismItem.getLng_location_tourism();
+        double lattitude_a = tourism.getLat_location_tourism();
+        double longitude_a = tourism.getLng_location_tourism();
 
         float jarakKM = (float) HaversineHandler.calculateDistance(latitude, longitude, lattitude_a, longitude_a);
 //        float jarakMeter = loc1.distanceTo(loc2);
 //        float jarakKM = jarakMeter / 1000;
         @SuppressLint("DefaultLocale") String distanceFormat = String.format("%.2f", jarakKM);
 
-        name_water_tourism.setText(tourismItem.getName_tourism());
-        location_water_tourism.setText(tourismItem.getLocation_tourism());
+        name_water_tourism.setText(tourism.getName_tourism());
+        location_water_tourism.setText(tourism.getLocation_tourism());
         distance_waterTourism.setText(distanceFormat + " km");
-        Glide.with(itemView.getContext()).load(tourismItem.getUrl_photo()).into(water_tourism_pic);
+        Glide.with(itemView.getContext()).load(tourism.getUrl_photo()).into(water_tourism_pic);
     }
 
     private double calculateDistance(double lat1, double long1, double lat2, double long2) {

@@ -46,7 +46,7 @@ import java.util.Objects;
 import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.handler.HaversineHandler;
-import co.id.roningrum.dolanapptugasakhir.model.PoliceItem;
+import co.id.roningrum.dolanapptugasakhir.model.Police;
 
 public class DetailPoliceActivity extends AppCompatActivity implements OnMapReadyCallback {
     public static final String EXTRA_POLICE_KEY = "policeKey";
@@ -118,20 +118,20 @@ public class DetailPoliceActivity extends AppCompatActivity implements OnMapRead
                 @SuppressLint("SetTextI18n")
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    final PoliceItem policeItem = dataSnapshot.getValue(PoliceItem.class);
+                    final Police police = dataSnapshot.getValue(Police.class);
                     startLat = gpsHandler.getLatitude();
                     startlng = gpsHandler.getLongitude();
-                    assert policeItem != null;
-                    endlat = policeItem.getLat_police();
-                    endLng = policeItem.getLng_police();
+                    assert police != null;
+                    endlat = police.getLat_police();
+                    endLng = police.getLng_police();
                     distance = HaversineHandler.calculateDistance(startLat, startlng, endlat, endLng);
 
 
                     @SuppressLint("DefaultLocale") String distanceFormat = String.format("%.2f", distance);
                     tvDistancePoliceDetail.setText("" + distanceFormat + " km");
-                    tvNamePoliceDetail.setText(policeItem.getName_police());
-                    tvAddressPoliceDetail.setText(policeItem.getLocation_police());
-                    Glide.with(getApplicationContext()).load(policeItem.getUrl_photo_police()).into(imgPoliceDetail);
+                    tvNamePoliceDetail.setText(police.getName_police());
+                    tvAddressPoliceDetail.setText(police.getLocation_police());
+                    Glide.with(getApplicationContext()).load(police.getUrl_photo_police()).into(imgPoliceDetail);
                     AppBarLayout appBarLayout = findViewById(R.id.app_bar_police);
                     appBarLayout.addOnOffsetChangedListener(new AppBarLayout.BaseOnOffsetChangedListener() {
                         boolean isShow = true;
@@ -143,7 +143,7 @@ public class DetailPoliceActivity extends AppCompatActivity implements OnMapRead
                                 scrollRange = appBarLayout.getTotalScrollRange();
                             }
                             if (scrollRange + verticalOffset == 0) {
-                                collapsingToolbarPolice.setTitle(policeItem.getName_police());
+                                collapsingToolbarPolice.setTitle(police.getName_police());
                                 isShow = true;
                             } else {
                                 collapsingToolbarPolice.setTitle(" ");
@@ -178,13 +178,13 @@ public class DetailPoliceActivity extends AppCompatActivity implements OnMapRead
                 @SuppressLint("SetTextI18n")
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    final PoliceItem policeItem = dataSnapshot.getValue(PoliceItem.class);
+                    final Police police = dataSnapshot.getValue(Police.class);
                     startLat = gpsHandler.getLatitude();
                     startlng = gpsHandler.getLongitude();
 
-                    assert policeItem != null;
-                    endlat = policeItem.getLat_police();
-                    endLng = policeItem.getLng_police();
+                    assert police != null;
+                    endlat = police.getLat_police();
+                    endLng = police.getLng_police();
 
                     LatLng location = new LatLng(endlat, endLng);
                     policeGoogleMap.addMarker(new MarkerOptions().position(location));

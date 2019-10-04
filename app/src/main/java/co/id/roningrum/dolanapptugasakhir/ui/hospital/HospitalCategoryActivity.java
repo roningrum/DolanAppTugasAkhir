@@ -45,14 +45,14 @@ import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.handler.NetworkHelper;
 import co.id.roningrum.dolanapptugasakhir.handler.PermissionHandler;
-import co.id.roningrum.dolanapptugasakhir.model.HospitalItem;
+import co.id.roningrum.dolanapptugasakhir.model.Hospital;
 import co.id.roningrum.dolanapptugasakhir.viewholderActivity.hospital.HospitalViewHolder;
 
 public class HospitalCategoryActivity extends AppCompatActivity {
 
     private RecyclerView rvHospitalList;
     private ShimmerFrameLayout shimmerFrameLayout;
-    private FirebaseRecyclerAdapter<HospitalItem, HospitalViewHolder> hospitalFirebaseAdapter;
+    private FirebaseRecyclerAdapter<Hospital, HospitalViewHolder> hospitalFirebaseAdapter;
 
     private GPSHandler gpsHandler;
     private PermissionHandler permissionHandler;
@@ -81,13 +81,13 @@ public class HospitalCategoryActivity extends AppCompatActivity {
         if (havePermission()) {
             DatabaseReference hospitalRef = FirebaseDatabase.getInstance().getReference();
             Query hospitalQuery = hospitalRef.child("Hospital");
-            FirebaseRecyclerOptions<HospitalItem> policeOptions = new FirebaseRecyclerOptions.Builder<HospitalItem>()
-                    .setQuery(hospitalQuery, HospitalItem.class)
+            FirebaseRecyclerOptions<Hospital> policeOptions = new FirebaseRecyclerOptions.Builder<Hospital>()
+                    .setQuery(hospitalQuery, Hospital.class)
                     .build();
 
-            hospitalFirebaseAdapter = new FirebaseRecyclerAdapter<HospitalItem, HospitalViewHolder>(policeOptions) {
+            hospitalFirebaseAdapter = new FirebaseRecyclerAdapter<Hospital, HospitalViewHolder>(policeOptions) {
                 @Override
-                protected void onBindViewHolder(@NonNull HospitalViewHolder holder, int position, @NonNull HospitalItem model) {
+                protected void onBindViewHolder(@NonNull HospitalViewHolder holder, int position, @NonNull Hospital model) {
                     final DatabaseReference hospitalRef = getRef(position);
                     final String hospitalKey = hospitalRef.getKey();
 

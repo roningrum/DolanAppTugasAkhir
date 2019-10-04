@@ -25,7 +25,7 @@ import com.bumptech.glide.Glide;
 
 import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.handler.HaversineHandler;
-import co.id.roningrum.dolanapptugasakhir.model.TransportationItem;
+import co.id.roningrum.dolanapptugasakhir.model.Transportation;
 
 public class ShipViewHolder extends RecyclerView.ViewHolder {
     private final TextView nameShip;
@@ -52,19 +52,19 @@ public class ShipViewHolder extends RecyclerView.ViewHolder {
 
 
     @SuppressLint("SetTextI18n")
-    public void showHarborData(TransportationItem transportationItem, double latitude, double longitude) {
-        double lattitude_a = transportationItem.getLat_transportation();
-        double longitude_a = transportationItem.getLng_transportation();
+    public void showHarborData(Transportation transportation, double latitude, double longitude) {
+        double lattitude_a = transportation.getLat_transportation();
+        double longitude_a = transportation.getLng_transportation();
 
         float jarakKM = (float) HaversineHandler.calculateDistance(latitude, longitude, lattitude_a, longitude_a);
 //        float jarakKM = jarakMeter / 1000;
 
         @SuppressLint("DefaultLocale") String distanceFormat = String.format("%.2f", jarakKM);
 
-        nameShip.setText(transportationItem.getName_transportation());
-        locationShip.setText(transportationItem.getLocation_transportation());
+        nameShip.setText(transportation.getName_transportation());
+        locationShip.setText(transportation.getLocation_transportation());
         distanceShip.setText(distanceFormat + " km");
-        Glide.with(itemView.getContext()).load(transportationItem.getUrl_photo_transport()).into(shipPic);
+        Glide.with(itemView.getContext()).load(transportation.getUrl_photo_transport()).into(shipPic);
     }
 
 //    private double calculateDistance(double lat1, double long1, double lat2, double long2) {

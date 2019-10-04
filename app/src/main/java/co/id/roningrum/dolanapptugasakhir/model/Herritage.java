@@ -13,15 +13,15 @@
 
 package co.id.roningrum.dolanapptugasakhir.model;
 
-public class HerritageItem {
+public class Herritage {
     private String name_herritage;
     private String info_herritage;
     private String url_photo_herritage;
 
-    public HerritageItem() {
+    public Herritage() {
     }
 
-    public HerritageItem(String name_herritage, String info_herritage, String url_photo_herritage) {
+    public Herritage(String name_herritage, String info_herritage, String url_photo_herritage) {
         this.name_herritage = name_herritage;
         this.info_herritage = info_herritage;
         this.url_photo_herritage = url_photo_herritage;

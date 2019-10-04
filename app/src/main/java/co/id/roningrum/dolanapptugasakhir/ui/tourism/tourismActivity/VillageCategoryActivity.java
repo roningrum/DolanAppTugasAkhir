@@ -46,7 +46,7 @@ import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.handler.NetworkHelper;
 import co.id.roningrum.dolanapptugasakhir.handler.PermissionHandler;
-import co.id.roningrum.dolanapptugasakhir.model.TourismItem;
+import co.id.roningrum.dolanapptugasakhir.model.Tourism;
 import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismDetailActivity.DetailVillageActivity;
 import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismMapActivity.VillageCategoryMaps;
 import co.id.roningrum.dolanapptugasakhir.viewholderActivity.tourism.VillageViewHolder;
@@ -54,7 +54,7 @@ import co.id.roningrum.dolanapptugasakhir.viewholderActivity.tourism.VillageView
 public class VillageCategoryActivity extends AppCompatActivity {
     private RecyclerView rvVillageList;
     private ShimmerFrameLayout shimmerFrameLayout;
-    private FirebaseRecyclerAdapter<TourismItem, VillageViewHolder> villageFirebaseAdapter;
+    private FirebaseRecyclerAdapter<Tourism, VillageViewHolder> villageFirebaseAdapter;
 
     private GPSHandler gpsHandler;
     private PermissionHandler permissionHandler;
@@ -67,7 +67,7 @@ public class VillageCategoryActivity extends AppCompatActivity {
         Toolbar toolbarVillage = findViewById(R.id.toolbar_top_village);
         shimmerFrameLayout = findViewById(R.id.shimmer_view_container);
         rvVillageList.setLayoutManager(new LinearLayoutManager(this));
-        ArrayList<TourismItem> tourismItems = new ArrayList<>();
+        ArrayList<Tourism> tourisms = new ArrayList<>();
         setSupportActionBar(toolbarVillage);
         checkConnection();
     }
@@ -85,10 +85,10 @@ public class VillageCategoryActivity extends AppCompatActivity {
         if (havePermission()) {
             DatabaseReference villageCategoryDB = FirebaseDatabase.getInstance().getReference();
             Query villageQuery = villageCategoryDB.child("Tourism").orderByChild("category_tourism").equalTo("desa");
-            FirebaseRecyclerOptions<TourismItem> villageOptions = new FirebaseRecyclerOptions.Builder<TourismItem>()
-                    .setQuery(villageQuery, TourismItem.class)
+            FirebaseRecyclerOptions<Tourism> villageOptions = new FirebaseRecyclerOptions.Builder<Tourism>()
+                    .setQuery(villageQuery, Tourism.class)
                     .build();
-            villageFirebaseAdapter = new FirebaseRecyclerAdapter<TourismItem, VillageViewHolder>(villageOptions) {
+            villageFirebaseAdapter = new FirebaseRecyclerAdapter<Tourism, VillageViewHolder>(villageOptions) {
                 @NonNull
                 @Override
                 public VillageViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
@@ -96,7 +96,7 @@ public class VillageCategoryActivity extends AppCompatActivity {
                 }
 
                 @Override
-                protected void onBindViewHolder(@NonNull VillageViewHolder holder, int position, @NonNull TourismItem model) {
+                protected void onBindViewHolder(@NonNull VillageViewHolder holder, int position, @NonNull Tourism model) {
                     final DatabaseReference villageCategoryRef = getRef(position);
                     final String villageKey = villageCategoryRef.getKey();
 

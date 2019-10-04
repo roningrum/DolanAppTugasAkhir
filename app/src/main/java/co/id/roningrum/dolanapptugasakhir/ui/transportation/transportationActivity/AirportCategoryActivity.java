@@ -45,7 +45,7 @@ import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.handler.NetworkHelper;
 import co.id.roningrum.dolanapptugasakhir.handler.PermissionHandler;
-import co.id.roningrum.dolanapptugasakhir.model.TransportationItem;
+import co.id.roningrum.dolanapptugasakhir.model.Transportation;
 import co.id.roningrum.dolanapptugasakhir.ui.transportation.transportationDetailActivity.DetailAirportActivity;
 import co.id.roningrum.dolanapptugasakhir.ui.transportation.transportationMapActivity.AirportMapsActivity;
 import co.id.roningrum.dolanapptugasakhir.viewholderActivity.transportation.AirportViewHolder;
@@ -53,7 +53,7 @@ import co.id.roningrum.dolanapptugasakhir.viewholderActivity.transportation.Airp
 public class AirportCategoryActivity extends AppCompatActivity {
     private RecyclerView rvAirportList;
     private ShimmerFrameLayout shimmerFrameLayout;
-    private FirebaseRecyclerAdapter<TransportationItem, AirportViewHolder> airportFirebaseadapter;
+    private FirebaseRecyclerAdapter<Transportation, AirportViewHolder> airportFirebaseadapter;
 
     private GPSHandler gpsHandler;
     private PermissionHandler permissionHandler;
@@ -83,12 +83,12 @@ public class AirportCategoryActivity extends AppCompatActivity {
         if (havePermission()) {
             DatabaseReference airportRef = FirebaseDatabase.getInstance().getReference();
             Query airportQuery = airportRef.child("Transportation").orderByChild("category_transportation").equalTo("airport");
-            FirebaseRecyclerOptions<TransportationItem> airportOptions = new FirebaseRecyclerOptions.Builder<TransportationItem>()
-                    .setQuery(airportQuery, TransportationItem.class)
+            FirebaseRecyclerOptions<Transportation> airportOptions = new FirebaseRecyclerOptions.Builder<Transportation>()
+                    .setQuery(airportQuery, Transportation.class)
                     .build();
-            airportFirebaseadapter = new FirebaseRecyclerAdapter<TransportationItem, AirportViewHolder>(airportOptions) {
+            airportFirebaseadapter = new FirebaseRecyclerAdapter<Transportation, AirportViewHolder>(airportOptions) {
                 @Override
-                protected void onBindViewHolder(@NonNull AirportViewHolder holder, int position, @NonNull TransportationItem model) {
+                protected void onBindViewHolder(@NonNull AirportViewHolder holder, int position, @NonNull Transportation model) {
                     final DatabaseReference airportRef = getRef(position);
                     final String airportKey = airportRef.getKey();
 

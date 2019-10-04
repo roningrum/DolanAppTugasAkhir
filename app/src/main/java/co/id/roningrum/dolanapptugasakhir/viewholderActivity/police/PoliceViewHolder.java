@@ -25,7 +25,7 @@ import com.bumptech.glide.Glide;
 
 import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.handler.HaversineHandler;
-import co.id.roningrum.dolanapptugasakhir.model.PoliceItem;
+import co.id.roningrum.dolanapptugasakhir.model.Police;
 
 public class PoliceViewHolder extends RecyclerView.ViewHolder {
     private final TextView namePolice;
@@ -51,18 +51,18 @@ public class PoliceViewHolder extends RecyclerView.ViewHolder {
     }
 
     @SuppressLint("SetTextI18n")
-    public void showPoliceData(PoliceItem policeItem, double latitude, double longitude) {
-        double lattitude_a = policeItem.getLat_police();
-        double longitude_a = policeItem.getLng_police();
+    public void showPoliceData(Police police, double latitude, double longitude) {
+        double lattitude_a = police.getLat_police();
+        double longitude_a = police.getLng_police();
 
         float jarakKM = (float) HaversineHandler.calculateDistance(latitude, longitude, lattitude_a, longitude_a);
 
         @SuppressLint("DefaultLocale") String distanceFormat = String.format("%.2f", jarakKM);
 
-        namePolice.setText(policeItem.getName_police());
-        addressPolice.setText(policeItem.getLocation_police());
+        namePolice.setText(police.getName_police());
+        addressPolice.setText(police.getLocation_police());
         distancePolice.setText(distanceFormat + " km");
-        Glide.with(itemView.getContext()).load(policeItem.getUrl_photo_police()).into(policePic);
+        Glide.with(itemView.getContext()).load(police.getUrl_photo_police()).into(policePic);
 
     }
 

@@ -41,7 +41,7 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import co.id.roningrum.dolanapptugasakhir.R;
-import co.id.roningrum.dolanapptugasakhir.model.TransportationItem;
+import co.id.roningrum.dolanapptugasakhir.model.Transportation;
 
 public class BusMapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
@@ -84,13 +84,13 @@ public class BusMapsActivity extends FragmentActivity implements OnMapReadyCallb
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot dsAirport : dataSnapshot.getChildren()) {
-                    TransportationItem transportationItem = dsAirport.getValue(TransportationItem.class);
-                    assert transportationItem != null;
-                    double latBus = transportationItem.getLat_transportation();
-                    double lngBus = transportationItem.getLng_transportation();
+                    Transportation transportation = dsAirport.getValue(Transportation.class);
+                    assert transportation != null;
+                    double latBus = transportation.getLat_transportation();
+                    double lngBus = transportation.getLng_transportation();
                     LatLng busPlaceLoc = new LatLng(latBus, lngBus);
                     busMap.moveCamera(CameraUpdateFactory.newLatLngZoom(busPlaceLoc, 10.2f));
-                    busMap.addMarker(new MarkerOptions().position(busPlaceLoc).icon(getBitmapDescriptor()).title(transportationItem.getName_transportation()).snippet(transportationItem.getLocation_transportation()));
+                    busMap.addMarker(new MarkerOptions().position(busPlaceLoc).icon(getBitmapDescriptor()).title(transportation.getName_transportation()).snippet(transportation.getLocation_transportation()));
 
                 }
             }

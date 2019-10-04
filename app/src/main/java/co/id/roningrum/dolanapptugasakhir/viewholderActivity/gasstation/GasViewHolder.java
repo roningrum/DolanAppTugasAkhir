@@ -25,7 +25,7 @@ import com.bumptech.glide.Glide;
 
 import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.handler.HaversineHandler;
-import co.id.roningrum.dolanapptugasakhir.model.GasStationItem;
+import co.id.roningrum.dolanapptugasakhir.model.GasStation;
 
 public class GasViewHolder extends RecyclerView.ViewHolder {
     private final TextView nameSPBU;
@@ -50,18 +50,18 @@ public class GasViewHolder extends RecyclerView.ViewHolder {
     }
 
     @SuppressLint("SetTextI18n")
-    public void showGasData(GasStationItem gasStationItem, double latitude, double longitude) {
-        double lattitude_a = gasStationItem.getLat_gasstation();
-        double longitude_a = gasStationItem.getLng_gasstation();
+    public void showGasData(GasStation gasStation, double latitude, double longitude) {
+        double lattitude_a = gasStation.getLat_gasstation();
+        double longitude_a = gasStation.getLng_gasstation();
 
         float jarakKM = (float) HaversineHandler.calculateDistance(latitude, longitude, lattitude_a, longitude_a);
 
         @SuppressLint("DefaultLocale") String distanceFormat = String.format("%.2f", jarakKM);
 
-        nameSPBU.setText(gasStationItem.getName_gasstation());
-        locationSPBU.setText(gasStationItem.getLocation_gasstation());
+        nameSPBU.setText(gasStation.getName_gasstation());
+        locationSPBU.setText(gasStation.getLocation_gasstation());
         distanceSPBU.setText(distanceFormat + " km");
-        Glide.with(itemView.getContext()).load(gasStationItem.getUrl_photo_gasstation()).into(spbuPic);
+        Glide.with(itemView.getContext()).load(gasStation.getUrl_photo_gasstation()).into(spbuPic);
 
     }
 
