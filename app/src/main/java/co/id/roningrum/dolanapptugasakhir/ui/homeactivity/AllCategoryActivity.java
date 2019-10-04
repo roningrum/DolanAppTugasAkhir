@@ -22,9 +22,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.ui.gasstation.GasStationCategory;
-import co.id.roningrum.dolanapptugasakhir.ui.hospital.HospitalCategoryActivity;
+import co.id.roningrum.dolanapptugasakhir.ui.hospital.HospitalCategory;
 import co.id.roningrum.dolanapptugasakhir.ui.hotel.HotelCategoryActivity;
-import co.id.roningrum.dolanapptugasakhir.ui.police.PoliceCategoryActivity;
+import co.id.roningrum.dolanapptugasakhir.ui.police.PoliceCategory;
 import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismActivity.EducationCategoryActivity;
 import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismActivity.FoodCategoryActivity;
 import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismActivity.HistoryCategoryActivity;
@@ -133,11 +133,11 @@ public class AllCategoryActivity extends AppCompatActivity implements View.OnCli
                 startActivity(new Intent(AllCategoryActivity.this, GasStationCategory.class));
                 break;
             case R.id.ln_police_public:
-                startActivity(new Intent(AllCategoryActivity.this, PoliceCategoryActivity.class));
+                startActivity(new Intent(AllCategoryActivity.this, PoliceCategory.class));
                 break;
 
             case R.id.ln_hospital_public:
-                startActivity(new Intent(AllCategoryActivity.this, HospitalCategoryActivity.class));
+                startActivity(new Intent(AllCategoryActivity.this, HospitalCategory.class));
                 break;
 
 

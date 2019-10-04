@@ -11,7 +11,7 @@
  * limitations under the License.
  */
 
-package co.id.roningrum.dolanapptugasakhir.ui.hospital;
+package co.id.roningrum.dolanapptugasakhir.ui.police;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -46,27 +46,26 @@ import java.util.Objects;
 import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.handler.HaversineHandler;
-import co.id.roningrum.dolanapptugasakhir.model.Hospital;
+import co.id.roningrum.dolanapptugasakhir.model.Police;
 
-public class DetailHospitalActivity extends AppCompatActivity implements OnMapReadyCallback {
-    public static final String EXTRA_HOSPITAL_KEY = "hospitalKey";
+public class PoliceDetail extends AppCompatActivity implements OnMapReadyCallback {
+    public static final String EXTRA_POLICE_KEY = "policeKey";
 
     private static final String MAP_VIEW_KEY = "mapViewBundle";
 
     private final static String TAG = "Pesan";
 
-    private GoogleMap hospitalGoogleMap;
-    private MapView hospitalMapView;
+    private MapView policeMapView;
 
-    private DatabaseReference hospitalDetailRef;
+    private DatabaseReference policeDetailRef;
 
     private GPSHandler gpsHandler;
     private ValueEventListener valueEventListener;
 
-    private TextView tvNameHospitalDetail, tvAddressHospitalDetail, tvDistanceHospitalDetail;
+    private TextView tvNamePoliceDetail, tvAddressPoliceDetail, tvDistancePoliceDetail;
 
-    private ImageView imgHospitalDetail;
-    private CollapsingToolbarLayout collapsingToolbarHospital;
+    private ImageView imgPoliceDetail;
+    private CollapsingToolbarLayout collapsingToolbarPolice;
 
     private double startLat;
     private double startlng;
@@ -77,59 +76,62 @@ public class DetailHospitalActivity extends AppCompatActivity implements OnMapRe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_detail_hospital);
-        tvNameHospitalDetail = findViewById(R.id.name_place_hospital_detail);
-        tvAddressHospitalDetail = findViewById(R.id.address_place_hospital_detail);
-        tvDistanceHospitalDetail = findViewById(R.id.distance_place_hospital_detail);
-        collapsingToolbarHospital = findViewById(R.id.collapseToolbar_hospital);
-        hospitalMapView = findViewById(R.id.location_hospital_map_detail);
-        imgHospitalDetail = findViewById(R.id.img_hospital_detail);
+        setContentView(R.layout.activity_detail_police);
+        tvNamePoliceDetail = findViewById(R.id.name_place_police_detail);
+        tvAddressPoliceDetail = findViewById(R.id.address_place_police_detail);
+        tvDistancePoliceDetail = findViewById(R.id.distance_place_police_detail);
+        collapsingToolbarPolice = findViewById(R.id.collapseToolbar_police);
+        policeMapView = findViewById(R.id.location_police_map_detail);
+        imgPoliceDetail = findViewById(R.id.img_police_detail);
 
-        Toolbar toolbarHospital = findViewById(R.id.toolbar_hospital_detail);
-        setSupportActionBar(toolbarHospital);
+        Toolbar toolbarPolice = findViewById(R.id.toolbar_police_detail);
+        setSupportActionBar(toolbarPolice);
         Objects.requireNonNull(getSupportActionBar()).setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back_24dp);
 
+
         Bundle mapViewBundle = null;
         if (savedInstanceState != null) {
             mapViewBundle = savedInstanceState.getBundle(MAP_VIEW_KEY);
         }
-        hospitalMapView.onCreate(mapViewBundle);
-        hospitalMapView.getMapAsync(this);
+        policeMapView.onCreate(mapViewBundle);
+        policeMapView.getMapAsync(this);
 
-        String hospitalKey = getIntent().getStringExtra(EXTRA_HOSPITAL_KEY);
-        if (hospitalKey == null) {
+        String policeKey = getIntent().getStringExtra(EXTRA_POLICE_KEY);
+        if (policeKey == null) {
             throw new IllegalArgumentException("Must pass Extra");
         }
-        hospitalDetailRef = FirebaseDatabase.getInstance().getReference().child("Hospital").child(hospitalKey);
+        policeDetailRef = FirebaseDatabase.getInstance().getReference().child("Police").child(policeKey);
         gpsHandler = new GPSHandler(this);
 
-        LoadHospitaDetail();
+        LoadPoliceDetail();
+
+
     }
 
-    private void LoadHospitaDetail() {
+    private void LoadPoliceDetail() {
         if (gpsHandler.isCanGetLocation()) {
             ValueEventListener eventListener = new ValueEventListener() {
                 @SuppressLint("SetTextI18n")
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    final Hospital hospital = dataSnapshot.getValue(Hospital.class);
+                    final Police police = dataSnapshot.getValue(Police.class);
                     startLat = gpsHandler.getLatitude();
                     startlng = gpsHandler.getLongitude();
-                    assert hospital != null;
-                    endlat = hospital.getLat_hospital();
-                    endLng = hospital.getLng_hospital();
+                    assert police != null;
+                    endlat = police.getLat_police();
+                    endLng = police.getLng_police();
                     distance = HaversineHandler.calculateDistance(startLat, startlng, endlat, endLng);
 
 
                     @SuppressLint("DefaultLocale") String distanceFormat = String.format("%.2f", distance);
-                    tvDistanceHospitalDetail.setText("" + distanceFormat + " km");
-                    tvNameHospitalDetail.setText(hospital.getName_hospital());
-                    tvAddressHospitalDetail.setText(hospital.getLocation_hospital());
-                    Glide.with(getApplicationContext()).load(hospital.getUrl_photo_hospital()).into(imgHospitalDetail);
-                    AppBarLayout appBarLayout = findViewById(R.id.app_bar_hospital);
+                    tvDistancePoliceDetail.setText("" + distanceFormat + " km");
+                    tvNamePoliceDetail.setText(police.getName_police());
+                    tvAddressPoliceDetail.setText(police.getLocation_police());
+                    Glide.with(getApplicationContext()).load(police.getUrl_photo_police()).into(imgPoliceDetail);
+                    AppBarLayout appBarLayout = findViewById(R.id.app_bar_police);
                     appBarLayout.addOnOffsetChangedListener(new AppBarLayout.BaseOnOffsetChangedListener() {
                         boolean isShow = true;
                         int scrollRange = -1;
@@ -140,10 +142,10 @@ public class DetailHospitalActivity extends AppCompatActivity implements OnMapRe
                                 scrollRange = appBarLayout.getTotalScrollRange();
                             }
                             if (scrollRange + verticalOffset == 0) {
-                                collapsingToolbarHospital.setTitle(hospital.getName_hospital());
+                                collapsingToolbarPolice.setTitle(police.getName_police());
                                 isShow = true;
                             } else {
-                                collapsingToolbarHospital.setTitle(" ");
+                                collapsingToolbarPolice.setTitle(" ");
                                 isShow = false;
                             }
 
@@ -157,35 +159,35 @@ public class DetailHospitalActivity extends AppCompatActivity implements OnMapRe
                     Log.e(TAG, "Firebase Database Error" + databaseError.getMessage());
                 }
             };
-            hospitalDetailRef.addValueEventListener(eventListener);
+            policeDetailRef.addValueEventListener(eventListener);
             valueEventListener = eventListener;
         }
     }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        hospitalGoogleMap = googleMap;
-        showMapDetail(hospitalGoogleMap);
+        showPoliceMap(googleMap);
+
     }
 
-    private void showMapDetail(final GoogleMap hospitalGoogleMap) {
+    private void showPoliceMap(final GoogleMap policeGoogleMap) {
         if (gpsHandler.isCanGetLocation()) {
             ValueEventListener eventListener = new ValueEventListener() {
                 @SuppressLint("SetTextI18n")
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    final Hospital hospital = dataSnapshot.getValue(Hospital.class);
+                    final Police police = dataSnapshot.getValue(Police.class);
                     startLat = gpsHandler.getLatitude();
                     startlng = gpsHandler.getLongitude();
 
-                    assert hospital != null;
-                    endlat = hospital.getLat_hospital();
-                    endLng = hospital.getLng_hospital();
+                    assert police != null;
+                    endlat = police.getLat_police();
+                    endLng = police.getLng_police();
 
                     LatLng location = new LatLng(endlat, endLng);
-                    hospitalGoogleMap.addMarker(new MarkerOptions().position(location));
-                    hospitalGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 16.0f));
-                    hospitalGoogleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+                    policeGoogleMap.addMarker(new MarkerOptions().position(location));
+                    policeGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 16.0f));
+                    policeGoogleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
                         @Override
                         public void onMapClick(LatLng latLng) {
                             String uri = "http://maps.google.com/maps?saddr=" + gpsHandler.getLatitude() + "," + gpsHandler.getLongitude() + "&daddr=" + endlat + "," + endLng + "&mode=driving";
@@ -200,10 +202,11 @@ public class DetailHospitalActivity extends AppCompatActivity implements OnMapRe
                     Log.e(TAG, "Firebase Database Error" + databaseError.getMessage());
                 }
             };
-            hospitalDetailRef.addValueEventListener(eventListener);
+            policeDetailRef.addValueEventListener(eventListener);
             valueEventListener = eventListener;
         }
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -218,27 +221,27 @@ public class DetailHospitalActivity extends AppCompatActivity implements OnMapRe
     @Override
     protected void onResume() {
         super.onResume();
-        hospitalMapView.onResume();
+        policeMapView.onResume();
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        LoadHospitaDetail();
-        hospitalMapView.onStart();
+        LoadPoliceDetail();
+        policeMapView.onStart();
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        hospitalMapView.onStop();
-        hospitalDetailRef.removeEventListener(valueEventListener);
+        policeMapView.onStop();
+        policeDetailRef.removeEventListener(valueEventListener);
 
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        hospitalMapView.onPause();
+        policeMapView.onPause();
     }
 }

@@ -46,15 +46,15 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name=".ui.hospital.HospitalMapsActivity"
+            android:name=".ui.hospital.HospitalMap"
             android:label="@string/title_activity_hospital_maps" />
-        <activity android:name=".ui.hospital.DetailHospitalActivity" />
-        <activity android:name=".ui.hospital.HospitalCategoryActivity" />
+        <activity android:name=".ui.hospital.HospitalDetail" />
+        <activity android:name=".ui.hospital.HospitalCategory" />
         <activity
-            android:name=".ui.police.PoliceMapsActivity"
+            android:name=".ui.police.PoliceMaps"
             android:label="@string/title_activity_police_maps" />
-        <activity android:name=".ui.police.DetailPoliceActivity" />
-        <activity android:name=".ui.police.PoliceCategoryActivity" />
+        <activity android:name=".ui.police.PoliceDetail" />
+        <activity android:name=".ui.police.PoliceCategory" />
         <activity
             android:name=".ui.gasstation.GasStationMap"
             android:label="@string/title_activity_gas_station_maps" />

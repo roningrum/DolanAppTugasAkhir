@@ -34,7 +34,7 @@ import com.google.firebase.database.ValueEventListener;
 import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.model.Hospital;
 
-public class HospitalMapsActivity extends FragmentActivity implements OnMapReadyCallback {
+public class HospitalMap extends FragmentActivity implements OnMapReadyCallback {
 
     private DatabaseReference hospitalMapRef;
 

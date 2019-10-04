@@ -11,7 +11,7 @@
  * limitations under the License.
  */
 
-package co.id.roningrum.dolanapptugasakhir.ui.hospital;
+package co.id.roningrum.dolanapptugasakhir.ui.police;
 
 import android.Manifest;
 import android.content.Intent;
@@ -45,14 +45,14 @@ import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.handler.NetworkHelper;
 import co.id.roningrum.dolanapptugasakhir.handler.PermissionHandler;
-import co.id.roningrum.dolanapptugasakhir.model.Hospital;
-import co.id.roningrum.dolanapptugasakhir.viewholderActivity.hospital.HospitalViewHolder;
+import co.id.roningrum.dolanapptugasakhir.model.Police;
+import co.id.roningrum.dolanapptugasakhir.viewholderActivity.police.PoliceViewHolder;
 
-public class HospitalCategoryActivity extends AppCompatActivity {
+public class PoliceCategory extends AppCompatActivity {
 
-    private RecyclerView rvHospitalList;
+    private RecyclerView rvPoliceList;
     private ShimmerFrameLayout shimmerFrameLayout;
-    private FirebaseRecyclerAdapter<Hospital, HospitalViewHolder> hospitalFirebaseAdapter;
+    private FirebaseRecyclerAdapter<Police, PoliceViewHolder> policeFirebaseAdapter;
 
     private GPSHandler gpsHandler;
     private PermissionHandler permissionHandler;
@@ -60,36 +60,36 @@ public class HospitalCategoryActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_category_hospital);
-        rvHospitalList = findViewById(R.id.rv_hospital_list);
+        setContentView(R.layout.activity_category_police);
+        rvPoliceList = findViewById(R.id.rv_police_list);
         shimmerFrameLayout = findViewById(R.id.shimmer_view_container);
-        Toolbar toolbarHospital = findViewById(R.id.toolbar_top_hospital);
-        rvHospitalList.setLayoutManager(new LinearLayoutManager(this));
-        setSupportActionBar(toolbarHospital);
+        Toolbar toolbarPolice = findViewById(R.id.toolbar_top_police);
+        rvPoliceList.setLayoutManager(new LinearLayoutManager(this));
+        setSupportActionBar(toolbarPolice);
         checkConnection();
     }
 
     private void checkConnection() {
         if (NetworkHelper.isConnectedToNetwork(getApplicationContext())) {
-            showHospitalData();
+            showPoliceData();
         } else {
             Toast.makeText(this, "Check your connection", Toast.LENGTH_SHORT).show();
         }
     }
 
-    private void showHospitalData() {
+    private void showPoliceData() {
         if (havePermission()) {
-            DatabaseReference hospitalRef = FirebaseDatabase.getInstance().getReference();
-            Query hospitalQuery = hospitalRef.child("Hospital");
-            FirebaseRecyclerOptions<Hospital> policeOptions = new FirebaseRecyclerOptions.Builder<Hospital>()
-                    .setQuery(hospitalQuery, Hospital.class)
+            DatabaseReference policeRef = FirebaseDatabase.getInstance().getReference();
+            Query policeQuery = policeRef.child("Police");
+            FirebaseRecyclerOptions<Police> policeOptions = new FirebaseRecyclerOptions.Builder<Police>()
+                    .setQuery(policeQuery, Police.class)
                     .build();
 
-            hospitalFirebaseAdapter = new FirebaseRecyclerAdapter<Hospital, HospitalViewHolder>(policeOptions) {
+            policeFirebaseAdapter = new FirebaseRecyclerAdapter<Police, PoliceViewHolder>(policeOptions) {
                 @Override
-                protected void onBindViewHolder(@NonNull HospitalViewHolder holder, int position, @NonNull Hospital model) {
-                    final DatabaseReference hospitalRef = getRef(position);
-                    final String hospitalKey = hospitalRef.getKey();
+                protected void onBindViewHolder(@NonNull PoliceViewHolder holder, int position, @NonNull Police model) {
+                    final DatabaseReference policeRef = getRef(position);
+                    final String policeKey = policeRef.getKey();
 
                     gpsHandler = new GPSHandler(getApplicationContext());
                     if (gpsHandler.isCanGetLocation()) {
@@ -101,12 +101,12 @@ public class HospitalCategoryActivity extends AppCompatActivity {
                         shimmerFrameLayout.stopShimmer();
                         shimmerFrameLayout.setVisibility(View.GONE);
 
-                        holder.showHospitalData(model, latitude, longitude);
-                        holder.setOnClickListener(new HospitalViewHolder.ClickListener() {
+                        holder.showPoliceData(model, latitude, longitude);
+                        holder.setOnClickListener(new PoliceViewHolder.ClickListener() {
                             @Override
                             public void onItemClick(View view, int position) {
-                                Intent intent = new Intent(getApplicationContext(), DetailHospitalActivity.class);
-                                intent.putExtra(DetailHospitalActivity.EXTRA_HOSPITAL_KEY, hospitalKey);
+                                Intent intent = new Intent(getApplicationContext(), PoliceDetail.class);
+                                intent.putExtra(PoliceDetail.EXTRA_POLICE_KEY, policeKey);
                                 startActivity(intent);
                             }
                         });
@@ -119,12 +119,12 @@ public class HospitalCategoryActivity extends AppCompatActivity {
 
                 @NonNull
                 @Override
-                public HospitalViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-                    return new HospitalViewHolder(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_hospital_facility_menu, viewGroup, false));
+                public PoliceViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+                    return new PoliceViewHolder(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_menu_police_category_public, viewGroup, false));
                 }
             };
-            hospitalFirebaseAdapter.notifyDataSetChanged();
-            rvHospitalList.setAdapter(hospitalFirebaseAdapter);
+            policeFirebaseAdapter.notifyDataSetChanged();
+            rvPoliceList.setAdapter(policeFirebaseAdapter);
         }
     }
 
@@ -167,7 +167,7 @@ public class HospitalCategoryActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.petaMenu) {
-            startActivity(new Intent(HospitalCategoryActivity.this, HospitalMapsActivity.class));
+            startActivity(new Intent(PoliceCategory.this, PoliceMaps.class));
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -177,8 +177,8 @@ public class HospitalCategoryActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         shimmerFrameLayout.startShimmer();
-        if (hospitalFirebaseAdapter != null) {
-            hospitalFirebaseAdapter.startListening();
+        if (policeFirebaseAdapter != null) {
+            policeFirebaseAdapter.startListening();
         }
     }
 
@@ -186,16 +186,16 @@ public class HospitalCategoryActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         shimmerFrameLayout.stopShimmer();
-        if (hospitalFirebaseAdapter != null) {
-            hospitalFirebaseAdapter.stopListening();
+        if (policeFirebaseAdapter != null) {
+            policeFirebaseAdapter.stopListening();
         }
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        if (hospitalFirebaseAdapter != null) {
-            hospitalFirebaseAdapter.startListening();
+        if (policeFirebaseAdapter != null) {
+            policeFirebaseAdapter.startListening();
         }
 
     }
@@ -203,8 +203,9 @@ public class HospitalCategoryActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        if (hospitalFirebaseAdapter != null) {
-            hospitalFirebaseAdapter.stopListening();
+        if (policeFirebaseAdapter != null) {
+            policeFirebaseAdapter.stopListening();
         }
     }
+
 }
