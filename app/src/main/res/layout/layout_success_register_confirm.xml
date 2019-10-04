@@ -18,7 +18,7 @@
     android:layout_height="match_parent"
     android:background="@color/orangeWhitePrimary"
     android:padding="8dp"
-    tools:context=".ui.useractivity.RegisterSuccessActivity">
+    tools:context=".ui.useractivity.register.RegisterSuccessActivity">
 
     <ImageView
         android:id="@+id/img_success_register"

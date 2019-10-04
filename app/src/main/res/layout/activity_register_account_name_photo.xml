@@ -17,7 +17,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="8dp"
-    tools:context=".ui.useractivity.RegisterAccountProfileActivity">
+    tools:context=".ui.useractivity.register.RegisterAccountProfileActivity">
 
     <TextView
         android:id="@+id/tv_heading_register2_page"

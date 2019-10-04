@@ -36,17 +36,17 @@ import com.google.firebase.database.Query;
 import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.model.HerritageItem;
 import co.id.roningrum.dolanapptugasakhir.model.TourismItem;
-import co.id.roningrum.dolanapptugasakhir.ui.categoryactivity.AirportCategoryActivity;
-import co.id.roningrum.dolanapptugasakhir.ui.categoryactivity.HotelCategoryActivity;
-import co.id.roningrum.dolanapptugasakhir.ui.categoryactivity.NatureCategoryActivity;
-import co.id.roningrum.dolanapptugasakhir.ui.categoryactivity.RecreationCategoryActivity;
-import co.id.roningrum.dolanapptugasakhir.ui.categoryactivity.ShoppingCategoryActivity;
-import co.id.roningrum.dolanapptugasakhir.ui.categoryactivity.TrainCategoryActivity;
-import co.id.roningrum.dolanapptugasakhir.ui.categoryactivity.VillageCategoryActivity;
 import co.id.roningrum.dolanapptugasakhir.ui.homeactivity.AllCategoryActivity;
-import co.id.roningrum.dolanapptugasakhir.viewholder.ViewHolderHome.FoodRecommendationViewHolder;
-import co.id.roningrum.dolanapptugasakhir.viewholder.ViewHolderHome.HerritageHomeViewHolder;
-import co.id.roningrum.dolanapptugasakhir.viewholder.ViewHolderHome.TouristRecommendationViewHolder;
+import co.id.roningrum.dolanapptugasakhir.ui.hotel.HotelCategoryActivity;
+import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismActivity.NatureCategoryActivity;
+import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismActivity.RecreationCategoryActivity;
+import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismActivity.ShoppingCategoryActivity;
+import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismActivity.VillageCategoryActivity;
+import co.id.roningrum.dolanapptugasakhir.ui.transportation.transportationActivity.AirportCategoryActivity;
+import co.id.roningrum.dolanapptugasakhir.ui.transportation.transportationActivity.TrainCategoryActivity;
+import co.id.roningrum.dolanapptugasakhir.viewholderActivity.ViewHolderHome.FoodRecommendationViewHolder;
+import co.id.roningrum.dolanapptugasakhir.viewholderActivity.ViewHolderHome.HerritageHomeViewHolder;
+import co.id.roningrum.dolanapptugasakhir.viewholderActivity.ViewHolderHome.TouristRecommendationViewHolder;
 
 
 /**

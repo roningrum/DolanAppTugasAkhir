@@ -16,7 +16,7 @@
     android:id="@+id/map_activity"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.mapsactivity.PoliceMapsActivity">
+    tools:context=".ui.police.PoliceMapsActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar_police_map"

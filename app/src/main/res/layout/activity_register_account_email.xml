@@ -18,7 +18,7 @@
     android:layout_height="match_parent"
     android:background="#FFFFFF"
     android:padding="8dp"
-    tools:context=".ui.useractivity.RegisterAccountEmailActivity">
+    tools:context=".ui.useractivity.register.RegisterAccountEmailActivity">
 
     <ImageView
         android:id="@+id/img_heading_register_page"

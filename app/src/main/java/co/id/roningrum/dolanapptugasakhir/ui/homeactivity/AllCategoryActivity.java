@@ -21,23 +21,23 @@ import android.widget.LinearLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
 import co.id.roningrum.dolanapptugasakhir.R;
-import co.id.roningrum.dolanapptugasakhir.ui.categoryactivity.AirportCategoryActivity;
-import co.id.roningrum.dolanapptugasakhir.ui.categoryactivity.BusCategoryActivity;
-import co.id.roningrum.dolanapptugasakhir.ui.categoryactivity.EducationCategoryActivity;
-import co.id.roningrum.dolanapptugasakhir.ui.categoryactivity.FoodCategoryActivity;
-import co.id.roningrum.dolanapptugasakhir.ui.categoryactivity.GasStationCategoryActivity;
-import co.id.roningrum.dolanapptugasakhir.ui.categoryactivity.HistoryCategoryActivity;
-import co.id.roningrum.dolanapptugasakhir.ui.categoryactivity.HospitalCategoryActivity;
-import co.id.roningrum.dolanapptugasakhir.ui.categoryactivity.HotelCategoryActivity;
-import co.id.roningrum.dolanapptugasakhir.ui.categoryactivity.NatureCategoryActivity;
-import co.id.roningrum.dolanapptugasakhir.ui.categoryactivity.PoliceCategoryActivity;
-import co.id.roningrum.dolanapptugasakhir.ui.categoryactivity.RecreationCategoryActivity;
-import co.id.roningrum.dolanapptugasakhir.ui.categoryactivity.ReligiCategoryActivity;
-import co.id.roningrum.dolanapptugasakhir.ui.categoryactivity.ShipCategoryActivity;
-import co.id.roningrum.dolanapptugasakhir.ui.categoryactivity.ShoppingCategoryActivity;
-import co.id.roningrum.dolanapptugasakhir.ui.categoryactivity.TrainCategoryActivity;
-import co.id.roningrum.dolanapptugasakhir.ui.categoryactivity.VillageCategoryActivity;
-import co.id.roningrum.dolanapptugasakhir.ui.categoryactivity.WaterCategoryActivity;
+import co.id.roningrum.dolanapptugasakhir.ui.gasstation.GasStationCategory;
+import co.id.roningrum.dolanapptugasakhir.ui.hospital.HospitalCategoryActivity;
+import co.id.roningrum.dolanapptugasakhir.ui.hotel.HotelCategoryActivity;
+import co.id.roningrum.dolanapptugasakhir.ui.police.PoliceCategoryActivity;
+import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismActivity.EducationCategoryActivity;
+import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismActivity.FoodCategoryActivity;
+import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismActivity.HistoryCategoryActivity;
+import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismActivity.NatureCategoryActivity;
+import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismActivity.RecreationCategoryActivity;
+import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismActivity.ReligiCategoryActivity;
+import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismActivity.ShoppingCategoryActivity;
+import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismActivity.VillageCategoryActivity;
+import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismActivity.WaterCategoryActivity;
+import co.id.roningrum.dolanapptugasakhir.ui.transportation.transportationActivity.AirportCategoryActivity;
+import co.id.roningrum.dolanapptugasakhir.ui.transportation.transportationActivity.BusCategoryActivity;
+import co.id.roningrum.dolanapptugasakhir.ui.transportation.transportationActivity.ShipCategoryActivity;
+import co.id.roningrum.dolanapptugasakhir.ui.transportation.transportationActivity.TrainCategoryActivity;
 
 public class AllCategoryActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -130,7 +130,7 @@ public class AllCategoryActivity extends AppCompatActivity implements View.OnCli
                 startActivity(new Intent(AllCategoryActivity.this, ShipCategoryActivity.class));
                 break;
             case R.id.ln_spbu_public:
-                startActivity(new Intent(AllCategoryActivity.this, GasStationCategoryActivity.class));
+                startActivity(new Intent(AllCategoryActivity.this, GasStationCategory.class));
                 break;
             case R.id.ln_police_public:
                 startActivity(new Intent(AllCategoryActivity.this, PoliceCategoryActivity.class));

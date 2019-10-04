@@ -30,8 +30,8 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import java.util.Arrays;
 
 import co.id.roningrum.dolanapptugasakhir.R;
+import co.id.roningrum.dolanapptugasakhir.favorite.BookmarkFragment;
 import co.id.roningrum.dolanapptugasakhir.handler.PermissionHandler;
-import co.id.roningrum.dolanapptugasakhir.ui.homefragment.BookmarkFragment;
 import co.id.roningrum.dolanapptugasakhir.ui.homefragment.HomeFragment;
 import co.id.roningrum.dolanapptugasakhir.ui.homefragment.ProfileFragment;
 

@@ -18,7 +18,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.detailactivity.DetailAirportActivity">
+    tools:context=".ui.transportation.transportationDetailActivity.DetailAirportActivity">
 
 
     <com.google.android.material.appbar.AppBarLayout

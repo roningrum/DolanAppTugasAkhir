@@ -46,8 +46,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import co.id.roningrum.dolanapptugasakhir.R;
-import co.id.roningrum.dolanapptugasakhir.ui.useractivity.EditProfileActivity;
-import co.id.roningrum.dolanapptugasakhir.ui.useractivity.SignInOptionActivity;
+import co.id.roningrum.dolanapptugasakhir.ui.useractivity.edit.EditProfileActivity;
+import co.id.roningrum.dolanapptugasakhir.ui.useractivity.login.SignInOptionActivity;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 
