@@ -45,6 +45,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.Objects;
+
 import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.ui.useractivity.edit.EditProfileActivity;
 import co.id.roningrum.dolanapptugasakhir.ui.useractivity.login.SignInOptionActivity;
@@ -109,9 +111,9 @@ public class ProfileFragment extends Fragment implements View.OnClickListener, G
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 //                isGooglesignIn = getActivity().getIntent().getBooleanExtra("isGoogle", true);
-                tvNameProfile.setText(dataSnapshot.child("nama_user").getValue().toString().trim());
-                tvEmailProfile.setText(dataSnapshot.child("email").getValue().toString().trim());
-                Glide.with(view).load(dataSnapshot.child("photo_user").getValue().toString()).into(photo_profile);
+                tvNameProfile.setText(Objects.requireNonNull(dataSnapshot.child("nama_user").getValue()).toString().trim());
+                tvEmailProfile.setText(Objects.requireNonNull(dataSnapshot.child("email").getValue()).toString().trim());
+                Glide.with(view).load(Objects.requireNonNull(dataSnapshot.child("photo_user").getValue()).toString()).into(photo_profile);
 
             }
 
