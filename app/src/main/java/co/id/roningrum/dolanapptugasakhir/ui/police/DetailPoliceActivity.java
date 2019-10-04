@@ -55,7 +55,6 @@ public class DetailPoliceActivity extends AppCompatActivity implements OnMapRead
 
     private final static String TAG = "Pesan";
 
-    private GoogleMap policeGoogleMap;
     private MapView policeMapView;
 
     private DatabaseReference policeDetailRef;
@@ -167,8 +166,7 @@ public class DetailPoliceActivity extends AppCompatActivity implements OnMapRead
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        policeGoogleMap = googleMap;
-        showPoliceMap(policeGoogleMap);
+        showPoliceMap(googleMap);
 
     }
 
