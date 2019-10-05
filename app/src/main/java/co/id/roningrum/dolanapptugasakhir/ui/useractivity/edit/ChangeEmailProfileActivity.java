@@ -82,12 +82,12 @@ public class ChangeEmailProfileActivity extends AppCompatActivity implements Vie
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.btn_save_change_email) {
-            showEmailAfterChange();
+            saveEmailChange();
         }
 
     }
 
-    private void showEmailAfterChange() {
+    private void saveEmailChange() {
         if (changeEmailUser != null) {
             final String uid = changeEmailUser.getUid();
             changeEmailUser.updateEmail(edtChangeEmail.getText().toString().trim()).addOnCompleteListener(new OnCompleteListener<Void>() {

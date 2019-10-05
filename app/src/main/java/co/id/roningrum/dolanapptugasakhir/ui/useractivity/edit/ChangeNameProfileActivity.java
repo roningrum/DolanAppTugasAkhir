@@ -81,7 +81,7 @@ public class ChangeNameProfileActivity extends AppCompatActivity implements View
         }
     }
 
-    private void showNameAfterChange() {
+    private void saveNameChange() {
         if (changeNameUser != null) {
             final String uid = changeNameUser.getUid();
             UserProfileChangeRequest userProfileChangeRequest = new UserProfileChangeRequest.Builder()
@@ -107,7 +107,7 @@ public class ChangeNameProfileActivity extends AppCompatActivity implements View
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.btn_save_change_name) {
-            showNameAfterChange();
+            saveNameChange();
         }
 
     }
