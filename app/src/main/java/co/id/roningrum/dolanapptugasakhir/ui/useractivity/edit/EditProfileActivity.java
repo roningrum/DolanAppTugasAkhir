@@ -98,20 +98,18 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_edit_profile_image:
-                Intent changePhotoIntent = new Intent(EditProfileActivity.this, ChangePhotoProfileActivity.class);
-                startActivity(changePhotoIntent);
+                goToEditPhoto();
                 break;
             case R.id.ln_change_name_menu:
-                Intent changeNameIntent = new Intent(EditProfileActivity.this, ChangeNameProfileActivity.class);
-                startActivity(changeNameIntent);
+                goToEditName();
                 break;
             case R.id.ln_change_email_menu:
                 if (isGoogleSignIn) {
                     changeEmailMenu.setEnabled(false);
                     isGoogleSignIn = true;
                 } else {
-                    Intent changeEmailIntent = new Intent(EditProfileActivity.this, ChangeEmailProfileActivity.class);
-                    startActivity(changeEmailIntent);
+                    goToEditEmail();
+                    isGoogleSignIn = false;
                 }
                 break;
             case R.id.ln_change_password_menu:
@@ -119,11 +117,30 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
                     changePasswordmenu.setEnabled(false);
                     isGoogleSignIn = true;
                 } else {
-                    Intent changePasswordIntent = new Intent(EditProfileActivity.this, ChangePasswordProfileActivity.class);
-                    startActivity(changePasswordIntent);
+                    goToEditPassword();
                     isGoogleSignIn = false;
                 }
 
         }
+    }
+
+    private void goToEditPassword() {
+        Intent changePasswordIntent = new Intent(EditProfileActivity.this, ChangePasswordProfileActivity.class);
+        startActivity(changePasswordIntent);
+    }
+
+    private void goToEditEmail() {
+        Intent changeEmailIntent = new Intent(EditProfileActivity.this, ChangeEmailProfileActivity.class);
+        startActivity(changeEmailIntent);
+    }
+
+    private void goToEditName() {
+        Intent changeNameIntent = new Intent(EditProfileActivity.this, ChangeNameProfileActivity.class);
+        startActivity(changeNameIntent);
+    }
+
+    private void goToEditPhoto() {
+        Intent changePhotoIntent = new Intent(EditProfileActivity.this, ChangePhotoProfileActivity.class);
+        startActivity(changePhotoIntent);
     }
 }
