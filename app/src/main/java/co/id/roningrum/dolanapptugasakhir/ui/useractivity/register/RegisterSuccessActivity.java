@@ -36,9 +36,13 @@ public class RegisterSuccessActivity extends AppCompatActivity implements View.O
     @Override
     public void onClick(View view) {
         if (view.getId() == R.id.btn_next_to_login_page) {
-            Intent nextToLogin = new Intent(this, SignInEmailActivity.class);
-            startActivity(nextToLogin);
-            finish();
+            goToSignInEmail();
         }
+    }
+
+    private void goToSignInEmail() {
+        Intent nextToLogin = new Intent(this, SignInEmailActivity.class);
+        startActivity(nextToLogin);
+        finish();
     }
 }
