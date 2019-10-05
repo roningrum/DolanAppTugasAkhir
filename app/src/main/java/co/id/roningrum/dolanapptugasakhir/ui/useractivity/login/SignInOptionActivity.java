@@ -82,16 +82,24 @@ public class SignInOptionActivity extends AppCompatActivity implements View.OnCl
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_login_email:
-                startActivity(new Intent(SignInOptionActivity.this, SignInEmailActivity.class));
+                goToSignInEmail();
                 break;
             case R.id.register_link:
-                startActivity(new Intent(SignInOptionActivity.this, RegisterAccountEmailActivity.class));
+                goToRegisterPage();
                 break;
             case R.id.btn_sign_in_google:
                 signInWithGoogle();
                 break;
         }
 
+    }
+
+    private void goToRegisterPage() {
+        startActivity(new Intent(SignInOptionActivity.this, RegisterAccountEmailActivity.class));
+    }
+
+    private void goToSignInEmail() {
+        startActivity(new Intent(SignInOptionActivity.this, SignInEmailActivity.class));
     }
 
     private void signInWithGoogle() {
