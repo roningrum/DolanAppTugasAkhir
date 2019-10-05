@@ -37,6 +37,7 @@ import java.util.Objects;
 import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.ui.homeactivity.MainMenuActivity;
 import co.id.roningrum.dolanapptugasakhir.ui.useractivity.register.RegisterAccountEmailActivity;
+import co.id.roningrum.dolanapptugasakhir.ui.useractivity.reset.ResetPasswordActivity;
 
 public class SignInEmailActivity extends AppCompatActivity implements View.OnClickListener {
     private static final String TAG = "STATUS_LOGIN";
@@ -51,12 +52,14 @@ public class SignInEmailActivity extends AppCompatActivity implements View.OnCli
         edtEmailSignIn = findViewById(R.id.edt_email_login_layout);
         edtPasswordSignIn = findViewById(R.id.edt_password_login_layout);
         Button btnSignInAccount = findViewById(R.id.btn_login);
+        TextView tvResetPage = findViewById(R.id.tv_reset_pass);
         TextView tvRegisterPage = findViewById(R.id.tv_register_link);
 
         authLogin = FirebaseAuth.getInstance();
 
         tvRegisterPage.setOnClickListener(this);
         btnSignInAccount.setOnClickListener(this);
+        tvResetPage.setOnClickListener(this);
 
     }
 
@@ -69,9 +72,17 @@ public class SignInEmailActivity extends AppCompatActivity implements View.OnCli
             case R.id.tv_register_link:
                 goToRegisterPage();
                 break;
+            case R.id.tv_reset_pass:
+                goToResetPage();
+                break;
         }
 
 
+    }
+
+    private void goToResetPage() {
+        Intent goToResetPageIntent = new Intent(this, ResetPasswordActivity.class);
+        startActivity(goToResetPageIntent);
     }
 
     private void goToRegisterPage() {
