@@ -37,6 +37,7 @@ import co.id.roningrum.dolanapptugasakhir.model.GasStation;
 public class GasStationMap extends FragmentActivity implements OnMapReadyCallback {
 
     private DatabaseReference gasMapRef;
+    private GoogleMap gasGoogleMap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,11 +63,13 @@ public class GasStationMap extends FragmentActivity implements OnMapReadyCallbac
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
+
         showGasMap(googleMap);
 
     }
 
-    private void showGasMap(final GoogleMap gasGoogleMap) {
+    private void showGasMap(GoogleMap googleMap) {
+        gasGoogleMap = googleMap;
         gasMapRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

@@ -180,8 +180,13 @@ public class TransportationAirportDetail extends AppCompatActivity implements On
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-
         airportGoogleMap = googleMap;
+        showTransportMapDetail();
+
+
+    }
+
+    private void showTransportMapDetail() {
         ValueEventListener eventListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -211,8 +216,6 @@ public class TransportationAirportDetail extends AppCompatActivity implements On
         };
         airportDetailRef.addValueEventListener(eventListener);
         valueEventListener = eventListener;
-
-
     }
 
     @Override
