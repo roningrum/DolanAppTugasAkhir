@@ -30,7 +30,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import java.util.Arrays;
 
 import co.id.roningrum.dolanapptugasakhir.R;
-import co.id.roningrum.dolanapptugasakhir.favorite.BookmarkFragment;
+import co.id.roningrum.dolanapptugasakhir.favorite.FavoriteFragment;
 import co.id.roningrum.dolanapptugasakhir.handler.PermissionHandler;
 import co.id.roningrum.dolanapptugasakhir.ui.homefragment.HomeFragment;
 import co.id.roningrum.dolanapptugasakhir.ui.homefragment.ProfileFragment;
@@ -82,7 +82,7 @@ public class MainMenuActivity extends AppCompatActivity implements BottomNavigat
                 fragment = new HomeFragment();
                 break;
             case R.id.bookmarkMenu:
-                fragment = new BookmarkFragment();
+                fragment = new FavoriteFragment();
                 break;
             case R.id.profileMenu:
                 fragment = new ProfileFragment();

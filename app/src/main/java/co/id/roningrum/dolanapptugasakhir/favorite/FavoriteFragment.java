@@ -49,7 +49,7 @@ import co.id.roningrum.dolanapptugasakhir.model.Tourism;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class BookmarkFragment extends Fragment {
+public class FavoriteFragment extends Fragment {
     private ArrayList<Tourism> tourismList;
     private ArrayList<String> checkUserList;
     private RecyclerView rvFavoritList;
@@ -59,7 +59,7 @@ public class BookmarkFragment extends Fragment {
     private DatabaseReference databaseReference;
 
 
-    public BookmarkFragment() {
+    public FavoriteFragment() {
         // Required empty public constructor
     }
 
