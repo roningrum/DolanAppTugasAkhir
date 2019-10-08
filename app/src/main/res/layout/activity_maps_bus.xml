@@ -17,7 +17,7 @@
     android:id="@+id/map_activity"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.transportation.transportationMapActivity.BusMapsActivity">
+    tools:context=".ui.transportation.transportationMapActivity.TransportationBusMaps">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar_bus_map"

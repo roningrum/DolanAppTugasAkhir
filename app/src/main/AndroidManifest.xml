@@ -61,25 +61,25 @@
         <activity android:name=".ui.gasstation.GasStationDetail" />
         <activity android:name=".ui.gasstation.GasStationCategory" />
         <activity
-            android:name=".ui.transportation.transportationMapActivity.ShipMapActivity"
+            android:name=".ui.transportation.transportationMapActivity.TransportationShipMaps"
             android:label="@string/title_activity_ship_map" />
-        <activity android:name=".ui.transportation.transportationDetailActivity.DetailShipActivity" />
-        <activity android:name=".ui.transportation.transportationActivity.ShipCategoryActivity" />
+        <activity android:name=".ui.transportation.transportationDetailActivity.TransportationShipDetail" />
+        <activity android:name=".ui.transportation.transportationActivity.TransportationShipActivity" />
         <activity
-            android:name=".ui.transportation.transportationMapActivity.TrainMapsActivity"
+            android:name=".ui.transportation.transportationMapActivity.TransportationTrainMaps"
             android:label="@string/title_activity_train_maps" />
-        <activity android:name=".ui.transportation.transportationDetailActivity.DetailTrainActivity" />
-        <activity android:name=".ui.transportation.transportationActivity.TrainCategoryActivity" />
+        <activity android:name=".ui.transportation.transportationDetailActivity.TransportationTrainDetail" />
+        <activity android:name=".ui.transportation.transportationActivity.TransportationTrainActivity" />
         <activity
-            android:name=".ui.transportation.transportationMapActivity.BusMapsActivity"
+            android:name=".ui.transportation.transportationMapActivity.TransportationBusMaps"
             android:label="@string/title_activity_bus_maps" />
-        <activity android:name=".ui.transportation.transportationDetailActivity.DetailBusActivity" />
-        <activity android:name=".ui.transportation.transportationActivity.BusCategoryActivity" />
+        <activity android:name=".ui.transportation.transportationDetailActivity.TransportationBusDetail" />
+        <activity android:name=".ui.transportation.transportationActivity.TransportationBusActivity" />
         <activity
-            android:name=".ui.transportation.transportationMapActivity.AirportMapsActivity"
+            android:name=".ui.transportation.transportationMapActivity.TransportationAirportMaps"
             android:label="@string/title_activity_airport_maps" />
-        <activity android:name=".ui.transportation.transportationDetailActivity.DetailAirportActivity" />
-        <activity android:name=".ui.transportation.transportationActivity.AirportCategoryActivity" />
+        <activity android:name=".ui.transportation.transportationDetailActivity.TransportationAirportDetail" />
+        <activity android:name=".ui.transportation.transportationActivity.TrasportationAirportActivity" />
         <activity
             android:name=".ui.hotel.HotelMaps"
             android:label="@string/title_activity_hotel_maps" />

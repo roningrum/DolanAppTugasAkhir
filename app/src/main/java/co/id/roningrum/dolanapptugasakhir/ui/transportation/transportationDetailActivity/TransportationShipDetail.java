@@ -48,7 +48,7 @@ import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.handler.HaversineHandler;
 import co.id.roningrum.dolanapptugasakhir.model.Transportation;
 
-public class DetailShipActivity extends AppCompatActivity implements OnMapReadyCallback {
+public class TransportationShipDetail extends AppCompatActivity implements OnMapReadyCallback {
     public static final String EXTRA_SHIP_KEY = "shipKey";
 
     private static final String MAP_VIEW_KEY = "mapViewBundle";

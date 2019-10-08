@@ -34,10 +34,10 @@ import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismActivity.TourismReli
 import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismActivity.TourismShoppingActivity;
 import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismActivity.TourismVillageActivity;
 import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismActivity.TourismWaterActivity;
-import co.id.roningrum.dolanapptugasakhir.ui.transportation.transportationActivity.AirportCategoryActivity;
-import co.id.roningrum.dolanapptugasakhir.ui.transportation.transportationActivity.BusCategoryActivity;
-import co.id.roningrum.dolanapptugasakhir.ui.transportation.transportationActivity.ShipCategoryActivity;
-import co.id.roningrum.dolanapptugasakhir.ui.transportation.transportationActivity.TrainCategoryActivity;
+import co.id.roningrum.dolanapptugasakhir.ui.transportation.transportationActivity.TransportationBusActivity;
+import co.id.roningrum.dolanapptugasakhir.ui.transportation.transportationActivity.TransportationShipActivity;
+import co.id.roningrum.dolanapptugasakhir.ui.transportation.transportationActivity.TransportationTrainActivity;
+import co.id.roningrum.dolanapptugasakhir.ui.transportation.transportationActivity.TrasportationAirportActivity;
 
 public class AllCategoryActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -118,16 +118,16 @@ public class AllCategoryActivity extends AppCompatActivity implements View.OnCli
                 startActivity(new Intent(AllCategoryActivity.this, HotelActivity.class));
                 break;
             case R.id.ln_bandara_public:
-                startActivity(new Intent(AllCategoryActivity.this, AirportCategoryActivity.class));
+                startActivity(new Intent(AllCategoryActivity.this, TrasportationAirportActivity.class));
                 break;
             case R.id.ln_bus_public:
-                startActivity(new Intent(AllCategoryActivity.this, BusCategoryActivity.class));
+                startActivity(new Intent(AllCategoryActivity.this, TransportationBusActivity.class));
                 break;
             case R.id.ln_train_public:
-                startActivity(new Intent(AllCategoryActivity.this, TrainCategoryActivity.class));
+                startActivity(new Intent(AllCategoryActivity.this, TransportationTrainActivity.class));
                 break;
             case R.id.ln_harbor_tour:
-                startActivity(new Intent(AllCategoryActivity.this, ShipCategoryActivity.class));
+                startActivity(new Intent(AllCategoryActivity.this, TransportationShipActivity.class));
                 break;
             case R.id.ln_spbu_public:
                 startActivity(new Intent(AllCategoryActivity.this, GasStationCategory.class));

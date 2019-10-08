@@ -46,14 +46,14 @@ import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.handler.NetworkHelper;
 import co.id.roningrum.dolanapptugasakhir.handler.PermissionHandler;
 import co.id.roningrum.dolanapptugasakhir.model.Transportation;
-import co.id.roningrum.dolanapptugasakhir.ui.transportation.transportationDetailActivity.DetailShipActivity;
-import co.id.roningrum.dolanapptugasakhir.ui.transportation.transportationMapActivity.ShipMapActivity;
-import co.id.roningrum.dolanapptugasakhir.viewholderActivity.transportation.ShipViewHolder;
+import co.id.roningrum.dolanapptugasakhir.ui.transportation.transportationDetailActivity.TransportationTrainDetail;
+import co.id.roningrum.dolanapptugasakhir.ui.transportation.transportationMapActivity.TransportationTrainMaps;
+import co.id.roningrum.dolanapptugasakhir.viewholderActivity.transportation.TrainViewHolder;
 
-public class ShipCategoryActivity extends AppCompatActivity {
-    private RecyclerView rvShipList;
+public class TransportationTrainActivity extends AppCompatActivity {
+    private RecyclerView rvTrainList;
     private ShimmerFrameLayout shimmerFrameLayout;
-    private FirebaseRecyclerAdapter<Transportation, ShipViewHolder> shipFirebaseadapter;
+    private FirebaseRecyclerAdapter<Transportation, TrainViewHolder> trainFirebaseadapter;
 
     private GPSHandler gpsHandler;
     private PermissionHandler permissionHandler;
@@ -61,35 +61,37 @@ public class ShipCategoryActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_category_ship);
-        rvShipList = findViewById(R.id.rv_ship_list);
-        Toolbar toolbarShip = findViewById(R.id.toolbar_top_ship);
+        setContentView(R.layout.activity_category_train);
+        rvTrainList = findViewById(R.id.rv_train_list);
+        Toolbar toolbarTrain = findViewById(R.id.toolbar_top_train);
         shimmerFrameLayout = findViewById(R.id.shimmer_view_container);
-        rvShipList.setLayoutManager(new LinearLayoutManager(this));
-        setSupportActionBar(toolbarShip);
+        rvTrainList.setLayoutManager(new LinearLayoutManager(this));
+        setSupportActionBar(toolbarTrain);
         checkConnection();
     }
 
     private void checkConnection() {
         if (NetworkHelper.isConnectedToNetwork(getApplicationContext())) {
-            showShipData();
+            showTrainData();
         } else {
             Toast.makeText(this, "Check your connection", Toast.LENGTH_SHORT).show();
         }
     }
 
-    private void showShipData() {
+    private void showTrainData() {
         if (havePermission()) {
-            DatabaseReference shipRef = FirebaseDatabase.getInstance().getReference();
-            Query shipQuery = shipRef.child("Transportation").orderByChild("category_transportation").equalTo("harbor");
-            final FirebaseRecyclerOptions<Transportation> shipOptions = new FirebaseRecyclerOptions.Builder<Transportation>()
-                    .setQuery(shipQuery, Transportation.class)
+            DatabaseReference busRef = FirebaseDatabase.getInstance().getReference();
+            Query trainQuery = busRef.child("Transportation").orderByChild("category_transportation").equalTo("train");
+            FirebaseRecyclerOptions<Transportation> busOptions = new FirebaseRecyclerOptions.Builder<Transportation>()
+                    .setQuery(trainQuery, Transportation.class)
                     .build();
-            shipFirebaseadapter = new FirebaseRecyclerAdapter<Transportation, ShipViewHolder>(shipOptions) {
+
+            trainFirebaseadapter = new FirebaseRecyclerAdapter<Transportation, TrainViewHolder>(busOptions) {
                 @Override
-                protected void onBindViewHolder(@NonNull ShipViewHolder holder, int position, @NonNull Transportation model) {
-                    final DatabaseReference shipRef = getRef(position);
-                    final String shipKey = shipRef.getKey();
+                protected void onBindViewHolder(@NonNull TrainViewHolder holder, int position, @NonNull Transportation model) {
+                    final DatabaseReference trainRef = getRef(position);
+                    final String trainKey = trainRef.getKey();
+
                     gpsHandler = new GPSHandler(getApplicationContext());
                     if (gpsHandler.isCanGetLocation()) {
                         double latitude = gpsHandler.getLatitude();
@@ -100,12 +102,12 @@ public class ShipCategoryActivity extends AppCompatActivity {
                         shimmerFrameLayout.stopShimmer();
                         shimmerFrameLayout.setVisibility(View.GONE);
 
-                        holder.showHarborData(model, latitude, longitude);
-                        holder.setOnClickListener(new ShipViewHolder.ClickListener() {
+                        holder.showTrainData(model, latitude, longitude);
+                        holder.setOnClickListener(new TrainViewHolder.ClickListener() {
                             @Override
                             public void onItemClick(View view, int position) {
-                                Intent intent = new Intent(getApplicationContext(), DetailShipActivity.class);
-                                intent.putExtra(DetailShipActivity.EXTRA_SHIP_KEY, shipKey);
+                                Intent intent = new Intent(getApplicationContext(), TransportationTrainDetail.class);
+                                intent.putExtra(TransportationTrainDetail.EXTRA_TRAIN_KEY, trainKey);
                                 startActivity(intent);
                             }
                         });
@@ -114,17 +116,17 @@ public class ShipCategoryActivity extends AppCompatActivity {
                         gpsHandler.stopUsingGPS();
                         gpsHandler.showSettingsAlert();
                     }
-
                 }
 
                 @NonNull
                 @Override
-                public ShipViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-                    return new ShipViewHolder(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_menu_ship_category_transport, viewGroup, false));
+                public TrainViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+                    return new TrainViewHolder(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_menu_train_transport_category, viewGroup, false));
                 }
             };
-            shipFirebaseadapter.notifyDataSetChanged();
-            rvShipList.setAdapter(shipFirebaseadapter);
+            trainFirebaseadapter.notifyDataSetChanged();
+            rvTrainList.setAdapter(trainFirebaseadapter);
+
         }
     }
 
@@ -167,7 +169,7 @@ public class ShipCategoryActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.petaMenu) {
-            startActivity(new Intent(ShipCategoryActivity.this, ShipMapActivity.class));
+            startActivity(new Intent(TransportationTrainActivity.this, TransportationTrainMaps.class));
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -177,8 +179,8 @@ public class ShipCategoryActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         shimmerFrameLayout.startShimmer();
-        if (shipFirebaseadapter != null) {
-            shipFirebaseadapter.startListening();
+        if (trainFirebaseadapter != null) {
+            trainFirebaseadapter.startListening();
         }
     }
 
@@ -186,16 +188,16 @@ public class ShipCategoryActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         shimmerFrameLayout.stopShimmer();
-        if (shipFirebaseadapter != null) {
-            shipFirebaseadapter.stopListening();
+        if (trainFirebaseadapter != null) {
+            trainFirebaseadapter.stopListening();
         }
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        if (shipFirebaseadapter != null) {
-            shipFirebaseadapter.startListening();
+        if (trainFirebaseadapter != null) {
+            trainFirebaseadapter.startListening();
         }
 
     }
@@ -203,8 +205,8 @@ public class ShipCategoryActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        if (shipFirebaseadapter != null) {
-            shipFirebaseadapter.stopListening();
+        if (trainFirebaseadapter != null) {
+            trainFirebaseadapter.stopListening();
         }
     }
 }

@@ -50,7 +50,7 @@ import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.handler.HaversineHandler;
 import co.id.roningrum.dolanapptugasakhir.model.Transportation;
 
-public class DetailBusActivity extends AppCompatActivity implements OnMapReadyCallback {
+public class TransportationBusDetail extends AppCompatActivity implements OnMapReadyCallback {
     public static final String EXTRA_BUS_KEY = "busKey";
 
     private static final String MAP_VIEW_KEY = "mapViewBundle";

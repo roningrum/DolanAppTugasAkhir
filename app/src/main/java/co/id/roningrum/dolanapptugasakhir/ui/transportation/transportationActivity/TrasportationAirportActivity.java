@@ -46,14 +46,14 @@ import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.handler.NetworkHelper;
 import co.id.roningrum.dolanapptugasakhir.handler.PermissionHandler;
 import co.id.roningrum.dolanapptugasakhir.model.Transportation;
-import co.id.roningrum.dolanapptugasakhir.ui.transportation.transportationDetailActivity.DetailBusActivity;
-import co.id.roningrum.dolanapptugasakhir.ui.transportation.transportationMapActivity.BusMapsActivity;
-import co.id.roningrum.dolanapptugasakhir.viewholderActivity.transportation.BusViewHolder;
+import co.id.roningrum.dolanapptugasakhir.ui.transportation.transportationDetailActivity.TransportationAirportDetail;
+import co.id.roningrum.dolanapptugasakhir.ui.transportation.transportationMapActivity.TransportationAirportMaps;
+import co.id.roningrum.dolanapptugasakhir.viewholderActivity.transportation.AirportViewHolder;
 
-public class BusCategoryActivity extends AppCompatActivity {
-    private RecyclerView rvBusList;
+public class TrasportationAirportActivity extends AppCompatActivity {
+    private RecyclerView rvAirportList;
     private ShimmerFrameLayout shimmerFrameLayout;
-    private FirebaseRecyclerAdapter<Transportation, BusViewHolder> busFirebaseadapter;
+    private FirebaseRecyclerAdapter<Transportation, AirportViewHolder> airportFirebaseadapter;
 
     private GPSHandler gpsHandler;
     private PermissionHandler permissionHandler;
@@ -61,36 +61,36 @@ public class BusCategoryActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_category_bus);
-        rvBusList = findViewById(R.id.rv_bus_list);
-        Toolbar toolbarBus = findViewById(R.id.toolbar_top_bus);
+        setContentView(R.layout.activity_category_airport);
+        rvAirportList = findViewById(R.id.rv_airport_list);
+        Toolbar toolbarAirport = findViewById(R.id.toolbar_top_airport);
         shimmerFrameLayout = findViewById(R.id.shimmer_view_container);
-        rvBusList.setLayoutManager(new LinearLayoutManager(this));
-        setSupportActionBar(toolbarBus);
+        rvAirportList.setLayoutManager(new LinearLayoutManager(this));
+        setSupportActionBar(toolbarAirport);
         checkConnection();
+
     }
 
     private void checkConnection() {
         if (NetworkHelper.isConnectedToNetwork(getApplicationContext())) {
-            showBusData();
+            showAirportData();
         } else {
             Toast.makeText(this, "Check your connection", Toast.LENGTH_SHORT).show();
         }
     }
 
-    private void showBusData() {
+    private void showAirportData() {
         if (havePermission()) {
-            DatabaseReference busRef = FirebaseDatabase.getInstance().getReference();
-            Query busQuery = busRef.child("Transportation").orderByChild("category_transportation").equalTo("bus");
-            FirebaseRecyclerOptions<Transportation> busOptions = new FirebaseRecyclerOptions.Builder<Transportation>()
-                    .setQuery(busQuery, Transportation.class)
+            DatabaseReference airportRef = FirebaseDatabase.getInstance().getReference();
+            Query airportQuery = airportRef.child("Transportation").orderByChild("category_transportation").equalTo("airport");
+            FirebaseRecyclerOptions<Transportation> airportOptions = new FirebaseRecyclerOptions.Builder<Transportation>()
+                    .setQuery(airportQuery, Transportation.class)
                     .build();
-
-            busFirebaseadapter = new FirebaseRecyclerAdapter<Transportation, BusViewHolder>(busOptions) {
+            airportFirebaseadapter = new FirebaseRecyclerAdapter<Transportation, AirportViewHolder>(airportOptions) {
                 @Override
-                protected void onBindViewHolder(@NonNull BusViewHolder holder, int position, @NonNull Transportation model) {
-                    final DatabaseReference busRef = getRef(position);
-                    final String busKey = busRef.getKey();
+                protected void onBindViewHolder(@NonNull AirportViewHolder holder, int position, @NonNull Transportation model) {
+                    final DatabaseReference airportRef = getRef(position);
+                    final String airportKey = airportRef.getKey();
 
                     gpsHandler = new GPSHandler(getApplicationContext());
                     if (gpsHandler.isCanGetLocation()) {
@@ -102,12 +102,12 @@ public class BusCategoryActivity extends AppCompatActivity {
                         shimmerFrameLayout.stopShimmer();
                         shimmerFrameLayout.setVisibility(View.GONE);
 
-                        holder.showBusData(model, latitude, longitude);
-                        holder.setOnClickListener(new BusViewHolder.ClickListener() {
+                        holder.showAirportData(model, latitude, longitude);
+                        holder.setOnClickListener(new AirportViewHolder.ClickListener() {
                             @Override
                             public void onItemClick(View view, int position) {
-                                Intent intent = new Intent(getApplicationContext(), DetailBusActivity.class);
-                                intent.putExtra(DetailBusActivity.EXTRA_BUS_KEY, busKey);
+                                Intent intent = new Intent(getApplicationContext(), TransportationAirportDetail.class);
+                                intent.putExtra(TransportationAirportDetail.EXTRA_AIRPORT_KEY, airportKey);
                                 startActivity(intent);
                             }
                         });
@@ -120,12 +120,12 @@ public class BusCategoryActivity extends AppCompatActivity {
 
                 @NonNull
                 @Override
-                public BusViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-                    return new BusViewHolder(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_menu_bus_category_transport, viewGroup, false));
+                public AirportViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+                    return new AirportViewHolder(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_menu_airport_category_transport, viewGroup, false));
                 }
             };
-            busFirebaseadapter.notifyDataSetChanged();
-            rvBusList.setAdapter(busFirebaseadapter);
+            airportFirebaseadapter.notifyDataSetChanged();
+            rvAirportList.setAdapter(airportFirebaseadapter);
 
         }
     }
@@ -169,7 +169,7 @@ public class BusCategoryActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.petaMenu) {
-            startActivity(new Intent(BusCategoryActivity.this, BusMapsActivity.class));
+            startActivity(new Intent(TrasportationAirportActivity.this, TransportationAirportMaps.class));
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -179,8 +179,8 @@ public class BusCategoryActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         shimmerFrameLayout.startShimmer();
-        if (busFirebaseadapter != null) {
-            busFirebaseadapter.startListening();
+        if (airportFirebaseadapter != null) {
+            airportFirebaseadapter.startListening();
         }
     }
 
@@ -188,16 +188,16 @@ public class BusCategoryActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         shimmerFrameLayout.stopShimmer();
-        if (busFirebaseadapter != null) {
-            busFirebaseadapter.stopListening();
+        if (airportFirebaseadapter != null) {
+            airportFirebaseadapter.stopListening();
         }
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        if (busFirebaseadapter != null) {
-            busFirebaseadapter.startListening();
+        if (airportFirebaseadapter != null) {
+            airportFirebaseadapter.startListening();
         }
 
     }
@@ -205,9 +205,8 @@ public class BusCategoryActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        if (busFirebaseadapter != null) {
-            busFirebaseadapter.stopListening();
+        if (airportFirebaseadapter != null) {
+            airportFirebaseadapter.stopListening();
         }
     }
-
 }

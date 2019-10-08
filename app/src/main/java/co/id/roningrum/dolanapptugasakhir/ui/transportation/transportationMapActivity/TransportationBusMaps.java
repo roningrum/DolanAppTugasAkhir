@@ -43,22 +43,21 @@ import com.google.firebase.database.ValueEventListener;
 import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.model.Transportation;
 
-public class ShipMapActivity extends FragmentActivity implements OnMapReadyCallback {
+public class TransportationBusMaps extends FragmentActivity implements OnMapReadyCallback {
 
-    private GoogleMap shipMap;
-    private DatabaseReference shipMapRef;
+    private GoogleMap busMap;
+    private DatabaseReference busMapRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_maps_ship);
+        setContentView(R.layout.activity_maps_bus);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.ship_map);
+                .findFragmentById(R.id.bus_map);
         assert mapFragment != null;
         mapFragment.getMapAsync(this);
-        shipMapRef = FirebaseDatabase.getInstance().getReference().child("Transportation");
-
+        busMapRef = FirebaseDatabase.getInstance().getReference().child("Transportation");
     }
 
 
@@ -73,13 +72,15 @@ public class ShipMapActivity extends FragmentActivity implements OnMapReadyCallb
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        showShipMap(googleMap);
+
+        showBusMap(googleMap);
+
     }
 
-    private void showShipMap(GoogleMap googleMap) {
-        shipMap = googleMap;
-        Query shipMapQuery = shipMapRef.orderByChild("category_transportation").equalTo("harbor");
-        shipMapQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+    private void showBusMap(GoogleMap googleMap) {
+        busMap = googleMap;
+        Query busMapQuery = busMapRef.orderByChild("category_transportation").equalTo("bus");
+        busMapQuery.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot dsAirport : dataSnapshot.getChildren()) {
@@ -87,9 +88,9 @@ public class ShipMapActivity extends FragmentActivity implements OnMapReadyCallb
                     assert transportation != null;
                     double latBus = transportation.getLat_transportation();
                     double lngBus = transportation.getLng_transportation();
-                    LatLng shipPlaceLoc = new LatLng(latBus, lngBus);
-                    shipMap.moveCamera(CameraUpdateFactory.newLatLngZoom(shipPlaceLoc, 12.2f));
-                    shipMap.addMarker(new MarkerOptions().position(shipPlaceLoc).icon(getBitmapDescriptor()).title(transportation.getName_transportation()).snippet(transportation.getLocation_transportation()));
+                    LatLng busPlaceLoc = new LatLng(latBus, lngBus);
+                    busMap.moveCamera(CameraUpdateFactory.newLatLngZoom(busPlaceLoc, 10.2f));
+                    busMap.addMarker(new MarkerOptions().position(busPlaceLoc).icon(getBitmapDescriptor()).title(transportation.getName_transportation()).snippet(transportation.getLocation_transportation()));
 
                 }
             }
@@ -103,7 +104,7 @@ public class ShipMapActivity extends FragmentActivity implements OnMapReadyCallb
         try {
             // Customise the styling of the base map using a JSON object defined
             // in a raw resource file.
-            boolean success = shipMap.setMapStyle(
+            boolean success = busMap.setMapStyle(
                     MapStyleOptions.loadRawResourceStyle(
                             this, R.raw.google_map_style));
 

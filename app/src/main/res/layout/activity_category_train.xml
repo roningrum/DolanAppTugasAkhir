@@ -17,7 +17,7 @@
     android:layout_height="match_parent"
     android:background="@color/txtWhitePrimary"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.transportation.transportationActivity.TrainCategoryActivity">
+    tools:context=".ui.transportation.transportationActivity.TransportationTrainActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appbar_layout_train"

@@ -46,14 +46,14 @@ import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.handler.NetworkHelper;
 import co.id.roningrum.dolanapptugasakhir.handler.PermissionHandler;
 import co.id.roningrum.dolanapptugasakhir.model.Transportation;
-import co.id.roningrum.dolanapptugasakhir.ui.transportation.transportationDetailActivity.DetailAirportActivity;
-import co.id.roningrum.dolanapptugasakhir.ui.transportation.transportationMapActivity.AirportMapsActivity;
-import co.id.roningrum.dolanapptugasakhir.viewholderActivity.transportation.AirportViewHolder;
+import co.id.roningrum.dolanapptugasakhir.ui.transportation.transportationDetailActivity.TransportationShipDetail;
+import co.id.roningrum.dolanapptugasakhir.ui.transportation.transportationMapActivity.TransportationShipMaps;
+import co.id.roningrum.dolanapptugasakhir.viewholderActivity.transportation.ShipViewHolder;
 
-public class AirportCategoryActivity extends AppCompatActivity {
-    private RecyclerView rvAirportList;
+public class TransportationShipActivity extends AppCompatActivity {
+    private RecyclerView rvShipList;
     private ShimmerFrameLayout shimmerFrameLayout;
-    private FirebaseRecyclerAdapter<Transportation, AirportViewHolder> airportFirebaseadapter;
+    private FirebaseRecyclerAdapter<Transportation, ShipViewHolder> shipFirebaseadapter;
 
     private GPSHandler gpsHandler;
     private PermissionHandler permissionHandler;
@@ -61,37 +61,35 @@ public class AirportCategoryActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_category_airport);
-        rvAirportList = findViewById(R.id.rv_airport_list);
-        Toolbar toolbarAirport = findViewById(R.id.toolbar_top_airport);
+        setContentView(R.layout.activity_category_ship);
+        rvShipList = findViewById(R.id.rv_ship_list);
+        Toolbar toolbarShip = findViewById(R.id.toolbar_top_ship);
         shimmerFrameLayout = findViewById(R.id.shimmer_view_container);
-        rvAirportList.setLayoutManager(new LinearLayoutManager(this));
-        setSupportActionBar(toolbarAirport);
+        rvShipList.setLayoutManager(new LinearLayoutManager(this));
+        setSupportActionBar(toolbarShip);
         checkConnection();
-
     }
 
     private void checkConnection() {
         if (NetworkHelper.isConnectedToNetwork(getApplicationContext())) {
-            showAirportData();
+            showShipData();
         } else {
             Toast.makeText(this, "Check your connection", Toast.LENGTH_SHORT).show();
         }
     }
 
-    private void showAirportData() {
+    private void showShipData() {
         if (havePermission()) {
-            DatabaseReference airportRef = FirebaseDatabase.getInstance().getReference();
-            Query airportQuery = airportRef.child("Transportation").orderByChild("category_transportation").equalTo("airport");
-            FirebaseRecyclerOptions<Transportation> airportOptions = new FirebaseRecyclerOptions.Builder<Transportation>()
-                    .setQuery(airportQuery, Transportation.class)
+            DatabaseReference shipRef = FirebaseDatabase.getInstance().getReference();
+            Query shipQuery = shipRef.child("Transportation").orderByChild("category_transportation").equalTo("harbor");
+            final FirebaseRecyclerOptions<Transportation> shipOptions = new FirebaseRecyclerOptions.Builder<Transportation>()
+                    .setQuery(shipQuery, Transportation.class)
                     .build();
-            airportFirebaseadapter = new FirebaseRecyclerAdapter<Transportation, AirportViewHolder>(airportOptions) {
+            shipFirebaseadapter = new FirebaseRecyclerAdapter<Transportation, ShipViewHolder>(shipOptions) {
                 @Override
-                protected void onBindViewHolder(@NonNull AirportViewHolder holder, int position, @NonNull Transportation model) {
-                    final DatabaseReference airportRef = getRef(position);
-                    final String airportKey = airportRef.getKey();
-
+                protected void onBindViewHolder(@NonNull ShipViewHolder holder, int position, @NonNull Transportation model) {
+                    final DatabaseReference shipRef = getRef(position);
+                    final String shipKey = shipRef.getKey();
                     gpsHandler = new GPSHandler(getApplicationContext());
                     if (gpsHandler.isCanGetLocation()) {
                         double latitude = gpsHandler.getLatitude();
@@ -102,12 +100,12 @@ public class AirportCategoryActivity extends AppCompatActivity {
                         shimmerFrameLayout.stopShimmer();
                         shimmerFrameLayout.setVisibility(View.GONE);
 
-                        holder.showAirportData(model, latitude, longitude);
-                        holder.setOnClickListener(new AirportViewHolder.ClickListener() {
+                        holder.showHarborData(model, latitude, longitude);
+                        holder.setOnClickListener(new ShipViewHolder.ClickListener() {
                             @Override
                             public void onItemClick(View view, int position) {
-                                Intent intent = new Intent(getApplicationContext(), DetailAirportActivity.class);
-                                intent.putExtra(DetailAirportActivity.EXTRA_AIRPORT_KEY, airportKey);
+                                Intent intent = new Intent(getApplicationContext(), TransportationShipDetail.class);
+                                intent.putExtra(TransportationShipDetail.EXTRA_SHIP_KEY, shipKey);
                                 startActivity(intent);
                             }
                         });
@@ -116,17 +114,17 @@ public class AirportCategoryActivity extends AppCompatActivity {
                         gpsHandler.stopUsingGPS();
                         gpsHandler.showSettingsAlert();
                     }
+
                 }
 
                 @NonNull
                 @Override
-                public AirportViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-                    return new AirportViewHolder(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_menu_airport_category_transport, viewGroup, false));
+                public ShipViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+                    return new ShipViewHolder(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_menu_ship_category_transport, viewGroup, false));
                 }
             };
-            airportFirebaseadapter.notifyDataSetChanged();
-            rvAirportList.setAdapter(airportFirebaseadapter);
-
+            shipFirebaseadapter.notifyDataSetChanged();
+            rvShipList.setAdapter(shipFirebaseadapter);
         }
     }
 
@@ -169,7 +167,7 @@ public class AirportCategoryActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.petaMenu) {
-            startActivity(new Intent(AirportCategoryActivity.this, AirportMapsActivity.class));
+            startActivity(new Intent(TransportationShipActivity.this, TransportationShipMaps.class));
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -179,8 +177,8 @@ public class AirportCategoryActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         shimmerFrameLayout.startShimmer();
-        if (airportFirebaseadapter != null) {
-            airportFirebaseadapter.startListening();
+        if (shipFirebaseadapter != null) {
+            shipFirebaseadapter.startListening();
         }
     }
 
@@ -188,16 +186,16 @@ public class AirportCategoryActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         shimmerFrameLayout.stopShimmer();
-        if (airportFirebaseadapter != null) {
-            airportFirebaseadapter.stopListening();
+        if (shipFirebaseadapter != null) {
+            shipFirebaseadapter.stopListening();
         }
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        if (airportFirebaseadapter != null) {
-            airportFirebaseadapter.startListening();
+        if (shipFirebaseadapter != null) {
+            shipFirebaseadapter.startListening();
         }
 
     }
@@ -205,8 +203,8 @@ public class AirportCategoryActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        if (airportFirebaseadapter != null) {
-            airportFirebaseadapter.stopListening();
+        if (shipFirebaseadapter != null) {
+            shipFirebaseadapter.stopListening();
         }
     }
 }

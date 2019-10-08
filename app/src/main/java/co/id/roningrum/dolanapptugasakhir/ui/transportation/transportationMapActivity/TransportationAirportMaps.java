@@ -43,21 +43,21 @@ import com.google.firebase.database.ValueEventListener;
 import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.model.Transportation;
 
-public class BusMapsActivity extends FragmentActivity implements OnMapReadyCallback {
+public class TransportationAirportMaps extends FragmentActivity implements OnMapReadyCallback {
 
-    private GoogleMap busMap;
-    private DatabaseReference busMapRef;
+    private GoogleMap airportMaps;
+    private DatabaseReference airportMapRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_maps_bus);
+        setContentView(R.layout.activity_maps_airport);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.bus_map);
+                .findFragmentById(R.id.airport_map);
         assert mapFragment != null;
         mapFragment.getMapAsync(this);
-        busMapRef = FirebaseDatabase.getInstance().getReference().child("Transportation");
+        airportMapRef = FirebaseDatabase.getInstance().getReference().child("Transportation");
     }
 
 
@@ -72,25 +72,27 @@ public class BusMapsActivity extends FragmentActivity implements OnMapReadyCallb
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
+        showAirportMap(googleMap);
 
-        showBusMap(googleMap);
 
     }
 
-    private void showBusMap(GoogleMap googleMap) {
-        busMap = googleMap;
-        Query busMapQuery = busMapRef.orderByChild("category_transportation").equalTo("bus");
-        busMapQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+    private void showAirportMap(GoogleMap googleMap) {
+        airportMaps = googleMap;
+        Query airportMapQuery = airportMapRef.orderByChild("category_transportation").equalTo("airport");
+        airportMapQuery.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot dsAirport : dataSnapshot.getChildren()) {
                     Transportation transportation = dsAirport.getValue(Transportation.class);
                     assert transportation != null;
-                    double latBus = transportation.getLat_transportation();
-                    double lngBus = transportation.getLng_transportation();
-                    LatLng busPlaceLoc = new LatLng(latBus, lngBus);
-                    busMap.moveCamera(CameraUpdateFactory.newLatLngZoom(busPlaceLoc, 10.2f));
-                    busMap.addMarker(new MarkerOptions().position(busPlaceLoc).icon(getBitmapDescriptor()).title(transportation.getName_transportation()).snippet(transportation.getLocation_transportation()));
+                    double latAirport = transportation.getLat_transportation();
+                    double lngAirport = transportation.getLng_transportation();
+                    LatLng airportPlaceLoc = new LatLng(latAirport, lngAirport);
+                    airportMaps.moveCamera(CameraUpdateFactory.newLatLngZoom(airportPlaceLoc, 14.6f));
+
+                    airportMaps.addMarker(new MarkerOptions().position(airportPlaceLoc).icon(getBitmapDescriptor()).
+                            title(transportation.getName_transportation()).snippet(transportation.getLocation_transportation()));
 
                 }
             }
@@ -104,7 +106,7 @@ public class BusMapsActivity extends FragmentActivity implements OnMapReadyCallb
         try {
             // Customise the styling of the base map using a JSON object defined
             // in a raw resource file.
-            boolean success = busMap.setMapStyle(
+            boolean success = airportMaps.setMapStyle(
                     MapStyleOptions.loadRawResourceStyle(
                             this, R.raw.google_map_style));
 

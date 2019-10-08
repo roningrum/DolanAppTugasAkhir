@@ -187,6 +187,10 @@ public class HotelDetail extends AppCompatActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         hotelGoogleMap = googleMap;
+        showHotelMapDetail();
+    }
+
+    private void showHotelMapDetail() {
         ValueEventListener eventListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -207,7 +211,6 @@ public class HotelDetail extends AppCompatActivity implements OnMapReadyCallback
         };
         hotelDetailRef.addValueEventListener(eventListener);
         valueEventListener = eventListener;
-
     }
 
     @Override

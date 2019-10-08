@@ -43,21 +43,22 @@ import com.google.firebase.database.ValueEventListener;
 import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.model.Transportation;
 
-public class AirportMapsActivity extends FragmentActivity implements OnMapReadyCallback {
+public class TransportationShipMaps extends FragmentActivity implements OnMapReadyCallback {
 
-    private GoogleMap airportMaps;
-    private DatabaseReference airportMapRef;
+    private GoogleMap shipMap;
+    private DatabaseReference shipMapRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_maps_airport);
+        setContentView(R.layout.activity_maps_ship);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.airport_map);
+                .findFragmentById(R.id.ship_map);
         assert mapFragment != null;
         mapFragment.getMapAsync(this);
-        airportMapRef = FirebaseDatabase.getInstance().getReference().child("Transportation");
+        shipMapRef = FirebaseDatabase.getInstance().getReference().child("Transportation");
+
     }
 
 
@@ -72,27 +73,23 @@ public class AirportMapsActivity extends FragmentActivity implements OnMapReadyC
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        showAirportMap(googleMap);
-
-
+        showShipMap(googleMap);
     }
 
-    private void showAirportMap(GoogleMap googleMap) {
-        airportMaps = googleMap;
-        Query airportMapQuery = airportMapRef.orderByChild("category_transportation").equalTo("airport");
-        airportMapQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+    private void showShipMap(GoogleMap googleMap) {
+        shipMap = googleMap;
+        Query shipMapQuery = shipMapRef.orderByChild("category_transportation").equalTo("harbor");
+        shipMapQuery.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot dsAirport : dataSnapshot.getChildren()) {
                     Transportation transportation = dsAirport.getValue(Transportation.class);
                     assert transportation != null;
-                    double latAirport = transportation.getLat_transportation();
-                    double lngAirport = transportation.getLng_transportation();
-                    LatLng airportPlaceLoc = new LatLng(latAirport, lngAirport);
-                    airportMaps.moveCamera(CameraUpdateFactory.newLatLngZoom(airportPlaceLoc, 14.6f));
-
-                    airportMaps.addMarker(new MarkerOptions().position(airportPlaceLoc).icon(getBitmapDescriptor()).
-                            title(transportation.getName_transportation()).snippet(transportation.getLocation_transportation()));
+                    double latBus = transportation.getLat_transportation();
+                    double lngBus = transportation.getLng_transportation();
+                    LatLng shipPlaceLoc = new LatLng(latBus, lngBus);
+                    shipMap.moveCamera(CameraUpdateFactory.newLatLngZoom(shipPlaceLoc, 12.2f));
+                    shipMap.addMarker(new MarkerOptions().position(shipPlaceLoc).icon(getBitmapDescriptor()).title(transportation.getName_transportation()).snippet(transportation.getLocation_transportation()));
 
                 }
             }
@@ -106,7 +103,7 @@ public class AirportMapsActivity extends FragmentActivity implements OnMapReadyC
         try {
             // Customise the styling of the base map using a JSON object defined
             // in a raw resource file.
-            boolean success = airportMaps.setMapStyle(
+            boolean success = shipMap.setMapStyle(
                     MapStyleOptions.loadRawResourceStyle(
                             this, R.raw.google_map_style));
 

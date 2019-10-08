@@ -42,8 +42,8 @@ import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismActivity.TourismNatu
 import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismActivity.TourismRecreationActivity;
 import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismActivity.TourismShoppingActivity;
 import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismActivity.TourismVillageActivity;
-import co.id.roningrum.dolanapptugasakhir.ui.transportation.transportationActivity.AirportCategoryActivity;
-import co.id.roningrum.dolanapptugasakhir.ui.transportation.transportationActivity.TrainCategoryActivity;
+import co.id.roningrum.dolanapptugasakhir.ui.transportation.transportationActivity.TransportationTrainActivity;
+import co.id.roningrum.dolanapptugasakhir.ui.transportation.transportationActivity.TrasportationAirportActivity;
 import co.id.roningrum.dolanapptugasakhir.viewholderActivity.ViewHolderHome.FoodRecommendationViewHolder;
 import co.id.roningrum.dolanapptugasakhir.viewholderActivity.ViewHolderHome.HerritageHomeViewHolder;
 import co.id.roningrum.dolanapptugasakhir.viewholderActivity.ViewHolderHome.TouristRecommendationViewHolder;
@@ -191,13 +191,13 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 startActivity(new Intent(getContext(), HotelActivity.class));
                 break;
             case R.id.ln_bandara_public_home:
-                startActivity(new Intent(getContext(), AirportCategoryActivity.class));
+                startActivity(new Intent(getContext(), TrasportationAirportActivity.class));
                 break;
 //            case R.id.ln_bus_public_home:
-//                startActivity(new Intent(getContext(), BusCategoryActivity.class));
+//                startActivity(new Intent(getContext(), TransportationBusActivity.class));
 //                break;
             case R.id.ln_train_public_home:
-                startActivity(new Intent(getContext(), TrainCategoryActivity.class));
+                startActivity(new Intent(getContext(), TransportationTrainActivity.class));
                 break;
         }
 

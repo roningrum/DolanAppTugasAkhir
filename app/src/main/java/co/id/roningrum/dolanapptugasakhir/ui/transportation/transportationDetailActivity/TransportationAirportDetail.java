@@ -50,7 +50,7 @@ import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.handler.HaversineHandler;
 import co.id.roningrum.dolanapptugasakhir.model.Transportation;
 
-public class DetailAirportActivity extends AppCompatActivity implements OnMapReadyCallback {
+public class TransportationAirportDetail extends AppCompatActivity implements OnMapReadyCallback {
 
     public static final String EXTRA_AIRPORT_KEY = "airportKey";
 
