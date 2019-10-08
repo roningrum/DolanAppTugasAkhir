@@ -54,7 +54,7 @@ import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.handler.HaversineHandler;
 import co.id.roningrum.dolanapptugasakhir.model.Hotel;
 
-public class DetailHotelActivity extends AppCompatActivity implements OnMapReadyCallback, View.OnClickListener {
+public class HotelDetail extends AppCompatActivity implements OnMapReadyCallback, View.OnClickListener {
     public static final String EXTRA_HOTEL_KEY = "hotel_key";
     private static final String MAP_VIEW_KEY = "mapViewBundle";
 
@@ -233,7 +233,7 @@ public class DetailHotelActivity extends AppCompatActivity implements OnMapReady
                 String orderLink = hotel.getOrder_link_hotel1();
 
                 if (orderLink.equals("tidak tersedia")) {
-                    Toast.makeText(DetailHotelActivity.this, "Maaf Link Tidak tersedia", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(HotelDetail.this, "Maaf Link Tidak tersedia", Toast.LENGTH_SHORT).show();
                 } else {
                     Intent linkOrderNow = new Intent(Intent.ACTION_VIEW, Uri.parse(orderLink));
                     startActivity(linkOrderNow);
@@ -259,7 +259,7 @@ public class DetailHotelActivity extends AppCompatActivity implements OnMapReady
                 String orderLink = hotel.getOrder_link_hotel();
 
                 if (orderLink.equals("tidak tersedia")) {
-                    Toast.makeText(DetailHotelActivity.this, "Maaf Link Tidak tersedia", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(HotelDetail.this, "Maaf Link Tidak tersedia", Toast.LENGTH_SHORT).show();
                 } else {
                     Intent linkOrderNow = new Intent(Intent.ACTION_VIEW, Uri.parse(orderLink));
                     startActivity(linkOrderNow);

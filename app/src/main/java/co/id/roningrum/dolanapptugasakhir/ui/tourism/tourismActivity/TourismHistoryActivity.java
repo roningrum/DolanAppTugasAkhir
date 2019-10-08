@@ -47,31 +47,31 @@ import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.handler.NetworkHelper;
 import co.id.roningrum.dolanapptugasakhir.handler.PermissionHandler;
 import co.id.roningrum.dolanapptugasakhir.model.Tourism;
-import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismDetailActivity.DetailWaterActivity;
-import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismMapActivity.WaterMapsActivity;
-import co.id.roningrum.dolanapptugasakhir.viewholderActivity.tourism.WaterViewHolder;
+import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismDetailActivity.TourismHistoryDetail;
+import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismMapActivity.TourismHistoryMaps;
+import co.id.roningrum.dolanapptugasakhir.viewholderActivity.tourism.HistoryViewHolder;
 
-public class WaterCategoryActivity extends AppCompatActivity {
-    private RecyclerView rvWaterList;
+public class TourismHistoryActivity extends AppCompatActivity {
+
+    private RecyclerView rvHistoryList;
     private ShimmerFrameLayout shimmerFrameLayout;
-    private FirebaseRecyclerAdapter<Tourism, WaterViewHolder> waterFirebaseAdapter;
+    private FirebaseRecyclerAdapter<Tourism, HistoryViewHolder> historyFirebaseAdapter;
 
     private GPSHandler gpsHandler;
     private PermissionHandler permissionHandler;
-
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_category_water);
-        rvWaterList = findViewById(R.id.tourism_water_list);
-        Toolbar toolbarWater = findViewById(R.id.toolbar_top_water);
+        setContentView(R.layout.activity_category_history);
+        rvHistoryList = findViewById(R.id.tourism_history_list);
+        Toolbar toolbarHistory = findViewById(R.id.toolbar_top_history);
         shimmerFrameLayout = findViewById(R.id.shimmer_view_container);
-
-        rvWaterList.setLayoutManager(new LinearLayoutManager(this));
+        rvHistoryList.setLayoutManager(new LinearLayoutManager(this));
+        rvHistoryList.setHasFixedSize(true);
         ArrayList<Tourism> tourisms = new ArrayList<>();
         checkConnection();
-        setSupportActionBar(toolbarWater);
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        setSupportActionBar(toolbarHistory);
 
     }
 
@@ -85,18 +85,24 @@ public class WaterCategoryActivity extends AppCompatActivity {
     }
 
     private void showData() {
-        if(havePermission()){
-            DatabaseReference waterCategoryDB = FirebaseDatabase.getInstance().getReference();
-            Query waterItemListQuery = waterCategoryDB.child("Tourism").orderByChild("category_tourism").equalTo("air");
-            FirebaseRecyclerOptions<Tourism> options = new FirebaseRecyclerOptions.Builder<Tourism>()
-                    .setQuery(waterItemListQuery, Tourism.class)
+        if (havePermission()) {
+            DatabaseReference historyCategoryDB = FirebaseDatabase.getInstance().getReference();
+            Query historyQuery = historyCategoryDB.child("Tourism").orderByChild("category_tourism").equalTo("sejarah");
+            FirebaseRecyclerOptions<Tourism> historyOptions = new FirebaseRecyclerOptions.Builder<Tourism>()
+                    .setQuery(historyQuery, Tourism.class)
                     .build();
-            waterFirebaseAdapter = new FirebaseRecyclerAdapter<Tourism, WaterViewHolder>(options) {
+            historyFirebaseAdapter = new FirebaseRecyclerAdapter<Tourism, HistoryViewHolder>(historyOptions) {
+
+                @NonNull
+                @Override
+                public HistoryViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+                    return new HistoryViewHolder(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_history_category_menu, viewGroup, false));
+                }
 
                 @Override
-                protected void onBindViewHolder(@NonNull WaterViewHolder holder, int position, @NonNull Tourism model) {
-                    final DatabaseReference waterCategoryRef = getRef(position);
-                    final String waterKey = waterCategoryRef.getKey();
+                protected void onBindViewHolder(@NonNull HistoryViewHolder holder, int position, @NonNull Tourism model) {
+                    final DatabaseReference historyCategoryRef = getRef(position);
+                    final String historyKey = historyCategoryRef.getKey();
 
                     gpsHandler = new GPSHandler(getApplicationContext());
                     if (gpsHandler.isCanGetLocation()) {
@@ -108,31 +114,23 @@ public class WaterCategoryActivity extends AppCompatActivity {
                         shimmerFrameLayout.stopShimmer();
                         shimmerFrameLayout.setVisibility(View.GONE);
 
-                        holder.showWaterTourismData(model, latitude, longitude);
-                        holder.setOnClickListener(new WaterViewHolder.ClickListener() {
+                        holder.showHistoryTourismData(model, latitude, longitude);
+                        holder.setOnClickListener(new HistoryViewHolder.ClickListener() {
                             @Override
                             public void onItemClick(View view, int position) {
-                                Intent intent = new Intent(getApplicationContext(), DetailWaterActivity.class);
-                                intent.putExtra(DetailWaterActivity.EXTRA_WISATA_KEY, waterKey);
+                                Intent intent = new Intent(getApplicationContext(), TourismHistoryDetail.class);
+                                intent.putExtra(TourismHistoryDetail.EXTRA_WISATA_KEY, historyKey);
                                 startActivity(intent);
                             }
                         });
-
 
                     } else {
                         gpsHandler.showSettingsAlert();
                     }
                 }
-
-                @NonNull
-                @Override
-                public WaterViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-                    View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_menu_water_category_tourism, viewGroup, false);
-                    return new WaterViewHolder(view);
-                }
             };
-            waterFirebaseAdapter.notifyDataSetChanged();
-            rvWaterList.setAdapter(waterFirebaseAdapter);
+            historyFirebaseAdapter.notifyDataSetChanged();
+            rvHistoryList.setAdapter(historyFirebaseAdapter);
         }
     }
 
@@ -175,7 +173,7 @@ public class WaterCategoryActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.petaMenu) {
-            startActivity(new Intent(WaterCategoryActivity.this, WaterMapsActivity.class));
+            startActivity(new Intent(TourismHistoryActivity.this, TourismHistoryMaps.class));
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -185,21 +183,21 @@ public class WaterCategoryActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         shimmerFrameLayout.startShimmer();
-        waterFirebaseAdapter.startListening();
+        historyFirebaseAdapter.startListening();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         shimmerFrameLayout.stopShimmer();
-        waterFirebaseAdapter.stopListening();
+        historyFirebaseAdapter.stopListening();
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        if (waterFirebaseAdapter != null) {
-            waterFirebaseAdapter.startListening();
+        if (historyFirebaseAdapter != null) {
+            historyFirebaseAdapter.startListening();
         }
 
     }
@@ -207,8 +205,8 @@ public class WaterCategoryActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        if (waterFirebaseAdapter != null) {
-            waterFirebaseAdapter.stopListening();
+        if (historyFirebaseAdapter != null) {
+            historyFirebaseAdapter.stopListening();
         }
 
     }

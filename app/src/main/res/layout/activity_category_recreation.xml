@@ -16,7 +16,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.tourism.tourismActivity.RecreationCategoryActivity">
+    tools:context=".ui.tourism.tourismActivity.TourismRecreationActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appbar_layout_recreation"

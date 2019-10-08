@@ -14,10 +14,6 @@
 package co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismMapActivity;
 
 import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.drawable.VectorDrawable;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -28,8 +24,6 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptor;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -43,21 +37,21 @@ import com.google.firebase.database.ValueEventListener;
 import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.model.Tourism;
 
-public class EducationCategoryMaps extends FragmentActivity implements OnMapReadyCallback {
+public class TourismWaterMaps extends FragmentActivity implements OnMapReadyCallback {
 
-    private DatabaseReference educationRefMap;
-    private GoogleMap educationPlaceMap;
+    private GoogleMap waterMap;
+    private DatabaseReference waterRefMap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_maps_education);
+        setContentView(R.layout.activity_maps_water);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.education_map);
+                .findFragmentById(R.id.water_tourism_map);
         assert mapFragment != null;
         mapFragment.getMapAsync(this);
-        educationRefMap = FirebaseDatabase.getInstance().getReference().child("Tourism");
+        waterRefMap = FirebaseDatabase.getInstance().getReference().child("Tourism");
     }
 
 
@@ -72,40 +66,36 @@ public class EducationCategoryMaps extends FragmentActivity implements OnMapRead
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        showEducationMap(googleMap);
-
-
+        showWaterMap(googleMap);
     }
 
-    private void showEducationMap(GoogleMap googleMap) {
-
-        educationPlaceMap = googleMap;
-        Query educationMapQuery = educationRefMap.orderByChild("category_tourism").equalTo("edukasi");
-        educationMapQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+    private void showWaterMap(GoogleMap googleMap) {
+        waterMap = googleMap;
+        Query waterMapQuery = waterRefMap.orderByChild("category_tourism").equalTo("air");
+        waterMapQuery.addListenerForSingleValueEvent(new ValueEventListener() {
 
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot dsNature : dataSnapshot.getChildren()) {
+                for(DataSnapshot dsNature : dataSnapshot.getChildren()){
                     Tourism tourism = dsNature.getValue(Tourism.class);
                     assert tourism != null;
                     double latNature = tourism.getLat_location_tourism();
                     double lngNature = tourism.getLng_location_tourism();
                     LatLng naturePlaceLoc = new LatLng(latNature, lngNature);
-                    educationPlaceMap.moveCamera(CameraUpdateFactory.newLatLngZoom(naturePlaceLoc, 10.0f));
-                    educationPlaceMap.addMarker(new MarkerOptions().position(naturePlaceLoc).icon(getBitmapDescriptor()).title(tourism.getName_tourism()).snippet(tourism.getLocation_tourism()));
+                    waterMap.moveCamera(CameraUpdateFactory.newLatLngZoom(naturePlaceLoc, 10.0f));
+                    waterMap.addMarker(new MarkerOptions().position(naturePlaceLoc).title(tourism.getName_tourism()).snippet(tourism.getLocation_tourism()));
                 }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                Log.e("Pesan", "Check Database :" + databaseError.getMessage());
+                Log.e("Pesan", "Check Database :" +databaseError.getMessage());
             }
         });
-
         try {
             // Customise the styling of the base map using a JSON object defined
             // in a raw resource file.
-            boolean success = educationPlaceMap.setMapStyle(
+            boolean success = waterMap.setMapStyle(
                     MapStyleOptions.loadRawResourceStyle(
                             this, R.raw.google_map_style));
 
@@ -114,27 +104,6 @@ public class EducationCategoryMaps extends FragmentActivity implements OnMapRead
             }
         } catch (Resources.NotFoundException e) {
             Log.e("MapsActivityRaw", "Can't find style.", e);
-        }
-    }
-
-    private BitmapDescriptor getBitmapDescriptor() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            VectorDrawable vectorDrawable = (VectorDrawable) getDrawable(R.drawable.ic_marker);
-
-            assert vectorDrawable != null;
-            int h = vectorDrawable.getIntrinsicHeight();
-            int w = vectorDrawable.getIntrinsicWidth();
-
-            vectorDrawable.setBounds(0, 0, w, h);
-
-            Bitmap bm = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
-            Canvas canvas = new Canvas(bm);
-            vectorDrawable.draw(canvas);
-
-            return BitmapDescriptorFactory.fromBitmap(bm);
-
-        } else {
-            return BitmapDescriptorFactory.fromResource(R.drawable.ic_marker);
         }
     }
 }

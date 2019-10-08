@@ -49,48 +49,46 @@ import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.handler.HaversineHandler;
 import co.id.roningrum.dolanapptugasakhir.model.Tourism;
 
-public class DetailHistoryActivity extends AppCompatActivity implements OnMapReadyCallback {
-    public static final String EXTRA_WISATA_KEY = "history_key";
-    private static final String MAP_VIEW_KEY = "maViewBundle";
+public class TourismWaterDetail extends AppCompatActivity implements OnMapReadyCallback {
+    public static final String EXTRA_WISATA_KEY = "air_key";
+
+    private static final String MAP_VIEW_KEY = "mapViewBundle";
+
     private final static String TAG = "Pesan";
+    private GoogleMap waterLocationMap;
+    private MapView waterMapView;
+    private DatabaseReference waterDetailRef;
 
-
-    private GoogleMap historyMap;
-    private MapView historyMapView;
-
-    private DatabaseReference historyDetailRef;
     private GPSHandler gpsHandler;
     private ValueEventListener valueEventListener;
 
-    private TextView tvNameHistoryDetail, tvAddressHistoryDetail,
-            tvDescHistoryDetail, tvDistanceHistoryDetail;
+    private TextView tvNameWaterDetail, tvAddressWaterDetail, tvDescWaterDetail,
+    tvDistanceWaterDetail;
 
-    private ImageView imgHistory;
-    private CollapsingToolbarLayout collapsingToolbarLayout_history;
+    private ImageView imgWaterObject;
+    private CollapsingToolbarLayout collapsingToolbarLayout_water;
 
     private double startLat;
-    private double startlng;
-    private double endlat;
+    private double startLng;
+    private double endLat;
     private double endLng;
     private double distance;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_detail_history);
+        setContentView(R.layout.activity_detail_water);
+        tvNameWaterDetail = findViewById(R.id.name_place_water_detail);
+        tvAddressWaterDetail = findViewById(R.id.address_place_water_detail);
+        tvDescWaterDetail = findViewById(R.id.info_place_water_detail);
+        tvDistanceWaterDetail = findViewById(R.id.distance_place_water_detail);
+        imgWaterObject = findViewById(R.id.img_water_place_detail);
+        waterMapView = findViewById(R.id.loc_water_map);
+        collapsingToolbarLayout_water = findViewById(R.id.collapseToolbar_water_detail);
 
 
-        tvNameHistoryDetail = findViewById(R.id.name_place_history_detail);
-        tvAddressHistoryDetail = findViewById(R.id.address_place_history_detail);
-        tvDescHistoryDetail = findViewById(R.id.info_place_histroy_detail);
-        tvDistanceHistoryDetail = findViewById(R.id.distance_place_history_detail);
-        imgHistory = findViewById(R.id.img_history_place_detail);
-        historyMapView = findViewById(R.id.loc_history_map_detail);
-        collapsingToolbarLayout_history = findViewById(R.id.collapseToolbar_history);
-
-
-        Toolbar toolbarHistory = findViewById(R.id.toolbar_history_detail);
-        setSupportActionBar(toolbarHistory);
+        Toolbar toolbarWater = findViewById(R.id.toolbar_water_detail);
+        setSupportActionBar(toolbarWater);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -100,43 +98,42 @@ public class DetailHistoryActivity extends AppCompatActivity implements OnMapRea
         if (savedInstanceState != null) {
             mapViewBundle = savedInstanceState.getBundle(MAP_VIEW_KEY);
         }
-        historyMapView.onCreate(mapViewBundle);
-        historyMapView.getMapAsync(this);
+        waterMapView.onCreate(mapViewBundle);
+        waterMapView.getMapAsync(this);
 
-
-        String historyKey = getIntent().getStringExtra(EXTRA_WISATA_KEY);
-        if (historyKey == null) {
+        String waterKey = getIntent().getStringExtra(EXTRA_WISATA_KEY);
+        if(waterKey == null){
             throw new IllegalArgumentException("Must pass Extra");
         }
-        historyDetailRef = FirebaseDatabase.getInstance().getReference().child("Tourism").child(historyKey);
-        Query natureQuery = historyDetailRef.orderByChild("category_tourism").equalTo("sejarah");
-        gpsHandler = new GPSHandler(this);
 
-        LoadHistoryDetail();
+        waterDetailRef = FirebaseDatabase.getInstance().getReference().child("Tourism").child(waterKey);
+        Query waterQuery = waterDetailRef.orderByChild("category_tourism").equalTo("air");
+        gpsHandler = new GPSHandler( this);
+
+        LoadDetail();
     }
 
-    private void LoadHistoryDetail() {
-        if (gpsHandler.isCanGetLocation()) {
+    private void LoadDetail() {
+        if(gpsHandler.isCanGetLocation()){
             ValueEventListener eventListener = new ValueEventListener() {
                 @SuppressLint("SetTextI18n")
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     final Tourism tourism = dataSnapshot.getValue(Tourism.class);
                     startLat = gpsHandler.getLatitude();
-                    startlng = gpsHandler.getLongitude();
+                    startLng = gpsHandler.getLongitude();
                     assert tourism != null;
-                    endlat = tourism.getLat_location_tourism();
+                    endLat = tourism.getLat_location_tourism();
                     endLng = tourism.getLng_location_tourism();
-                    distance = HaversineHandler.calculateDistance(startLat, startlng, endlat, endLng);
+                    distance = HaversineHandler.calculateDistance(startLat, startLng, endLat, endLng);
 
-                    @SuppressLint("DefaultLocale") String distanceFormat = String.format("%.2f", distance);
-                    tvDistanceHistoryDetail.setText("" + distanceFormat + " KM");
-                    tvNameHistoryDetail.setText(tourism.getName_tourism());
-                    tvAddressHistoryDetail.setText(tourism.getLocation_tourism());
-                    tvDescHistoryDetail.setText(tourism.getInfo_tourism());
-                    Glide.with(getApplicationContext()).load(tourism.getUrl_photo()).into(imgHistory);
-
-                    AppBarLayout appBarLayout = findViewById(R.id.app_bar_history);
+                    @SuppressLint("DefaultLocale") String distanceFormat = String.format("%.2f",distance);
+                    tvDistanceWaterDetail.setText(""+distanceFormat+" KM");
+                    tvNameWaterDetail.setText(tourism.getName_tourism());
+                    tvAddressWaterDetail.setText(tourism.getLocation_tourism());
+                    tvDescWaterDetail.setText(tourism.getInfo_tourism());
+                    Glide.with(getApplicationContext()).load(tourism.getUrl_photo()).into(imgWaterObject);
+                    AppBarLayout appBarLayout = findViewById(R.id.app_bar_water);
                     appBarLayout.addOnOffsetChangedListener(new AppBarLayout.BaseOnOffsetChangedListener() {
                         boolean isShow = true;
                         int scrollRange = -1;
@@ -147,10 +144,10 @@ public class DetailHistoryActivity extends AppCompatActivity implements OnMapRea
                                 scrollRange = appBarLayout.getTotalScrollRange();
                             }
                             if (scrollRange + verticalOffset == 0) {
-                                collapsingToolbarLayout_history.setTitle(tourism.getName_tourism());
+                                collapsingToolbarLayout_water.setTitle(tourism.getName_tourism());
                                 isShow = true;
                             } else {
-                                collapsingToolbarLayout_history.setTitle(" ");
+                                collapsingToolbarLayout_water.setTitle(" ");
                                 isShow = false;
                             }
 
@@ -163,28 +160,26 @@ public class DetailHistoryActivity extends AppCompatActivity implements OnMapRea
                 public void onCancelled(@NonNull DatabaseError databaseError) {
                     Log.e(TAG, "Firebase Database Error" + databaseError.getMessage());
                 }
-
             };
-            historyDetailRef.addValueEventListener(eventListener);
+            waterDetailRef.addValueEventListener(eventListener);
             valueEventListener = eventListener;
-
         }
     }
 
-//    private double calculateDistance(double startLat, double startlng, double endlat, double endLng) {
-//        double earthRadius = 6371;
-//        double latDiff = Math.toRadians(startLat - endlat);
-//        double lngDiff = Math.toRadians(startlng - endLng);
-//        double a = Math.sin(latDiff / 2) * Math.sin(latDiff / 2) +
-//                Math.cos(Math.toRadians(startLat)) * Math.cos(Math.toRadians(endlat)) *
-//                        Math.sin(lngDiff / 2) * Math.sin(lngDiff / 2);
-//        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-//        double distance = earthRadius * c;
-//
-//        int meterConversion = 1609;
-//
-//        return (distance * meterConversion / 1000);
-//    }
+    private double calculateDistance(double startLat, double startLng, double endLat, double endLng) {
+        double earthRadius = 6371;
+        double latDiff = Math.toRadians(startLat-endLat);
+        double lngDiff = Math.toRadians(startLng-endLng);
+        double a = Math.sin(latDiff /2) * Math.sin(latDiff /2) +
+                Math.cos(Math.toRadians(startLat)) * Math.cos(Math.toRadians(endLat)) *
+                        Math.sin(lngDiff /2) * Math.sin(lngDiff /2);
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+        double distance = earthRadius * c;
+
+        int meterConversion = 1609;
+
+        return (distance*meterConversion/1000);
+    }
 
     @Override
     protected void onSaveInstanceState(@NotNull Bundle outState) {
@@ -194,13 +189,14 @@ public class DetailHistoryActivity extends AppCompatActivity implements OnMapRea
             mapViewBundle = new Bundle();
             outState.putBundle(MAP_VIEW_KEY, mapViewBundle);
         }
-        historyMapView.onSaveInstanceState(mapViewBundle);
+        waterMapView.onSaveInstanceState(mapViewBundle);
 
     }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        historyMap = googleMap;
+        waterLocationMap = googleMap;
+
         ValueEventListener eventListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -210,16 +206,16 @@ public class DetailHistoryActivity extends AppCompatActivity implements OnMapRea
                 double longitude = tourism.getLng_location_tourism();
 
                 LatLng location = new LatLng(lattitude, longitude);
-                historyMap.addMarker(new MarkerOptions().position(location));
-                historyMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 16.0f));
+                waterLocationMap.addMarker(new MarkerOptions().position(location));
+                waterLocationMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location,16.0f));
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                Log.e(TAG, "Firebase Database Error" + databaseError.getMessage());
+
             }
         };
-        historyDetailRef.addValueEventListener(eventListener);
+        waterDetailRef.addValueEventListener(eventListener);
         valueEventListener = eventListener;
 
     }
@@ -237,25 +233,27 @@ public class DetailHistoryActivity extends AppCompatActivity implements OnMapRea
     @Override
     protected void onResume() {
         super.onResume();
-        historyMapView.onResume();
+        waterMapView.onResume();
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        LoadHistoryDetail();
+        LoadDetail();
+        waterMapView.onStart();
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        historyMapView.onStop();
-        historyDetailRef.removeEventListener(valueEventListener);
+        waterMapView.onStop();
+        waterDetailRef.removeEventListener(valueEventListener);
+
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        historyMapView.onPause();
+        waterMapView.onPause();
     }
 }

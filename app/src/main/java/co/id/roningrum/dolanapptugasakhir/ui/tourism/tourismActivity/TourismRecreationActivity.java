@@ -47,11 +47,11 @@ import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.handler.NetworkHelper;
 import co.id.roningrum.dolanapptugasakhir.handler.PermissionHandler;
 import co.id.roningrum.dolanapptugasakhir.model.Tourism;
-import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismDetailActivity.DetailRecreationActivity;
-import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismMapActivity.RecreationCategoryMaps;
+import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismDetailActivity.TourismRecreationDetail;
+import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismMapActivity.TourismRecreationMaps;
 import co.id.roningrum.dolanapptugasakhir.viewholderActivity.tourism.RecreationViewHolder;
 
-public class RecreationCategoryActivity extends AppCompatActivity {
+public class TourismRecreationActivity extends AppCompatActivity {
     private RecyclerView rvRecreationList;
     private ShimmerFrameLayout shimmerFrameLayout;
     private FirebaseRecyclerAdapter<Tourism, RecreationViewHolder> recreationFirebaseAdapter;
@@ -109,8 +109,8 @@ public class RecreationCategoryActivity extends AppCompatActivity {
                         holder.setOnClickListener(new RecreationViewHolder.ClickListener() {
                             @Override
                             public void onItemClick(View view, int position) {
-                                Intent intent = new Intent(getApplicationContext(), DetailRecreationActivity.class);
-                                intent.putExtra(DetailRecreationActivity.EXTRA_WISATA_KEY, recreationKey);
+                                Intent intent = new Intent(getApplicationContext(), TourismRecreationDetail.class);
+                                intent.putExtra(TourismRecreationDetail.EXTRA_WISATA_KEY, recreationKey);
                                 startActivity(intent);
                             }
                         });
@@ -172,7 +172,7 @@ public class RecreationCategoryActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.petaMenu) {
-            startActivity(new Intent(RecreationCategoryActivity.this, RecreationCategoryMaps.class));
+            startActivity(new Intent(TourismRecreationActivity.this, TourismRecreationMaps.class));
             return true;
         }
         return super.onOptionsItemSelected(item);

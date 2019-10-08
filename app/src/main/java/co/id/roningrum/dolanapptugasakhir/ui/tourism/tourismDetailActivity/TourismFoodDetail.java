@@ -15,6 +15,7 @@ package co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismDetailActivity;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -36,6 +37,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import org.jetbrains.annotations.NotNull;
@@ -47,90 +49,89 @@ import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.handler.HaversineHandler;
 import co.id.roningrum.dolanapptugasakhir.model.Tourism;
 
-public class DetailShoppingActivity extends AppCompatActivity implements OnMapReadyCallback {
-
-    public static final String EXTRA_WISATA_KEY = "shopping_key";
+public class TourismFoodDetail extends AppCompatActivity implements OnMapReadyCallback {
+    public static final String EXTRA_WISATA_KEY = "kuliner_key";
     private static final String MAP_VIEW_KEY = "mapViewBundle";
+    private final static String TAG = "Pesan";
 
-//    private final static String TAG = "Pesan";
-
-    private GoogleMap shoppingLocationMap;
-    private MapView shoppingMapView;
-    private DatabaseReference shoppingDetailRef;
-
+    private GoogleMap foodMap;
+    private MapView foodMapView;
+    private DatabaseReference foodDetailRef;
     private GPSHandler gpsHandler;
     private ValueEventListener valueEventListener;
 
-    private TextView tvNameShoppingDetail, tvAddressShoppingDetail, tvDescShoppingDetail,
-            tvDistanceShoppingDetail;
+    private TextView tvNameFoodDetail, tvAddressFoodDetail,
+            tvDescFoodDetail, tvDistanceFoodDetail;
 
-    private ImageView imgShoppingObject;
-    private CollapsingToolbarLayout collapsingToolbarLayout_shopping;
+    private ImageView imgFoodDetail;
+    private CollapsingToolbarLayout collapsingToolbarLayout;
 
     private double startLat;
-    private double startLng;
-    private double endLat;
+    private double startlng;
+    private double endlat;
     private double endLng;
     private double distance;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_detail_shopping);
-        tvNameShoppingDetail = findViewById(R.id.name_place_shopping_detail);
-        tvAddressShoppingDetail = findViewById(R.id.address_place_shopping_detail);
-        tvDescShoppingDetail = findViewById(R.id.info_place_shopping_detail);
-        tvDistanceShoppingDetail = findViewById(R.id.distance_place_shopping_detail);
-        imgShoppingObject = findViewById(R.id.img_shopping_place_detail);
-        shoppingMapView = findViewById(R.id.loc_map_shopping);
-        collapsingToolbarLayout_shopping = findViewById(R.id.collapseToolbar_shopping);
+        setContentView(R.layout.activity_detail_food);
 
-        Toolbar toolbarShopping = findViewById(R.id.toolbar_shopping_detail_top);
-        setSupportActionBar(toolbarShopping);
+        tvNameFoodDetail = findViewById(R.id.name_place_food_detail);
+        tvDescFoodDetail = findViewById(R.id.info_place_food_detail);
+        tvAddressFoodDetail = findViewById(R.id.address_place_food_detail);
+        tvDistanceFoodDetail = findViewById(R.id.distance_place_food_detail);
+        imgFoodDetail = findViewById(R.id.img_food_place_detail);
+        collapsingToolbarLayout = findViewById(R.id.collapseToolbar_food);
+        foodMapView = findViewById(R.id.map_place_food_detail);
+
+        Toolbar toolbarFood = findViewById(R.id.toolbar_food_detail);
+        setSupportActionBar(toolbarFood);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back_24dp);
 
+
         Bundle mapViewBundle = null;
         if (savedInstanceState != null) {
             mapViewBundle = savedInstanceState.getBundle(MAP_VIEW_KEY);
         }
-        shoppingMapView.onCreate(mapViewBundle);
-        shoppingMapView.getMapAsync(this);
+        foodMapView.onCreate(mapViewBundle);
+        foodMapView.getMapAsync(this);
 
-        String shoppingKey = getIntent().getStringExtra(EXTRA_WISATA_KEY);
-        if(shoppingKey == null){
-            throw new IllegalArgumentException("Must pass Extra");
+
+        String foodKey = getIntent().getStringExtra(EXTRA_WISATA_KEY);
+        if (foodKey == null) {
+            throw new IllegalArgumentException("Must pass EXTRA");
         }
-        shoppingDetailRef = FirebaseDatabase.getInstance().getReference().child("Tourism").child(shoppingKey);
-//        Query shoppingQuery = shoppingDetailRef.orderByChild("category_tourism").equalTo("belanja");
+        foodDetailRef = FirebaseDatabase.getInstance().getReference().child("Tourism").child(foodKey);
+        Query foodQuery = foodDetailRef.orderByChild("category_tourism").equalTo("kuliner");
         gpsHandler = new GPSHandler(this);
-        
-        LoadShoppingDetail();
+        LoadFoodDetail();
     }
 
-    private void LoadShoppingDetail() {
-        if(gpsHandler.isCanGetLocation()){
+    private void LoadFoodDetail() {
+        if (gpsHandler.isCanGetLocation()) {
             ValueEventListener eventListener = new ValueEventListener() {
                 @SuppressLint("SetTextI18n")
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     final Tourism tourism = dataSnapshot.getValue(Tourism.class);
                     startLat = gpsHandler.getLatitude();
-                    startLng = gpsHandler.getLongitude();
+                    startlng = gpsHandler.getLongitude();
                     assert tourism != null;
-                    endLat = tourism.getLat_location_tourism();
+                    endlat = tourism.getLat_location_tourism();
                     endLng = tourism.getLng_location_tourism();
-                    distance = HaversineHandler.calculateDistance(startLat, startLng, endLat, endLng);
+                    distance = HaversineHandler.calculateDistance(startLat, startlng, endlat, endLng);
 
-                    @SuppressLint("DefaultLocale") String distanceFormat = String.format("%.2f",distance);
-                    tvDistanceShoppingDetail.setText(""+distanceFormat+" KM");
-                    tvNameShoppingDetail.setText(tourism.getName_tourism());
-                    tvAddressShoppingDetail.setText(tourism.getLocation_tourism());
-                    tvDescShoppingDetail.setText(tourism.getInfo_tourism());
-                    Glide.with(getApplicationContext()).load(tourism.getUrl_photo()).into(imgShoppingObject);
-                    AppBarLayout appBarLayout = findViewById(R.id.app_bar_shopping);
+                    @SuppressLint("DefaultLocale") String distanceFormat = String.format("%.2f", distance);
+                    tvDistanceFoodDetail.setText("" + distanceFormat + " KM");
+                    tvNameFoodDetail.setText(tourism.getName_tourism());
+                    tvAddressFoodDetail.setText(tourism.getLocation_tourism());
+                    tvDescFoodDetail.setText(tourism.getInfo_tourism());
+                    Glide.with(getApplicationContext()).load(tourism.getUrl_photo()).into(imgFoodDetail);
+                    AppBarLayout appBarLayout = findViewById(R.id.app_bar_food);
                     appBarLayout.addOnOffsetChangedListener(new AppBarLayout.BaseOnOffsetChangedListener() {
                         boolean isShow = true;
                         int scrollRange = -1;
@@ -141,10 +142,10 @@ public class DetailShoppingActivity extends AppCompatActivity implements OnMapRe
                                 scrollRange = appBarLayout.getTotalScrollRange();
                             }
                             if (scrollRange + verticalOffset == 0) {
-                                collapsingToolbarLayout_shopping.setTitle(tourism.getName_tourism());
+                                collapsingToolbarLayout.setTitle(tourism.getName_tourism());
                                 isShow = true;
                             } else {
-                                collapsingToolbarLayout_shopping.setTitle(" ");
+                                collapsingToolbarLayout.setTitle(" ");
                                 isShow = false;
                             }
 
@@ -154,27 +155,28 @@ public class DetailShoppingActivity extends AppCompatActivity implements OnMapRe
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                    Log.e(TAG, "Firebase Database Error" + databaseError.getMessage());
                 }
             };
-            shoppingDetailRef.addValueEventListener(eventListener);
+            foodDetailRef.addValueEventListener(eventListener);
             valueEventListener = eventListener;
+
         }
     }
-
-//    private double calculateDistance(double startLat, double startLng, double endLat, double endLng) {
+//
+//    private double calculateDistance(double startLat, double startlng, double endlat, double endLng) {
 //        double earthRadius = 6371;
-//        double latDiff = Math.toRadians(startLat-endLat);
-//        double lngDiff = Math.toRadians(startLng-endLng);
-//        double a = Math.sin(latDiff /2) * Math.sin(latDiff /2) +
-//                Math.cos(Math.toRadians(startLat)) * Math.cos(Math.toRadians(endLat)) *
-//                        Math.sin(lngDiff /2) * Math.sin(lngDiff /2);
-//        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+//        double latDiff = Math.toRadians(startLat - endlat);
+//        double lngDiff = Math.toRadians(startlng - endLng);
+//        double a = Math.sin(latDiff / 2) * Math.sin(latDiff / 2) +
+//                Math.cos(Math.toRadians(startLat)) * Math.cos(Math.toRadians(endlat)) *
+//                        Math.sin(lngDiff / 2) * Math.sin(lngDiff / 2);
+//        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 //        double distance = earthRadius * c;
 //
 //        int meterConversion = 1609;
 //
-//        return (distance*meterConversion/1000);
+//        return (distance * meterConversion / 1000);
 //    }
 
     @Override
@@ -185,26 +187,25 @@ public class DetailShoppingActivity extends AppCompatActivity implements OnMapRe
             mapViewBundle = new Bundle();
             outState.putBundle(MAP_VIEW_KEY, mapViewBundle);
         }
-        shoppingMapView.onSaveInstanceState(mapViewBundle);
+        foodMapView.onSaveInstanceState(mapViewBundle);
 
     }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-
-        shoppingLocationMap = googleMap;
-
+        foodMap = googleMap;
         ValueEventListener eventListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 Tourism tourism = dataSnapshot.getValue(Tourism.class);
+//                assert tourism != null;
                 assert tourism != null;
                 double lattitude = tourism.getLat_location_tourism();
                 double longitude = tourism.getLng_location_tourism();
 
                 LatLng location = new LatLng(lattitude, longitude);
-                shoppingLocationMap.addMarker(new MarkerOptions().position(location));
-                shoppingLocationMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location,16.0f));
+                foodMap.addMarker(new MarkerOptions().position(location));
+                foodMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 15.0f));
             }
 
             @Override
@@ -212,8 +213,9 @@ public class DetailShoppingActivity extends AppCompatActivity implements OnMapRe
 
             }
         };
-        shoppingDetailRef.addValueEventListener(eventListener);
+        foodDetailRef.addValueEventListener(eventListener);
         valueEventListener = eventListener;
+
     }
 
     @Override
@@ -226,32 +228,30 @@ public class DetailShoppingActivity extends AppCompatActivity implements OnMapRe
         return super.onOptionsItemSelected(item);
     }
 
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        shoppingMapView.onResume();
-    }
-
     @Override
     protected void onStart() {
         super.onStart();
-        LoadShoppingDetail();
-        shoppingMapView.onStart();
+        LoadFoodDetail();
+        foodMapView.onStart();
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        shoppingMapView.onStop();
-        shoppingDetailRef.removeEventListener(valueEventListener);
+        foodMapView.onStop();
+        foodDetailRef.removeEventListener(valueEventListener);
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        foodMapView.onResume();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        shoppingMapView.onPause();
+        foodMapView.onPause();
     }
-
 }

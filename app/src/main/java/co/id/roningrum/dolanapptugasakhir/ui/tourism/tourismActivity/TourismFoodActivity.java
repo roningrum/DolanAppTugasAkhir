@@ -39,7 +39,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 
 import co.id.roningrum.dolanapptugasakhir.R;
@@ -47,29 +46,29 @@ import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.handler.NetworkHelper;
 import co.id.roningrum.dolanapptugasakhir.handler.PermissionHandler;
 import co.id.roningrum.dolanapptugasakhir.model.Tourism;
-import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismDetailActivity.DetailVillageActivity;
-import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismMapActivity.VillageCategoryMaps;
-import co.id.roningrum.dolanapptugasakhir.viewholderActivity.tourism.VillageViewHolder;
+import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismDetailActivity.TourismFoodDetail;
+import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismMapActivity.TourismFoodMaps;
+import co.id.roningrum.dolanapptugasakhir.viewholderActivity.tourism.FoodViewHolder;
 
-public class VillageCategoryActivity extends AppCompatActivity {
-    private RecyclerView rvVillageList;
+public class TourismFoodActivity extends AppCompatActivity {
+    private RecyclerView rvFoodList;
     private ShimmerFrameLayout shimmerFrameLayout;
-    private FirebaseRecyclerAdapter<Tourism, VillageViewHolder> villageFirebaseAdapter;
-
+    private FirebaseRecyclerAdapter<Tourism, FoodViewHolder> foodFirebaseAdapter;
     private GPSHandler gpsHandler;
     private PermissionHandler permissionHandler;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_category_village);
-        rvVillageList = findViewById(R.id.tourism_village_list);
-        Toolbar toolbarVillage = findViewById(R.id.toolbar_top_village);
+        setContentView(R.layout.activity_category_food);
+        rvFoodList = findViewById(R.id.tourism_food_list);
         shimmerFrameLayout = findViewById(R.id.shimmer_view_container);
-        rvVillageList.setLayoutManager(new LinearLayoutManager(this));
-        ArrayList<Tourism> tourisms = new ArrayList<>();
-        setSupportActionBar(toolbarVillage);
+        Toolbar toolbarFood = findViewById(R.id.toolbar_top_food);
+        rvFoodList.setLayoutManager(new LinearLayoutManager(this));
+        setSupportActionBar(toolbarFood);
         checkConnection();
+
     }
 
     private void checkConnection() {
@@ -83,22 +82,17 @@ public class VillageCategoryActivity extends AppCompatActivity {
 
     private void showData() {
         if (havePermission()) {
-            DatabaseReference villageCategoryDB = FirebaseDatabase.getInstance().getReference();
-            Query villageQuery = villageCategoryDB.child("Tourism").orderByChild("category_tourism").equalTo("desa");
-            FirebaseRecyclerOptions<Tourism> villageOptions = new FirebaseRecyclerOptions.Builder<Tourism>()
-                    .setQuery(villageQuery, Tourism.class)
+            DatabaseReference foodCategoryDB = FirebaseDatabase.getInstance().getReference();
+            Query educationQuery = foodCategoryDB.child("Tourism").orderByChild("category_tourism").equalTo("kuliner");
+            FirebaseRecyclerOptions<Tourism> foodOptions = new FirebaseRecyclerOptions.Builder<Tourism>()
+                    .setQuery(educationQuery, Tourism.class)
                     .build();
-            villageFirebaseAdapter = new FirebaseRecyclerAdapter<Tourism, VillageViewHolder>(villageOptions) {
-                @NonNull
-                @Override
-                public VillageViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-                    return new VillageViewHolder(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_menu_village_category_tourism, viewGroup, false));
-                }
 
+            foodFirebaseAdapter = new FirebaseRecyclerAdapter<Tourism, FoodViewHolder>(foodOptions) {
                 @Override
-                protected void onBindViewHolder(@NonNull VillageViewHolder holder, int position, @NonNull Tourism model) {
-                    final DatabaseReference villageCategoryRef = getRef(position);
-                    final String villageKey = villageCategoryRef.getKey();
+                protected void onBindViewHolder(@NonNull FoodViewHolder holder, int position, @NonNull Tourism model) {
+                    final DatabaseReference foodCategoryRef = getRef(position);
+                    final String foodKey = foodCategoryRef.getKey();
 
                     gpsHandler = new GPSHandler(getApplicationContext());
                     if (gpsHandler.isCanGetLocation()) {
@@ -110,31 +104,28 @@ public class VillageCategoryActivity extends AppCompatActivity {
                         shimmerFrameLayout.stopShimmer();
                         shimmerFrameLayout.setVisibility(View.GONE);
 
-                        holder.showVillageTourismData(model, latitude, longitude);
-                        holder.setOnClickListener(new VillageViewHolder.ClickListener() {
+                        holder.showFoodTourismData(model, latitude, longitude);
+                        holder.setOnClickListener(new FoodViewHolder.ClickListener() {
                             @Override
                             public void onItemClick(View view, int position) {
-                                Intent intent = new Intent(getApplicationContext(), DetailVillageActivity.class);
-                                intent.putExtra(DetailVillageActivity.EXTRA_WISATA_KEY, villageKey);
+                                Intent intent = new Intent(getApplicationContext(), TourismFoodDetail.class);
+                                intent.putExtra(TourismFoodDetail.EXTRA_WISATA_KEY, foodKey);
                                 startActivity(intent);
                             }
                         });
-
                     } else {
                         gpsHandler.showSettingsAlert();
                     }
                 }
 
-//                @NonNull
-//                @Override
-//                public ShoppingViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-//                    View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_menu_shopping_category_tourism, viewGroup, false);
-//                    return new ShoppingViewHolder(view);
-//                }
+                @NonNull
+                @Override
+                public FoodViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+                    return new FoodViewHolder(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_food_category_menu, viewGroup, false));
+                }
             };
-            villageFirebaseAdapter.notifyDataSetChanged();
-            rvVillageList.setAdapter(villageFirebaseAdapter);
-
+            foodFirebaseAdapter.notifyDataSetChanged();
+            rvFoodList.setAdapter(foodFirebaseAdapter);
         }
     }
 
@@ -152,6 +143,7 @@ public class VillageCategoryActivity extends AppCompatActivity {
         }
         return true;
     }
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -176,7 +168,7 @@ public class VillageCategoryActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.petaMenu) {
-            startActivity(new Intent(VillageCategoryActivity.this, VillageCategoryMaps.class));
+            startActivity(new Intent(TourismFoodActivity.this, TourismFoodMaps.class));
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -186,21 +178,21 @@ public class VillageCategoryActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         shimmerFrameLayout.startShimmer();
-        villageFirebaseAdapter.startListening();
+        foodFirebaseAdapter.startListening();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         shimmerFrameLayout.stopShimmer();
-        villageFirebaseAdapter.stopListening();
+        foodFirebaseAdapter.stopListening();
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        if (villageFirebaseAdapter != null) {
-            villageFirebaseAdapter.startListening();
+        if (foodFirebaseAdapter != null) {
+            foodFirebaseAdapter.startListening();
         }
 
     }
@@ -208,8 +200,8 @@ public class VillageCategoryActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        if (villageFirebaseAdapter != null) {
-            villageFirebaseAdapter.stopListening();
+        if (foodFirebaseAdapter != null) {
+            foodFirebaseAdapter.stopListening();
         }
     }
 }

@@ -81,61 +81,61 @@
         <activity android:name=".ui.transportation.transportationDetailActivity.DetailAirportActivity" />
         <activity android:name=".ui.transportation.transportationActivity.AirportCategoryActivity" />
         <activity
-            android:name=".ui.hotel.HotelMapsActivity"
+            android:name=".ui.hotel.HotelMaps"
             android:label="@string/title_activity_hotel_maps" />
-        <activity android:name=".ui.hotel.DetailHotelActivity" />
-        <activity android:name=".ui.hotel.HotelCategoryActivity" />
+        <activity android:name=".ui.hotel.HotelDetail" />
+        <activity android:name=".ui.hotel.HotelActivity" />
         <activity
-            android:name=".ui.tourism.tourismMapActivity.FoodCategoryMap"
+            android:name=".ui.tourism.tourismMapActivity.TourismFoodMaps"
             android:label="@string/title_activity_food_category_map" />
-        <activity android:name=".ui.tourism.tourismDetailActivity.DetailFoodActivity" />
-        <activity android:name=".ui.tourism.tourismActivity.FoodCategoryActivity" />
+        <activity android:name=".ui.tourism.tourismDetailActivity.TourismFoodDetail" />
+        <activity android:name=".ui.tourism.tourismActivity.TourismFoodActivity" />
         <activity
-            android:name=".ui.tourism.tourismMapActivity.HistoryCategoryMap"
+            android:name=".ui.tourism.tourismMapActivity.TourismHistoryMaps"
             android:label="@string/title_activity_history_category_map" />
-        <activity android:name=".ui.tourism.tourismDetailActivity.DetailHistoryActivity" />
-        <activity android:name=".ui.tourism.tourismActivity.HistoryCategoryActivity" />
+        <activity android:name=".ui.tourism.tourismDetailActivity.TourismHistoryDetail" />
+        <activity android:name=".ui.tourism.tourismActivity.TourismHistoryActivity" />
         <activity
-            android:name=".ui.tourism.tourismMapActivity.ReligiCategoryMaps"
+            android:name=".ui.tourism.tourismMapActivity.TourismReligiMaps"
             android:label="@string/title_activity_religi_category_maps" />
-        <activity android:name=".ui.tourism.tourismDetailActivity.DetailReligiActivity" />
-        <activity android:name=".ui.tourism.tourismActivity.ReligiCategoryActivity" />
+        <activity android:name=".ui.tourism.tourismDetailActivity.TourismReligiDetail" />
+        <activity android:name=".ui.tourism.tourismActivity.TourismReligiActivity" />
         <activity
-            android:name=".ui.tourism.tourismMapActivity.RecreationCategoryMaps"
+            android:name=".ui.tourism.tourismMapActivity.TourismRecreationMaps"
             android:label="@string/title_activity_recreation_category_maps" />
-        <activity android:name=".ui.tourism.tourismDetailActivity.DetailRecreationActivity" />
-        <activity android:name=".ui.tourism.tourismActivity.RecreationCategoryActivity" />
+        <activity android:name=".ui.tourism.tourismDetailActivity.TourismRecreationDetail" />
+        <activity android:name=".ui.tourism.tourismActivity.TourismRecreationActivity" />
         <activity
-            android:name=".ui.tourism.tourismMapActivity.EducationCategoryMaps"
+            android:name=".ui.tourism.tourismMapActivity.TourismEducationMaps"
             android:label="@string/title_activity_education_maps" />
-        <activity android:name=".ui.tourism.tourismActivity.EducationCategoryActivity" />
-        <activity android:name=".ui.tourism.tourismDetailActivity.DetailEducatioActivity" />
+        <activity android:name=".ui.tourism.tourismActivity.TourismEducationActivity" />
+        <activity android:name=".ui.tourism.tourismDetailActivity.TourismEducationDetail" />
         <activity
-            android:name=".ui.tourism.tourismMapActivity.VillageCategoryMaps"
+            android:name=".ui.tourism.tourismMapActivity.TourismVillageMaps"
             android:label="@string/title_activity_village_maps" />
         <activity
-            android:name=".ui.tourism.tourismDetailActivity.DetailVillageActivity"
-            android:parentActivityName=".ui.tourism.tourismActivity.VillageCategoryActivity" />
-        <activity android:name=".ui.tourism.tourismActivity.VillageCategoryActivity" />
+            android:name=".ui.tourism.tourismDetailActivity.TourismVillageDetail"
+            android:parentActivityName=".ui.tourism.tourismActivity.TourismVillageActivity" />
+        <activity android:name=".ui.tourism.tourismActivity.TourismVillageActivity" />
         <activity
-            android:name=".ui.tourism.tourismMapActivity.ShoppingCategoryMap"
+            android:name=".ui.tourism.tourismMapActivity.TourismShoppingMaps"
             android:label="@string/title_activity_shopping_category_map" />
         <activity
-            android:name=".ui.tourism.tourismDetailActivity.DetailShoppingActivity"
-            android:parentActivityName=".ui.tourism.tourismActivity.ShoppingCategoryActivity" />
-        <activity android:name=".ui.tourism.tourismActivity.ShoppingCategoryActivity" />
+            android:name=".ui.tourism.tourismDetailActivity.TourismShoppingDetail"
+            android:parentActivityName=".ui.tourism.tourismActivity.TourismShoppingActivity" />
+        <activity android:name=".ui.tourism.tourismActivity.TourismShoppingActivity" />
         <activity
-            android:name=".ui.tourism.tourismMapActivity.WaterMapsActivity"
+            android:name=".ui.tourism.tourismMapActivity.TourismWaterMaps"
             android:label="@string/title_activity_water_maps" />
-        <activity android:name=".ui.tourism.tourismMapActivity.NatureMapsActivity" />
+        <activity android:name=".ui.tourism.tourismMapActivity.TourismNatureMaps" />
         <activity
-            android:name=".ui.tourism.tourismDetailActivity.DetailWaterActivity"
-            android:parentActivityName=".ui.tourism.tourismActivity.WaterCategoryActivity" />
-        <activity android:name=".ui.tourism.tourismActivity.WaterCategoryActivity" />
+            android:name=".ui.tourism.tourismDetailActivity.TourismWaterDetail"
+            android:parentActivityName=".ui.tourism.tourismActivity.TourismWaterActivity" />
+        <activity android:name=".ui.tourism.tourismActivity.TourismWaterActivity" />
         <activity
-            android:name=".ui.tourism.tourismDetailActivity.DetailNatureActivity"
-            android:parentActivityName=".ui.tourism.tourismActivity.NatureCategoryActivity" />
-        <activity android:name=".ui.tourism.tourismActivity.NatureCategoryActivity" />
+            android:name=".ui.tourism.tourismDetailActivity.TourismNatureDetail"
+            android:parentActivityName=".ui.tourism.tourismActivity.TourismNatureActivity" />
+        <activity android:name=".ui.tourism.tourismActivity.TourismNatureActivity" />
         <activity android:name=".ui.useractivity.register.RegisterSuccessActivity" />
         <activity android:name=".ui.homeactivity.AllCategoryActivity" />
         <activity android:name=".ui.homeactivity.MainMenuActivity" />

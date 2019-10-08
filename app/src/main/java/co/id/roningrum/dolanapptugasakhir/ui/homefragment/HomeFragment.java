@@ -37,11 +37,11 @@ import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.model.Herritage;
 import co.id.roningrum.dolanapptugasakhir.model.Tourism;
 import co.id.roningrum.dolanapptugasakhir.ui.homeactivity.AllCategoryActivity;
-import co.id.roningrum.dolanapptugasakhir.ui.hotel.HotelCategoryActivity;
-import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismActivity.NatureCategoryActivity;
-import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismActivity.RecreationCategoryActivity;
-import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismActivity.ShoppingCategoryActivity;
-import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismActivity.VillageCategoryActivity;
+import co.id.roningrum.dolanapptugasakhir.ui.hotel.HotelActivity;
+import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismActivity.TourismNatureActivity;
+import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismActivity.TourismRecreationActivity;
+import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismActivity.TourismShoppingActivity;
+import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismActivity.TourismVillageActivity;
 import co.id.roningrum.dolanapptugasakhir.ui.transportation.transportationActivity.AirportCategoryActivity;
 import co.id.roningrum.dolanapptugasakhir.ui.transportation.transportationActivity.TrainCategoryActivity;
 import co.id.roningrum.dolanapptugasakhir.viewholderActivity.ViewHolderHome.FoodRecommendationViewHolder;
@@ -176,19 +176,19 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 startActivity(new Intent(getContext(), AllCategoryActivity.class));
                 break;
             case R.id.ln_alam_tour_home_menu:
-                startActivity(new Intent(getContext(), NatureCategoryActivity.class));
+                startActivity(new Intent(getContext(), TourismNatureActivity.class));
                 break;
             case R.id.ln_hiburan_tour_home_menu:
-                startActivity(new Intent(getContext(), RecreationCategoryActivity.class));
+                startActivity(new Intent(getContext(), TourismRecreationActivity.class));
                 break;
             case R.id.ln_belanja_tour_home_menu:
-                startActivity(new Intent(getContext(), ShoppingCategoryActivity.class));
+                startActivity(new Intent(getContext(), TourismShoppingActivity.class));
                 break;
             case R.id.ln_desa_tour_home_menu:
-                startActivity(new Intent(getContext(), VillageCategoryActivity.class));
+                startActivity(new Intent(getContext(), TourismVillageActivity.class));
                 break;
             case R.id.ln_hotel_public_home:
-                startActivity(new Intent(getContext(), HotelCategoryActivity.class));
+                startActivity(new Intent(getContext(), HotelActivity.class));
                 break;
             case R.id.ln_bandara_public_home:
                 startActivity(new Intent(getContext(), AirportCategoryActivity.class));

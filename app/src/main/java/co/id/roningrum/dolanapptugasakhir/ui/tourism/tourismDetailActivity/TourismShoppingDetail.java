@@ -15,7 +15,6 @@ package co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismDetailActivity;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -37,7 +36,6 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import org.jetbrains.annotations.NotNull;
@@ -49,50 +47,46 @@ import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.handler.HaversineHandler;
 import co.id.roningrum.dolanapptugasakhir.model.Tourism;
 
-public class DetailReligiActivity extends AppCompatActivity implements OnMapReadyCallback {
-    public static final String EXTRA_WISATA_KEY = "religi_key";
+public class TourismShoppingDetail extends AppCompatActivity implements OnMapReadyCallback {
+
+    public static final String EXTRA_WISATA_KEY = "shopping_key";
     private static final String MAP_VIEW_KEY = "mapViewBundle";
 
-    private final static String TAG = "Pesan";
+//    private final static String TAG = "Pesan";
 
-    private GoogleMap religiMap;
-    private MapView religiMapView;
+    private GoogleMap shoppingLocationMap;
+    private MapView shoppingMapView;
+    private DatabaseReference shoppingDetailRef;
 
-    private DatabaseReference religiDetailRef;
     private GPSHandler gpsHandler;
     private ValueEventListener valueEventListener;
 
-    private TextView tvNameReligiDetail, tvAddressReligiDetail,
-            tvDescReligiDetail, tvDistanceReligiDetail;
+    private TextView tvNameShoppingDetail, tvAddressShoppingDetail, tvDescShoppingDetail,
+            tvDistanceShoppingDetail;
 
-    private ImageView imgReligiDetail;
-    private CollapsingToolbarLayout collapsingToolbarLayout_religi;
+    private ImageView imgShoppingObject;
+    private CollapsingToolbarLayout collapsingToolbarLayout_shopping;
 
     private double startLat;
-    private double startlng;
-    private double endlat;
+    private double startLng;
+    private double endLat;
     private double endLng;
     private double distance;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_detail_religi);
-//        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-//                .findFragmentById(R.id.map_place_religi_detail);
-//        assert mapFragment != null;
-//        mapFragment.getMapAsync(this);
+        setContentView(R.layout.activity_detail_shopping);
+        tvNameShoppingDetail = findViewById(R.id.name_place_shopping_detail);
+        tvAddressShoppingDetail = findViewById(R.id.address_place_shopping_detail);
+        tvDescShoppingDetail = findViewById(R.id.info_place_shopping_detail);
+        tvDistanceShoppingDetail = findViewById(R.id.distance_place_shopping_detail);
+        imgShoppingObject = findViewById(R.id.img_shopping_place_detail);
+        shoppingMapView = findViewById(R.id.loc_map_shopping);
+        collapsingToolbarLayout_shopping = findViewById(R.id.collapseToolbar_shopping);
 
-        tvNameReligiDetail = findViewById(R.id.name_place_religi_detail);
-        tvAddressReligiDetail = findViewById(R.id.address_place_religi_detail);
-        tvDescReligiDetail = findViewById(R.id.info_place_religi_detail);
-        tvDistanceReligiDetail = findViewById(R.id.distance_place_religi_detail);
-        imgReligiDetail = findViewById(R.id.img_religi_place_detail);
-        religiMapView = findViewById(R.id.loc_map_religi);
-        collapsingToolbarLayout_religi = findViewById(R.id.collapseToolbar_religi);
-
-        Toolbar toolbarReligi = findViewById(R.id.toolbar_religi_detail);
-        setSupportActionBar(toolbarReligi);
+        Toolbar toolbarShopping = findViewById(R.id.toolbar_shopping_detail_top);
+        setSupportActionBar(toolbarShopping);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -102,40 +96,41 @@ public class DetailReligiActivity extends AppCompatActivity implements OnMapRead
         if (savedInstanceState != null) {
             mapViewBundle = savedInstanceState.getBundle(MAP_VIEW_KEY);
         }
-        religiMapView.onCreate(mapViewBundle);
-        religiMapView.getMapAsync(this);
+        shoppingMapView.onCreate(mapViewBundle);
+        shoppingMapView.getMapAsync(this);
 
-        String religiKey = getIntent().getStringExtra(EXTRA_WISATA_KEY);
-        if (religiKey == null) {
+        String shoppingKey = getIntent().getStringExtra(EXTRA_WISATA_KEY);
+        if(shoppingKey == null){
             throw new IllegalArgumentException("Must pass Extra");
         }
-        religiDetailRef = FirebaseDatabase.getInstance().getReference().child("Tourism").child(religiKey);
-        Query religiQuery = religiDetailRef.orderByChild("category_tourism").equalTo("religi");
+        shoppingDetailRef = FirebaseDatabase.getInstance().getReference().child("Tourism").child(shoppingKey);
+//        Query shoppingQuery = shoppingDetailRef.orderByChild("category_tourism").equalTo("belanja");
         gpsHandler = new GPSHandler(this);
-        LoadReligiDetail();
+        
+        LoadShoppingDetail();
     }
 
-    private void LoadReligiDetail() {
-        if (gpsHandler.isCanGetLocation()) {
+    private void LoadShoppingDetail() {
+        if(gpsHandler.isCanGetLocation()){
             ValueEventListener eventListener = new ValueEventListener() {
                 @SuppressLint("SetTextI18n")
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     final Tourism tourism = dataSnapshot.getValue(Tourism.class);
                     startLat = gpsHandler.getLatitude();
-                    startlng = gpsHandler.getLongitude();
+                    startLng = gpsHandler.getLongitude();
                     assert tourism != null;
-                    endlat = tourism.getLat_location_tourism();
+                    endLat = tourism.getLat_location_tourism();
                     endLng = tourism.getLng_location_tourism();
-                    distance = HaversineHandler.calculateDistance(startLat, startlng, endlat, endLng);
-                    @SuppressLint("DefaultLocale") String distanceFormat = String.format("%.2f", distance);
-                    tvDistanceReligiDetail.setText("" + distanceFormat + " km");
-                    tvNameReligiDetail.setText(tourism.getName_tourism());
-                    tvAddressReligiDetail.setText(tourism.getLocation_tourism());
-                    tvDescReligiDetail.setText(tourism.getInfo_tourism());
-                    Glide.with(getApplicationContext()).load(tourism.getUrl_photo()).into(imgReligiDetail);
+                    distance = HaversineHandler.calculateDistance(startLat, startLng, endLat, endLng);
 
-                    AppBarLayout appBarLayout = findViewById(R.id.app_bar_religi);
+                    @SuppressLint("DefaultLocale") String distanceFormat = String.format("%.2f",distance);
+                    tvDistanceShoppingDetail.setText(""+distanceFormat+" KM");
+                    tvNameShoppingDetail.setText(tourism.getName_tourism());
+                    tvAddressShoppingDetail.setText(tourism.getLocation_tourism());
+                    tvDescShoppingDetail.setText(tourism.getInfo_tourism());
+                    Glide.with(getApplicationContext()).load(tourism.getUrl_photo()).into(imgShoppingObject);
+                    AppBarLayout appBarLayout = findViewById(R.id.app_bar_shopping);
                     appBarLayout.addOnOffsetChangedListener(new AppBarLayout.BaseOnOffsetChangedListener() {
                         boolean isShow = true;
                         int scrollRange = -1;
@@ -146,44 +141,40 @@ public class DetailReligiActivity extends AppCompatActivity implements OnMapRead
                                 scrollRange = appBarLayout.getTotalScrollRange();
                             }
                             if (scrollRange + verticalOffset == 0) {
-                                collapsingToolbarLayout_religi.setTitle(tourism.getName_tourism());
+                                collapsingToolbarLayout_shopping.setTitle(tourism.getName_tourism());
                                 isShow = true;
                             } else {
-                                collapsingToolbarLayout_religi.setTitle(" ");
+                                collapsingToolbarLayout_shopping.setTitle(" ");
                                 isShow = false;
                             }
 
                         }
                     });
-
-
                 }
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError databaseError) {
-                    Log.e(TAG, "Firebase Database Error" + databaseError.getMessage());
+
                 }
-
             };
-            religiDetailRef.addValueEventListener(eventListener);
+            shoppingDetailRef.addValueEventListener(eventListener);
             valueEventListener = eventListener;
-
         }
     }
-//
-//    private double calculateDistance(double startLat, double startlng, double endlat, double endLng) {
+
+//    private double calculateDistance(double startLat, double startLng, double endLat, double endLng) {
 //        double earthRadius = 6371;
-//        double latDiff = Math.toRadians(startLat - endlat);
-//        double lngDiff = Math.toRadians(startlng - endLng);
-//        double a = Math.sin(latDiff / 2) * Math.sin(latDiff / 2) +
-//                Math.cos(Math.toRadians(startLat)) * Math.cos(Math.toRadians(endlat)) *
-//                        Math.sin(lngDiff / 2) * Math.sin(lngDiff / 2);
-//        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+//        double latDiff = Math.toRadians(startLat-endLat);
+//        double lngDiff = Math.toRadians(startLng-endLng);
+//        double a = Math.sin(latDiff /2) * Math.sin(latDiff /2) +
+//                Math.cos(Math.toRadians(startLat)) * Math.cos(Math.toRadians(endLat)) *
+//                        Math.sin(lngDiff /2) * Math.sin(lngDiff /2);
+//        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
 //        double distance = earthRadius * c;
 //
 //        int meterConversion = 1609;
 //
-//        return (distance * meterConversion / 1000);
+//        return (distance*meterConversion/1000);
 //    }
 
     @Override
@@ -194,12 +185,15 @@ public class DetailReligiActivity extends AppCompatActivity implements OnMapRead
             mapViewBundle = new Bundle();
             outState.putBundle(MAP_VIEW_KEY, mapViewBundle);
         }
-        religiMapView.onSaveInstanceState(mapViewBundle);
+        shoppingMapView.onSaveInstanceState(mapViewBundle);
 
     }
+
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        religiMap = googleMap;
+
+        shoppingLocationMap = googleMap;
+
         ValueEventListener eventListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -209,17 +203,17 @@ public class DetailReligiActivity extends AppCompatActivity implements OnMapRead
                 double longitude = tourism.getLng_location_tourism();
 
                 LatLng location = new LatLng(lattitude, longitude);
-                religiMap.addMarker(new MarkerOptions().position(location));
-                religiMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 16.0f));
+                shoppingLocationMap.addMarker(new MarkerOptions().position(location));
+                shoppingLocationMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location,16.0f));
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                Log.e(TAG, "Firebase Database Error" + databaseError.getMessage());
+
             }
         };
-        religiDetailRef.addValueEventListener(eventListener);
+        shoppingDetailRef.addValueEventListener(eventListener);
         valueEventListener = eventListener;
-
     }
 
     @Override
@@ -232,30 +226,32 @@ public class DetailReligiActivity extends AppCompatActivity implements OnMapRead
         return super.onOptionsItemSelected(item);
     }
 
+
     @Override
     protected void onResume() {
         super.onResume();
-        religiMapView.onResume();
+        shoppingMapView.onResume();
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        LoadReligiDetail();
-        religiMapView.onStart();
+        LoadShoppingDetail();
+        shoppingMapView.onStart();
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        religiMapView.onStop();
-        religiDetailRef.removeEventListener(valueEventListener);
+        shoppingMapView.onStop();
+        shoppingDetailRef.removeEventListener(valueEventListener);
 
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        religiMapView.onPause();
+        shoppingMapView.onPause();
     }
+
 }

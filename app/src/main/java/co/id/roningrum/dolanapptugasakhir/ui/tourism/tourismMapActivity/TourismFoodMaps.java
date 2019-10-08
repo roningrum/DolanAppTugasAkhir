@@ -11,7 +11,7 @@
  * limitations under the License.
  */
 
-package co.id.roningrum.dolanapptugasakhir.ui.hotel;
+package co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismMapActivity;
 
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -37,28 +37,27 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
-import com.google.maps.android.clustering.ClusterManager;
 
 import co.id.roningrum.dolanapptugasakhir.R;
-import co.id.roningrum.dolanapptugasakhir.model.Hotel;
+import co.id.roningrum.dolanapptugasakhir.model.Tourism;
 
-public class HotelMapsActivity extends FragmentActivity implements OnMapReadyCallback {
+public class TourismFoodMaps extends FragmentActivity implements OnMapReadyCallback {
 
-    private DatabaseReference hotelRefMap;
-    private GoogleMap hotelMap;
-    private ClusterManager<Hotel> hotelclusterManager;
+    private GoogleMap foodMap;
+    private DatabaseReference foodRefMap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_maps_hotel);
+        setContentView(R.layout.activity_maps_food);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
+                .findFragmentById(R.id.tourism_food_map);
         assert mapFragment != null;
         mapFragment.getMapAsync(this);
-        hotelRefMap = FirebaseDatabase.getInstance().getReference().child("Hotel");
+        foodRefMap = FirebaseDatabase.getInstance().getReference().child("Tourism");
     }
 
 
@@ -73,32 +72,26 @@ public class HotelMapsActivity extends FragmentActivity implements OnMapReadyCal
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
-
-        showHotelMap(googleMap);
-
+        showFoodMap(googleMap);
     }
 
-    private void showHotelMap(GoogleMap googleMap) {
-        hotelMap = googleMap;
-        hotelclusterManager = new ClusterManager<>(getApplicationContext(), hotelMap);
-        hotelRefMap.addListenerForSingleValueEvent(new ValueEventListener() {
-
+    private void showFoodMap(GoogleMap googleMap) {
+        foodMap = googleMap;
+        Query foodMapQuery = foodRefMap.orderByChild("category_tourism").equalTo("kuliner");
+        foodMapQuery.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot dsHotel : dataSnapshot.getChildren()) {
-                    Hotel hotel = dsHotel.getValue(Hotel.class);
-                    assert hotel != null;
-                    double latHotel = hotel.getLat_location_hotel();
-                    double lngHotel = hotel.getLng_location_hotel();
-                    LatLng naturePlaceLoc = new LatLng(latHotel, lngHotel);
-                    hotelMap.moveCamera(CameraUpdateFactory.newLatLngZoom(naturePlaceLoc, 8.0f));
-//                    hotelMap.addMarker(new MarkerOptions().position(naturePlaceLoc).title(hotel.getName_hotel()).snippet(hotel.getLocation_hotel()));
-                    hotelMap.setOnCameraIdleListener(hotelclusterManager);
-                    hotelMap.addMarker(new MarkerOptions().icon(getBitmapDescriptor()));
-                    hotelMap.setOnInfoWindowClickListener(hotelclusterManager);
-                    hotelclusterManager.addItem(hotel);
+                for (DataSnapshot dsNature : dataSnapshot.getChildren()) {
+                    Tourism tourism = dsNature.getValue(Tourism.class);
+                    assert tourism != null;
+                    double latNature = tourism.getLat_location_tourism();
+                    double lngNature = tourism.getLng_location_tourism();
+                    LatLng naturePlaceLoc = new LatLng(latNature, lngNature);
+                    foodMap.moveCamera(CameraUpdateFactory.newLatLngZoom(naturePlaceLoc, 10.0f));
+                    foodMap.addMarker(new MarkerOptions().position(naturePlaceLoc).title(tourism.getName_tourism())
+                            .icon(getBitmapDescriptor())
+                            .snippet(tourism.getLocation_tourism()));
                 }
-                hotelclusterManager.cluster();
             }
 
             @Override
@@ -110,7 +103,7 @@ public class HotelMapsActivity extends FragmentActivity implements OnMapReadyCal
         try {
             // Customise the styling of the base map using a JSON object defined
             // in a raw resource file.
-            boolean success = hotelMap.setMapStyle(
+            boolean success = foodMap.setMapStyle(
                     MapStyleOptions.loadRawResourceStyle(
                             this, R.raw.google_map_style));
 

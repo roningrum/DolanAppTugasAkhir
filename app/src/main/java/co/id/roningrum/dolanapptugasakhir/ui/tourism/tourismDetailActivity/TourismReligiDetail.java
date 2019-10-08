@@ -49,46 +49,50 @@ import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.handler.HaversineHandler;
 import co.id.roningrum.dolanapptugasakhir.model.Tourism;
 
-public class DetailWaterActivity extends AppCompatActivity implements OnMapReadyCallback {
-    public static final String EXTRA_WISATA_KEY = "air_key";
-
+public class TourismReligiDetail extends AppCompatActivity implements OnMapReadyCallback {
+    public static final String EXTRA_WISATA_KEY = "religi_key";
     private static final String MAP_VIEW_KEY = "mapViewBundle";
 
     private final static String TAG = "Pesan";
-    private GoogleMap waterLocationMap;
-    private MapView waterMapView;
-    private DatabaseReference waterDetailRef;
 
+    private GoogleMap religiMap;
+    private MapView religiMapView;
+
+    private DatabaseReference religiDetailRef;
     private GPSHandler gpsHandler;
     private ValueEventListener valueEventListener;
 
-    private TextView tvNameWaterDetail, tvAddressWaterDetail, tvDescWaterDetail,
-    tvDistanceWaterDetail;
+    private TextView tvNameReligiDetail, tvAddressReligiDetail,
+            tvDescReligiDetail, tvDistanceReligiDetail;
 
-    private ImageView imgWaterObject;
-    private CollapsingToolbarLayout collapsingToolbarLayout_water;
+    private ImageView imgReligiDetail;
+    private CollapsingToolbarLayout collapsingToolbarLayout_religi;
 
     private double startLat;
-    private double startLng;
-    private double endLat;
+    private double startlng;
+    private double endlat;
     private double endLng;
     private double distance;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_detail_water);
-        tvNameWaterDetail = findViewById(R.id.name_place_water_detail);
-        tvAddressWaterDetail = findViewById(R.id.address_place_water_detail);
-        tvDescWaterDetail = findViewById(R.id.info_place_water_detail);
-        tvDistanceWaterDetail = findViewById(R.id.distance_place_water_detail);
-        imgWaterObject = findViewById(R.id.img_water_place_detail);
-        waterMapView = findViewById(R.id.loc_water_map);
-        collapsingToolbarLayout_water = findViewById(R.id.collapseToolbar_water_detail);
+        setContentView(R.layout.activity_detail_religi);
+//        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+//                .findFragmentById(R.id.map_place_religi_detail);
+//        assert mapFragment != null;
+//        mapFragment.getMapAsync(this);
 
+        tvNameReligiDetail = findViewById(R.id.name_place_religi_detail);
+        tvAddressReligiDetail = findViewById(R.id.address_place_religi_detail);
+        tvDescReligiDetail = findViewById(R.id.info_place_religi_detail);
+        tvDistanceReligiDetail = findViewById(R.id.distance_place_religi_detail);
+        imgReligiDetail = findViewById(R.id.img_religi_place_detail);
+        religiMapView = findViewById(R.id.loc_map_religi);
+        collapsingToolbarLayout_religi = findViewById(R.id.collapseToolbar_religi);
 
-        Toolbar toolbarWater = findViewById(R.id.toolbar_water_detail);
-        setSupportActionBar(toolbarWater);
+        Toolbar toolbarReligi = findViewById(R.id.toolbar_religi_detail);
+        setSupportActionBar(toolbarReligi);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -98,42 +102,40 @@ public class DetailWaterActivity extends AppCompatActivity implements OnMapReady
         if (savedInstanceState != null) {
             mapViewBundle = savedInstanceState.getBundle(MAP_VIEW_KEY);
         }
-        waterMapView.onCreate(mapViewBundle);
-        waterMapView.getMapAsync(this);
+        religiMapView.onCreate(mapViewBundle);
+        religiMapView.getMapAsync(this);
 
-        String waterKey = getIntent().getStringExtra(EXTRA_WISATA_KEY);
-        if(waterKey == null){
+        String religiKey = getIntent().getStringExtra(EXTRA_WISATA_KEY);
+        if (religiKey == null) {
             throw new IllegalArgumentException("Must pass Extra");
         }
-
-        waterDetailRef = FirebaseDatabase.getInstance().getReference().child("Tourism").child(waterKey);
-        Query waterQuery = waterDetailRef.orderByChild("category_tourism").equalTo("air");
-        gpsHandler = new GPSHandler( this);
-
-        LoadDetail();
+        religiDetailRef = FirebaseDatabase.getInstance().getReference().child("Tourism").child(religiKey);
+        Query religiQuery = religiDetailRef.orderByChild("category_tourism").equalTo("religi");
+        gpsHandler = new GPSHandler(this);
+        LoadReligiDetail();
     }
 
-    private void LoadDetail() {
-        if(gpsHandler.isCanGetLocation()){
+    private void LoadReligiDetail() {
+        if (gpsHandler.isCanGetLocation()) {
             ValueEventListener eventListener = new ValueEventListener() {
                 @SuppressLint("SetTextI18n")
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     final Tourism tourism = dataSnapshot.getValue(Tourism.class);
                     startLat = gpsHandler.getLatitude();
-                    startLng = gpsHandler.getLongitude();
+                    startlng = gpsHandler.getLongitude();
                     assert tourism != null;
-                    endLat = tourism.getLat_location_tourism();
+                    endlat = tourism.getLat_location_tourism();
                     endLng = tourism.getLng_location_tourism();
-                    distance = HaversineHandler.calculateDistance(startLat, startLng, endLat, endLng);
+                    distance = HaversineHandler.calculateDistance(startLat, startlng, endlat, endLng);
+                    @SuppressLint("DefaultLocale") String distanceFormat = String.format("%.2f", distance);
+                    tvDistanceReligiDetail.setText("" + distanceFormat + " km");
+                    tvNameReligiDetail.setText(tourism.getName_tourism());
+                    tvAddressReligiDetail.setText(tourism.getLocation_tourism());
+                    tvDescReligiDetail.setText(tourism.getInfo_tourism());
+                    Glide.with(getApplicationContext()).load(tourism.getUrl_photo()).into(imgReligiDetail);
 
-                    @SuppressLint("DefaultLocale") String distanceFormat = String.format("%.2f",distance);
-                    tvDistanceWaterDetail.setText(""+distanceFormat+" KM");
-                    tvNameWaterDetail.setText(tourism.getName_tourism());
-                    tvAddressWaterDetail.setText(tourism.getLocation_tourism());
-                    tvDescWaterDetail.setText(tourism.getInfo_tourism());
-                    Glide.with(getApplicationContext()).load(tourism.getUrl_photo()).into(imgWaterObject);
-                    AppBarLayout appBarLayout = findViewById(R.id.app_bar_water);
+                    AppBarLayout appBarLayout = findViewById(R.id.app_bar_religi);
                     appBarLayout.addOnOffsetChangedListener(new AppBarLayout.BaseOnOffsetChangedListener() {
                         boolean isShow = true;
                         int scrollRange = -1;
@@ -144,15 +146,16 @@ public class DetailWaterActivity extends AppCompatActivity implements OnMapReady
                                 scrollRange = appBarLayout.getTotalScrollRange();
                             }
                             if (scrollRange + verticalOffset == 0) {
-                                collapsingToolbarLayout_water.setTitle(tourism.getName_tourism());
+                                collapsingToolbarLayout_religi.setTitle(tourism.getName_tourism());
                                 isShow = true;
                             } else {
-                                collapsingToolbarLayout_water.setTitle(" ");
+                                collapsingToolbarLayout_religi.setTitle(" ");
                                 isShow = false;
                             }
 
                         }
                     });
+
 
                 }
 
@@ -160,26 +163,28 @@ public class DetailWaterActivity extends AppCompatActivity implements OnMapReady
                 public void onCancelled(@NonNull DatabaseError databaseError) {
                     Log.e(TAG, "Firebase Database Error" + databaseError.getMessage());
                 }
+
             };
-            waterDetailRef.addValueEventListener(eventListener);
+            religiDetailRef.addValueEventListener(eventListener);
             valueEventListener = eventListener;
+
         }
     }
-
-    private double calculateDistance(double startLat, double startLng, double endLat, double endLng) {
-        double earthRadius = 6371;
-        double latDiff = Math.toRadians(startLat-endLat);
-        double lngDiff = Math.toRadians(startLng-endLng);
-        double a = Math.sin(latDiff /2) * Math.sin(latDiff /2) +
-                Math.cos(Math.toRadians(startLat)) * Math.cos(Math.toRadians(endLat)) *
-                        Math.sin(lngDiff /2) * Math.sin(lngDiff /2);
-        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-        double distance = earthRadius * c;
-
-        int meterConversion = 1609;
-
-        return (distance*meterConversion/1000);
-    }
+//
+//    private double calculateDistance(double startLat, double startlng, double endlat, double endLng) {
+//        double earthRadius = 6371;
+//        double latDiff = Math.toRadians(startLat - endlat);
+//        double lngDiff = Math.toRadians(startlng - endLng);
+//        double a = Math.sin(latDiff / 2) * Math.sin(latDiff / 2) +
+//                Math.cos(Math.toRadians(startLat)) * Math.cos(Math.toRadians(endlat)) *
+//                        Math.sin(lngDiff / 2) * Math.sin(lngDiff / 2);
+//        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+//        double distance = earthRadius * c;
+//
+//        int meterConversion = 1609;
+//
+//        return (distance * meterConversion / 1000);
+//    }
 
     @Override
     protected void onSaveInstanceState(@NotNull Bundle outState) {
@@ -189,14 +194,12 @@ public class DetailWaterActivity extends AppCompatActivity implements OnMapReady
             mapViewBundle = new Bundle();
             outState.putBundle(MAP_VIEW_KEY, mapViewBundle);
         }
-        waterMapView.onSaveInstanceState(mapViewBundle);
+        religiMapView.onSaveInstanceState(mapViewBundle);
 
     }
-
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        waterLocationMap = googleMap;
-
+        religiMap = googleMap;
         ValueEventListener eventListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -206,16 +209,15 @@ public class DetailWaterActivity extends AppCompatActivity implements OnMapReady
                 double longitude = tourism.getLng_location_tourism();
 
                 LatLng location = new LatLng(lattitude, longitude);
-                waterLocationMap.addMarker(new MarkerOptions().position(location));
-                waterLocationMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location,16.0f));
+                religiMap.addMarker(new MarkerOptions().position(location));
+                religiMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 16.0f));
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                Log.e(TAG, "Firebase Database Error" + databaseError.getMessage());
             }
         };
-        waterDetailRef.addValueEventListener(eventListener);
+        religiDetailRef.addValueEventListener(eventListener);
         valueEventListener = eventListener;
 
     }
@@ -233,27 +235,27 @@ public class DetailWaterActivity extends AppCompatActivity implements OnMapReady
     @Override
     protected void onResume() {
         super.onResume();
-        waterMapView.onResume();
+        religiMapView.onResume();
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        LoadDetail();
-        waterMapView.onStart();
+        LoadReligiDetail();
+        religiMapView.onStart();
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        waterMapView.onStop();
-        waterDetailRef.removeEventListener(valueEventListener);
+        religiMapView.onStop();
+        religiDetailRef.removeEventListener(valueEventListener);
 
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        waterMapView.onPause();
+        religiMapView.onPause();
     }
 }

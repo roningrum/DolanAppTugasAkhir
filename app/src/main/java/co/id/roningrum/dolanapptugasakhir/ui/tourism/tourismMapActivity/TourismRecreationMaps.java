@@ -43,21 +43,21 @@ import com.google.firebase.database.ValueEventListener;
 import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.model.Tourism;
 
-public class FoodCategoryMap extends FragmentActivity implements OnMapReadyCallback {
+public class TourismRecreationMaps extends FragmentActivity implements OnMapReadyCallback {
 
-    private GoogleMap foodMap;
-    private DatabaseReference foodRefMap;
+    private GoogleMap recreationMap;
+    private DatabaseReference recreationRefMap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_maps_food);
+        setContentView(R.layout.activity_maps_recreation);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.tourism_food_map);
+                .findFragmentById(R.id.map);
         assert mapFragment != null;
         mapFragment.getMapAsync(this);
-        foodRefMap = FirebaseDatabase.getInstance().getReference().child("Tourism");
+        recreationRefMap = FirebaseDatabase.getInstance().getReference().child("Tourism");
     }
 
 
@@ -72,13 +72,14 @@ public class FoodCategoryMap extends FragmentActivity implements OnMapReadyCallb
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        showFoodMap(googleMap);
+        showRecreationMap(googleMap);
+
     }
 
-    private void showFoodMap(GoogleMap googleMap) {
-        foodMap = googleMap;
-        Query foodMapQuery = foodRefMap.orderByChild("category_tourism").equalTo("kuliner");
-        foodMapQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+    private void showRecreationMap(GoogleMap googleMap) {
+        recreationMap = googleMap;
+        Query recreationQuery = recreationRefMap.orderByChild("category_tourism").equalTo("rekreasi");
+        recreationQuery.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot dsNature : dataSnapshot.getChildren()) {
@@ -87,23 +88,22 @@ public class FoodCategoryMap extends FragmentActivity implements OnMapReadyCallb
                     double latNature = tourism.getLat_location_tourism();
                     double lngNature = tourism.getLng_location_tourism();
                     LatLng naturePlaceLoc = new LatLng(latNature, lngNature);
-                    foodMap.moveCamera(CameraUpdateFactory.newLatLngZoom(naturePlaceLoc, 10.0f));
-                    foodMap.addMarker(new MarkerOptions().position(naturePlaceLoc).title(tourism.getName_tourism())
-                            .icon(getBitmapDescriptor())
-                            .snippet(tourism.getLocation_tourism()));
+                    recreationMap.moveCamera(CameraUpdateFactory.newLatLngZoom(naturePlaceLoc, 10.0f));
+                    recreationMap.addMarker(new MarkerOptions().position(naturePlaceLoc).title(tourism.getName_tourism()).
+                            icon(getBitmapDescriptor()).snippet(tourism.getLocation_tourism()));
                 }
             }
+
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 Log.e("Pesan", "Check Database :" + databaseError.getMessage());
             }
         });
-
         try {
             // Customise the styling of the base map using a JSON object defined
             // in a raw resource file.
-            boolean success = foodMap.setMapStyle(
+            boolean success = recreationMap.setMapStyle(
                     MapStyleOptions.loadRawResourceStyle(
                             this, R.raw.google_map_style));
 

@@ -43,21 +43,21 @@ import com.google.firebase.database.ValueEventListener;
 import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.model.Tourism;
 
-public class ShoppingCategoryMap extends FragmentActivity implements OnMapReadyCallback {
+public class TourismVillageMaps extends FragmentActivity implements OnMapReadyCallback {
 
-    private GoogleMap shoppingMap;
-    private DatabaseReference shoppingRefMap;
+    private GoogleMap villageMap;
+    private DatabaseReference villageRefMap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_maps_shopping);
+        setContentView(R.layout.activity_maps_village);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.shopping_tourism_map);
+                .findFragmentById(R.id.tourist_village_map);
         assert mapFragment != null;
         mapFragment.getMapAsync(this);
-        shoppingRefMap = FirebaseDatabase.getInstance().getReference().child("Tourism");
+        villageRefMap = FirebaseDatabase.getInstance().getReference().child("Tourism");
     }
 
 
@@ -72,34 +72,35 @@ public class ShoppingCategoryMap extends FragmentActivity implements OnMapReadyC
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        shoppingMap = googleMap;
+        showVillageMap(googleMap);
+    }
 
-        Query shoppingMapQuery = shoppingRefMap.orderByChild("category_tourism").equalTo("belanja");
-        shoppingMapQuery.addListenerForSingleValueEvent(new ValueEventListener() {
-
+    private void showVillageMap(GoogleMap googleMap) {
+        villageMap = googleMap;
+        Query villageMapQuery = villageRefMap.orderByChild("category_tourism").equalTo("desa");
+        villageMapQuery.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for(DataSnapshot dsNature : dataSnapshot.getChildren()){
+                for (DataSnapshot dsNature : dataSnapshot.getChildren()) {
                     Tourism tourism = dsNature.getValue(Tourism.class);
                     assert tourism != null;
                     double latNature = tourism.getLat_location_tourism();
                     double lngNature = tourism.getLng_location_tourism();
-                    LatLng naturePlaceLoc = new LatLng(latNature, lngNature);
-                    shoppingMap.moveCamera(CameraUpdateFactory.newLatLngZoom(naturePlaceLoc, 10.0f));
-                    shoppingMap.addMarker(new MarkerOptions().position(naturePlaceLoc).
-                            icon(getBitmapDescriptor()).title(tourism.getName_tourism()).snippet(tourism.getLocation_tourism()));
+                    LatLng villagePlaceLoc = new LatLng(latNature, lngNature);
+                    villageMap.moveCamera(CameraUpdateFactory.newLatLngZoom(villagePlaceLoc, 10.0f));
+                    villageMap.addMarker(new MarkerOptions().position(villagePlaceLoc).icon(getBitmapDescriptor()).title(tourism.getName_tourism()).snippet(tourism.getLocation_tourism()));
                 }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                Log.e("Pesan", "Check Database :" +databaseError.getMessage());
+                Log.e("Pesan", "Check Database :" + databaseError.getMessage());
             }
         });
         try {
             // Customise the styling of the base map using a JSON object defined
             // in a raw resource file.
-            boolean success = shoppingMap.setMapStyle(
+            boolean success = villageMap.setMapStyle(
                     MapStyleOptions.loadRawResourceStyle(
                             this, R.raw.google_map_style));
 
@@ -131,4 +132,5 @@ public class ShoppingCategoryMap extends FragmentActivity implements OnMapReadyC
             return BitmapDescriptorFactory.fromResource(R.drawable.ic_marker);
         }
     }
+
 }

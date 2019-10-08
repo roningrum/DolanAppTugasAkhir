@@ -17,7 +17,7 @@
     android:id="@+id/map_activity"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.hotel.HotelMapsActivity">
+    tools:context=".ui.hotel.HotelMaps">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar_map"

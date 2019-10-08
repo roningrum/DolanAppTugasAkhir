@@ -145,7 +145,6 @@
     <string name="attachment_summary_on">Automatically download attachments for incoming emails
     </string>
     <string name="attachment_summary_off">Only download attachments when manually requested</string>
-    <string name="txt_btn_save_change">Simpan Perubahan</string>
     <string name="txt_change_password_warn">Jika ingin mengganti password, silakan ganti password. minimal 6 karakter</string>
     <string name="title_activity_scrolling">ScrollingActivity</string>
     <string name="large_text">

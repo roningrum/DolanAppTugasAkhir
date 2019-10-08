@@ -43,21 +43,22 @@ import com.google.firebase.database.ValueEventListener;
 import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.model.Tourism;
 
-public class VillageCategoryMaps extends FragmentActivity implements OnMapReadyCallback {
+public class TourismReligiMaps extends FragmentActivity implements OnMapReadyCallback {
 
-    private GoogleMap villageMap;
-    private DatabaseReference villageRefMap;
+    private GoogleMap religiPlaceMap;
+    private DatabaseReference religiRefMap;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_maps_village);
+        setContentView(R.layout.activity_maps_religi);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.tourist_village_map);
+                .findFragmentById(R.id.religi_tourism_map);
         assert mapFragment != null;
         mapFragment.getMapAsync(this);
-        villageRefMap = FirebaseDatabase.getInstance().getReference().child("Tourism");
+        religiRefMap = FirebaseDatabase.getInstance().getReference().child("Tourism");
     }
 
 
@@ -72,13 +73,14 @@ public class VillageCategoryMaps extends FragmentActivity implements OnMapReadyC
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        showVillageMap(googleMap);
+        showReligiMap(googleMap);
     }
 
-    private void showVillageMap(GoogleMap googleMap) {
-        villageMap = googleMap;
-        Query villageMapQuery = villageRefMap.orderByChild("category_tourism").equalTo("desa");
-        villageMapQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+    private void showReligiMap(GoogleMap googleMap) {
+        religiPlaceMap = googleMap;
+        Query religiMapQuery = religiRefMap.orderByChild("category_tourism").equalTo("religi");
+        religiMapQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot dsNature : dataSnapshot.getChildren()) {
@@ -86,9 +88,10 @@ public class VillageCategoryMaps extends FragmentActivity implements OnMapReadyC
                     assert tourism != null;
                     double latNature = tourism.getLat_location_tourism();
                     double lngNature = tourism.getLng_location_tourism();
-                    LatLng villagePlaceLoc = new LatLng(latNature, lngNature);
-                    villageMap.moveCamera(CameraUpdateFactory.newLatLngZoom(villagePlaceLoc, 10.0f));
-                    villageMap.addMarker(new MarkerOptions().position(villagePlaceLoc).icon(getBitmapDescriptor()).title(tourism.getName_tourism()).snippet(tourism.getLocation_tourism()));
+                    LatLng naturePlaceLoc = new LatLng(latNature, lngNature);
+                    religiPlaceMap.moveCamera(CameraUpdateFactory.newLatLngZoom(naturePlaceLoc, 10.0f));
+                    religiPlaceMap.addMarker(new MarkerOptions().position(naturePlaceLoc).icon(getBitmapDescriptor())
+                            .title(tourism.getName_tourism()).snippet(tourism.getLocation_tourism()));
                 }
             }
 
@@ -97,10 +100,11 @@ public class VillageCategoryMaps extends FragmentActivity implements OnMapReadyC
                 Log.e("Pesan", "Check Database :" + databaseError.getMessage());
             }
         });
+
         try {
             // Customise the styling of the base map using a JSON object defined
             // in a raw resource file.
-            boolean success = villageMap.setMapStyle(
+            boolean success = religiPlaceMap.setMapStyle(
                     MapStyleOptions.loadRawResourceStyle(
                             this, R.raw.google_map_style));
 
@@ -132,5 +136,4 @@ public class VillageCategoryMaps extends FragmentActivity implements OnMapReadyC
             return BitmapDescriptorFactory.fromResource(R.drawable.ic_marker);
         }
     }
-
 }

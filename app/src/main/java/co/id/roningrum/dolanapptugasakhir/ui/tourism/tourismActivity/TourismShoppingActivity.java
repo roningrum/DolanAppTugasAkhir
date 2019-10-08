@@ -47,11 +47,11 @@ import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.handler.NetworkHelper;
 import co.id.roningrum.dolanapptugasakhir.handler.PermissionHandler;
 import co.id.roningrum.dolanapptugasakhir.model.Tourism;
-import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismDetailActivity.DetailShoppingActivity;
-import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismMapActivity.ShoppingCategoryMap;
+import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismDetailActivity.TourismShoppingDetail;
+import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismMapActivity.TourismShoppingMaps;
 import co.id.roningrum.dolanapptugasakhir.viewholderActivity.tourism.ShoppingViewHolder;
 
-public class ShoppingCategoryActivity extends AppCompatActivity {
+public class TourismShoppingActivity extends AppCompatActivity {
 
     private RecyclerView rvShoppingList;
     private ShimmerFrameLayout shimmerFrameLayout;
@@ -109,8 +109,8 @@ public class ShoppingCategoryActivity extends AppCompatActivity {
                         holder.setOnClickListener(new ShoppingViewHolder.ClickListener() {
                             @Override
                             public void onItemClick(View view, int position) {
-                                Intent intent = new Intent(getApplicationContext(), DetailShoppingActivity.class);
-                                intent.putExtra(DetailShoppingActivity.EXTRA_WISATA_KEY, shoppingKey);
+                                Intent intent = new Intent(getApplicationContext(), TourismShoppingDetail.class);
+                                intent.putExtra(TourismShoppingDetail.EXTRA_WISATA_KEY, shoppingKey);
                                 startActivity(intent);
                             }
                         });
@@ -173,7 +173,7 @@ public class ShoppingCategoryActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.petaMenu) {
-            startActivity(new Intent(ShoppingCategoryActivity.this, ShoppingCategoryMap.class));
+            startActivity(new Intent(TourismShoppingActivity.this, TourismShoppingMaps.class));
             return true;
         }
         return super.onOptionsItemSelected(item);

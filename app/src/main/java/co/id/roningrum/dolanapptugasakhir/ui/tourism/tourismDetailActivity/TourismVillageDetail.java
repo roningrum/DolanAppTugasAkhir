@@ -15,7 +15,6 @@ package co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismDetailActivity;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -49,47 +48,48 @@ import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.handler.HaversineHandler;
 import co.id.roningrum.dolanapptugasakhir.model.Tourism;
 
-public class DetailNatureActivity extends AppCompatActivity implements OnMapReadyCallback {
-    public static final String EXTRA_WISATA_KEY = "alam_key";
+public class TourismVillageDetail extends AppCompatActivity implements OnMapReadyCallback {
+    public static final String EXTRA_WISATA_KEY = "wisata_key";
     private static final String MAP_VIEW_KEY = "mapViewBundle";
 
     private final static String TAG = "Pesan";
 
-    private GoogleMap gMap;
-    private MapView natureMapView;
+    private GoogleMap villageLocationMap;
+    private MapView villageMapView;
+    private DatabaseReference villageDetailRef;
 
-    private DatabaseReference natureDetailRef;
     private GPSHandler gpsHandler;
+
     private ValueEventListener valueEventListener;
 
-    private TextView tvNameNatureDetail, tvAddressNature,
-    tvDescNature, tvDistanceNature;
+    private TextView tvNameVillageDetail, tvAddressVillageDetail, tvDescVillageDetail,
+            tvDistanceVillageDetail;
 
-    private ImageView imgNature;
-    private CollapsingToolbarLayout collapsingToolbarLayout_nature;
+    private ImageView imgVillageObject;
+    private CollapsingToolbarLayout collapsingToolbarLayout_village;
 
     private double startLat;
-    private double startlng;
-    private double endlat;
+    private double startLng;
+    private double endLat;
     private double endLng;
     private double distance;
-
+    
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_detail_nature);
+        setContentView(R.layout.activity_detail_village);
+        
+        tvNameVillageDetail = findViewById(R.id.name_place_village_detail);
+        tvAddressVillageDetail = findViewById(R.id.address_place_village_detail);
+        tvDescVillageDetail = findViewById(R.id.info_place_village_detail);
+        tvDistanceVillageDetail = findViewById(R.id.distance_place_village_detail);
+        imgVillageObject = findViewById(R.id.img_village_place_detail);
+        villageMapView = findViewById(R.id.loc_village_map);
+        collapsingToolbarLayout_village = findViewById(R.id.collapseToolbar_village);
 
-        tvNameNatureDetail = findViewById(R.id.name_place_nature_detail);
-        tvAddressNature = findViewById(R.id.address_place_nature_detail);
-        tvDescNature = findViewById(R.id.info_place_nature_detail);
-        tvDistanceNature = findViewById(R.id.distance_place_nature_detail);
-        imgNature = findViewById(R.id.img_nature_place_detail);
-        natureMapView = findViewById(R.id.loc_nature_map);
-        collapsingToolbarLayout_nature = findViewById(R.id.collapseToolbar_nature);
-
-
-        Toolbar toolbarNature = findViewById(R.id.toolbar_nature_detail);
-        setSupportActionBar(toolbarNature);
+        Toolbar toolbarVillage = findViewById(R.id.toolbar_village_detail_top);
+        setSupportActionBar(toolbarVillage);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -99,43 +99,43 @@ public class DetailNatureActivity extends AppCompatActivity implements OnMapRead
         if (savedInstanceState != null) {
             mapViewBundle = savedInstanceState.getBundle(MAP_VIEW_KEY);
         }
-        natureMapView.onCreate(mapViewBundle);
-        natureMapView.getMapAsync(this);
+        villageMapView.onCreate(mapViewBundle);
+        villageMapView.getMapAsync(this);
 
-        String alamKey = getIntent().getStringExtra(EXTRA_WISATA_KEY);
-        if(alamKey == null){
+        String villageKey = getIntent().getStringExtra(EXTRA_WISATA_KEY);
+        if(villageKey == null){
             throw new IllegalArgumentException("Must pass Extra");
         }
-        natureDetailRef = FirebaseDatabase.getInstance().getReference().child("Tourism").child(alamKey);
-        Query natureQuery = natureDetailRef.orderByChild("category_tourism").equalTo("alam");
+
+        villageDetailRef = FirebaseDatabase.getInstance().getReference().child("Tourism").child(villageKey);
+        Query villageQuery = villageDetailRef.orderByChild("category_tourism").equalTo("desa");
         gpsHandler = new GPSHandler(this);
+        
+        LoadDetailDesa();
 
-
-        LoadDetail();
     }
 
-    private void LoadDetail() {
-        if(gpsHandler.isCanGetLocation()){
+    private void LoadDetailDesa() {
+        if (gpsHandler.isCanGetLocation()) {
             ValueEventListener eventListener = new ValueEventListener() {
                 @SuppressLint("SetTextI18n")
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     final Tourism tourism = dataSnapshot.getValue(Tourism.class);
                     startLat = gpsHandler.getLatitude();
-                    startlng = gpsHandler.getLongitude();
+                    startLng = gpsHandler.getLongitude();
                     assert tourism != null;
-                    endlat = tourism.getLat_location_tourism();
+                    endLat = tourism.getLat_location_tourism();
                     endLng = tourism.getLng_location_tourism();
-                    distance = HaversineHandler.calculateDistance(startLat, startlng, endlat, endLng);
+                    distance = HaversineHandler.calculateDistance(startLat, startLng, endLat, endLng);
 
-                    @SuppressLint("DefaultLocale") String distanceFormat = String.format("%.2f",distance);
-                    tvDistanceNature.setText("" + distanceFormat + " km");
-                    tvNameNatureDetail.setText(tourism.getName_tourism());
-                    tvAddressNature.setText(tourism.getLocation_tourism());
-                    tvDescNature.setText(tourism.getInfo_tourism());
-                    Glide.with(getApplicationContext()).load(tourism.getUrl_photo()).into(imgNature);
-
-                    AppBarLayout appBarLayout = findViewById(R.id.app_bar_nature);
+                    @SuppressLint("DefaultLocale") String distanceFormat = String.format("%.2f", distance);
+                    tvDistanceVillageDetail.setText("" + distanceFormat + " KM");
+                    tvNameVillageDetail.setText(tourism.getName_tourism());
+                    tvAddressVillageDetail.setText(tourism.getLocation_tourism());
+                    tvDescVillageDetail.setText(tourism.getInfo_tourism());
+                    Glide.with(getApplicationContext()).load(tourism.getUrl_photo()).into(imgVillageObject);
+                    AppBarLayout appBarLayout = findViewById(R.id.app_bar_village);
                     appBarLayout.addOnOffsetChangedListener(new AppBarLayout.BaseOnOffsetChangedListener() {
                         boolean isShow = true;
                         int scrollRange = -1;
@@ -146,45 +146,70 @@ public class DetailNatureActivity extends AppCompatActivity implements OnMapRead
                                 scrollRange = appBarLayout.getTotalScrollRange();
                             }
                             if (scrollRange + verticalOffset == 0) {
-                                collapsingToolbarLayout_nature.setTitle(tourism.getName_tourism());
+                                collapsingToolbarLayout_village.setTitle(tourism.getName_tourism());
                                 isShow = true;
                             } else {
-                                collapsingToolbarLayout_nature.setTitle(" ");
+                                collapsingToolbarLayout_village.setTitle(" ");
                                 isShow = false;
                             }
 
                         }
                     });
-
                 }
-
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError databaseError) {
-                    Log.e(TAG, "Firebase Database Error" + databaseError.getMessage());
+
                 }
             };
-            natureDetailRef.addValueEventListener(eventListener);
+            villageDetailRef.addValueEventListener(eventListener);
             valueEventListener = eventListener;
-
         }
     }
 
-    private double calculateDistance(double startLat, double startlng, double endlat, double endLng) {
-        double earthRadius = 6371;
-        double latDiff = Math.toRadians(startLat-endlat);
-        double lngDiff = Math.toRadians(startlng-endLng);
-        double a = Math.sin(latDiff /2) * Math.sin(latDiff /2) +
-                Math.cos(Math.toRadians(startLat)) * Math.cos(Math.toRadians(endlat)) *
-                        Math.sin(lngDiff /2) * Math.sin(lngDiff /2);
-        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-        double distance = earthRadius * c;
+        @Override
+        public void onMapReady (GoogleMap googleMap){
+            villageLocationMap = googleMap;
 
-        int meterConversion = 1609;
+            ValueEventListener eventListener = new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    Tourism tourism = dataSnapshot.getValue(Tourism.class);
+                    assert tourism != null;
+                    double lattitude = tourism.getLat_location_tourism();
+                    double longitude = tourism.getLng_location_tourism();
 
-        return (distance*meterConversion/1000);
-    }
+                    LatLng location = new LatLng(lattitude, longitude);
+                    villageLocationMap.addMarker(new MarkerOptions().position(location));
+                    villageLocationMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location,16.0f));
+                }
 
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            };
+            villageDetailRef.addValueEventListener(eventListener);
+            valueEventListener = eventListener;
+
+        }
+
+//        private double calculateDistance ( double startLat, double startLng, double endLat,
+//        double endLng){
+//
+//            double earthRadius = 6371;
+//            double latDiff = Math.toRadians(startLat-endLat);
+//            double lngDiff = Math.toRadians(startLng-endLng);
+//            double a = Math.sin(latDiff /2) * Math.sin(latDiff /2) +
+//                    Math.cos(Math.toRadians(startLat)) * Math.cos(Math.toRadians(endLat)) *
+//                            Math.sin(lngDiff /2) * Math.sin(lngDiff /2);
+//            double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+//            double distance = earthRadius * c;
+//
+//            int meterConversion = 1609;
+//
+//            return (distance*meterConversion/1000);
+//        }
 
     @Override
     protected void onSaveInstanceState(@NotNull Bundle outState) {
@@ -194,33 +219,7 @@ public class DetailNatureActivity extends AppCompatActivity implements OnMapRead
             mapViewBundle = new Bundle();
             outState.putBundle(MAP_VIEW_KEY, mapViewBundle);
         }
-        natureMapView.onSaveInstanceState(mapViewBundle);
-
-    }
-
-    @Override
-    public void onMapReady(GoogleMap googleMap) {
-        gMap = googleMap;
-        ValueEventListener eventListener = new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                Tourism tourism = dataSnapshot.getValue(Tourism.class);
-                assert tourism != null;
-                double lattitude = tourism.getLat_location_tourism();
-                double longitude = tourism.getLng_location_tourism();
-
-                LatLng location = new LatLng(lattitude, longitude);
-                gMap.addMarker(new MarkerOptions().position(location));
-                gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location,16.0f));
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                Log.e(TAG, "Firebase Database Error" + databaseError.getMessage());
-            }
-        };
-        natureDetailRef.addValueEventListener(eventListener);
-        valueEventListener = eventListener;
+        villageMapView.onSaveInstanceState(mapViewBundle);
 
     }
 
@@ -237,27 +236,29 @@ public class DetailNatureActivity extends AppCompatActivity implements OnMapRead
     @Override
     protected void onResume() {
         super.onResume();
-        natureMapView.onResume();
+        villageMapView.onResume();
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        LoadDetail();
-        natureMapView.onStart();
+        LoadDetailDesa();
+        villageMapView.onStart();
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        natureMapView.onStop();
-        natureDetailRef.removeEventListener(valueEventListener);
+        villageMapView.onStop();
+        villageDetailRef.removeEventListener(valueEventListener);
 
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        natureMapView.onPause();
+        villageMapView.onPause();
     }
+
+
 }

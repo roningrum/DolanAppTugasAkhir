@@ -39,6 +39,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import co.id.roningrum.dolanapptugasakhir.R;
@@ -46,28 +47,31 @@ import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.handler.NetworkHelper;
 import co.id.roningrum.dolanapptugasakhir.handler.PermissionHandler;
 import co.id.roningrum.dolanapptugasakhir.model.Tourism;
-import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismDetailActivity.DetailFoodActivity;
-import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismMapActivity.FoodCategoryMap;
-import co.id.roningrum.dolanapptugasakhir.viewholderActivity.tourism.FoodViewHolder;
+import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismDetailActivity.TourismWaterDetail;
+import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismMapActivity.TourismWaterMaps;
+import co.id.roningrum.dolanapptugasakhir.viewholderActivity.tourism.WaterViewHolder;
 
-public class FoodCategoryActivity extends AppCompatActivity {
-    private RecyclerView rvFoodList;
+public class TourismWaterActivity extends AppCompatActivity {
+    private RecyclerView rvWaterList;
     private ShimmerFrameLayout shimmerFrameLayout;
-    private FirebaseRecyclerAdapter<Tourism, FoodViewHolder> foodFirebaseAdapter;
+    private FirebaseRecyclerAdapter<Tourism, WaterViewHolder> waterFirebaseAdapter;
+
     private GPSHandler gpsHandler;
     private PermissionHandler permissionHandler;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_category_food);
-        rvFoodList = findViewById(R.id.tourism_food_list);
+        setContentView(R.layout.activity_category_water);
+        rvWaterList = findViewById(R.id.tourism_water_list);
+        Toolbar toolbarWater = findViewById(R.id.toolbar_top_water);
         shimmerFrameLayout = findViewById(R.id.shimmer_view_container);
-        Toolbar toolbarFood = findViewById(R.id.toolbar_top_food);
-        rvFoodList.setLayoutManager(new LinearLayoutManager(this));
-        setSupportActionBar(toolbarFood);
+
+        rvWaterList.setLayoutManager(new LinearLayoutManager(this));
+        ArrayList<Tourism> tourisms = new ArrayList<>();
         checkConnection();
+        setSupportActionBar(toolbarWater);
+//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
     }
 
@@ -81,18 +85,18 @@ public class FoodCategoryActivity extends AppCompatActivity {
     }
 
     private void showData() {
-        if (havePermission()) {
-            DatabaseReference foodCategoryDB = FirebaseDatabase.getInstance().getReference();
-            Query educationQuery = foodCategoryDB.child("Tourism").orderByChild("category_tourism").equalTo("kuliner");
-            FirebaseRecyclerOptions<Tourism> foodOptions = new FirebaseRecyclerOptions.Builder<Tourism>()
-                    .setQuery(educationQuery, Tourism.class)
+        if(havePermission()){
+            DatabaseReference waterCategoryDB = FirebaseDatabase.getInstance().getReference();
+            Query waterItemListQuery = waterCategoryDB.child("Tourism").orderByChild("category_tourism").equalTo("air");
+            FirebaseRecyclerOptions<Tourism> options = new FirebaseRecyclerOptions.Builder<Tourism>()
+                    .setQuery(waterItemListQuery, Tourism.class)
                     .build();
+            waterFirebaseAdapter = new FirebaseRecyclerAdapter<Tourism, WaterViewHolder>(options) {
 
-            foodFirebaseAdapter = new FirebaseRecyclerAdapter<Tourism, FoodViewHolder>(foodOptions) {
                 @Override
-                protected void onBindViewHolder(@NonNull FoodViewHolder holder, int position, @NonNull Tourism model) {
-                    final DatabaseReference foodCategoryRef = getRef(position);
-                    final String foodKey = foodCategoryRef.getKey();
+                protected void onBindViewHolder(@NonNull WaterViewHolder holder, int position, @NonNull Tourism model) {
+                    final DatabaseReference waterCategoryRef = getRef(position);
+                    final String waterKey = waterCategoryRef.getKey();
 
                     gpsHandler = new GPSHandler(getApplicationContext());
                     if (gpsHandler.isCanGetLocation()) {
@@ -104,15 +108,17 @@ public class FoodCategoryActivity extends AppCompatActivity {
                         shimmerFrameLayout.stopShimmer();
                         shimmerFrameLayout.setVisibility(View.GONE);
 
-                        holder.showFoodTourismData(model, latitude, longitude);
-                        holder.setOnClickListener(new FoodViewHolder.ClickListener() {
+                        holder.showWaterTourismData(model, latitude, longitude);
+                        holder.setOnClickListener(new WaterViewHolder.ClickListener() {
                             @Override
                             public void onItemClick(View view, int position) {
-                                Intent intent = new Intent(getApplicationContext(), DetailFoodActivity.class);
-                                intent.putExtra(DetailFoodActivity.EXTRA_WISATA_KEY, foodKey);
+                                Intent intent = new Intent(getApplicationContext(), TourismWaterDetail.class);
+                                intent.putExtra(TourismWaterDetail.EXTRA_WISATA_KEY, waterKey);
                                 startActivity(intent);
                             }
                         });
+
+
                     } else {
                         gpsHandler.showSettingsAlert();
                     }
@@ -120,12 +126,13 @@ public class FoodCategoryActivity extends AppCompatActivity {
 
                 @NonNull
                 @Override
-                public FoodViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-                    return new FoodViewHolder(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_food_category_menu, viewGroup, false));
+                public WaterViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+                    View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_menu_water_category_tourism, viewGroup, false);
+                    return new WaterViewHolder(view);
                 }
             };
-            foodFirebaseAdapter.notifyDataSetChanged();
-            rvFoodList.setAdapter(foodFirebaseAdapter);
+            waterFirebaseAdapter.notifyDataSetChanged();
+            rvWaterList.setAdapter(waterFirebaseAdapter);
         }
     }
 
@@ -168,7 +175,7 @@ public class FoodCategoryActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.petaMenu) {
-            startActivity(new Intent(FoodCategoryActivity.this, FoodCategoryMap.class));
+            startActivity(new Intent(TourismWaterActivity.this, TourismWaterMaps.class));
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -178,21 +185,21 @@ public class FoodCategoryActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         shimmerFrameLayout.startShimmer();
-        foodFirebaseAdapter.startListening();
+        waterFirebaseAdapter.startListening();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         shimmerFrameLayout.stopShimmer();
-        foodFirebaseAdapter.stopListening();
+        waterFirebaseAdapter.stopListening();
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        if (foodFirebaseAdapter != null) {
-            foodFirebaseAdapter.startListening();
+        if (waterFirebaseAdapter != null) {
+            waterFirebaseAdapter.startListening();
         }
 
     }
@@ -200,8 +207,9 @@ public class FoodCategoryActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        if (foodFirebaseAdapter != null) {
-            foodFirebaseAdapter.stopListening();
+        if (waterFirebaseAdapter != null) {
+            waterFirebaseAdapter.stopListening();
         }
+
     }
 }

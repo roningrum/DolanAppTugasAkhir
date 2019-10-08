@@ -39,7 +39,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 
 import co.id.roningrum.dolanapptugasakhir.R;
@@ -47,14 +46,15 @@ import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.handler.NetworkHelper;
 import co.id.roningrum.dolanapptugasakhir.handler.PermissionHandler;
 import co.id.roningrum.dolanapptugasakhir.model.Tourism;
-import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismDetailActivity.DetailReligiActivity;
-import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismMapActivity.ReligiCategoryMaps;
-import co.id.roningrum.dolanapptugasakhir.viewholderActivity.tourism.ReligiViewHolder;
+import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismDetailActivity.TourismEducationDetail;
+import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismMapActivity.TourismEducationMaps;
+import co.id.roningrum.dolanapptugasakhir.viewholderActivity.tourism.EducationViewHolder;
 
-public class ReligiCategoryActivity extends AppCompatActivity {
-    private RecyclerView rvReligiList;
+public class TourismEducationActivity extends AppCompatActivity {
+
+    private RecyclerView rvEducationList;
     private ShimmerFrameLayout shimmerFrameLayout;
-    private FirebaseRecyclerAdapter<Tourism, ReligiViewHolder> religiFirebaseAdapter;
+    private FirebaseRecyclerAdapter<Tourism, EducationViewHolder> educationFirebaseAdapter;
 
     private GPSHandler gpsHandler;
     private PermissionHandler permissionHandler;
@@ -62,38 +62,42 @@ public class ReligiCategoryActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_category_religi);
-        rvReligiList = findViewById(R.id.tourism_religi_list);
-        Toolbar toolbarReligi = findViewById(R.id.toolbar_top_religi);
+        setContentView(R.layout.activity_category_education);
+        rvEducationList = findViewById(R.id.tourism_education_list);
+        Toolbar toolbarEducation = findViewById(R.id.toolbar_top_education);
         shimmerFrameLayout = findViewById(R.id.shimmer_view_container);
-        rvReligiList.setLayoutManager(new LinearLayoutManager(this));
-        ArrayList<Tourism> tourisms = new ArrayList<>();
-        setSupportActionBar(toolbarReligi);
+        rvEducationList.setLayoutManager(new LinearLayoutManager(this));
+        setSupportActionBar(toolbarEducation);
         checkConnection();
     }
 
     private void checkConnection() {
         if (NetworkHelper.isConnectedToNetwork(getApplicationContext())) {
-            showData();
+            showEducationData();
         } else {
             Toast.makeText(this, "Check your connection", Toast.LENGTH_SHORT).show();
-            gpsHandler.stopUsingGPS();
         }
     }
 
-    private void showData() {
+    private void showEducationData() {
         if (havePermission()) {
-            final DatabaseReference religiCategoryDB = FirebaseDatabase.getInstance().getReference();
-            Query religiquery = religiCategoryDB.child("Tourism").orderByChild("category_tourism").equalTo("religi");
-            FirebaseRecyclerOptions<Tourism> options = new FirebaseRecyclerOptions.Builder<Tourism>()
-                    .setQuery(religiquery, Tourism.class)
+            DatabaseReference educationCategoryDB = FirebaseDatabase.getInstance().getReference();
+            Query educationQuery = educationCategoryDB.child("Tourism").orderByChild("category_tourism").equalTo("edukasi");
+            FirebaseRecyclerOptions<Tourism> educationOptions = new FirebaseRecyclerOptions.Builder<Tourism>()
+                    .setQuery(educationQuery, Tourism.class)
                     .build();
-            religiFirebaseAdapter = new FirebaseRecyclerAdapter<Tourism, ReligiViewHolder>(options) {
+            educationFirebaseAdapter = new FirebaseRecyclerAdapter<Tourism, EducationViewHolder>(educationOptions) {
+                @NonNull
+                @Override
+                public EducationViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+                    return new EducationViewHolder(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_education_category_menu, viewGroup, false));
+                }
 
                 @Override
-                protected void onBindViewHolder(@NonNull ReligiViewHolder holder, int position, @NonNull Tourism model) {
-                    final DatabaseReference religiCategoryRef = getRef(position);
-                    final String religiKey = religiCategoryRef.getKey();
+                protected void onBindViewHolder(@NonNull EducationViewHolder holder, int position, @NonNull Tourism model) {
+                    final DatabaseReference educationCategoryRef = getRef(position);
+                    final String eductaionKey = educationCategoryRef.getKey();
+                    Log.d("Check eduKey", "" + eductaionKey);
 
                     gpsHandler = new GPSHandler(getApplicationContext());
                     if (gpsHandler.isCanGetLocation()) {
@@ -105,31 +109,24 @@ public class ReligiCategoryActivity extends AppCompatActivity {
                         shimmerFrameLayout.stopShimmer();
                         shimmerFrameLayout.setVisibility(View.GONE);
 
-                        holder.showReligiTourismData(model, latitude, longitude);
-                        holder.setOnClickListener(new ReligiViewHolder.ClickListener() {
+                        holder.showEducationTourismData(model, latitude, longitude);
+                        holder.setOnClickListener(new EducationViewHolder.ClickListener() {
                             @Override
                             public void onItemClick(View view, int position) {
-                                Intent intent = new Intent(getApplicationContext(), DetailReligiActivity.class);
-                                intent.putExtra(DetailReligiActivity.EXTRA_WISATA_KEY, religiKey);
+                                Intent intent = new Intent(getApplicationContext(), TourismEducationDetail.class);
+                                intent.putExtra(TourismEducationDetail.EXTRA_WISATA_KEY, eductaionKey);
                                 startActivity(intent);
                             }
                         });
 
                     } else {
+                        gpsHandler.stopUsingGPS();
                         gpsHandler.showSettingsAlert();
                     }
                 }
-
-                @NonNull
-                @Override
-                public ReligiViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-                    View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_menu_religi_category_tourism, viewGroup, false);
-                    return new ReligiViewHolder(view);
-                }
-
             };
-            religiFirebaseAdapter.notifyDataSetChanged();
-            rvReligiList.setAdapter(religiFirebaseAdapter);
+            educationFirebaseAdapter.notifyDataSetChanged();
+            rvEducationList.setAdapter(educationFirebaseAdapter);
         }
     }
 
@@ -147,7 +144,6 @@ public class ReligiCategoryActivity extends AppCompatActivity {
         }
         return true;
     }
-
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -167,12 +163,11 @@ public class ReligiCategoryActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.toolbar_menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.petaMenu) {
-            startActivity(new Intent(ReligiCategoryActivity.this, ReligiCategoryMaps.class));
+            startActivity(new Intent(TourismEducationActivity.this, TourismEducationMaps.class));
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -182,21 +177,25 @@ public class ReligiCategoryActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         shimmerFrameLayout.startShimmer();
-        religiFirebaseAdapter.startListening();
+        if (educationFirebaseAdapter != null) {
+            educationFirebaseAdapter.startListening();
+        }
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         shimmerFrameLayout.stopShimmer();
-        religiFirebaseAdapter.stopListening();
+        if (educationFirebaseAdapter != null) {
+            educationFirebaseAdapter.stopListening();
+        }
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        if (religiFirebaseAdapter != null) {
-            religiFirebaseAdapter.startListening();
+        if (educationFirebaseAdapter != null) {
+            educationFirebaseAdapter.startListening();
         }
 
     }
@@ -204,10 +203,8 @@ public class ReligiCategoryActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        if (religiFirebaseAdapter != null) {
-            religiFirebaseAdapter.stopListening();
+        if (educationFirebaseAdapter != null) {
+            educationFirebaseAdapter.stopListening();
         }
-
     }
-
 }

@@ -43,21 +43,21 @@ import com.google.firebase.database.ValueEventListener;
 import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.model.Tourism;
 
-public class HistoryCategoryMap extends FragmentActivity implements OnMapReadyCallback {
+public class TourismShoppingMaps extends FragmentActivity implements OnMapReadyCallback {
 
-    private GoogleMap historyMap;
-    private DatabaseReference historyRefMap;
+    private GoogleMap shoppingMap;
+    private DatabaseReference shoppingRefMap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_maps_history);
+        setContentView(R.layout.activity_maps_shopping);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.history_map);
+                .findFragmentById(R.id.shopping_tourism_map);
         assert mapFragment != null;
         mapFragment.getMapAsync(this);
-        historyRefMap = FirebaseDatabase.getInstance().getReference().child("Tourism");
+        shoppingRefMap = FirebaseDatabase.getInstance().getReference().child("Tourism");
     }
 
 
@@ -72,38 +72,34 @@ public class HistoryCategoryMap extends FragmentActivity implements OnMapReadyCa
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        showHistoryMap(googleMap);
-    }
+        shoppingMap = googleMap;
 
-    private void showHistoryMap(GoogleMap googleMap) {
-        historyMap = googleMap;
-        Query historyMapQuery = historyRefMap.orderByChild("category_tourism").equalTo("alam");
-        historyMapQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+        Query shoppingMapQuery = shoppingRefMap.orderByChild("category_tourism").equalTo("belanja");
+        shoppingMapQuery.addListenerForSingleValueEvent(new ValueEventListener() {
 
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot dsNature : dataSnapshot.getChildren()) {
+                for(DataSnapshot dsNature : dataSnapshot.getChildren()){
                     Tourism tourism = dsNature.getValue(Tourism.class);
                     assert tourism != null;
                     double latNature = tourism.getLat_location_tourism();
                     double lngNature = tourism.getLng_location_tourism();
                     LatLng naturePlaceLoc = new LatLng(latNature, lngNature);
-                    historyMap.moveCamera(CameraUpdateFactory.newLatLngZoom(naturePlaceLoc, 10.0f));
-                    historyMap.addMarker(new MarkerOptions().position(naturePlaceLoc).title(tourism.getName_tourism())
-                            .icon(getBitmapDescriptor())
-                            .snippet(tourism.getLocation_tourism()));
+                    shoppingMap.moveCamera(CameraUpdateFactory.newLatLngZoom(naturePlaceLoc, 10.0f));
+                    shoppingMap.addMarker(new MarkerOptions().position(naturePlaceLoc).
+                            icon(getBitmapDescriptor()).title(tourism.getName_tourism()).snippet(tourism.getLocation_tourism()));
                 }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                Log.e("Pesan", "Check Database :" + databaseError.getMessage());
+                Log.e("Pesan", "Check Database :" +databaseError.getMessage());
             }
         });
         try {
             // Customise the styling of the base map using a JSON object defined
             // in a raw resource file.
-            boolean success = historyMap.setMapStyle(
+            boolean success = shoppingMap.setMapStyle(
                     MapStyleOptions.loadRawResourceStyle(
                             this, R.raw.google_map_style));
 

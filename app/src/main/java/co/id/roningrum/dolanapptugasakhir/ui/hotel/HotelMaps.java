@@ -11,7 +11,7 @@
  * limitations under the License.
  */
 
-package co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismMapActivity;
+package co.id.roningrum.dolanapptugasakhir.ui.hotel;
 
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -37,28 +37,28 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.google.maps.android.clustering.ClusterManager;
 
 import co.id.roningrum.dolanapptugasakhir.R;
-import co.id.roningrum.dolanapptugasakhir.model.Tourism;
+import co.id.roningrum.dolanapptugasakhir.model.Hotel;
 
-public class ReligiCategoryMaps extends FragmentActivity implements OnMapReadyCallback {
+public class HotelMaps extends FragmentActivity implements OnMapReadyCallback {
 
-    private GoogleMap religiPlaceMap;
-    private DatabaseReference religiRefMap;
-
+    private DatabaseReference hotelRefMap;
+    private GoogleMap hotelMap;
+    private ClusterManager<Hotel> hotelclusterManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_maps_religi);
+        setContentView(R.layout.activity_maps_hotel);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.religi_tourism_map);
+                .findFragmentById(R.id.map);
         assert mapFragment != null;
         mapFragment.getMapAsync(this);
-        religiRefMap = FirebaseDatabase.getInstance().getReference().child("Tourism");
+        hotelRefMap = FirebaseDatabase.getInstance().getReference().child("Hotel");
     }
 
 
@@ -73,26 +73,32 @@ public class ReligiCategoryMaps extends FragmentActivity implements OnMapReadyCa
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        showReligiMap(googleMap);
+
+        showHotelMap(googleMap);
+
     }
 
-    private void showReligiMap(GoogleMap googleMap) {
-        religiPlaceMap = googleMap;
-        Query religiMapQuery = religiRefMap.orderByChild("category_tourism").equalTo("religi");
-        religiMapQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+    private void showHotelMap(GoogleMap googleMap) {
+        hotelMap = googleMap;
+        hotelclusterManager = new ClusterManager<>(getApplicationContext(), hotelMap);
+        hotelRefMap.addListenerForSingleValueEvent(new ValueEventListener() {
 
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot dsNature : dataSnapshot.getChildren()) {
-                    Tourism tourism = dsNature.getValue(Tourism.class);
-                    assert tourism != null;
-                    double latNature = tourism.getLat_location_tourism();
-                    double lngNature = tourism.getLng_location_tourism();
-                    LatLng naturePlaceLoc = new LatLng(latNature, lngNature);
-                    religiPlaceMap.moveCamera(CameraUpdateFactory.newLatLngZoom(naturePlaceLoc, 10.0f));
-                    religiPlaceMap.addMarker(new MarkerOptions().position(naturePlaceLoc).icon(getBitmapDescriptor())
-                            .title(tourism.getName_tourism()).snippet(tourism.getLocation_tourism()));
+                for (DataSnapshot dsHotel : dataSnapshot.getChildren()) {
+                    Hotel hotel = dsHotel.getValue(Hotel.class);
+                    assert hotel != null;
+                    double latHotel = hotel.getLat_location_hotel();
+                    double lngHotel = hotel.getLng_location_hotel();
+                    LatLng naturePlaceLoc = new LatLng(latHotel, lngHotel);
+                    hotelMap.moveCamera(CameraUpdateFactory.newLatLngZoom(naturePlaceLoc, 8.0f));
+//                    hotelMap.addMarker(new MarkerOptions().position(naturePlaceLoc).title(hotel.getName_hotel()).snippet(hotel.getLocation_hotel()));
+                    hotelMap.setOnCameraIdleListener(hotelclusterManager);
+                    hotelMap.addMarker(new MarkerOptions().icon(getBitmapDescriptor()));
+                    hotelMap.setOnInfoWindowClickListener(hotelclusterManager);
+                    hotelclusterManager.addItem(hotel);
                 }
+                hotelclusterManager.cluster();
             }
 
             @Override
@@ -104,7 +110,7 @@ public class ReligiCategoryMaps extends FragmentActivity implements OnMapReadyCa
         try {
             // Customise the styling of the base map using a JSON object defined
             // in a raw resource file.
-            boolean success = religiPlaceMap.setMapStyle(
+            boolean success = hotelMap.setMapStyle(
                     MapStyleOptions.loadRawResourceStyle(
                             this, R.raw.google_map_style));
 

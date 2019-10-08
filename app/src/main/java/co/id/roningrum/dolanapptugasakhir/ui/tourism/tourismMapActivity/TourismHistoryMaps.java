@@ -43,21 +43,21 @@ import com.google.firebase.database.ValueEventListener;
 import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.model.Tourism;
 
-public class RecreationCategoryMaps extends FragmentActivity implements OnMapReadyCallback {
+public class TourismHistoryMaps extends FragmentActivity implements OnMapReadyCallback {
 
-    private GoogleMap recreationMap;
-    private DatabaseReference recreationRefMap;
+    private GoogleMap historyMap;
+    private DatabaseReference historyRefMap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_maps_recreation);
+        setContentView(R.layout.activity_maps_history);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
+                .findFragmentById(R.id.history_map);
         assert mapFragment != null;
         mapFragment.getMapAsync(this);
-        recreationRefMap = FirebaseDatabase.getInstance().getReference().child("Tourism");
+        historyRefMap = FirebaseDatabase.getInstance().getReference().child("Tourism");
     }
 
 
@@ -72,14 +72,14 @@ public class RecreationCategoryMaps extends FragmentActivity implements OnMapRea
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        showRecreationMap(googleMap);
-
+        showHistoryMap(googleMap);
     }
 
-    private void showRecreationMap(GoogleMap googleMap) {
-        recreationMap = googleMap;
-        Query recreationQuery = recreationRefMap.orderByChild("category_tourism").equalTo("rekreasi");
-        recreationQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+    private void showHistoryMap(GoogleMap googleMap) {
+        historyMap = googleMap;
+        Query historyMapQuery = historyRefMap.orderByChild("category_tourism").equalTo("alam");
+        historyMapQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot dsNature : dataSnapshot.getChildren()) {
@@ -88,12 +88,12 @@ public class RecreationCategoryMaps extends FragmentActivity implements OnMapRea
                     double latNature = tourism.getLat_location_tourism();
                     double lngNature = tourism.getLng_location_tourism();
                     LatLng naturePlaceLoc = new LatLng(latNature, lngNature);
-                    recreationMap.moveCamera(CameraUpdateFactory.newLatLngZoom(naturePlaceLoc, 10.0f));
-                    recreationMap.addMarker(new MarkerOptions().position(naturePlaceLoc).title(tourism.getName_tourism()).
-                            icon(getBitmapDescriptor()).snippet(tourism.getLocation_tourism()));
+                    historyMap.moveCamera(CameraUpdateFactory.newLatLngZoom(naturePlaceLoc, 10.0f));
+                    historyMap.addMarker(new MarkerOptions().position(naturePlaceLoc).title(tourism.getName_tourism())
+                            .icon(getBitmapDescriptor())
+                            .snippet(tourism.getLocation_tourism()));
                 }
             }
-
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
@@ -103,7 +103,7 @@ public class RecreationCategoryMaps extends FragmentActivity implements OnMapRea
         try {
             // Customise the styling of the base map using a JSON object defined
             // in a raw resource file.
-            boolean success = recreationMap.setMapStyle(
+            boolean success = historyMap.setMapStyle(
                     MapStyleOptions.loadRawResourceStyle(
                             this, R.raw.google_map_style));
 

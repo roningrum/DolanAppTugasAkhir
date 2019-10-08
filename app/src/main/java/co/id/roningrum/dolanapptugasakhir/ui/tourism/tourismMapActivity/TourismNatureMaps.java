@@ -43,7 +43,7 @@ import com.google.firebase.database.ValueEventListener;
 import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.model.Tourism;
 
-public class NatureMapsActivity extends FragmentActivity implements OnMapReadyCallback {
+public class TourismNatureMaps extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap natureMap;
     private DatabaseReference natureRefMap;

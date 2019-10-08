@@ -11,7 +11,7 @@
  * limitations under the License.
  */
 
-package co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismActivity;
+package co.id.roningrum.dolanapptugasakhir.ui.hotel;
 
 import android.Manifest;
 import android.content.Intent;
@@ -29,7 +29,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -46,54 +45,49 @@ import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.handler.NetworkHelper;
 import co.id.roningrum.dolanapptugasakhir.handler.PermissionHandler;
-import co.id.roningrum.dolanapptugasakhir.model.Tourism;
-import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismDetailActivity.DetailNatureActivity;
-import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismMapActivity.NatureMapsActivity;
-import co.id.roningrum.dolanapptugasakhir.viewholderActivity.tourism.NatureViewHolder;
+import co.id.roningrum.dolanapptugasakhir.model.Hotel;
+import co.id.roningrum.dolanapptugasakhir.viewholderActivity.hotel.HotelViewHolder;
 
-public class NatureCategoryActivity extends AppCompatActivity {
-    private RecyclerView rvNatureList;
+public class HotelActivity extends AppCompatActivity {
+    private RecyclerView rvHotelList;
     private ShimmerFrameLayout shimmerFrameLayout;
-    private FirebaseRecyclerAdapter<Tourism, NatureViewHolder> natureFirebaseAdapter;
+    private FirebaseRecyclerAdapter<Hotel, HotelViewHolder> hotelFirebaseAdapter;
 
     private GPSHandler gpsHandler;
     private PermissionHandler permissionHandler;
-    protected ConstraintLayout layoutUnavailable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_category_nature);
-        rvNatureList = findViewById(R.id.tourism_nature_list);
-        Toolbar toolbarNature = findViewById(R.id.toolbar_top_nature);
-        layoutUnavailable = findViewById(R.id.layout_connect);
+        setContentView(R.layout.activity_category_hotel);
+        rvHotelList = findViewById(R.id.rv_hotel_list);
+        Toolbar toolbarHotel = findViewById(R.id.toolbar_top_hotel);
         shimmerFrameLayout = findViewById(R.id.shimmer_view_container);
-        rvNatureList.setLayoutManager(new LinearLayoutManager(this));
-        setSupportActionBar(toolbarNature);
+        rvHotelList.setLayoutManager(new LinearLayoutManager(this));
+        setSupportActionBar(toolbarHotel);
         checkConnection();
     }
 
     private void checkConnection() {
         if (NetworkHelper.isConnectedToNetwork(getApplicationContext())) {
-            showData();
+            showHotelData();
         } else {
             Toast.makeText(this, "Check your connection", Toast.LENGTH_SHORT).show();
         }
     }
 
-    private void showData() {
+    private void showHotelData() {
         if (havePermission()) {
-            DatabaseReference natureCategoryDB = FirebaseDatabase.getInstance().getReference();
-            Query query = natureCategoryDB.child("Tourism").orderByChild("category_tourism").equalTo("alam");
-            FirebaseRecyclerOptions<Tourism> options = new FirebaseRecyclerOptions.Builder<Tourism>()
-                    .setQuery(query, Tourism.class)
+            DatabaseReference hotelRef = FirebaseDatabase.getInstance().getReference();
+            Query hotelQuery = hotelRef.child("Hotel");
+            FirebaseRecyclerOptions<Hotel> hotelOptions = new FirebaseRecyclerOptions.Builder<Hotel>()
+                    .setQuery(hotelQuery, Hotel.class)
                     .build();
-            natureFirebaseAdapter = new FirebaseRecyclerAdapter<Tourism, NatureViewHolder>(options) {
-
+            hotelFirebaseAdapter = new FirebaseRecyclerAdapter<Hotel, HotelViewHolder>(hotelOptions) {
                 @Override
-                protected void onBindViewHolder(@NonNull NatureViewHolder holder, int position, @NonNull Tourism model) {
-                    final DatabaseReference natureCategoryRef = getRef(position);
-                    final String natureKey = natureCategoryRef.getKey();
+                protected void onBindViewHolder(@NonNull HotelViewHolder holder, int position, @NonNull Hotel model) {
+                    final DatabaseReference hotelCategoryRef = getRef(position);
+                    final String hotelKey = hotelCategoryRef.getKey();
 
                     gpsHandler = new GPSHandler(getApplicationContext());
                     if (gpsHandler.isCanGetLocation()) {
@@ -105,31 +99,30 @@ public class NatureCategoryActivity extends AppCompatActivity {
                         shimmerFrameLayout.stopShimmer();
                         shimmerFrameLayout.setVisibility(View.GONE);
 
-                        holder.showTourismData(model, longitude, latitude);
-                        holder.setOnClickListener(new NatureViewHolder.ClickListener() {
+                        holder.showHotelData(model, latitude, longitude);
+                        holder.setOnClickListener(new HotelViewHolder.ClickListener() {
                             @Override
                             public void onItemClick(View view, int position) {
-                                Intent intent = new Intent(getApplicationContext(), DetailNatureActivity.class);
-                                intent.putExtra(DetailNatureActivity.EXTRA_WISATA_KEY, natureKey);
+                                Intent intent = new Intent(getApplicationContext(), HotelDetail.class);
+                                intent.putExtra(HotelDetail.EXTRA_HOTEL_KEY, hotelKey);
                                 startActivity(intent);
                             }
                         });
 
                     } else {
+                        gpsHandler.stopUsingGPS();
                         gpsHandler.showSettingsAlert();
                     }
                 }
 
                 @NonNull
                 @Override
-                public NatureViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-                    View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_menu_nature_category_tourism, viewGroup, false);
-                    return new NatureViewHolder(view);
+                public HotelViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+                    return new HotelViewHolder(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_menu_hotel_category_hotel, viewGroup, false));
                 }
-
             };
-            natureFirebaseAdapter.notifyDataSetChanged();
-            rvNatureList.setAdapter(natureFirebaseAdapter);
+            hotelFirebaseAdapter.notifyDataSetChanged();
+            rvHotelList.setAdapter(hotelFirebaseAdapter);
         }
     }
 
@@ -172,25 +165,44 @@ public class NatureCategoryActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.petaMenu) {
-            startActivity(new Intent(NatureCategoryActivity.this, NatureMapsActivity.class));
+            startActivity(new Intent(HotelActivity.this, HotelMaps.class));
             return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        shimmerFrameLayout.startShimmer();
+        if (hotelFirebaseAdapter != null) {
+            hotelFirebaseAdapter.startListening();
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        shimmerFrameLayout.stopShimmer();
+        if (hotelFirebaseAdapter != null) {
+            hotelFirebaseAdapter.stopListening();
+        }
+    }
+
+    @Override
     protected void onStart() {
         super.onStart();
-        if (natureFirebaseAdapter != null) {
-            natureFirebaseAdapter.startListening();
+        if (hotelFirebaseAdapter != null) {
+            hotelFirebaseAdapter.startListening();
         }
+
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        if (natureFirebaseAdapter != null) {
-            natureFirebaseAdapter.stopListening();
+        if (hotelFirebaseAdapter != null) {
+            hotelFirebaseAdapter.stopListening();
         }
     }
 }

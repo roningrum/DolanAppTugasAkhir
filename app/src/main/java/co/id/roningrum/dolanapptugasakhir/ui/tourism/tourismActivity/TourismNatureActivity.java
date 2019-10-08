@@ -29,6 +29,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -39,7 +40,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 
 import co.id.roningrum.dolanapptugasakhir.R;
@@ -47,32 +47,30 @@ import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.handler.NetworkHelper;
 import co.id.roningrum.dolanapptugasakhir.handler.PermissionHandler;
 import co.id.roningrum.dolanapptugasakhir.model.Tourism;
-import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismDetailActivity.DetailHistoryActivity;
-import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismMapActivity.HistoryCategoryMap;
-import co.id.roningrum.dolanapptugasakhir.viewholderActivity.tourism.HistoryViewHolder;
+import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismDetailActivity.TourismNatureDetail;
+import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismMapActivity.TourismNatureMaps;
+import co.id.roningrum.dolanapptugasakhir.viewholderActivity.tourism.NatureViewHolder;
 
-public class HistoryCategoryActivity extends AppCompatActivity {
-
-    private RecyclerView rvHistoryList;
+public class TourismNatureActivity extends AppCompatActivity {
+    private RecyclerView rvNatureList;
     private ShimmerFrameLayout shimmerFrameLayout;
-    private FirebaseRecyclerAdapter<Tourism, HistoryViewHolder> historyFirebaseAdapter;
+    private FirebaseRecyclerAdapter<Tourism, NatureViewHolder> natureFirebaseAdapter;
 
     private GPSHandler gpsHandler;
     private PermissionHandler permissionHandler;
-    
+    protected ConstraintLayout layoutUnavailable;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_category_history);
-        rvHistoryList = findViewById(R.id.tourism_history_list);
-        Toolbar toolbarHistory = findViewById(R.id.toolbar_top_history);
+        setContentView(R.layout.activity_category_nature);
+        rvNatureList = findViewById(R.id.tourism_nature_list);
+        Toolbar toolbarNature = findViewById(R.id.toolbar_top_nature);
+        layoutUnavailable = findViewById(R.id.layout_connect);
         shimmerFrameLayout = findViewById(R.id.shimmer_view_container);
-        rvHistoryList.setLayoutManager(new LinearLayoutManager(this));
-        rvHistoryList.setHasFixedSize(true);
-        ArrayList<Tourism> tourisms = new ArrayList<>();
+        rvNatureList.setLayoutManager(new LinearLayoutManager(this));
+        setSupportActionBar(toolbarNature);
         checkConnection();
-        setSupportActionBar(toolbarHistory);
-
     }
 
     private void checkConnection() {
@@ -80,29 +78,22 @@ public class HistoryCategoryActivity extends AppCompatActivity {
             showData();
         } else {
             Toast.makeText(this, "Check your connection", Toast.LENGTH_SHORT).show();
-            gpsHandler.stopUsingGPS();
         }
     }
 
     private void showData() {
         if (havePermission()) {
-            DatabaseReference historyCategoryDB = FirebaseDatabase.getInstance().getReference();
-            Query historyQuery = historyCategoryDB.child("Tourism").orderByChild("category_tourism").equalTo("sejarah");
-            FirebaseRecyclerOptions<Tourism> historyOptions = new FirebaseRecyclerOptions.Builder<Tourism>()
-                    .setQuery(historyQuery, Tourism.class)
+            DatabaseReference natureCategoryDB = FirebaseDatabase.getInstance().getReference();
+            Query query = natureCategoryDB.child("Tourism").orderByChild("category_tourism").equalTo("alam");
+            FirebaseRecyclerOptions<Tourism> options = new FirebaseRecyclerOptions.Builder<Tourism>()
+                    .setQuery(query, Tourism.class)
                     .build();
-            historyFirebaseAdapter = new FirebaseRecyclerAdapter<Tourism, HistoryViewHolder>(historyOptions) {
-
-                @NonNull
-                @Override
-                public HistoryViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-                    return new HistoryViewHolder(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_history_category_menu, viewGroup, false));
-                }
+            natureFirebaseAdapter = new FirebaseRecyclerAdapter<Tourism, NatureViewHolder>(options) {
 
                 @Override
-                protected void onBindViewHolder(@NonNull HistoryViewHolder holder, int position, @NonNull Tourism model) {
-                    final DatabaseReference historyCategoryRef = getRef(position);
-                    final String historyKey = historyCategoryRef.getKey();
+                protected void onBindViewHolder(@NonNull NatureViewHolder holder, int position, @NonNull Tourism model) {
+                    final DatabaseReference natureCategoryRef = getRef(position);
+                    final String natureKey = natureCategoryRef.getKey();
 
                     gpsHandler = new GPSHandler(getApplicationContext());
                     if (gpsHandler.isCanGetLocation()) {
@@ -114,12 +105,12 @@ public class HistoryCategoryActivity extends AppCompatActivity {
                         shimmerFrameLayout.stopShimmer();
                         shimmerFrameLayout.setVisibility(View.GONE);
 
-                        holder.showHistoryTourismData(model, latitude, longitude);
-                        holder.setOnClickListener(new HistoryViewHolder.ClickListener() {
+                        holder.showTourismData(model, longitude, latitude);
+                        holder.setOnClickListener(new NatureViewHolder.ClickListener() {
                             @Override
                             public void onItemClick(View view, int position) {
-                                Intent intent = new Intent(getApplicationContext(), DetailHistoryActivity.class);
-                                intent.putExtra(DetailHistoryActivity.EXTRA_WISATA_KEY, historyKey);
+                                Intent intent = new Intent(getApplicationContext(), TourismNatureDetail.class);
+                                intent.putExtra(TourismNatureDetail.EXTRA_WISATA_KEY, natureKey);
                                 startActivity(intent);
                             }
                         });
@@ -128,9 +119,17 @@ public class HistoryCategoryActivity extends AppCompatActivity {
                         gpsHandler.showSettingsAlert();
                     }
                 }
+
+                @NonNull
+                @Override
+                public NatureViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+                    View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_menu_nature_category_tourism, viewGroup, false);
+                    return new NatureViewHolder(view);
+                }
+
             };
-            historyFirebaseAdapter.notifyDataSetChanged();
-            rvHistoryList.setAdapter(historyFirebaseAdapter);
+            natureFirebaseAdapter.notifyDataSetChanged();
+            rvNatureList.setAdapter(natureFirebaseAdapter);
         }
     }
 
@@ -173,41 +172,25 @@ public class HistoryCategoryActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.petaMenu) {
-            startActivity(new Intent(HistoryCategoryActivity.this, HistoryCategoryMap.class));
+            startActivity(new Intent(TourismNatureActivity.this, TourismNatureMaps.class));
             return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        shimmerFrameLayout.startShimmer();
-        historyFirebaseAdapter.startListening();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        shimmerFrameLayout.stopShimmer();
-        historyFirebaseAdapter.stopListening();
-    }
-
-    @Override
     protected void onStart() {
         super.onStart();
-        if (historyFirebaseAdapter != null) {
-            historyFirebaseAdapter.startListening();
+        if (natureFirebaseAdapter != null) {
+            natureFirebaseAdapter.startListening();
         }
-
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        if (historyFirebaseAdapter != null) {
-            historyFirebaseAdapter.stopListening();
+        if (natureFirebaseAdapter != null) {
+            natureFirebaseAdapter.stopListening();
         }
-
     }
 }

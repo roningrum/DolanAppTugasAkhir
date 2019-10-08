@@ -11,7 +11,7 @@
  * limitations under the License.
  */
 
-package co.id.roningrum.dolanapptugasakhir.ui.hotel;
+package co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismActivity;
 
 import android.Manifest;
 import android.content.Intent;
@@ -39,19 +39,22 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.handler.NetworkHelper;
 import co.id.roningrum.dolanapptugasakhir.handler.PermissionHandler;
-import co.id.roningrum.dolanapptugasakhir.model.Hotel;
-import co.id.roningrum.dolanapptugasakhir.viewholderActivity.hotel.HotelViewHolder;
+import co.id.roningrum.dolanapptugasakhir.model.Tourism;
+import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismDetailActivity.TourismVillageDetail;
+import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismMapActivity.TourismVillageMaps;
+import co.id.roningrum.dolanapptugasakhir.viewholderActivity.tourism.VillageViewHolder;
 
-public class HotelCategoryActivity extends AppCompatActivity {
-    private RecyclerView rvHotelList;
+public class TourismVillageActivity extends AppCompatActivity {
+    private RecyclerView rvVillageList;
     private ShimmerFrameLayout shimmerFrameLayout;
-    private FirebaseRecyclerAdapter<Hotel, HotelViewHolder> hotelFirebaseAdapter;
+    private FirebaseRecyclerAdapter<Tourism, VillageViewHolder> villageFirebaseAdapter;
 
     private GPSHandler gpsHandler;
     private PermissionHandler permissionHandler;
@@ -59,35 +62,43 @@ public class HotelCategoryActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_category_hotel);
-        rvHotelList = findViewById(R.id.rv_hotel_list);
-        Toolbar toolbarHotel = findViewById(R.id.toolbar_top_hotel);
+        setContentView(R.layout.activity_category_village);
+        rvVillageList = findViewById(R.id.tourism_village_list);
+        Toolbar toolbarVillage = findViewById(R.id.toolbar_top_village);
         shimmerFrameLayout = findViewById(R.id.shimmer_view_container);
-        rvHotelList.setLayoutManager(new LinearLayoutManager(this));
-        setSupportActionBar(toolbarHotel);
+        rvVillageList.setLayoutManager(new LinearLayoutManager(this));
+        ArrayList<Tourism> tourisms = new ArrayList<>();
+        setSupportActionBar(toolbarVillage);
         checkConnection();
     }
 
     private void checkConnection() {
         if (NetworkHelper.isConnectedToNetwork(getApplicationContext())) {
-            showHotelData();
+            showData();
         } else {
             Toast.makeText(this, "Check your connection", Toast.LENGTH_SHORT).show();
+            gpsHandler.stopUsingGPS();
         }
     }
 
-    private void showHotelData() {
+    private void showData() {
         if (havePermission()) {
-            DatabaseReference hotelRef = FirebaseDatabase.getInstance().getReference();
-            Query hotelQuery = hotelRef.child("Hotel");
-            FirebaseRecyclerOptions<Hotel> hotelOptions = new FirebaseRecyclerOptions.Builder<Hotel>()
-                    .setQuery(hotelQuery, Hotel.class)
+            DatabaseReference villageCategoryDB = FirebaseDatabase.getInstance().getReference();
+            Query villageQuery = villageCategoryDB.child("Tourism").orderByChild("category_tourism").equalTo("desa");
+            FirebaseRecyclerOptions<Tourism> villageOptions = new FirebaseRecyclerOptions.Builder<Tourism>()
+                    .setQuery(villageQuery, Tourism.class)
                     .build();
-            hotelFirebaseAdapter = new FirebaseRecyclerAdapter<Hotel, HotelViewHolder>(hotelOptions) {
+            villageFirebaseAdapter = new FirebaseRecyclerAdapter<Tourism, VillageViewHolder>(villageOptions) {
+                @NonNull
                 @Override
-                protected void onBindViewHolder(@NonNull HotelViewHolder holder, int position, @NonNull Hotel model) {
-                    final DatabaseReference hotelCategoryRef = getRef(position);
-                    final String hotelKey = hotelCategoryRef.getKey();
+                public VillageViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+                    return new VillageViewHolder(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_menu_village_category_tourism, viewGroup, false));
+                }
+
+                @Override
+                protected void onBindViewHolder(@NonNull VillageViewHolder holder, int position, @NonNull Tourism model) {
+                    final DatabaseReference villageCategoryRef = getRef(position);
+                    final String villageKey = villageCategoryRef.getKey();
 
                     gpsHandler = new GPSHandler(getApplicationContext());
                     if (gpsHandler.isCanGetLocation()) {
@@ -99,30 +110,31 @@ public class HotelCategoryActivity extends AppCompatActivity {
                         shimmerFrameLayout.stopShimmer();
                         shimmerFrameLayout.setVisibility(View.GONE);
 
-                        holder.showHotelData(model, latitude, longitude);
-                        holder.setOnClickListener(new HotelViewHolder.ClickListener() {
+                        holder.showVillageTourismData(model, latitude, longitude);
+                        holder.setOnClickListener(new VillageViewHolder.ClickListener() {
                             @Override
                             public void onItemClick(View view, int position) {
-                                Intent intent = new Intent(getApplicationContext(), DetailHotelActivity.class);
-                                intent.putExtra(DetailHotelActivity.EXTRA_HOTEL_KEY, hotelKey);
+                                Intent intent = new Intent(getApplicationContext(), TourismVillageDetail.class);
+                                intent.putExtra(TourismVillageDetail.EXTRA_WISATA_KEY, villageKey);
                                 startActivity(intent);
                             }
                         });
 
                     } else {
-                        gpsHandler.stopUsingGPS();
                         gpsHandler.showSettingsAlert();
                     }
                 }
 
-                @NonNull
-                @Override
-                public HotelViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-                    return new HotelViewHolder(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_menu_hotel_category_hotel, viewGroup, false));
-                }
+//                @NonNull
+//                @Override
+//                public ShoppingViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+//                    View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_menu_shopping_category_tourism, viewGroup, false);
+//                    return new ShoppingViewHolder(view);
+//                }
             };
-            hotelFirebaseAdapter.notifyDataSetChanged();
-            rvHotelList.setAdapter(hotelFirebaseAdapter);
+            villageFirebaseAdapter.notifyDataSetChanged();
+            rvVillageList.setAdapter(villageFirebaseAdapter);
+
         }
     }
 
@@ -140,7 +152,6 @@ public class HotelCategoryActivity extends AppCompatActivity {
         }
         return true;
     }
-
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -165,7 +176,7 @@ public class HotelCategoryActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.petaMenu) {
-            startActivity(new Intent(HotelCategoryActivity.this, HotelMapsActivity.class));
+            startActivity(new Intent(TourismVillageActivity.this, TourismVillageMaps.class));
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -175,25 +186,21 @@ public class HotelCategoryActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         shimmerFrameLayout.startShimmer();
-        if (hotelFirebaseAdapter != null) {
-            hotelFirebaseAdapter.startListening();
-        }
+        villageFirebaseAdapter.startListening();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         shimmerFrameLayout.stopShimmer();
-        if (hotelFirebaseAdapter != null) {
-            hotelFirebaseAdapter.stopListening();
-        }
+        villageFirebaseAdapter.stopListening();
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        if (hotelFirebaseAdapter != null) {
-            hotelFirebaseAdapter.startListening();
+        if (villageFirebaseAdapter != null) {
+            villageFirebaseAdapter.startListening();
         }
 
     }
@@ -201,8 +208,8 @@ public class HotelCategoryActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        if (hotelFirebaseAdapter != null) {
-            hotelFirebaseAdapter.stopListening();
+        if (villageFirebaseAdapter != null) {
+            villageFirebaseAdapter.stopListening();
         }
     }
 }

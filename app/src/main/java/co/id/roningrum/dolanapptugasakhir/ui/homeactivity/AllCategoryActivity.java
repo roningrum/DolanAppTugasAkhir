@@ -23,17 +23,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.ui.gasstation.GasStationCategory;
 import co.id.roningrum.dolanapptugasakhir.ui.hospital.HospitalCategory;
-import co.id.roningrum.dolanapptugasakhir.ui.hotel.HotelCategoryActivity;
+import co.id.roningrum.dolanapptugasakhir.ui.hotel.HotelActivity;
 import co.id.roningrum.dolanapptugasakhir.ui.police.PoliceCategory;
-import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismActivity.EducationCategoryActivity;
-import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismActivity.FoodCategoryActivity;
-import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismActivity.HistoryCategoryActivity;
-import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismActivity.NatureCategoryActivity;
-import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismActivity.RecreationCategoryActivity;
-import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismActivity.ReligiCategoryActivity;
-import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismActivity.ShoppingCategoryActivity;
-import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismActivity.VillageCategoryActivity;
-import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismActivity.WaterCategoryActivity;
+import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismActivity.TourismEducationActivity;
+import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismActivity.TourismFoodActivity;
+import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismActivity.TourismHistoryActivity;
+import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismActivity.TourismNatureActivity;
+import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismActivity.TourismRecreationActivity;
+import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismActivity.TourismReligiActivity;
+import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismActivity.TourismShoppingActivity;
+import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismActivity.TourismVillageActivity;
+import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismActivity.TourismWaterActivity;
 import co.id.roningrum.dolanapptugasakhir.ui.transportation.transportationActivity.AirportCategoryActivity;
 import co.id.roningrum.dolanapptugasakhir.ui.transportation.transportationActivity.BusCategoryActivity;
 import co.id.roningrum.dolanapptugasakhir.ui.transportation.transportationActivity.ShipCategoryActivity;
@@ -88,34 +88,34 @@ public class AllCategoryActivity extends AppCompatActivity implements View.OnCli
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.ln_nature_tour:
-                startActivity(new Intent(AllCategoryActivity.this, NatureCategoryActivity.class));
+                startActivity(new Intent(AllCategoryActivity.this, TourismNatureActivity.class));
                 break;
             case R.id.ln_entertain_tour:
-                startActivity(new Intent(AllCategoryActivity.this, RecreationCategoryActivity.class));
+                startActivity(new Intent(AllCategoryActivity.this, TourismRecreationActivity.class));
                 break;
             case R.id.ln_belanja_tour:
-                startActivity(new Intent(AllCategoryActivity.this, ShoppingCategoryActivity.class));
+                startActivity(new Intent(AllCategoryActivity.this, TourismShoppingActivity.class));
                 break;
             case R.id.ln_desa_tour:
-                startActivity(new Intent(AllCategoryActivity.this, VillageCategoryActivity.class));
+                startActivity(new Intent(AllCategoryActivity.this, TourismVillageActivity.class));
                 break;
             case R.id.ln_kuliner_tour:
-                startActivity(new Intent(AllCategoryActivity.this, FoodCategoryActivity.class));
+                startActivity(new Intent(AllCategoryActivity.this, TourismFoodActivity.class));
                 break;
             case R.id.ln_edukasi_tour:
-                startActivity(new Intent(AllCategoryActivity.this, EducationCategoryActivity.class));
+                startActivity(new Intent(AllCategoryActivity.this, TourismEducationActivity.class));
                 break;
             case R.id.ln_air_tour:
-                startActivity(new Intent(AllCategoryActivity.this, WaterCategoryActivity.class));
+                startActivity(new Intent(AllCategoryActivity.this, TourismWaterActivity.class));
                 break;
             case R.id.ln_religi_tour:
-                startActivity(new Intent(AllCategoryActivity.this, ReligiCategoryActivity.class));
+                startActivity(new Intent(AllCategoryActivity.this, TourismReligiActivity.class));
                 break;
             case R.id.ln_sejarah_tour:
-                startActivity(new Intent(AllCategoryActivity.this, HistoryCategoryActivity.class));
+                startActivity(new Intent(AllCategoryActivity.this, TourismHistoryActivity.class));
                 break;
             case R.id.ln_hotel_public:
-                startActivity(new Intent(AllCategoryActivity.this, HotelCategoryActivity.class));
+                startActivity(new Intent(AllCategoryActivity.this, HotelActivity.class));
                 break;
             case R.id.ln_bandara_public:
                 startActivity(new Intent(AllCategoryActivity.this, AirportCategoryActivity.class));

@@ -40,7 +40,6 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.handler.PermissionHandler;
@@ -52,7 +51,7 @@ import co.id.roningrum.dolanapptugasakhir.model.Tourism;
  */
 public class BookmarkFragment extends Fragment {
     private ArrayList<Tourism> tourismList;
-    private List<String> checkUserList = new ArrayList<>();
+    private ArrayList<String> checkUserList;
     private RecyclerView rvFavoritList;
     private FirebaseUser user;
     private FavoritAdapter favoritAdapter;
@@ -124,6 +123,7 @@ public class BookmarkFragment extends Fragment {
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                checkUserList = new ArrayList<>();
                 checkUserList.clear();
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     checkUserList.add(snapshot.getKey());
