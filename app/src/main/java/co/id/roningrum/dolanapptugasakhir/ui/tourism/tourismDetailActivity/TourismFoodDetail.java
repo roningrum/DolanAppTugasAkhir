@@ -40,7 +40,6 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import org.jetbrains.annotations.NotNull;
@@ -117,7 +116,7 @@ public class TourismFoodDetail extends AppCompatActivity implements OnMapReadyCa
             throw new IllegalArgumentException("Must pass EXTRA");
         }
         foodDetailRef = FirebaseDatabase.getInstance().getReference().child("Tourism").child(foodKey);
-        Query foodQuery = foodDetailRef.orderByChild("category_tourism").equalTo("kuliner");
+//        Query foodQuery = foodDetailRef.orderByChild("category_tourism").equalTo("kuliner");
         gpsHandler = new GPSHandler(this);
         LoadFoodDetail();
     }
