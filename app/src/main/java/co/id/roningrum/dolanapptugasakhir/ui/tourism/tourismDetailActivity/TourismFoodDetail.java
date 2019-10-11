@@ -16,6 +16,7 @@ package co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismDetailActivity;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -33,6 +34,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -71,6 +74,10 @@ public class TourismFoodDetail extends AppCompatActivity implements OnMapReadyCa
     private double endlat;
     private double endLng;
     private double distance;
+    String foodKey;
+    boolean isFavorite;
+    private FirebaseUser user;
+    private DatabaseReference favoritedb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,6 +99,10 @@ public class TourismFoodDetail extends AppCompatActivity implements OnMapReadyCa
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back_24dp);
 
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        user = firebaseAuth.getCurrentUser();
+
+        favoritedb = FirebaseDatabase.getInstance().getReference("Favorite");
 
         Bundle mapViewBundle = null;
         if (savedInstanceState != null) {
@@ -101,7 +112,7 @@ public class TourismFoodDetail extends AppCompatActivity implements OnMapReadyCa
         foodMapView.getMapAsync(this);
 
 
-        String foodKey = getIntent().getStringExtra(EXTRA_WISATA_KEY);
+        foodKey = getIntent().getStringExtra(EXTRA_WISATA_KEY);
         if (foodKey == null) {
             throw new IllegalArgumentException("Must pass EXTRA");
         }
@@ -219,11 +230,63 @@ public class TourismFoodDetail extends AppCompatActivity implements OnMapReadyCa
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.favorite_menu, menu);
+
+        final MenuItem item = menu.findItem(R.id.add_to_favorite);
+        final String uid = user.getUid();
+        favoritedb.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.child(uid).child(foodKey).exists()) {
+                    item.setIcon(R.drawable.ic_bookmarkadded_24dp);
+                } else {
+                    item.setIcon(R.drawable.ic_unbookmarked_24dp);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(final MenuItem item) {
         // Respond to the action bar's Up/Home button
         if (item.getItemId() == android.R.id.home) {
-            finish();
+            onBackPressed();
             return true;
+        }
+        if (item.getItemId() == R.id.add_to_favorite) {
+
+            final String uid = user.getUid();
+            favoritedb.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                    DataSnapshot favorit = dataSnapshot.child(uid);
+                    if (isFavorite) {
+                        item.setIcon(R.drawable.ic_unbookmarked_24dp);
+                        favoritedb.getRef().child(uid).child(foodKey).removeValue();
+                        isFavorite = false;
+
+                    } else {
+                        item.setIcon(R.drawable.ic_bookmarkadded_24dp);
+                        favoritedb.getRef().child(uid).child(foodKey).setValue(true);
+                        isFavorite = true;
+                    }
+
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+            return true;
+
         }
         return super.onOptionsItemSelected(item);
     }
@@ -254,4 +317,6 @@ public class TourismFoodDetail extends AppCompatActivity implements OnMapReadyCa
         super.onPause();
         foodMapView.onPause();
     }
+
+
 }
