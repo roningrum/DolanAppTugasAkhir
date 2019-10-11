@@ -39,7 +39,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 
 import co.id.roningrum.dolanapptugasakhir.R;
@@ -67,7 +66,6 @@ public class TourismRecreationActivity extends AppCompatActivity {
         Toolbar toolbarRecreation = findViewById(R.id.toolbar_top_recreation);
         shimmerFrameLayout = findViewById(R.id.shimmer_view_container);
         rvRecreationList.setLayoutManager(new LinearLayoutManager(this));
-        ArrayList<Tourism> tourisms = new ArrayList<>();
         setSupportActionBar(toolbarRecreation);
         checkConnection();
     }
@@ -77,7 +75,6 @@ public class TourismRecreationActivity extends AppCompatActivity {
             showData();
         } else {
             Toast.makeText(this, "Check your connection", Toast.LENGTH_SHORT).show();
-            gpsHandler.stopUsingGPS();
         }
     }
 

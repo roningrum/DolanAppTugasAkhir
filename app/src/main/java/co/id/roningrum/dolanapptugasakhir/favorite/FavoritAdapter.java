@@ -49,7 +49,7 @@ public class FavoritAdapter extends RecyclerView.Adapter<FavoritAdapter.FavoritV
     }
 
     @Override
-    public void onBindViewHolder(@NonNull FavoritViewHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull final FavoritViewHolder holder, final int position) {
         GPSHandler gpsHandler = new GPSHandler(context);
         if (gpsHandler.isCanGetLocation()) {
             double latitude = gpsHandler.getLatitude();
@@ -73,7 +73,7 @@ public class FavoritAdapter extends RecyclerView.Adapter<FavoritAdapter.FavoritV
         private TextView nameFavTourism;
         private TextView locationFavTourism;
         private TextView distanceFavTourism;
-        private ImageView favTourismPic, bookmarkBadge;
+        private ImageView favTourismPic;
 
         FavoritViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -81,7 +81,6 @@ public class FavoritAdapter extends RecyclerView.Adapter<FavoritAdapter.FavoritV
             locationFavTourism = itemView.findViewById(R.id.location_fav_item_tourism);
             distanceFavTourism = itemView.findViewById(R.id.distance_fav_item_tourism);
             favTourismPic = itemView.findViewById(R.id.tourism_fav_pic);
-            bookmarkBadge = itemView.findViewById(R.id.img_favorit_badge);
         }
 
         @SuppressLint("SetTextI18n")
@@ -96,10 +95,6 @@ public class FavoritAdapter extends RecyclerView.Adapter<FavoritAdapter.FavoritV
             @SuppressLint("DefaultLocale") String distanceFormat = String.format("%.2f", jarakKM);
             distanceFavTourism.setText(distanceFormat + " km");
             Glide.with(itemView.getContext()).load(favoriteItem.getUrl_photo()).into(favTourismPic);
-        }
-
-        void checkFavorit(String id, ImageView imageView) {
-
         }
     }
 

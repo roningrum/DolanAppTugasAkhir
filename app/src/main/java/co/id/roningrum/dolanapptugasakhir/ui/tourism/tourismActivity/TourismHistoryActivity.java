@@ -80,7 +80,6 @@ public class TourismHistoryActivity extends AppCompatActivity {
             showData();
         } else {
             Toast.makeText(this, "Check your connection", Toast.LENGTH_SHORT).show();
-            gpsHandler.stopUsingGPS();
         }
     }
 
