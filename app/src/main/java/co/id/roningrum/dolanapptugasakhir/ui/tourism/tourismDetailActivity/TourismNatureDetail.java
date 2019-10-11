@@ -16,6 +16,7 @@ package co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismDetailActivity;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -33,11 +34,12 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import org.jetbrains.annotations.NotNull;
@@ -74,6 +76,11 @@ public class TourismNatureDetail extends AppCompatActivity implements OnMapReady
     private double endLng;
     private double distance;
 
+    String natureKey;
+    boolean isFavorite;
+    private FirebaseUser user;
+    private DatabaseReference favoritedb;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -106,8 +113,13 @@ public class TourismNatureDetail extends AppCompatActivity implements OnMapReady
         if(alamKey == null){
             throw new IllegalArgumentException("Must pass Extra");
         }
+
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        user = firebaseAuth.getCurrentUser();
+
+        favoritedb = FirebaseDatabase.getInstance().getReference("Favorite");
         natureDetailRef = FirebaseDatabase.getInstance().getReference().child("Tourism").child(alamKey);
-        Query natureQuery = natureDetailRef.orderByChild("category_tourism").equalTo("alam");
+//        Query natureQuery = natureDetailRef.orderByChild("category_tourism").equalTo("alam");
         gpsHandler = new GPSHandler(this);
 
 
@@ -170,22 +182,6 @@ public class TourismNatureDetail extends AppCompatActivity implements OnMapReady
         }
     }
 
-    private double calculateDistance(double startLat, double startlng, double endlat, double endLng) {
-        double earthRadius = 6371;
-        double latDiff = Math.toRadians(startLat-endlat);
-        double lngDiff = Math.toRadians(startlng-endLng);
-        double a = Math.sin(latDiff /2) * Math.sin(latDiff /2) +
-                Math.cos(Math.toRadians(startLat)) * Math.cos(Math.toRadians(endlat)) *
-                        Math.sin(lngDiff /2) * Math.sin(lngDiff /2);
-        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-        double distance = earthRadius * c;
-
-        int meterConversion = 1609;
-
-        return (distance*meterConversion/1000);
-    }
-
-
     @Override
     protected void onSaveInstanceState(@NotNull Bundle outState) {
         super.onSaveInstanceState(outState);
@@ -225,11 +221,63 @@ public class TourismNatureDetail extends AppCompatActivity implements OnMapReady
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.favorite_menu, menu);
+
+        final MenuItem item = menu.findItem(R.id.add_to_favorite);
+        final String uid = user.getUid();
+        favoritedb.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.child(uid).child(natureKey).exists()) {
+                    item.setIcon(R.drawable.ic_bookmarkadded_24dp);
+                } else {
+                    item.setIcon(R.drawable.ic_unbookmarked_24dp);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(final MenuItem item) {
         // Respond to the action bar's Up/Home button
         if (item.getItemId() == android.R.id.home) {
-            finish();
+            onBackPressed();
             return true;
+        }
+        if (item.getItemId() == R.id.add_to_favorite) {
+
+            final String uid = user.getUid();
+            favoritedb.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                    DataSnapshot favorit = dataSnapshot.child(uid);
+                    if (isFavorite) {
+                        item.setIcon(R.drawable.ic_unbookmarked_24dp);
+                        favoritedb.getRef().child(uid).child(natureKey).removeValue();
+                        isFavorite = false;
+
+                    } else {
+                        item.setIcon(R.drawable.ic_bookmarkadded_24dp);
+                        favoritedb.getRef().child(uid).child(natureKey).setValue(true);
+                        isFavorite = true;
+                    }
+
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+            return true;
+
         }
         return super.onOptionsItemSelected(item);
     }
