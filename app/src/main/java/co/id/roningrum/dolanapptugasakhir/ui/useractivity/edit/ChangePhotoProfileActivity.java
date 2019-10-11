@@ -67,12 +67,12 @@ public class ChangePhotoProfileActivity extends AppCompatActivity implements Vie
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chang_photo_profile);
         Button btnUploadPhoto = findViewById(R.id.btn_upload_image_from_device);
-        Button btnRemovePhoto = findViewById(R.id.btn_remove_image_upload);
+//        Button btnRemovePhoto = findViewById(R.id.btn_remove_image_upload);
         Button btnSaveChange = findViewById(R.id.btn_save_upload_image_from_device);
         Button btnCancelChange = findViewById(R.id.btn_cancel_upload);
         photo_profile = findViewById(R.id.photo_akun_beranda);
 
-        btnRemovePhoto.setOnClickListener(this);
+//        btnRemovePhoto.setOnClickListener(this);
         btnUploadPhoto.setOnClickListener(this);
         btnSaveChange.setOnClickListener(this);
         btnCancelChange.setOnClickListener(this);
@@ -105,9 +105,9 @@ public class ChangePhotoProfileActivity extends AppCompatActivity implements Vie
             case R.id.btn_upload_image_from_device:
                 uploadPhotoFromFile();
                 break;
-            case R.id.btn_remove_image_upload:
-                removePhotoProcess();
-                break;
+//            case R.id.btn_remove_image_upload:
+//                removePhotoProcess();
+//                break;
             case R.id.btn_save_upload_image_from_device:
                 uploadPhotoProcess();
                 break;
@@ -121,27 +121,27 @@ public class ChangePhotoProfileActivity extends AppCompatActivity implements Vie
         finish();
     }
 
-    private void removePhotoProcess() {
-        if (photo_location != null) {
-            final DatabaseReference profileDb = dbProfileRef.getRef().child(changePhotoUser.getUid());
-            profileDb.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    if (changePhotoUser != null && dataSnapshot.exists()) {
-                        profileDb.child("photo_user").setValue("https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png");
-                        Log.d(TAG, "Profile Data sukses ke Daftar");
-                    }
-
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
-                    Log.e(TAG, "" + databaseError.getMessage());
-                }
-            });
-        }
-
-    }
+//    private void removePhotoProcess() {
+//        if (photo_location != null) {
+//            final DatabaseReference profileDb = dbProfileRef.getRef().child(changePhotoUser.getUid());
+//            profileDb.addListenerForSingleValueEvent(new ValueEventListener() {
+//                @Override
+//                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                    if (changePhotoUser != null && dataSnapshot.exists()) {
+//                        profileDb.child("photo_user").setValue("https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png");
+//                        Log.d(TAG, "Profile Data sukses ke Daftar");
+//                    }
+//
+//                }
+//
+//                @Override
+//                public void onCancelled(@NonNull DatabaseError databaseError) {
+//                    Log.e(TAG, "" + databaseError.getMessage());
+//                }
+//            });
+//        }
+//
+//    }
 
     private void uploadPhotoProcess() {
         if (photo_location != null) {
