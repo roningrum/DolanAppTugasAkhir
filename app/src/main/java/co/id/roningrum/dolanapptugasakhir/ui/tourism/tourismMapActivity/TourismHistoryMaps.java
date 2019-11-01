@@ -35,19 +35,16 @@ import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import co.id.roningrum.dolanapptugasakhir.R;
+import co.id.roningrum.dolanapptugasakhir.controller.FirebaseConstant;
 import co.id.roningrum.dolanapptugasakhir.model.Tourism;
 
 public class TourismHistoryMaps extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap historyMap;
-    private DatabaseReference historyRefMap;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,7 +54,6 @@ public class TourismHistoryMaps extends FragmentActivity implements OnMapReadyCa
                 .findFragmentById(R.id.history_map);
         assert mapFragment != null;
         mapFragment.getMapAsync(this);
-        historyRefMap = FirebaseDatabase.getInstance().getReference().child("Tourism");
     }
 
 
@@ -77,7 +73,7 @@ public class TourismHistoryMaps extends FragmentActivity implements OnMapReadyCa
 
     private void showHistoryMap(GoogleMap googleMap) {
         historyMap = googleMap;
-        Query historyMapQuery = historyRefMap.orderByChild("category_tourism").equalTo("alam");
+        Query historyMapQuery = FirebaseConstant.getTourismSejarah();
         historyMapQuery.addListenerForSingleValueEvent(new ValueEventListener() {
 
             @Override

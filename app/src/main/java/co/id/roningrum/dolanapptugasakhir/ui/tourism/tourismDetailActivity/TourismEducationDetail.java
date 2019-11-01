@@ -47,6 +47,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Objects;
 
 import co.id.roningrum.dolanapptugasakhir.R;
+import co.id.roningrum.dolanapptugasakhir.controller.FirebaseConstant;
 import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.handler.HaversineHandler;
 import co.id.roningrum.dolanapptugasakhir.model.Tourism;
@@ -76,7 +77,8 @@ public class TourismEducationDetail extends AppCompatActivity implements OnMapRe
     private double endLng;
     private double distance;
 
-    boolean isFavorite;
+    boolean isFavorite = false;
+    Menu menuItem;
     Tourism tourism = new Tourism();
     private String eduKey;
     private FirebaseUser user;
@@ -116,13 +118,31 @@ public class TourismEducationDetail extends AppCompatActivity implements OnMapRe
         if (eduKey == null) {
             throw new IllegalArgumentException("Must pass Extra");
         }
-        educationDetailRef = FirebaseDatabase.getInstance().getReference().child("Tourism").child(eduKey);
+        educationDetailRef = FirebaseConstant.TourismRef.child(eduKey);
         gpsHandler = new GPSHandler(this);
         favoritedb = FirebaseDatabase.getInstance().getReference("Favorite");
 
-
+        favoriteState();
         LoadEducationDetail();
 
+    }
+
+    private void favoriteState() {
+        final String uid = user.getUid();
+        favoritedb.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.child(uid).child(eduKey).exists()) {
+                    isFavorite = true;
+                    menuItem.getItem(0).setIcon(R.drawable.ic_bookmarkadded_24dp);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
     private void LoadEducationDetail() {
@@ -252,25 +272,18 @@ public class TourismEducationDetail extends AppCompatActivity implements OnMapRe
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.favorite_menu, menu);
+        menuItem = menu;
+        setFavorite();
+//        final MenuItem item = menu.findItem(R.id.add_to_favorite);
+        return true;
+    }
 
-        final MenuItem item = menu.findItem(R.id.add_to_favorite);
-        final String uid = user.getUid();
-        favoritedb.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.child(uid).child(eduKey).exists()) {
-                    item.setIcon(R.drawable.ic_bookmarkadded_24dp);
-                } else {
-                    item.setIcon(R.drawable.ic_unbookmarked_24dp);
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-        return super.onCreateOptionsMenu(menu);
+    private void setFavorite() {
+        if (isFavorite) {
+            menuItem.getItem(0).setIcon(R.drawable.ic_bookmarkadded_24dp);
+        } else {
+            menuItem.getItem(0).setIcon(R.drawable.ic_unbookmarked_24dp);
+        }
     }
 
     @Override
@@ -279,36 +292,74 @@ public class TourismEducationDetail extends AppCompatActivity implements OnMapRe
         if (item.getItemId() == android.R.id.home) {
             onBackPressed();
             return true;
-        }
-        if (item.getItemId() == R.id.add_to_favorite) {
+        } else if (item.getItemId() == R.id.add_to_favorite) {
 
-            final String uid = user.getUid();
-            favoritedb.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                    DataSnapshot favorit = dataSnapshot.child(uid);
-                    if (isFavorite) {
-                        item.setIcon(R.drawable.ic_unbookmarked_24dp);
-                        favoritedb.getRef().child(uid).child(eduKey).removeValue();
-                        isFavorite = false;
-
-                    } else {
-                        item.setIcon(R.drawable.ic_bookmarkadded_24dp);
-                        favoritedb.getRef().child(uid).child(eduKey).setValue(true);
-                        isFavorite = true;
-                    }
-
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                }
-            });
+            if (isFavorite) {
+                removeFavorite();
+            } else {
+                addToFavorite();
+            }
+            isFavorite = !isFavorite;
+            setFavorite();
             return true;
-
+        } else {
+            return super.onOptionsItemSelected(item);
         }
-        return super.onOptionsItemSelected(item);
+
+    }
+
+    private void removeFavorite() {
+        final String uid = user.getUid();
+        favoritedb.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                favoritedb.getRef().child(uid).child(eduKey).removeValue();
+//                isFavorite = false;
+//                if (isFavorite) {
+//                    item.setIcon(R.drawable.ic_unbookmarked_24dp);
+//
+//
+//                } else {
+//                    item.setIcon(R.drawable.ic_bookmarkadded_24dp);
+//
+//                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+    }
+
+    private void addToFavorite() {
+        final String uid = user.getUid();
+        favoritedb.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                    DataSnapshot favorit = dataSnapshot.child(uid);
+                favoritedb.getRef().child(uid).child(eduKey).setValue(true);
+//                isFavorite = true;
+//                if (isFavorite) {
+//                    item.setIcon(R.drawable.ic_unbookmarked_24dp);
+//                    favoritedb.getRef().child(uid).child(eduKey).removeValue();
+//                    isFavorite = false;
+//
+//                } else {
+//                    item.setIcon(R.drawable.ic_bookmarkadded_24dp);
+//
+//                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
     }
 
 }

@@ -36,13 +36,12 @@ import com.facebook.shimmer.ShimmerFrameLayout;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 
 import co.id.roningrum.dolanapptugasakhir.R;
+import co.id.roningrum.dolanapptugasakhir.controller.FirebaseConstant;
 import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.handler.NetworkHelper;
 import co.id.roningrum.dolanapptugasakhir.handler.PermissionHandler;
@@ -69,7 +68,6 @@ public class TourismHistoryActivity extends AppCompatActivity {
         shimmerFrameLayout = findViewById(R.id.shimmer_view_container);
         rvHistoryList.setLayoutManager(new LinearLayoutManager(this));
         rvHistoryList.setHasFixedSize(true);
-        ArrayList<Tourism> tourisms = new ArrayList<>();
         checkConnection();
         setSupportActionBar(toolbarHistory);
 
@@ -85,8 +83,7 @@ public class TourismHistoryActivity extends AppCompatActivity {
 
     private void showData() {
         if (havePermission()) {
-            DatabaseReference historyCategoryDB = FirebaseDatabase.getInstance().getReference();
-            Query historyQuery = historyCategoryDB.child("Tourism").orderByChild("category_tourism").equalTo("sejarah");
+            Query historyQuery = FirebaseConstant.getTourismSejarah();
             FirebaseRecyclerOptions<Tourism> historyOptions = new FirebaseRecyclerOptions.Builder<Tourism>()
                     .setQuery(historyQuery, Tourism.class)
                     .build();

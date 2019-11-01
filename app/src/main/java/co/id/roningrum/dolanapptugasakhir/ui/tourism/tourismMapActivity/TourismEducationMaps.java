@@ -41,6 +41,7 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import co.id.roningrum.dolanapptugasakhir.R;
+import co.id.roningrum.dolanapptugasakhir.controller.FirebaseConstant;
 import co.id.roningrum.dolanapptugasakhir.model.Tourism;
 
 public class TourismEducationMaps extends FragmentActivity implements OnMapReadyCallback {
@@ -80,7 +81,7 @@ public class TourismEducationMaps extends FragmentActivity implements OnMapReady
     private void showEducationMap(GoogleMap googleMap) {
 
         educationPlaceMap = googleMap;
-        Query educationMapQuery = educationRefMap.orderByChild("category_tourism").equalTo("edukasi");
+        Query educationMapQuery = FirebaseConstant.getTourismEducation();
         educationMapQuery.addListenerForSingleValueEvent(new ValueEventListener() {
 
             @Override

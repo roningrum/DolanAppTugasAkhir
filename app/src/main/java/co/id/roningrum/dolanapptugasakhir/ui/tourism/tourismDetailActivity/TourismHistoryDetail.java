@@ -47,6 +47,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Objects;
 
 import co.id.roningrum.dolanapptugasakhir.R;
+import co.id.roningrum.dolanapptugasakhir.controller.FirebaseConstant;
 import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.handler.HaversineHandler;
 import co.id.roningrum.dolanapptugasakhir.model.Tourism;
@@ -119,7 +120,7 @@ public class TourismHistoryDetail extends AppCompatActivity implements OnMapRead
         if (historyKey == null) {
             throw new IllegalArgumentException("Must pass Extra");
         }
-        historyDetailRef = FirebaseDatabase.getInstance().getReference().child("Tourism").child(historyKey);
+        historyDetailRef = FirebaseConstant.TourismRef.child(historyKey);
 //        Query historyQuery = historyDetailRef.orderByChild("category_tourism").equalTo("sejarah");
         gpsHandler = new GPSHandler(this);
 
