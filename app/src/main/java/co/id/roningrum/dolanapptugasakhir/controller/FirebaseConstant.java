@@ -58,5 +58,10 @@ public class FirebaseConstant {
         return query;
     }
 
+    public static Query getTourismDesa() {
+        query = TourismRef.orderByChild("catgeory_tourism").equalTo("desa");
+        return query;
+    }
+
 
 }

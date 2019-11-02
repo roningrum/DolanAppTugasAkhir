@@ -41,6 +41,7 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import co.id.roningrum.dolanapptugasakhir.R;
+import co.id.roningrum.dolanapptugasakhir.controller.FirebaseConstant;
 import co.id.roningrum.dolanapptugasakhir.model.Tourism;
 
 public class TourismVillageMaps extends FragmentActivity implements OnMapReadyCallback {
@@ -77,7 +78,7 @@ public class TourismVillageMaps extends FragmentActivity implements OnMapReadyCa
 
     private void showVillageMap(GoogleMap googleMap) {
         villageMap = googleMap;
-        Query villageMapQuery = villageRefMap.orderByChild("category_tourism").equalTo("desa");
+        Query villageMapQuery = FirebaseConstant.getTourismDesa();
         villageMapQuery.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

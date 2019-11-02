@@ -36,13 +36,13 @@ import com.facebook.shimmer.ShimmerFrameLayout;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
 import co.id.roningrum.dolanapptugasakhir.R;
+import co.id.roningrum.dolanapptugasakhir.controller.FirebaseConstant;
 import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.handler.NetworkHelper;
 import co.id.roningrum.dolanapptugasakhir.handler.PermissionHandler;
@@ -82,8 +82,7 @@ public class TourismVillageActivity extends AppCompatActivity {
 
     private void showData() {
         if (havePermission()) {
-            DatabaseReference villageCategoryDB = FirebaseDatabase.getInstance().getReference();
-            Query villageQuery = villageCategoryDB.child("Tourism").orderByChild("category_tourism").equalTo("desa");
+            Query villageQuery = FirebaseConstant.getTourismDesa();
             FirebaseRecyclerOptions<Tourism> villageOptions = new FirebaseRecyclerOptions.Builder<Tourism>()
                     .setQuery(villageQuery, Tourism.class)
                     .build();
