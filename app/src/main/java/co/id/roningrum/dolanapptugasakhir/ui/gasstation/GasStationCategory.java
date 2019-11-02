@@ -36,12 +36,12 @@ import com.facebook.shimmer.ShimmerFrameLayout;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 
 import java.util.Arrays;
 
 import co.id.roningrum.dolanapptugasakhir.R;
+import co.id.roningrum.dolanapptugasakhir.controller.FirebaseConstant;
 import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.handler.NetworkHelper;
 import co.id.roningrum.dolanapptugasakhir.handler.PermissionHandler;
@@ -79,8 +79,7 @@ public class GasStationCategory extends AppCompatActivity {
 
     private void showGasData() {
         if (havePermission()) {
-            DatabaseReference spbuRef = FirebaseDatabase.getInstance().getReference();
-            Query spbuQuery = spbuRef.child("GasStation");
+            Query spbuQuery = FirebaseConstant.getGas();
             FirebaseRecyclerOptions<GasStation> gasOptions = new FirebaseRecyclerOptions.Builder<GasStation>()
                     .setQuery(spbuQuery, GasStation.class)
                     .build();

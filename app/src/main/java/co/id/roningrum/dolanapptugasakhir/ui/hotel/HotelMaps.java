@@ -36,11 +36,11 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.maps.android.clustering.ClusterManager;
 
 import co.id.roningrum.dolanapptugasakhir.R;
+import co.id.roningrum.dolanapptugasakhir.controller.FirebaseConstant;
 import co.id.roningrum.dolanapptugasakhir.model.Hotel;
 
 public class HotelMaps extends FragmentActivity implements OnMapReadyCallback {
@@ -58,7 +58,7 @@ public class HotelMaps extends FragmentActivity implements OnMapReadyCallback {
                 .findFragmentById(R.id.map);
         assert mapFragment != null;
         mapFragment.getMapAsync(this);
-        hotelRefMap = FirebaseDatabase.getInstance().getReference().child("Hotel");
+        hotelRefMap = FirebaseConstant.HotelRef;
     }
 
 
@@ -73,7 +73,6 @@ public class HotelMaps extends FragmentActivity implements OnMapReadyCallback {
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
-
         showHotelMap(googleMap);
 
     }

@@ -41,7 +41,6 @@ import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
@@ -50,9 +49,10 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Objects;
 
 import co.id.roningrum.dolanapptugasakhir.R;
+import co.id.roningrum.dolanapptugasakhir.controller.FirebaseConstant;
 import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.model.Hotel;
-import co.id.roningrum.dolanapptugasakhir.util.HaversineHandler;
+import co.id.roningrum.dolanapptugasakhir.util.Util;
 
 public class HotelDetail extends AppCompatActivity implements OnMapReadyCallback, View.OnClickListener {
     public static final String EXTRA_HOTEL_KEY = "hotel_key";
@@ -110,7 +110,7 @@ public class HotelDetail extends AppCompatActivity implements OnMapReadyCallback
         if (hotelKey == null) {
             throw new IllegalArgumentException("Must pass Extra");
         }
-        hotelDetailRef = FirebaseDatabase.getInstance().getReference().child("Hotel").child(hotelKey);
+        hotelDetailRef = FirebaseConstant.HotelRef.child(hotelKey);
         gpsHandler = new GPSHandler(this);
 
         btnOrderHotel1.setOnClickListener(this);
@@ -132,7 +132,7 @@ public class HotelDetail extends AppCompatActivity implements OnMapReadyCallback
                     assert hotel != null;
                     endlat = hotel.getLat_location_hotel();
                     endLng = hotel.getLng_location_hotel();
-                    distance = HaversineHandler.calculateDistance(startLat, startlng, endlat, endLng);
+                    distance = Util.calculateDistance(startLat, startlng, endlat, endLng);
 
                     @SuppressLint("DefaultLocale") String distanceFormat = String.format("%.2f", distance);
                     tvDistanceHotelEducation.setText("" + distanceFormat + " km");

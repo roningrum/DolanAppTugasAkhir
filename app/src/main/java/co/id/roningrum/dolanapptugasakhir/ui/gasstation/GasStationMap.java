@@ -28,10 +28,10 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import co.id.roningrum.dolanapptugasakhir.R;
+import co.id.roningrum.dolanapptugasakhir.controller.FirebaseConstant;
 import co.id.roningrum.dolanapptugasakhir.model.GasStation;
 
 public class GasStationMap extends FragmentActivity implements OnMapReadyCallback {
@@ -48,7 +48,7 @@ public class GasStationMap extends FragmentActivity implements OnMapReadyCallbac
                 .findFragmentById(R.id.gas_map);
         assert mapFragment != null;
         mapFragment.getMapAsync(this);
-        gasMapRef = FirebaseDatabase.getInstance().getReference().child("GasStation");
+        gasMapRef = FirebaseConstant.GasRef;
     }
 
 

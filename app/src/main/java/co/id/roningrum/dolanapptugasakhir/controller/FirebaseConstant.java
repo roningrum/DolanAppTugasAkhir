@@ -20,9 +20,13 @@ import com.google.firebase.database.Query;
 
 public class FirebaseConstant {
     public static DatabaseReference TourismRef = FirebaseDatabase.getInstance().getReference().child("Tourism");
-    private static DatabaseReference HotelRef = FirebaseDatabase.getInstance().getReference().child("Hotel");
+    public static DatabaseReference HotelRef = FirebaseDatabase.getInstance().getReference().child("Hotel");
+    public static DatabaseReference GasRef = FirebaseDatabase.getInstance().getReference().child("GasStation");
     private static Query query = null;
 
+    /**
+     * Untuk memanggil data wisata berdasarkan kategori
+     */
     public static Query getTourismEducation() {
         query = TourismRef.orderByChild("category_tourism").equalTo("edukasi");
         return query;
@@ -68,4 +72,14 @@ public class FirebaseConstant {
         return query;
     }
 
+
+    public static Query getHotel() {
+        query = HotelRef;
+        return query;
+    }
+
+    public static Query getGas() {
+        query = GasRef;
+        return query;
+    }
 }

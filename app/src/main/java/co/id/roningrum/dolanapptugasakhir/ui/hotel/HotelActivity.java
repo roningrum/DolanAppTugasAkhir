@@ -36,12 +36,12 @@ import com.facebook.shimmer.ShimmerFrameLayout;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 
 import java.util.Arrays;
 
 import co.id.roningrum.dolanapptugasakhir.R;
+import co.id.roningrum.dolanapptugasakhir.controller.FirebaseConstant;
 import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.handler.NetworkHelper;
 import co.id.roningrum.dolanapptugasakhir.handler.PermissionHandler;
@@ -78,8 +78,7 @@ public class HotelActivity extends AppCompatActivity {
 
     private void showHotelData() {
         if (havePermission()) {
-            DatabaseReference hotelRef = FirebaseDatabase.getInstance().getReference();
-            Query hotelQuery = hotelRef.child("Hotel");
+            Query hotelQuery = FirebaseConstant.getHotel();
             FirebaseRecyclerOptions<Hotel> hotelOptions = new FirebaseRecyclerOptions.Builder<Hotel>()
                     .setQuery(hotelQuery, Hotel.class)
                     .build();
