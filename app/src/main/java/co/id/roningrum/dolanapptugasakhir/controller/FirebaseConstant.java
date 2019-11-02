@@ -17,6 +17,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 
+
 public class FirebaseConstant {
     public static DatabaseReference TourismRef = FirebaseDatabase.getInstance().getReference().child("Tourism");
     private static DatabaseReference HotelRef = FirebaseDatabase.getInstance().getReference().child("Hotel");
@@ -29,6 +30,16 @@ public class FirebaseConstant {
 
     public static Query getTourismSejarah() {
         query = TourismRef.orderByChild("category_tourism").equalTo("sejarah");
+        return query;
+    }
+
+    public static Query getTourismAlam() {
+        query = TourismRef.orderByChild("category_tourism").equalTo("alam");
+        return query;
+    }
+
+    public static Query getTourismKuliner() {
+        query = TourismRef.orderByChild("catgeory_tourism").equalTo("kuliner");
         return query;
     }
 }

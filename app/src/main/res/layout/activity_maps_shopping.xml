@@ -29,7 +29,6 @@
         app:titleTextColor="@color/blackTextPrimary" />
 
     <FrameLayout
-        android:id="@+id/frame_layout_shopping_map"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/toolbar_shopping_map">

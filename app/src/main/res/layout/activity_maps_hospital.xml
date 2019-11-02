@@ -14,7 +14,6 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/map_activity"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.hospital.HospitalMap">
@@ -26,7 +25,6 @@
         app:title="@string/title_activity_hospital_maps" />
 
     <FrameLayout
-        android:id="@+id/frame_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/toolbar_hospital_map">

@@ -88,7 +88,6 @@
                         android:textSize="24sp" />
 
                     <LinearLayout
-                        android:id="@+id/address_layout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
@@ -143,7 +142,6 @@
                 android:background="#DEDEDE" />
 
             <TextView
-                android:id="@+id/location_title_place_spbu_detail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"

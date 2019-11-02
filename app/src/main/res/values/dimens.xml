@@ -11,8 +11,4 @@
   ~ limitations under the License.
   -->
 
-<resources>
-    <dimen name="app_bar_height">147dp</dimen>
-    <dimen name="fab_margin">16dp</dimen>
-    <dimen name="text_margin">16dp</dimen>
-</resources>
+<resources></resources>

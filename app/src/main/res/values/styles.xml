@@ -27,26 +27,12 @@
 
     <style name="AppTheme" parent="AppTheme.Base" />
 
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
-
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
-
     <!--<style name="alternateTheme" parent="Theme.AppCompat.Light.NoActionBar">-->
     <!--<item name="colorPrimary">@color/colorPrimary</item>-->
     <!--<item name="colorPrimaryDark">@color/orangePrimaryDark</item>-->
     <!--<item name="colorAccent">@color/colorAccent</item>-->
     <!--</style>-->
 
-
-    <style name="CustomActionBar" parent="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
-        <item name="android:windowActionBarOverlay">true</item>
-        <!-- Support library compatibility -->
-        <item name="windowActionBarOverlay">true</item>
-    </style>
-
-    <style name="Transparent">
-        <item name="android:windowNoTitle">true</item>
-    </style>
 
     <style name="ActionBarThemeOverlay">
         <item name="android:textColorPrimary">@color/prim_color</item>
@@ -57,18 +43,9 @@
         <item name="android:textColorHint">@color/hint_color</item>
     </style>
 
-    <style name="CollapsingToolbarLayoutExpandedTextStyle" parent="AppTheme">
-        <item name="android:textColor">@android:color/transparent</item>
-        <item name="android:textSize">0sp</item>
-    </style>
-
     <color name="prim_color">#0f0f0f</color>
     <color name="normal_color">#ababab</color>
     <color name="high_color">#DEDEDE</color>
     <color name="hint_color">#676767</color>
 
-    <style name="AppTheme.NoActionBar">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-    </style>
 </resources>

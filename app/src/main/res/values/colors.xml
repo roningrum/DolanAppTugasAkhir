@@ -17,10 +17,8 @@
     <color name="colorAccent">#EE4919</color>
     <color name="orangePrimary">#FF9C09</color>
 
-    <color name="orangeFontLink">#FC7921</color>
     <color name="txtWhitePrimary">#FFFFFF</color>
     <color name="bgWhiteGetStarted">#99FFFFFF</color>
-    <color name="greySubTextPrimary">#7B726A</color>
     <color name="greyColorSelected">#A1A1A1</color>
     <!-- For Text Color -->
     <color name="blackTextPrimary">#1D1D1D</color>

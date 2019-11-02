@@ -19,7 +19,6 @@
     tools:context=".ui.tourism.tourismActivity.TourismNatureActivity">
 
     <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/appbar_layout_nature"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fitsSystemWindows="true"
@@ -61,7 +60,6 @@
                 app:srcCompat="@drawable/searchsignal" />
 
             <TextView
-                android:id="@+id/tv_nosignal_Title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"

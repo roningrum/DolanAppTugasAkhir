@@ -54,7 +54,6 @@
         app:layout_constraintTop_toBottomOf="@+id/textView3">
 
         <include
-            android:id="@+id/layout_info_profile"
             layout="@layout/layout_info_profile_fragment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

@@ -19,7 +19,6 @@
     tools:context=".ui.useractivity.login.SignInOptionActivity">
 
     <ImageView
-        android:id="@+id/imageView3"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/imagedolanbg"
@@ -101,7 +100,6 @@
         app:layout_constraintVertical_bias="0.19">
 
         <TextView
-            android:id="@+id/ask_to_register"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/montserrat"

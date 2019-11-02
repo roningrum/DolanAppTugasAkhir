@@ -13,7 +13,9 @@
 
 package co.id.roningrum.dolanapptugasakhir.model;
 
-public class Tourism {
+import java.io.Serializable;
+
+public class Tourism implements Serializable {
     private String name_tourism;
     private String location_tourism;
     private String info_tourism;

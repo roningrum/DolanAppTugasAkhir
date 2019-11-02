@@ -19,14 +19,12 @@
     tools:context=".ui.homefragment.HomeFragment">
 
     <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/appbar_fragment_home"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fitsSystemWindows="true"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
         <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar_top_fragment_home"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="@color/txtWhitePrimary"

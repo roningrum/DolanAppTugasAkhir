@@ -19,7 +19,6 @@
     tools:context=".ui.police.PoliceCategory">
 
     <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/appbar_layout_police"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fitsSystemWindows="true"

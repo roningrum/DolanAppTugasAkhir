@@ -86,7 +86,6 @@
                         android:textSize="24sp" />
 
                     <LinearLayout
-                        android:id="@+id/address_layout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="24dp"
@@ -143,7 +142,6 @@
                 android:background="#DEDEDE" />
 
             <TextView
-                android:id="@+id/info_title_place_religi_detail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="14dp"
@@ -163,7 +161,6 @@
                 android:textSize="14sp" />
 
             <TextView
-                android:id="@+id/location_title_place_religi_detail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="48dp"
@@ -186,7 +183,6 @@
             </FrameLayout>
 
             <TextView
-                android:id="@+id/Photo_title_place_religi_detail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="48dp"
