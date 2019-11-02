@@ -36,8 +36,6 @@ import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import org.jetbrains.annotations.NotNull;
@@ -45,6 +43,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Objects;
 
 import co.id.roningrum.dolanapptugasakhir.R;
+import co.id.roningrum.dolanapptugasakhir.controller.FirebaseConstant;
 import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.handler.HaversineHandler;
 import co.id.roningrum.dolanapptugasakhir.model.Tourism;
@@ -109,8 +108,7 @@ public class TourismReligiDetail extends AppCompatActivity implements OnMapReady
         if (religiKey == null) {
             throw new IllegalArgumentException("Must pass Extra");
         }
-        religiDetailRef = FirebaseDatabase.getInstance().getReference().child("Tourism").child(religiKey);
-        Query religiQuery = religiDetailRef.orderByChild("category_tourism").equalTo("religi");
+        religiDetailRef = FirebaseConstant.TourismRef.child(religiKey);
         gpsHandler = new GPSHandler(this);
         LoadReligiDetail();
     }

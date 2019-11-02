@@ -35,18 +35,16 @@ import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import co.id.roningrum.dolanapptugasakhir.R;
+import co.id.roningrum.dolanapptugasakhir.controller.FirebaseConstant;
 import co.id.roningrum.dolanapptugasakhir.model.Tourism;
 
 public class TourismReligiMaps extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap religiPlaceMap;
-    private DatabaseReference religiRefMap;
 
 
     @Override
@@ -58,7 +56,6 @@ public class TourismReligiMaps extends FragmentActivity implements OnMapReadyCal
                 .findFragmentById(R.id.religi_tourism_map);
         assert mapFragment != null;
         mapFragment.getMapAsync(this);
-        religiRefMap = FirebaseDatabase.getInstance().getReference().child("Tourism");
     }
 
 
@@ -78,7 +75,7 @@ public class TourismReligiMaps extends FragmentActivity implements OnMapReadyCal
 
     private void showReligiMap(GoogleMap googleMap) {
         religiPlaceMap = googleMap;
-        Query religiMapQuery = religiRefMap.orderByChild("category_tourism").equalTo("religi");
+        Query religiMapQuery = FirebaseConstant.getTourismReligi();
         religiMapQuery.addListenerForSingleValueEvent(new ValueEventListener() {
 
             @Override

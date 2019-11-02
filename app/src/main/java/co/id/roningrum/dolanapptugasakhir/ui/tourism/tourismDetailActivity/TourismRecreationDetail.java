@@ -39,7 +39,6 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.like.LikeButton;
 import com.like.OnLikeListener;
@@ -49,6 +48,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Objects;
 
 import co.id.roningrum.dolanapptugasakhir.R;
+import co.id.roningrum.dolanapptugasakhir.controller.FirebaseConstant;
 import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.handler.HaversineHandler;
 import co.id.roningrum.dolanapptugasakhir.model.Tourism;
@@ -115,8 +115,7 @@ public class TourismRecreationDetail extends AppCompatActivity implements OnMapR
         if (recreationKey == null) {
             throw new IllegalArgumentException("Must pass Extra");
         }
-        recreationDetailRef = FirebaseDatabase.getInstance().getReference().child("Tourism").child(recreationKey);
-        Query recreationQuery = recreationDetailRef.orderByChild("category_tourism").equalTo("rekreasi");
+        recreationDetailRef = FirebaseConstant.TourismRef.child(recreationKey);
         gpsHandler = new GPSHandler(this);
 
         LoadRecreationDetail();

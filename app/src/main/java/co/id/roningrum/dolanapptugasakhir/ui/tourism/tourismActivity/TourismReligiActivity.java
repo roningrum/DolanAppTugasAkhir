@@ -36,13 +36,13 @@ import com.facebook.shimmer.ShimmerFrameLayout;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
 import co.id.roningrum.dolanapptugasakhir.R;
+import co.id.roningrum.dolanapptugasakhir.controller.FirebaseConstant;
 import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.handler.NetworkHelper;
 import co.id.roningrum.dolanapptugasakhir.handler.PermissionHandler;
@@ -82,8 +82,7 @@ public class TourismReligiActivity extends AppCompatActivity {
 
     private void showData() {
         if (havePermission()) {
-            final DatabaseReference religiCategoryDB = FirebaseDatabase.getInstance().getReference();
-            Query religiquery = religiCategoryDB.child("Tourism").orderByChild("category_tourism").equalTo("religi");
+            Query religiquery = FirebaseConstant.getTourismReligi();
             FirebaseRecyclerOptions<Tourism> options = new FirebaseRecyclerOptions.Builder<Tourism>()
                     .setQuery(religiquery, Tourism.class)
                     .build();

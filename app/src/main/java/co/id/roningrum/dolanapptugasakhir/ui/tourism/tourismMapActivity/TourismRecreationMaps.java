@@ -35,18 +35,16 @@ import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import co.id.roningrum.dolanapptugasakhir.R;
+import co.id.roningrum.dolanapptugasakhir.controller.FirebaseConstant;
 import co.id.roningrum.dolanapptugasakhir.model.Tourism;
 
 public class TourismRecreationMaps extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap recreationMap;
-    private DatabaseReference recreationRefMap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +55,6 @@ public class TourismRecreationMaps extends FragmentActivity implements OnMapRead
                 .findFragmentById(R.id.map);
         assert mapFragment != null;
         mapFragment.getMapAsync(this);
-        recreationRefMap = FirebaseDatabase.getInstance().getReference().child("Tourism");
     }
 
 
@@ -78,7 +75,7 @@ public class TourismRecreationMaps extends FragmentActivity implements OnMapRead
 
     private void showRecreationMap(GoogleMap googleMap) {
         recreationMap = googleMap;
-        Query recreationQuery = recreationRefMap.orderByChild("category_tourism").equalTo("rekreasi");
+        Query recreationQuery = FirebaseConstant.getTourismRekreasi();
         recreationQuery.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
