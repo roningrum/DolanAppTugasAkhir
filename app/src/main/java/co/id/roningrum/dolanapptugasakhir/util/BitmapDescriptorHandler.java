@@ -11,7 +11,7 @@
  * limitations under the License.
  */
 
-package co.id.roningrum.dolanapptugasakhir;
+package co.id.roningrum.dolanapptugasakhir.util;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -21,6 +21,8 @@ import android.os.Build;
 
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+
+import co.id.roningrum.dolanapptugasakhir.R;
 
 public class BitmapDescriptorHandler {
     public static BitmapDescriptor getBitmapDescriptor(Context context) {

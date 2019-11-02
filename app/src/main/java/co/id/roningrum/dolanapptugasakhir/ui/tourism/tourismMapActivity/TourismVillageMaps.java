@@ -32,10 +32,10 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
-import co.id.roningrum.dolanapptugasakhir.BitmapDescriptorHandler;
 import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.controller.FirebaseConstant;
 import co.id.roningrum.dolanapptugasakhir.model.Tourism;
+import co.id.roningrum.dolanapptugasakhir.util.BitmapDescriptorHandler;
 
 public class TourismVillageMaps extends FragmentActivity implements OnMapReadyCallback {
 

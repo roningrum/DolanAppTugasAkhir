@@ -47,8 +47,8 @@ import java.util.Objects;
 
 import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
-import co.id.roningrum.dolanapptugasakhir.handler.HaversineHandler;
 import co.id.roningrum.dolanapptugasakhir.model.Transportation;
+import co.id.roningrum.dolanapptugasakhir.util.HaversineHandler;
 
 public class TransportationBusDetail extends AppCompatActivity implements OnMapReadyCallback {
     public static final String EXTRA_BUS_KEY = "busKey";

@@ -11,7 +11,7 @@
  * limitations under the License.
  */
 
-package co.id.roningrum.dolanapptugasakhir.handler;
+package co.id.roningrum.dolanapptugasakhir.util;
 
 public class HaversineHandler {
 

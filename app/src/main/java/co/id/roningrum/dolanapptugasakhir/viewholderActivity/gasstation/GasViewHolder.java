@@ -24,8 +24,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 
 import co.id.roningrum.dolanapptugasakhir.R;
-import co.id.roningrum.dolanapptugasakhir.handler.HaversineHandler;
 import co.id.roningrum.dolanapptugasakhir.model.GasStation;
+import co.id.roningrum.dolanapptugasakhir.util.HaversineHandler;
 
 public class GasViewHolder extends RecyclerView.ViewHolder {
     private final TextView nameSPBU;

@@ -34,6 +34,7 @@ import co.id.roningrum.dolanapptugasakhir.R;
  */
 
 public class PermissionHandler {
+
     @SuppressLint("StaticFieldLeak")
     private static PermissionHandler permissionHandler;
     private static final int REQUEST_CODE = 1;
