@@ -38,12 +38,12 @@ import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.Objects;
 
 import co.id.roningrum.dolanapptugasakhir.R;
+import co.id.roningrum.dolanapptugasakhir.controller.FirebaseConstant;
 import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.model.Police;
 import co.id.roningrum.dolanapptugasakhir.util.HaversineHandler;
@@ -103,7 +103,7 @@ public class PoliceDetail extends AppCompatActivity implements OnMapReadyCallbac
         if (policeKey == null) {
             throw new IllegalArgumentException("Must pass Extra");
         }
-        policeDetailRef = FirebaseDatabase.getInstance().getReference().child("Police").child(policeKey);
+        policeDetailRef = FirebaseConstant.PoliceRef.child(policeKey);
         gpsHandler = new GPSHandler(this);
 
         LoadPoliceDetail();

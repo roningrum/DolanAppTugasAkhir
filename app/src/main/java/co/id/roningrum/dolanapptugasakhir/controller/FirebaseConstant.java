@@ -23,6 +23,9 @@ public class FirebaseConstant {
     public static DatabaseReference HotelRef = FirebaseDatabase.getInstance().getReference().child("Hotel");
     public static DatabaseReference GasRef = FirebaseDatabase.getInstance().getReference().child("GasStation");
     public static DatabaseReference HospitalRef = FirebaseDatabase.getInstance().getReference().child("Hospital");
+    public static DatabaseReference PoliceRef = FirebaseDatabase.getInstance().getReference().child("Police");
+
+
     private static Query query = null;
 
     /**
@@ -73,7 +76,7 @@ public class FirebaseConstant {
         return query;
     }
 
-
+    // untuk memanggil data bertipe Query data Hotel, Hospital, Gas dan Police;
     public static Query getHotel() {
         query = HotelRef;
         return query;
@@ -86,6 +89,11 @@ public class FirebaseConstant {
 
     public static Query getHospital() {
         query = HospitalRef;
+        return query;
+    }
+
+    public static Query getPolice() {
+        query = PoliceRef;
         return query;
     }
 }
