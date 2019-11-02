@@ -70,7 +70,6 @@ public class TourismShoppingMaps extends FragmentActivity implements OnMapReadyC
     @Override
     public void onMapReady(GoogleMap googleMap) {
         shoppingMap = googleMap;
-
         Query shoppingMapQuery = FirebaseConstant.getTourismBelanja();
         shoppingMapQuery.addListenerForSingleValueEvent(new ValueEventListener() {
 
