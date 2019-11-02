@@ -63,5 +63,9 @@ public class FirebaseConstant {
         return query;
     }
 
+    public static Query getTourismAir() {
+        query = TourismRef.orderByChild("category_tourism").equalTo("air");
+        return query;
+    }
 
 }

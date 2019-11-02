@@ -36,8 +36,6 @@ import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import org.jetbrains.annotations.NotNull;
@@ -45,6 +43,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Objects;
 
 import co.id.roningrum.dolanapptugasakhir.R;
+import co.id.roningrum.dolanapptugasakhir.controller.FirebaseConstant;
 import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.model.Tourism;
 import co.id.roningrum.dolanapptugasakhir.util.HaversineHandler;
@@ -106,8 +105,7 @@ public class TourismWaterDetail extends AppCompatActivity implements OnMapReadyC
             throw new IllegalArgumentException("Must pass Extra");
         }
 
-        waterDetailRef = FirebaseDatabase.getInstance().getReference().child("Tourism").child(waterKey);
-        Query waterQuery = waterDetailRef.orderByChild("category_tourism").equalTo("air");
+        waterDetailRef = FirebaseConstant.TourismRef.child(waterKey);
         gpsHandler = new GPSHandler( this);
 
         LoadDetail();

@@ -29,19 +29,16 @@ import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import co.id.roningrum.dolanapptugasakhir.R;
+import co.id.roningrum.dolanapptugasakhir.controller.FirebaseConstant;
 import co.id.roningrum.dolanapptugasakhir.model.Tourism;
 
 public class TourismWaterMaps extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap waterMap;
-    private DatabaseReference waterRefMap;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,7 +48,6 @@ public class TourismWaterMaps extends FragmentActivity implements OnMapReadyCall
                 .findFragmentById(R.id.water_tourism_map);
         assert mapFragment != null;
         mapFragment.getMapAsync(this);
-        waterRefMap = FirebaseDatabase.getInstance().getReference().child("Tourism");
     }
 
 
@@ -71,7 +67,7 @@ public class TourismWaterMaps extends FragmentActivity implements OnMapReadyCall
 
     private void showWaterMap(GoogleMap googleMap) {
         waterMap = googleMap;
-        Query waterMapQuery = waterRefMap.orderByChild("category_tourism").equalTo("air");
+        Query waterMapQuery = FirebaseConstant.getTourismAir();
         waterMapQuery.addListenerForSingleValueEvent(new ValueEventListener() {
 
             @Override
