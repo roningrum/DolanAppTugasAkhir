@@ -28,10 +28,10 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import co.id.roningrum.dolanapptugasakhir.R;
+import co.id.roningrum.dolanapptugasakhir.controller.FirebaseConstant;
 import co.id.roningrum.dolanapptugasakhir.model.Hospital;
 
 public class HospitalMap extends FragmentActivity implements OnMapReadyCallback {
@@ -48,7 +48,7 @@ public class HospitalMap extends FragmentActivity implements OnMapReadyCallback 
                 .findFragmentById(R.id.hospital_map);
         assert mapFragment != null;
         mapFragment.getMapAsync(this);
-        hospitalMapRef = FirebaseDatabase.getInstance().getReference().child("Hospital");
+        hospitalMapRef = FirebaseConstant.HospitalRef;
     }
 
 

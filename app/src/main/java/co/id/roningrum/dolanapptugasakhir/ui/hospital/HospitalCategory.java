@@ -36,12 +36,12 @@ import com.facebook.shimmer.ShimmerFrameLayout;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 
 import java.util.Arrays;
 
 import co.id.roningrum.dolanapptugasakhir.R;
+import co.id.roningrum.dolanapptugasakhir.controller.FirebaseConstant;
 import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.handler.NetworkHelper;
 import co.id.roningrum.dolanapptugasakhir.handler.PermissionHandler;
@@ -79,8 +79,7 @@ public class HospitalCategory extends AppCompatActivity {
 
     private void showHospitalData() {
         if (havePermission()) {
-            DatabaseReference hospitalRef = FirebaseDatabase.getInstance().getReference();
-            Query hospitalQuery = hospitalRef.child("Hospital");
+            Query hospitalQuery = FirebaseConstant.getHospital();
             FirebaseRecyclerOptions<Hospital> policeOptions = new FirebaseRecyclerOptions.Builder<Hospital>()
                     .setQuery(hospitalQuery, Hospital.class)
                     .build();

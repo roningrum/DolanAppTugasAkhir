@@ -38,12 +38,12 @@ import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.Objects;
 
 import co.id.roningrum.dolanapptugasakhir.R;
+import co.id.roningrum.dolanapptugasakhir.controller.FirebaseConstant;
 import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.model.Hospital;
 import co.id.roningrum.dolanapptugasakhir.util.HaversineHandler;
@@ -102,7 +102,7 @@ public class HospitalDetail extends AppCompatActivity implements OnMapReadyCallb
         if (hospitalKey == null) {
             throw new IllegalArgumentException("Must pass Extra");
         }
-        hospitalDetailRef = FirebaseDatabase.getInstance().getReference().child("Hospital").child(hospitalKey);
+        hospitalDetailRef = FirebaseConstant.HospitalRef.child(hospitalKey);
         gpsHandler = new GPSHandler(this);
 
         LoadHospitaDetail();

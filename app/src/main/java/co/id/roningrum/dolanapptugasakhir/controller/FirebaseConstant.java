@@ -22,6 +22,7 @@ public class FirebaseConstant {
     public static DatabaseReference TourismRef = FirebaseDatabase.getInstance().getReference().child("Tourism");
     public static DatabaseReference HotelRef = FirebaseDatabase.getInstance().getReference().child("Hotel");
     public static DatabaseReference GasRef = FirebaseDatabase.getInstance().getReference().child("GasStation");
+    public static DatabaseReference HospitalRef = FirebaseDatabase.getInstance().getReference().child("Hospital");
     private static Query query = null;
 
     /**
@@ -80,6 +81,11 @@ public class FirebaseConstant {
 
     public static Query getGas() {
         query = GasRef;
+        return query;
+    }
+
+    public static Query getHospital() {
+        query = HospitalRef;
         return query;
     }
 }
