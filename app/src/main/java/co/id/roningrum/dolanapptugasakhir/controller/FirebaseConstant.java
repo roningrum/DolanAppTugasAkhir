@@ -52,4 +52,11 @@ public class FirebaseConstant {
         query = TourismRef.orderByChild("category_tourism").equalTo("religi");
         return query;
     }
+
+    public static Query getTourismBelanja() {
+        query = TourismRef.orderByChild("category_tourism").equalTo("belanja");
+        return query;
+    }
+
+
 }
