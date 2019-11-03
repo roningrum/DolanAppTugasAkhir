@@ -36,12 +36,12 @@ import com.facebook.shimmer.ShimmerFrameLayout;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 
 import java.util.Arrays;
 
 import co.id.roningrum.dolanapptugasakhir.R;
+import co.id.roningrum.dolanapptugasakhir.controller.FirebaseConstant;
 import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.handler.NetworkHelper;
 import co.id.roningrum.dolanapptugasakhir.handler.PermissionHandler;
@@ -50,7 +50,7 @@ import co.id.roningrum.dolanapptugasakhir.ui.transportation.transportationDetail
 import co.id.roningrum.dolanapptugasakhir.ui.transportation.transportationMapActivity.TransportationAirportMaps;
 import co.id.roningrum.dolanapptugasakhir.viewholderActivity.transportation.AirportViewHolder;
 
-public class TrasportationAirportActivity extends AppCompatActivity {
+public class TransportationAirportActivity extends AppCompatActivity {
     private RecyclerView rvAirportList;
     private ShimmerFrameLayout shimmerFrameLayout;
     private FirebaseRecyclerAdapter<Transportation, AirportViewHolder> airportFirebaseadapter;
@@ -81,8 +81,7 @@ public class TrasportationAirportActivity extends AppCompatActivity {
 
     private void showAirportData() {
         if (havePermission()) {
-            DatabaseReference airportRef = FirebaseDatabase.getInstance().getReference();
-            Query airportQuery = airportRef.child("Transportation").orderByChild("category_transportation").equalTo("airport");
+            Query airportQuery = FirebaseConstant.getTransportPesawat();
             FirebaseRecyclerOptions<Transportation> airportOptions = new FirebaseRecyclerOptions.Builder<Transportation>()
                     .setQuery(airportQuery, Transportation.class)
                     .build();
@@ -169,7 +168,7 @@ public class TrasportationAirportActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.petaMenu) {
-            startActivity(new Intent(TrasportationAirportActivity.this, TransportationAirportMaps.class));
+            startActivity(new Intent(TransportationAirportActivity.this, TransportationAirportMaps.class));
             return true;
         }
         return super.onOptionsItemSelected(item);

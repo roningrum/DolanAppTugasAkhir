@@ -34,10 +34,10 @@ import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismActivity.TourismReli
 import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismActivity.TourismShoppingActivity;
 import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismActivity.TourismVillageActivity;
 import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismActivity.TourismWaterActivity;
+import co.id.roningrum.dolanapptugasakhir.ui.transportation.transportationActivity.TransportationAirportActivity;
 import co.id.roningrum.dolanapptugasakhir.ui.transportation.transportationActivity.TransportationBusActivity;
 import co.id.roningrum.dolanapptugasakhir.ui.transportation.transportationActivity.TransportationShipActivity;
 import co.id.roningrum.dolanapptugasakhir.ui.transportation.transportationActivity.TransportationTrainActivity;
-import co.id.roningrum.dolanapptugasakhir.ui.transportation.transportationActivity.TrasportationAirportActivity;
 
 public class AllCategoryActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -118,7 +118,7 @@ public class AllCategoryActivity extends AppCompatActivity implements View.OnCli
                 startActivity(new Intent(AllCategoryActivity.this, HotelActivity.class));
                 break;
             case R.id.ln_bandara_public:
-                startActivity(new Intent(AllCategoryActivity.this, TrasportationAirportActivity.class));
+                startActivity(new Intent(AllCategoryActivity.this, TransportationAirportActivity.class));
                 break;
             case R.id.ln_bus_public:
                 startActivity(new Intent(AllCategoryActivity.this, TransportationBusActivity.class));

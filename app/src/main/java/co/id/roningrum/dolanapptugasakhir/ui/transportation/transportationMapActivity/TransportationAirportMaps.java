@@ -35,18 +35,16 @@ import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import co.id.roningrum.dolanapptugasakhir.R;
+import co.id.roningrum.dolanapptugasakhir.controller.FirebaseConstant;
 import co.id.roningrum.dolanapptugasakhir.model.Transportation;
 
 public class TransportationAirportMaps extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap airportMaps;
-    private DatabaseReference airportMapRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +55,6 @@ public class TransportationAirportMaps extends FragmentActivity implements OnMap
                 .findFragmentById(R.id.airport_map);
         assert mapFragment != null;
         mapFragment.getMapAsync(this);
-        airportMapRef = FirebaseDatabase.getInstance().getReference().child("Transportation");
     }
 
 
@@ -79,7 +76,7 @@ public class TransportationAirportMaps extends FragmentActivity implements OnMap
 
     private void showAirportMap(GoogleMap googleMap) {
         airportMaps = googleMap;
-        Query airportMapQuery = airportMapRef.orderByChild("category_transportation").equalTo("airport");
+        Query airportMapQuery = FirebaseConstant.getTransportPesawat();
         airportMapQuery.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

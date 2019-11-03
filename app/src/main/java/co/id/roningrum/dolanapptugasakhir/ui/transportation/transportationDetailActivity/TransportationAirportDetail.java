@@ -38,7 +38,6 @@ import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import org.jetbrains.annotations.NotNull;
@@ -46,6 +45,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Objects;
 
 import co.id.roningrum.dolanapptugasakhir.R;
+import co.id.roningrum.dolanapptugasakhir.controller.FirebaseConstant;
 import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.model.Transportation;
 import co.id.roningrum.dolanapptugasakhir.util.HaversineHandler;
@@ -107,7 +107,7 @@ public class TransportationAirportDetail extends AppCompatActivity implements On
         if (airportKey == null) {
             throw new IllegalArgumentException("Must pass Extra");
         }
-        airportDetailRef = FirebaseDatabase.getInstance().getReference().child("Transportation").child(airportKey);
+        airportDetailRef = FirebaseConstant.getTransportByKey(airportKey);
         gpsHandler = new GPSHandler(this);
 
         LoadAirportDetail();

@@ -79,7 +79,7 @@
             android:name=".ui.transportation.transportationMapActivity.TransportationAirportMaps"
             android:label="@string/title_activity_airport_maps" />
         <activity android:name=".ui.transportation.transportationDetailActivity.TransportationAirportDetail" />
-        <activity android:name=".ui.transportation.transportationActivity.TrasportationAirportActivity" />
+        <activity android:name=".ui.transportation.transportationActivity.TransportationAirportActivity" />
         <activity
             android:name=".ui.hotel.HotelMaps"
             android:label="@string/title_activity_hotel_maps" />
