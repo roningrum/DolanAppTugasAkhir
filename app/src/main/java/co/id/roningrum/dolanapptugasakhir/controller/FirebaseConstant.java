@@ -17,6 +17,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 
+import org.jetbrains.annotations.NotNull;
+
 
 public class FirebaseConstant {
     public static DatabaseReference TourismRef = FirebaseDatabase.getInstance().getReference().child("Tourism");
@@ -31,15 +33,20 @@ public class FirebaseConstant {
 
 
     //mengambil reference kunci
+    @NotNull
     public static DatabaseReference getTransportByKey(String id) {
         return TransportRef.child(id);
     }
 
+    @NotNull
     public static DatabaseReference getGasByKey(String id) {
         return GasRef.child(id);
     }
 
-
+    @NotNull
+    public static DatabaseReference getHospitalRef(String id) {
+        return HospitalRef.child(id);
+    }
 
     //Query untuk memanggil data wisata berdasarkan kategori
     public static Query getTourismEducation() {
