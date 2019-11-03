@@ -101,10 +101,8 @@ public class TourismWaterDetail extends AppCompatActivity implements OnMapReadyC
         waterMapView.getMapAsync(this);
 
         String waterKey = getIntent().getStringExtra(EXTRA_WISATA_KEY);
-        if(waterKey == null){
-            throw new IllegalArgumentException("Must pass Extra");
-        }
 
+        assert waterKey != null;
         waterDetailRef = FirebaseConstant.TourismRef.child(waterKey);
         gpsHandler = new GPSHandler( this);
 
