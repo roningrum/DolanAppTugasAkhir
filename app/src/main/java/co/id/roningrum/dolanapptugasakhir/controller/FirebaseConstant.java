@@ -97,7 +97,7 @@ public class FirebaseConstant {
     }
 
 
-    //mengambil reference melalui kunci
+    //mengambil reference kunci
     public static DatabaseReference getTransportByKey(String key) {
         return TransportRef.child(key);
     }
