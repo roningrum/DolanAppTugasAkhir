@@ -115,7 +115,7 @@ public class TourismRecreationDetail extends AppCompatActivity implements OnMapR
         if (recreationKey == null) {
             throw new IllegalArgumentException("Must pass Extra");
         }
-        recreationDetailRef = FirebaseConstant.TourismRef.child(recreationKey);
+        recreationDetailRef = FirebaseConstant.getTourismRef(recreationKey);
         gpsHandler = new GPSHandler(this);
 
         LoadRecreationDetail();

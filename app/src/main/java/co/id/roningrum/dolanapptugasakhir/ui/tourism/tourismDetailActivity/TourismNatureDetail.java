@@ -47,6 +47,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Objects;
 
 import co.id.roningrum.dolanapptugasakhir.R;
+import co.id.roningrum.dolanapptugasakhir.controller.FirebaseConstant;
 import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.model.Tourism;
 import co.id.roningrum.dolanapptugasakhir.util.HaversineHandler;
@@ -118,7 +119,7 @@ public class TourismNatureDetail extends AppCompatActivity implements OnMapReady
         user = firebaseAuth.getCurrentUser();
 
         favoritedb = FirebaseDatabase.getInstance().getReference("Favorite");
-        natureDetailRef = FirebaseDatabase.getInstance().getReference().child("Tourism").child(alamKey);
+        natureDetailRef = FirebaseConstant.getTourismRef(alamKey);
 //        Query natureQuery = natureDetailRef.orderByChild("category_tourism").equalTo("alam");
         gpsHandler = new GPSHandler(this);
 
