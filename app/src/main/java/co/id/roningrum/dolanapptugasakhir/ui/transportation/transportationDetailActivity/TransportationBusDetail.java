@@ -107,7 +107,7 @@ public class TransportationBusDetail extends AppCompatActivity implements OnMapR
         if (busKey == null) {
             throw new IllegalArgumentException("Must pass Extra");
         }
-        busDetailRef = FirebaseConstant.TransportRef.child(busKey);
+        busDetailRef = FirebaseConstant.getTourismRef(busKey);
         gpsHandler = new GPSHandler(this);
 
         LoadBusDetail();

@@ -103,7 +103,7 @@ public class TourismShoppingDetail extends AppCompatActivity implements OnMapRea
         if(shoppingKey == null){
             throw new IllegalArgumentException("Must pass Extra");
         }
-        shoppingDetailRef = FirebaseConstant.TourismRef.child(shoppingKey);
+        shoppingDetailRef = FirebaseConstant.getTourismRef(shoppingKey);
         gpsHandler = new GPSHandler(this);
         
         LoadShoppingDetail();

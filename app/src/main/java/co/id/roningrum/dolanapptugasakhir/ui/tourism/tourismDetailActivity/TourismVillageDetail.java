@@ -106,7 +106,7 @@ public class TourismVillageDetail extends AppCompatActivity implements OnMapRead
             throw new IllegalArgumentException("Must pass Extra");
         }
 
-        villageDetailRef = FirebaseConstant.TourismRef.child(villageKey);
+        villageDetailRef = FirebaseConstant.getTourismRef(villageKey);
         gpsHandler = new GPSHandler(this);
         
         LoadDetailDesa();

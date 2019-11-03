@@ -21,12 +21,12 @@ import org.jetbrains.annotations.NotNull;
 
 
 public class FirebaseConstant {
-    public static DatabaseReference TourismRef = FirebaseDatabase.getInstance().getReference().child("Tourism");
+    private static DatabaseReference TourismRef = FirebaseDatabase.getInstance().getReference().child("Tourism");
     public static DatabaseReference HotelRef = FirebaseDatabase.getInstance().getReference().child("Hotel");
     public static DatabaseReference GasRef = FirebaseDatabase.getInstance().getReference().child("GasStation");
     public static DatabaseReference HospitalRef = FirebaseDatabase.getInstance().getReference().child("Hospital");
     public static DatabaseReference PoliceRef = FirebaseDatabase.getInstance().getReference().child("Police");
-    public static DatabaseReference TransportRef = FirebaseDatabase.getInstance().getReference().child("Transportation");
+    private static DatabaseReference TransportRef = FirebaseDatabase.getInstance().getReference().child("Transportation");
 
 
     private static Query query = null;

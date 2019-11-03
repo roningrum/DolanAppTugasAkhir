@@ -103,7 +103,7 @@ public class TourismWaterDetail extends AppCompatActivity implements OnMapReadyC
         String waterKey = getIntent().getStringExtra(EXTRA_WISATA_KEY);
 
         assert waterKey != null;
-        waterDetailRef = FirebaseConstant.TourismRef.child(waterKey);
+        waterDetailRef = FirebaseConstant.getTourismRef(waterKey);
         gpsHandler = new GPSHandler( this);
 
         LoadDetail();

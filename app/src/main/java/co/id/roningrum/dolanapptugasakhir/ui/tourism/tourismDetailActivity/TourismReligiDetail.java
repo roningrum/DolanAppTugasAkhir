@@ -108,7 +108,7 @@ public class TourismReligiDetail extends AppCompatActivity implements OnMapReady
         if (religiKey == null) {
             throw new IllegalArgumentException("Must pass Extra");
         }
-        religiDetailRef = FirebaseConstant.TourismRef.child(religiKey);
+        religiDetailRef = FirebaseConstant.getTourismRef(religiKey);
         gpsHandler = new GPSHandler(this);
         LoadReligiDetail();
     }
