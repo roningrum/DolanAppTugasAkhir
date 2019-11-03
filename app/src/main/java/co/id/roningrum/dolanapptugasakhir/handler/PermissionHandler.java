@@ -19,9 +19,10 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.widget.Toast;
+
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import java.util.ArrayList;
 
@@ -33,6 +34,7 @@ import co.id.roningrum.dolanapptugasakhir.R;
  */
 
 public class PermissionHandler {
+
     @SuppressLint("StaticFieldLeak")
     private static PermissionHandler permissionHandler;
     private static final int REQUEST_CODE = 1;
@@ -159,11 +161,4 @@ public class PermissionHandler {
         return isAllPermissionAvailable;
     }
 
-//    public boolean isPermissionAvailable(String permission) {
-//        boolean isPermissionAvailable = true;
-//        if (ContextCompat.checkSelfPermission(activity, permission) != PackageManager.PERMISSION_GRANTED){
-//            isPermissionAvailable = false;
-//        }
-//        return isPermissionAvailable;
-//    }
 }

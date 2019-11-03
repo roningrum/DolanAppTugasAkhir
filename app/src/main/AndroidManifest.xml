@@ -9,13 +9,12 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="com.sec.android.provider.badge.permission.WRITE" />
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission
-        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
-        android:maxSdkVersion="28" />
-    <uses-permission
-        android:name="android.permission.READ_EXTERNAL_STORAGE"
-        android:maxSdkVersion="28" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
+    <uses-feature android:name="android.hardware.location.gps" />
 
     <application
         android:allowBackup="true"
@@ -27,7 +26,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
+        <activity android:name=".ui.useractivity.edit.ChangePhotoProfileActivity" />
+        <activity android:name=".ui.useractivity.edit.ChangeEmailProfileActivity" />
+        <activity android:name=".ui.useractivity.edit.ChangePasswordProfileActivity" />
+        <activity android:name=".ui.useractivity.edit.ChangeNameProfileActivity" />
+        <activity android:name=".ui.useractivity.edit.EditProfileActivity" />
+        <activity android:name=".WelcomingScreenActivity" />
+        <activity android:name=".ui.useractivity.register.RegisterAccountProfileActivity" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -41,63 +46,99 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name=".tourism.food.FoodCategoryMap"
+            android:name=".ui.hospital.HospitalMap"
+            android:label="@string/title_activity_hospital_maps" />
+        <activity android:name=".ui.hospital.HospitalDetail" />
+        <activity android:name=".ui.hospital.HospitalCategory" />
+        <activity
+            android:name=".ui.police.PoliceMaps"
+            android:label="@string/title_activity_police_maps" />
+        <activity android:name=".ui.police.PoliceDetail" />
+        <activity android:name=".ui.police.PoliceCategory" />
+        <activity
+            android:name=".ui.gasstation.GasStationMap"
+            android:label="@string/title_activity_gas_station_maps" />
+        <activity android:name=".ui.gasstation.GasStationDetail" />
+        <activity android:name=".ui.gasstation.GasStationCategory" />
+        <activity
+            android:name=".ui.transportation.transportationMapActivity.TransportationShipMaps"
+            android:label="@string/title_activity_ship_map" />
+        <activity android:name=".ui.transportation.transportationDetailActivity.TransportationShipDetail" />
+        <activity android:name=".ui.transportation.transportationActivity.TransportationShipActivity" />
+        <activity
+            android:name=".ui.transportation.transportationMapActivity.TransportationTrainMaps"
+            android:label="@string/title_activity_train_maps" />
+        <activity android:name=".ui.transportation.transportationDetailActivity.TransportationTrainDetail" />
+        <activity android:name=".ui.transportation.transportationActivity.TransportationTrainActivity" />
+        <activity
+            android:name=".ui.transportation.transportationMapActivity.TransportationBusMaps"
+            android:label="@string/title_activity_bus_maps" />
+        <activity android:name=".ui.transportation.transportationDetailActivity.TransportationBusDetail" />
+        <activity android:name=".ui.transportation.transportationActivity.TransportationBusActivity" />
+        <activity
+            android:name=".ui.transportation.transportationMapActivity.TransportationAirportMaps"
+            android:label="@string/title_activity_airport_maps" />
+        <activity android:name=".ui.transportation.transportationDetailActivity.TransportationAirportDetail" />
+        <activity android:name=".ui.transportation.transportationActivity.TransportationAirportActivity" />
+        <activity
+            android:name=".ui.hotel.HotelMaps"
+            android:label="@string/title_activity_hotel_maps" />
+        <activity android:name=".ui.hotel.HotelDetail" />
+        <activity android:name=".ui.hotel.HotelActivity" />
+        <activity
+            android:name=".ui.tourism.tourismMapActivity.TourismFoodMaps"
             android:label="@string/title_activity_food_category_map" />
-        <activity android:name=".tourism.food.DetailFoodActivity" />
-        <activity android:name=".tourism.food.FoodCategoryActivity" />
+        <activity android:name=".ui.tourism.tourismDetailActivity.TourismFoodDetail" />
+        <activity android:name=".ui.tourism.tourismActivity.TourismFoodActivity" />
         <activity
-            android:name=".tourism.history.HistoryCategoryMap"
+            android:name=".ui.tourism.tourismMapActivity.TourismHistoryMaps"
             android:label="@string/title_activity_history_category_map" />
-        <activity android:name=".tourism.history.DetailHistoryActivity" />
-        <activity android:name=".tourism.history.HistoryCategoryActivity" />
+        <activity android:name=".ui.tourism.tourismDetailActivity.TourismHistoryDetail" />
+        <activity android:name=".ui.tourism.tourismActivity.TourismHistoryActivity" />
         <activity
-            android:name=".tourism.religi.ReligiCategoryMaps"
+            android:name=".ui.tourism.tourismMapActivity.TourismReligiMaps"
             android:label="@string/title_activity_religi_category_maps" />
-        <activity android:name=".tourism.religi.DetailReligiActivity" />
-        <activity android:name=".tourism.religi.ReligiCategoryActivity" />
+        <activity android:name=".ui.tourism.tourismDetailActivity.TourismReligiDetail" />
+        <activity android:name=".ui.tourism.tourismActivity.TourismReligiActivity" />
         <activity
-            android:name=".tourism.recreation.RecreationCategoryMaps"
+            android:name=".ui.tourism.tourismMapActivity.TourismRecreationMaps"
             android:label="@string/title_activity_recreation_category_maps" />
-        <activity android:name=".tourism.recreation.DetailRecreationActivity" />
-        <activity android:name=".tourism.recreation.RecreationCategoryActivity" />
+        <activity android:name=".ui.tourism.tourismDetailActivity.TourismRecreationDetail" />
+        <activity android:name=".ui.tourism.tourismActivity.TourismRecreationActivity" />
         <activity
-            android:name=".tourism.education.EducationCategoryMaps"
+            android:name=".ui.tourism.tourismMapActivity.TourismEducationMaps"
             android:label="@string/title_activity_education_maps" />
-        <activity android:name=".tourism.education.EducationCategoryActivity" />
-        <activity android:name=".tourism.education.DetailEducationCategoryActivity" />
+        <activity android:name=".ui.tourism.tourismActivity.TourismEducationActivity" />
+        <activity android:name=".ui.tourism.tourismDetailActivity.TourismEducationDetail" />
         <activity
-            android:name=".tourism.village.VillageCategoryMaps"
+            android:name=".ui.tourism.tourismMapActivity.TourismVillageMaps"
             android:label="@string/title_activity_village_maps" />
         <activity
-            android:name=".tourism.village.DetailVillageActivity"
-            android:parentActivityName=".tourism.village.VillageCategoryActivity" />
-        <activity android:name=".tourism.village.VillageCategoryActivity" />
+            android:name=".ui.tourism.tourismDetailActivity.TourismVillageDetail"
+            android:parentActivityName=".ui.tourism.tourismActivity.TourismVillageActivity" />
+        <activity android:name=".ui.tourism.tourismActivity.TourismVillageActivity" />
         <activity
-            android:name=".tourism.shopping.ShoppingCategoryMap"
+            android:name=".ui.tourism.tourismMapActivity.TourismShoppingMaps"
             android:label="@string/title_activity_shopping_category_map" />
         <activity
-            android:name=".tourism.shopping.DetailShoppingActivity"
-            android:parentActivityName=".tourism.shopping.ShoppingCategoryActivity" />
-        <activity android:name=".tourism.shopping.ShoppingCategoryActivity" />
+            android:name=".ui.tourism.tourismDetailActivity.TourismShoppingDetail"
+            android:parentActivityName=".ui.tourism.tourismActivity.TourismShoppingActivity" />
+        <activity android:name=".ui.tourism.tourismActivity.TourismShoppingActivity" />
         <activity
-            android:name=".tourism.water.WaterMapsActivity"
+            android:name=".ui.tourism.tourismMapActivity.TourismWaterMaps"
             android:label="@string/title_activity_water_maps" />
-        <activity android:name=".tourism.nature.NatureMapsActivity" />
+        <activity android:name=".ui.tourism.tourismMapActivity.TourismNatureMaps" />
         <activity
-            android:name=".tourism.water.DetailWaterActivity"
-            android:parentActivityName=".tourism.water.WaterCategoryActivity" />
-        <activity android:name=".tourism.water.WaterCategoryActivity" />
+            android:name=".ui.tourism.tourismDetailActivity.TourismWaterDetail"
+            android:parentActivityName=".ui.tourism.tourismActivity.TourismWaterActivity" />
+        <activity android:name=".ui.tourism.tourismActivity.TourismWaterActivity" />
         <activity
-            android:name=".tourism.nature.DetailNatureActivity"
-            android:parentActivityName=".tourism.nature.NatureCategoryActivity" />
-        <activity android:name=".tourism.nature.NatureCategoryActivity" />
-        <activity
-            android:name=".CategoryMapActivity"
-            android:label="@string/title_activity_category_map" />
-        <activity android:name=".RegisteredemailConfirmActivity" />
-        <activity android:name=".DetailCategoryActivity" />
-        <activity android:name=".CategoryMenuActivity" />
-        <activity android:name=".AllCategoryActivity">
+            android:name=".ui.tourism.tourismDetailActivity.TourismNatureDetail"
+            android:parentActivityName=".ui.tourism.tourismActivity.TourismNatureActivity" />
+        <activity android:name=".ui.tourism.tourismActivity.TourismNatureActivity" />
+        <activity android:name=".ui.useractivity.register.RegisterSuccessActivity" />
+        <activity android:name=".ui.homeactivity.AllCategoryActivity" />
+        <activity android:name=".ui.homeactivity.MainMenuActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <action android:name="android.intent.action.MAIN" />
@@ -105,20 +146,20 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainMenuActivity" />
-        <activity android:name=".ForgetPassSignInActivity" />
-        <activity android:name=".RegisterEmailActivity" />
-        <activity android:name=".SignInEmailActivity" />
-        <activity android:name=".SignInActivity" />
-        <activity
-            android:name=".SplashScreenActivity"
-            android:theme="@style/SplashThem" />
-        <activity android:name=".MainActivity" />
-        <activity android:name=".ResetSandiConfirmActivity" />
+        <activity android:name=".ui.useractivity.reset.ResetPasswordActivity" />
+        <activity android:name=".ui.useractivity.register.RegisterAccountEmailActivity" />
+        <activity android:name=".ui.useractivity.login.SignInEmailActivity" />
+        <activity android:name=".ui.useractivity.login.SignInOptionActivity">
+
+        </activity>
+        <activity android:name=".SplashScreenActivity" />
+        <activity android:name=".ui.useractivity.reset.ResetSendEmailSuccessActivity" />
 
         <service
             android:name=".handler.GPSHandler"
-            android:exported="true" />
+            android:enabled="true"
+            android:exported="true"
+            android:permission="android.permission.ACCESS_FINE_LOCATION" />
 
         <meta-data
             android:name="preloaded_fonts"

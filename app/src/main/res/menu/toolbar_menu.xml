@@ -16,15 +16,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".CategoryMenuActivity">
     <item
-        android:id="@+id/searchMenu"
-        android:icon="@drawable/ic_search_black_24dp"
-        android:title="@string/search"
-        app:actionViewClass="android.support.v7.widget.SearchView"
-        app:showAsAction="ifRoom|collapseActionView" />
-    <item
         android:id="@+id/petaMenu"
         android:icon="@drawable/ic_map_24dp"
-        android:title="peta"
+        android:title="@string/menu_icon_peta"
         app:showAsAction="ifRoom" />
 
 </menu>

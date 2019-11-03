@@ -11,21 +11,20 @@
   ~ limitations under the License.
   -->
 
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".tourism.nature.NatureCategoryActivity">
+    tools:context=".ui.tourism.tourismActivity.TourismNatureActivity">
 
-    <android.support.design.widget.AppBarLayout
-        android:id="@+id/appbar_layout_nature"
+    <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fitsSystemWindows="true"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
-        <android.support.v7.widget.Toolbar
+        <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar_top_nature"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
@@ -34,12 +33,81 @@
             app:popupTheme="@style/ActionBarThemeOverlay"
             app:title="Wisata Alam"
             app:titleTextColor="@android:color/black" />
-    </android.support.design.widget.AppBarLayout>
+    </com.google.android.material.appbar.AppBarLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_connect"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone">
+
+            <ImageView
+                android:id="@+id/img_check_internet"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="56dp"
+                android:layout_marginEnd="8dp"
+                android:contentDescription="@null"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/searchsignal" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="8dp"
+                android:fontFamily="@font/montserrat_bold"
+                android:lineSpacingExtra="6sp"
+                android:text="@string/noConnection"
+                android:textColor="@color/blackTextPrimary"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/img_check_internet" />
+
+            <!--            <TextView-->
+            <!--                android:id="@+id/textView6"-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_marginStart="32dp"-->
+            <!--                android:layout_marginTop="16dp"-->
+            <!--                android:layout_marginEnd="32dp"-->
+            <!--                android:fontFamily="@font/montserrat"-->
+            <!--                android:lineSpacingExtra="5sp"-->
+            <!--                android:text="@string/no_connection_button"-->
+            <!--                android:textAlignment="center"-->
+            <!--                android:textColor="@color/blackTextPrimary"-->
+            <!--                app:layout_constraintEnd_toEndOf="parent"-->
+            <!--                app:layout_constraintStart_toStartOf="parent"-->
+            <!--                app:layout_constraintTop_toBottomOf="@+id/tv_nosignal_Title" />-->
+
+            <!--            <Button-->
+            <!--                android:id="@+id/btn_retry_connect"-->
+            <!--                android:layout_width="150dp"-->
+            <!--                android:layout_height="56dp"-->
+            <!--                android:layout_marginStart="8dp"-->
+            <!--                android:layout_marginTop="32dp"-->
+            <!--                android:layout_marginEnd="8dp"-->
+            <!--                android:background="@drawable/bg_button_orange"-->
+            <!--                android:fontFamily="@font/montserrat"-->
+            <!--                android:text="@string/coba_lagi"-->
+            <!--                android:textAllCaps="false"-->
+            <!--                android:textAppearance="@style/TextAppearance.AppCompat.Medium"-->
+            <!--                android:textColor="@android:color/white"-->
+            <!--                android:textSize="14sp"-->
+            <!--                app:layout_constraintEnd_toEndOf="parent"-->
+            <!--                app:layout_constraintStart_toStartOf="parent"-->
+            <!--                app:layout_constraintTop_toBottomOf="@+id/textView6" />-->
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <com.facebook.shimmer.ShimmerFrameLayout
             android:id="@+id/shimmer_view_container"
@@ -47,29 +115,29 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:orientation="vertical"
-            app:duration="1500">
+            app:shimmer_duration="1500">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <include layout="@layout/item_data_place_holder" />
+                <include layout="@layout/item_loading_shimmer_vertical" />
 
-                <include layout="@layout/item_data_place_holder" />
+                <include layout="@layout/item_loading_shimmer_vertical" />
 
-                <include layout="@layout/item_data_place_holder" />
+                <include layout="@layout/item_loading_shimmer_vertical" />
 
-                <include layout="@layout/item_data_place_holder" />
+                <include layout="@layout/item_loading_shimmer_vertical" />
             </LinearLayout>
 
         </com.facebook.shimmer.ShimmerFrameLayout>
 
-        <android.support.v7.widget.RecyclerView
+        <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/tourism_nature_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
     </RelativeLayout>
 
-</android.support.design.widget.CoordinatorLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

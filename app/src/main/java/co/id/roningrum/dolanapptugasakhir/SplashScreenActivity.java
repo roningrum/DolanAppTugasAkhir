@@ -13,8 +13,11 @@
 
 package co.id.roningrum.dolanapptugasakhir;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.os.Handler;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 public class SplashScreenActivity extends AppCompatActivity {
 
@@ -22,5 +25,14 @@ public class SplashScreenActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Intent splashItent = new Intent(SplashScreenActivity.this, WelcomingScreenActivity.class);
+                startActivity(splashItent);
+                finish();
+            }
+        }, 2000);
     }
 }
