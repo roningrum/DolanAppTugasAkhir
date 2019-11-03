@@ -47,6 +47,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Objects;
 
 import co.id.roningrum.dolanapptugasakhir.R;
+import co.id.roningrum.dolanapptugasakhir.controller.FirebaseConstant;
 import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.model.Tourism;
 import co.id.roningrum.dolanapptugasakhir.util.HaversineHandler;
@@ -115,8 +116,7 @@ public class TourismFoodDetail extends AppCompatActivity implements OnMapReadyCa
         if (foodKey == null) {
             throw new IllegalArgumentException("Must pass EXTRA");
         }
-        foodDetailRef = FirebaseDatabase.getInstance().getReference().child("Tourism").child(foodKey);
-//        Query foodQuery = foodDetailRef.orderByChild("category_tourism").equalTo("kuliner");
+        foodDetailRef = FirebaseConstant.getTourismRef(foodKey);
         gpsHandler = new GPSHandler(this);
         LoadFoodDetail();
     }

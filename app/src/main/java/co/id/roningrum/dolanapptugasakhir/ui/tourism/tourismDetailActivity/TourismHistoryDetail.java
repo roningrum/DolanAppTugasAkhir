@@ -120,7 +120,7 @@ public class TourismHistoryDetail extends AppCompatActivity implements OnMapRead
         if (historyKey == null) {
             throw new IllegalArgumentException("Must pass Extra");
         }
-        historyDetailRef = FirebaseConstant.TourismRef.child(historyKey);
+        historyDetailRef = FirebaseConstant.getTourismRef(historyKey);
 //        Query historyQuery = historyDetailRef.orderByChild("category_tourism").equalTo("sejarah");
         gpsHandler = new GPSHandler(this);
 
