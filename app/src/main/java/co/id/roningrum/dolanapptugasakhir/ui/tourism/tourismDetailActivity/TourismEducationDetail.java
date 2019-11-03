@@ -118,7 +118,7 @@ public class TourismEducationDetail extends AppCompatActivity implements OnMapRe
         if (eduKey == null) {
             throw new IllegalArgumentException("Must pass Extra");
         }
-        educationDetailRef = FirebaseConstant.TourismRef.child(eduKey);
+        educationDetailRef = FirebaseConstant.getTourismRef(eduKey);
         gpsHandler = new GPSHandler(this);
         favoritedb = FirebaseDatabase.getInstance().getReference("Favorite");
 

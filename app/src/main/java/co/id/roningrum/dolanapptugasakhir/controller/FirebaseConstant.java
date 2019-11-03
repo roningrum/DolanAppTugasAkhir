@@ -58,6 +58,11 @@ public class FirebaseConstant {
         return PoliceRef.child(id);
     }
 
+    @NotNull
+    public static DatabaseReference getTourismRef(String id) {
+        return TourismRef.child(id);
+    }
+
     //Query untuk memanggil data wisata berdasarkan kategori
     public static Query getTourismEducation() {
         query = TourismRef.orderByChild("category_tourism").equalTo("edukasi");
