@@ -91,9 +91,8 @@ public class HotelMaps extends FragmentActivity implements OnMapReadyCallback {
                     double lngHotel = hotel.getLng_location_hotel();
                     LatLng naturePlaceLoc = new LatLng(latHotel, lngHotel);
                     hotelMap.moveCamera(CameraUpdateFactory.newLatLngZoom(naturePlaceLoc, 8.0f));
-//                    hotelMap.addMarker(new MarkerOptions().position(naturePlaceLoc).title(hotel.getName_hotel()).snippet(hotel.getLocation_hotel()));
+                    hotelMap.addMarker(new MarkerOptions().position(naturePlaceLoc).title(hotel.getName_hotel()).snippet(hotel.getLocation_hotel()));
                     hotelMap.setOnCameraIdleListener(hotelclusterManager);
-                    hotelMap.addMarker(new MarkerOptions().icon(getBitmapDescriptor()));
                     hotelMap.setOnInfoWindowClickListener(hotelclusterManager);
                     hotelclusterManager.addItem(hotel);
                 }

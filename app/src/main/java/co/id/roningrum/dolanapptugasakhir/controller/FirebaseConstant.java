@@ -24,13 +24,12 @@ public class FirebaseConstant {
     public static DatabaseReference GasRef = FirebaseDatabase.getInstance().getReference().child("GasStation");
     public static DatabaseReference HospitalRef = FirebaseDatabase.getInstance().getReference().child("Hospital");
     public static DatabaseReference PoliceRef = FirebaseDatabase.getInstance().getReference().child("Police");
+    public static DatabaseReference TransportRef = FirebaseDatabase.getInstance().getReference().child("Transportation");
 
 
     private static Query query = null;
 
-    /**
-     * Untuk memanggil data wisata berdasarkan kategori
-     */
+    //Query untuk memanggil data wisata berdasarkan kategori
     public static Query getTourismEducation() {
         query = TourismRef.orderByChild("category_tourism").equalTo("edukasi");
         return query;
@@ -67,7 +66,7 @@ public class FirebaseConstant {
     }
 
     public static Query getTourismDesa() {
-        query = TourismRef.orderByChild("catgeory_tourism").equalTo("desa");
+        query = TourismRef.orderByChild("category_tourism").equalTo("desa");
         return query;
     }
 
@@ -94,6 +93,28 @@ public class FirebaseConstant {
 
     public static Query getPolice() {
         query = PoliceRef;
+        return query;
+    }
+
+    //kumpulan Query utuk memanggil data transportasi berdasarkan kategori transportasi
+
+    public static Query getTransportBus() {
+        query = TransportRef.orderByChild("category_trasnportation").equalTo("bus");
+        return query;
+    }
+
+    public static Query getTransportPesawat() {
+        query = TransportRef.orderByChild("category_trasnportation").equalTo("airport");
+        return query;
+    }
+
+    public static Query getTransportKereta() {
+        query = TransportRef.orderByChild("category_trasnportation").equalTo("train");
+        return query;
+    }
+
+    public static Query getTransportShip() {
+        query = TransportRef.orderByChild("category_trasnportation").equalTo("harbor");
         return query;
     }
 }

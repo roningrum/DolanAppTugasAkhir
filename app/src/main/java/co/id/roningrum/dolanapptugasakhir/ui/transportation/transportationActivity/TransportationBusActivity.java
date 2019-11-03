@@ -36,12 +36,12 @@ import com.facebook.shimmer.ShimmerFrameLayout;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 
 import java.util.Arrays;
 
 import co.id.roningrum.dolanapptugasakhir.R;
+import co.id.roningrum.dolanapptugasakhir.controller.FirebaseConstant;
 import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.handler.NetworkHelper;
 import co.id.roningrum.dolanapptugasakhir.handler.PermissionHandler;
@@ -80,8 +80,7 @@ public class TransportationBusActivity extends AppCompatActivity {
 
     private void showBusData() {
         if (havePermission()) {
-            DatabaseReference busRef = FirebaseDatabase.getInstance().getReference();
-            Query busQuery = busRef.child("Transportation").orderByChild("category_transportation").equalTo("bus");
+            Query busQuery = FirebaseConstant.getTransportBus();
             FirebaseRecyclerOptions<Transportation> busOptions = new FirebaseRecyclerOptions.Builder<Transportation>()
                     .setQuery(busQuery, Transportation.class)
                     .build();

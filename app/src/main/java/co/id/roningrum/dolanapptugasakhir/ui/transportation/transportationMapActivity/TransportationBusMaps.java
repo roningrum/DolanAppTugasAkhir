@@ -35,18 +35,16 @@ import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import co.id.roningrum.dolanapptugasakhir.R;
+import co.id.roningrum.dolanapptugasakhir.controller.FirebaseConstant;
 import co.id.roningrum.dolanapptugasakhir.model.Transportation;
 
 public class TransportationBusMaps extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap busMap;
-    private DatabaseReference busMapRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +55,6 @@ public class TransportationBusMaps extends FragmentActivity implements OnMapRead
                 .findFragmentById(R.id.bus_map);
         assert mapFragment != null;
         mapFragment.getMapAsync(this);
-        busMapRef = FirebaseDatabase.getInstance().getReference().child("Transportation");
     }
 
 
@@ -79,7 +76,7 @@ public class TransportationBusMaps extends FragmentActivity implements OnMapRead
 
     private void showBusMap(GoogleMap googleMap) {
         busMap = googleMap;
-        Query busMapQuery = busMapRef.orderByChild("category_transportation").equalTo("bus");
+        Query busMapQuery = FirebaseConstant.getTransportBus();
         busMapQuery.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
