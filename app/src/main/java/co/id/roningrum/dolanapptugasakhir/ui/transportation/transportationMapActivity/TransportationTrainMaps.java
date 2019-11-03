@@ -33,18 +33,16 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import co.id.roningrum.dolanapptugasakhir.R;
+import co.id.roningrum.dolanapptugasakhir.controller.FirebaseConstant;
 import co.id.roningrum.dolanapptugasakhir.model.Transportation;
 
 public class TransportationTrainMaps extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap trainMap;
-    private DatabaseReference trainMapRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +53,6 @@ public class TransportationTrainMaps extends FragmentActivity implements OnMapRe
                 .findFragmentById(R.id.train_map);
         assert mapFragment != null;
         mapFragment.getMapAsync(this);
-        trainMapRef = FirebaseDatabase.getInstance().getReference().child("Transportation");
     }
 
 
@@ -75,7 +72,7 @@ public class TransportationTrainMaps extends FragmentActivity implements OnMapRe
 
     private void showTrainMap(GoogleMap googleMap) {
         trainMap = googleMap;
-        Query trainMapQuery = trainMapRef.orderByChild("category_transportation").equalTo("train");
+        Query trainMapQuery = FirebaseConstant.getTransportKereta();
         trainMapQuery.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

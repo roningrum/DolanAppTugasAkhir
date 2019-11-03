@@ -36,7 +36,6 @@ import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import org.jetbrains.annotations.NotNull;
@@ -44,6 +43,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Objects;
 
 import co.id.roningrum.dolanapptugasakhir.R;
+import co.id.roningrum.dolanapptugasakhir.controller.FirebaseConstant;
 import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.model.Transportation;
 import co.id.roningrum.dolanapptugasakhir.util.HaversineHandler;
@@ -105,7 +105,7 @@ public class TransportationTrainDetail extends AppCompatActivity implements OnMa
         if (trainKey == null) {
             throw new IllegalArgumentException("Must pass Extra");
         }
-        trainDetailRef = FirebaseDatabase.getInstance().getReference().child("Transportation").child(trainKey);
+        trainDetailRef = FirebaseConstant.getTransportByKey(trainKey);
         gpsHandler = new GPSHandler(this);
 
         LoadTrainDetail();
