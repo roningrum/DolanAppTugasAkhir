@@ -29,6 +29,18 @@ public class FirebaseConstant {
 
     private static Query query = null;
 
+
+    //mengambil reference kunci
+    public static DatabaseReference getTransportByKey(String id) {
+        return TransportRef.child(id);
+    }
+
+    public static DatabaseReference getGasByKey(String id) {
+        return GasRef.child(id);
+    }
+
+
+
     //Query untuk memanggil data wisata berdasarkan kategori
     public static Query getTourismEducation() {
         query = TourismRef.orderByChild("category_tourism").equalTo("edukasi");
@@ -95,13 +107,6 @@ public class FirebaseConstant {
         query = PoliceRef;
         return query;
     }
-
-
-    //mengambil reference kunci
-    public static DatabaseReference getTransportByKey(String key) {
-        return TransportRef.child(key);
-    }
-
     //kumpulan Query utuk memanggil data transportasi berdasarkan kategori transportasi
 
     public static Query getTransportBus() {

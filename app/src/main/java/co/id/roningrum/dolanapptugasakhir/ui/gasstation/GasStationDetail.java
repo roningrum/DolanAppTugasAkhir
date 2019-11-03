@@ -106,7 +106,7 @@ public class GasStationDetail extends AppCompatActivity implements OnMapReadyCal
         if (gasKey == null) {
             throw new IllegalArgumentException("Must pass Extra");
         }
-        gasDetailRef = FirebaseConstant.GasRef.child("GasStation").child(gasKey);
+        gasDetailRef = FirebaseConstant.getGasByKey(gasKey);
         gpsHandler = new GPSHandler(this);
 
         LoadGasDetail();
