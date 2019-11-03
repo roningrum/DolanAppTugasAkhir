@@ -96,6 +96,12 @@ public class FirebaseConstant {
         return query;
     }
 
+
+    //mengambil reference melalui kunci
+    public static DatabaseReference getTransportByKey(String key) {
+        return TransportRef.child(key);
+    }
+
     //kumpulan Query utuk memanggil data transportasi berdasarkan kategori transportasi
 
     public static Query getTransportBus() {
@@ -106,10 +112,6 @@ public class FirebaseConstant {
     public static Query getTransportPesawat() {
         query = TransportRef.orderByChild("category_transportation").equalTo("airport");
         return query;
-    }
-
-    public static DatabaseReference getTransportByKey(String key) {
-        return TransportRef.child(key);
     }
 
     public static Query getTransportKereta() {
