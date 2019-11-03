@@ -102,7 +102,7 @@ public class HospitalDetail extends AppCompatActivity implements OnMapReadyCallb
         if (hospitalKey == null) {
             throw new IllegalArgumentException("Must pass Extra");
         }
-        hospitalDetailRef = FirebaseConstant.getHospitalRef(hospitalKey);
+        hospitalDetailRef = FirebaseConstant.getHospitalByKey(hospitalKey);
         gpsHandler = new GPSHandler(this);
 
         LoadHospitaDetail();

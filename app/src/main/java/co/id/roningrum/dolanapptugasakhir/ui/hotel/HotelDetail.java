@@ -110,7 +110,7 @@ public class HotelDetail extends AppCompatActivity implements OnMapReadyCallback
         if (hotelKey == null) {
             throw new IllegalArgumentException("Must pass Extra");
         }
-        hotelDetailRef = FirebaseConstant.HotelRef.child(hotelKey);
+        hotelDetailRef = FirebaseConstant.getHotelKey(hotelKey);
         gpsHandler = new GPSHandler(this);
 
         btnOrderHotel1.setOnClickListener(this);

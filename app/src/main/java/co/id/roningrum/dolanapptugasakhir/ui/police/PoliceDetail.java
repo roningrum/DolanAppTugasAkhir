@@ -100,10 +100,8 @@ public class PoliceDetail extends AppCompatActivity implements OnMapReadyCallbac
         policeMapView.getMapAsync(this);
 
         String policeKey = getIntent().getStringExtra(EXTRA_POLICE_KEY);
-        if (policeKey == null) {
-            throw new IllegalArgumentException("Must pass Extra");
-        }
-        policeDetailRef = FirebaseConstant.PoliceRef.child(policeKey);
+
+        policeDetailRef = FirebaseConstant.getPoliceKey(policeKey);
         gpsHandler = new GPSHandler(this);
 
         LoadPoliceDetail();

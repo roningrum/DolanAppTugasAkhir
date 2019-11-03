@@ -44,8 +44,18 @@ public class FirebaseConstant {
     }
 
     @NotNull
-    public static DatabaseReference getHospitalRef(String id) {
+    public static DatabaseReference getHospitalByKey(String id) {
         return HospitalRef.child(id);
+    }
+
+    @NotNull
+    public static DatabaseReference getHotelKey(String id) {
+        return HotelRef.child(id);
+    }
+
+    @NotNull
+    public static DatabaseReference getPoliceKey(String id) {
+        return PoliceRef.child(id);
     }
 
     //Query untuk memanggil data wisata berdasarkan kategori
