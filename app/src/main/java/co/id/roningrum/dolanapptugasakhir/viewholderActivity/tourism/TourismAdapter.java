@@ -66,7 +66,7 @@ public class TourismAdapter extends RecyclerView.Adapter<TourismAdapter.TourismV
 
 
     public interface OnItemClickCallback {
-        void onItemClicked(Tourism tourism);
+        void onItemClicked();
     }
 
     class TourismViewHolder extends RecyclerView.ViewHolder {
@@ -98,7 +98,7 @@ public class TourismAdapter extends RecyclerView.Adapter<TourismAdapter.TourismV
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    onItemClickCallback.onItemClicked(tourismList.get(getAdapterPosition()));
+                    onItemClickCallback.onItemClicked();
                 }
             });
         }

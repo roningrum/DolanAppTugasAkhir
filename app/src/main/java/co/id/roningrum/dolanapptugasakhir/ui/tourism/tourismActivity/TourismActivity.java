@@ -13,7 +13,10 @@
 
 package co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismActivity;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
@@ -30,11 +33,13 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.controller.FirebaseConstant;
 import co.id.roningrum.dolanapptugasakhir.handler.PermissionHandler;
 import co.id.roningrum.dolanapptugasakhir.model.Tourism;
+import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismDetailActivity.TourismFoodDetail;
 import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismDetailActivity.TourismWaterDetail;
 import co.id.roningrum.dolanapptugasakhir.util.Util;
 import co.id.roningrum.dolanapptugasakhir.viewholderActivity.tourism.TourismAdapter;
@@ -83,10 +88,11 @@ public class TourismActivity extends AppCompatActivity {
                 tourismAdapter.setTourismList(tourisms);
                 tourismAdapter.setOnItemClickCallback(new TourismAdapter.OnItemClickCallback() {
                     @Override
-                    public void onItemClicked(Tourism tourism) {
-                        Intent intent = new Intent(TourismActivity.this, TourismWaterDetail.class);
-                        intent.putExtra(TourismWaterDetail.EXTRA_WISATA_KEY, tourism.getId());
-                        Log.d("Check id", "id :" + tourism.getId());
+                    public void onItemClicked() {
+                        String tourismKey = FirebaseConstant.TourismRef.getKey();
+                        Intent intent = new Intent(TourismActivity.this, TourismFoodDetail.class);
+                        intent.putExtra(TourismWaterDetail.EXTRA_WISATA_KEY, tourismKey);
+                        Log.d("Check id", "id :" + tourismKey);
                         startActivity(intent);
                     }
                 });
@@ -103,33 +109,34 @@ public class TourismActivity extends AppCompatActivity {
 //        }
     }
 
-//    private boolean havePermission() {
-//        if (Build.VERSION.SDK_INT >= 23) {
-//            permissionHandler = PermissionHandler.getInstance(this);
-//            if (permissionHandler.isAllPermissionAvailable()) {
-//                Log.d("Pesan", "Permissions have done");
-//            } else {
-//                permissionHandler.setActivity(this);
-//                permissionHandler.deniedPermission();
-//            }
-//        } else {
-//            Toast.makeText(this, "Check your permission", Toast.LENGTH_SHORT).show();
-//        }
-//        return true;
-//    }
-//    @Override
-//    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-//        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-//        for (int i : grantResults) {
-//            if (i == PackageManager.PERMISSION_GRANTED) {
-//                Log.d("test", "Permission" + Arrays.toString(permissions) + "Success");
-//            } else {
-//                //denied
-//                permissionHandler.deniedPermission(Manifest.permission.ACCESS_FINE_LOCATION);
-//                permissionHandler.deniedPermission(Manifest.permission.ACCESS_COARSE_LOCATION);
-//            }
-//        }
-//    }
+    private boolean havePermission() {
+        if (Build.VERSION.SDK_INT >= 23) {
+            permissionHandler = PermissionHandler.getInstance(this);
+            if (permissionHandler.isAllPermissionAvailable()) {
+                Log.d("Pesan", "Permissions have done");
+            } else {
+                permissionHandler.setActivity(this);
+                permissionHandler.deniedPermission();
+            }
+        } else {
+            Toast.makeText(this, "Check your permission", Toast.LENGTH_SHORT).show();
+        }
+        return true;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        for (int i : grantResults) {
+            if (i == PackageManager.PERMISSION_GRANTED) {
+                Log.d("test", "Permission" + Arrays.toString(permissions) + "Success");
+            } else {
+                //denied
+                permissionHandler.deniedPermission(Manifest.permission.ACCESS_FINE_LOCATION);
+                permissionHandler.deniedPermission(Manifest.permission.ACCESS_COARSE_LOCATION);
+            }
+        }
+    }
 
     private void showLoading(Boolean state) {
         if (state) {

@@ -21,7 +21,7 @@ import org.jetbrains.annotations.NotNull;
 
 
 public class FirebaseConstant {
-    private static DatabaseReference TourismRef = FirebaseDatabase.getInstance().getReference().child("Tourism");
+    public static DatabaseReference TourismRef = FirebaseDatabase.getInstance().getReference().child("Tourism");
     public static DatabaseReference HotelRef = FirebaseDatabase.getInstance().getReference().child("Hotel");
     public static DatabaseReference GasRef = FirebaseDatabase.getInstance().getReference().child("GasStation");
     public static DatabaseReference HospitalRef = FirebaseDatabase.getInstance().getReference().child("Hospital");
