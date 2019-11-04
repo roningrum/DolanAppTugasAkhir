@@ -31,7 +31,6 @@ public class FirebaseConstant {
 
     private static Query query = null;
 
-
     //mengambil reference kunci
     @NotNull
     public static DatabaseReference getTransportByKey(String id) {
@@ -80,7 +79,7 @@ public class FirebaseConstant {
     }
 
     public static Query getTourismKuliner() {
-        query = TourismRef.orderByChild("catgeory_tourism").equalTo("kuliner");
+        query = TourismRef.orderByChild("category_tourism").equalTo("kuliner");
         return query;
     }
 

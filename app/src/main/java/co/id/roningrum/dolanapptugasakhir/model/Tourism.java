@@ -16,6 +16,7 @@ package co.id.roningrum.dolanapptugasakhir.model;
 import java.io.Serializable;
 
 public class Tourism implements Serializable {
+    private String id;
     private String name_tourism;
     private String location_tourism;
     private String info_tourism;
@@ -28,7 +29,8 @@ public class Tourism implements Serializable {
         //constructor untuk panggilan ke DataSnapshot.getValue
     }
 
-    public Tourism(String name_tourism, String location_tourism, String info_tourism, String telepon, String url_photo, double lat_location_tourism, double lng_location_tourism) {
+    public Tourism(String id, String name_tourism, String location_tourism, String info_tourism, String telepon, String url_photo, double lat_location_tourism, double lng_location_tourism) {
+        this.id = id;
         this.name_tourism = name_tourism;
         this.location_tourism = location_tourism;
         this.info_tourism = info_tourism;
@@ -94,4 +96,11 @@ public class Tourism implements Serializable {
         this.lng_location_tourism = lng_location_tourism;
     }
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 }

@@ -35,8 +35,6 @@ import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
@@ -46,7 +44,6 @@ import co.id.roningrum.dolanapptugasakhir.model.Tourism;
 
 public class TourismEducationMaps extends FragmentActivity implements OnMapReadyCallback {
 
-    private DatabaseReference educationRefMap;
     private GoogleMap educationPlaceMap;
 
     @Override
@@ -58,7 +55,6 @@ public class TourismEducationMaps extends FragmentActivity implements OnMapReady
                 .findFragmentById(R.id.education_map);
         assert mapFragment != null;
         mapFragment.getMapAsync(this);
-        educationRefMap = FirebaseDatabase.getInstance().getReference().child("Tourism");
     }
 
 

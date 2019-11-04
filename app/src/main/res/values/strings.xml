@@ -123,4 +123,7 @@
     <string name="txt_btn_cancel">Cancel</string>
     <string name="txt_btn_upload_photo">Unggah Foto</string>
     <string name="txt_btn_save_change">Simpan Perubahan</string>
+
+
+    <string name="km">km</string>
 </resources>
