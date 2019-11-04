@@ -33,10 +33,10 @@ import co.id.roningrum.dolanapptugasakhir.R;
  * source code modified from https://gist.github.com/passiondroid/cd2ad32e7ba26f4e47ae
  */
 
-public class PermissionHandler {
+public class LocationPermissionHandler {
 
     @SuppressLint("StaticFieldLeak")
-    private static PermissionHandler permissionHandler;
+    private static LocationPermissionHandler locationPermissionHandler;
     private static final int REQUEST_CODE = 1;
     private Activity activity;
     private static final String PERMISSION_ACCESS_FINE_LOCTAION = Manifest.permission.ACCESS_FINE_LOCATION;
@@ -44,15 +44,15 @@ public class PermissionHandler {
     private ArrayList<String> requiredPermissions;
     private ArrayList<String> ungrantedPermissions = new ArrayList<>();
 
-    private PermissionHandler(Activity activity) {
+    private LocationPermissionHandler(Activity activity) {
         this.activity = activity;
     }
 
-    public static synchronized PermissionHandler getInstance(Activity activity) {
-        if (permissionHandler == null) {
-            permissionHandler = new PermissionHandler(activity);
+    public static synchronized LocationPermissionHandler getInstance(Activity activity) {
+        if (locationPermissionHandler == null) {
+            locationPermissionHandler = new LocationPermissionHandler(activity);
         }
-        return permissionHandler;
+        return locationPermissionHandler;
     }
 
     private void initPermissions() {

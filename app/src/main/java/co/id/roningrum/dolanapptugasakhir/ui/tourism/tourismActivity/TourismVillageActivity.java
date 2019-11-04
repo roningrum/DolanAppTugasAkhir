@@ -44,8 +44,8 @@ import java.util.Arrays;
 import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.controller.FirebaseConstant;
 import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
+import co.id.roningrum.dolanapptugasakhir.handler.LocationPermissionHandler;
 import co.id.roningrum.dolanapptugasakhir.handler.NetworkHelper;
-import co.id.roningrum.dolanapptugasakhir.handler.PermissionHandler;
 import co.id.roningrum.dolanapptugasakhir.model.Tourism;
 import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismDetailActivity.TourismVillageDetail;
 import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismMapActivity.TourismVillageMaps;
@@ -57,7 +57,7 @@ public class TourismVillageActivity extends AppCompatActivity {
     private FirebaseRecyclerAdapter<Tourism, VillageViewHolder> villageFirebaseAdapter;
 
     private GPSHandler gpsHandler;
-    private PermissionHandler permissionHandler;
+    private LocationPermissionHandler locationPermissionHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -138,12 +138,12 @@ public class TourismVillageActivity extends AppCompatActivity {
 
     private boolean havePermission() {
         if (Build.VERSION.SDK_INT >= 23) {
-            permissionHandler = PermissionHandler.getInstance(this);
-            if (permissionHandler.isAllPermissionAvailable()) {
+            locationPermissionHandler = LocationPermissionHandler.getInstance(this);
+            if (locationPermissionHandler.isAllPermissionAvailable()) {
                 Log.d("Pesan", "Permissions have done");
             } else {
-                permissionHandler.setActivity(this);
-                permissionHandler.deniedPermission();
+                locationPermissionHandler.setActivity(this);
+                locationPermissionHandler.deniedPermission();
             }
         } else {
             Toast.makeText(this, "Check your permission", Toast.LENGTH_SHORT).show();
@@ -158,8 +158,8 @@ public class TourismVillageActivity extends AppCompatActivity {
                 Log.d("test", "Permission" + Arrays.toString(permissions) + "Success");
             } else {
                 //denied
-                permissionHandler.deniedPermission(Manifest.permission.ACCESS_FINE_LOCATION);
-                permissionHandler.deniedPermission(Manifest.permission.ACCESS_COARSE_LOCATION);
+                locationPermissionHandler.deniedPermission(Manifest.permission.ACCESS_FINE_LOCATION);
+                locationPermissionHandler.deniedPermission(Manifest.permission.ACCESS_COARSE_LOCATION);
             }
         }
     }

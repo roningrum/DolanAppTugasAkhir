@@ -42,7 +42,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import co.id.roningrum.dolanapptugasakhir.R;
-import co.id.roningrum.dolanapptugasakhir.handler.PermissionHandler;
+import co.id.roningrum.dolanapptugasakhir.handler.LocationPermissionHandler;
 import co.id.roningrum.dolanapptugasakhir.model.Tourism;
 
 
@@ -55,7 +55,7 @@ public class FavoriteFragment extends Fragment {
     private RecyclerView rvFavoritList;
     private FirebaseUser user;
     private FavoritAdapter favoritAdapter;
-    private PermissionHandler permissionHandler;
+    private LocationPermissionHandler locationPermissionHandler;
     private DatabaseReference databaseReference;
 
 
@@ -141,12 +141,12 @@ public class FavoriteFragment extends Fragment {
 
     private boolean havePermission() {
         if (Build.VERSION.SDK_INT >= 23) {
-            permissionHandler = PermissionHandler.getInstance(getActivity());
-            if (permissionHandler.isAllPermissionAvailable()) {
+            locationPermissionHandler = LocationPermissionHandler.getInstance(getActivity());
+            if (locationPermissionHandler.isAllPermissionAvailable()) {
                 Log.d("Pesan", "Permissions have done");
             } else {
-                permissionHandler.setActivity(getActivity());
-                permissionHandler.deniedPermission();
+                locationPermissionHandler.setActivity(getActivity());
+                locationPermissionHandler.deniedPermission();
             }
         } else {
             Toast.makeText(getActivity(), "Check your permission", Toast.LENGTH_SHORT).show();
@@ -162,8 +162,8 @@ public class FavoriteFragment extends Fragment {
                 Log.d("test", "Permission" + Arrays.toString(permissions) + "Success");
             } else {
                 //denied
-                permissionHandler.deniedPermission(Manifest.permission.ACCESS_FINE_LOCATION);
-                permissionHandler.deniedPermission(Manifest.permission.ACCESS_COARSE_LOCATION);
+                locationPermissionHandler.deniedPermission(Manifest.permission.ACCESS_FINE_LOCATION);
+                locationPermissionHandler.deniedPermission(Manifest.permission.ACCESS_COARSE_LOCATION);
             }
         }
     }

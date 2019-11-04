@@ -43,8 +43,8 @@ import java.util.Arrays;
 import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.controller.FirebaseConstant;
 import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
+import co.id.roningrum.dolanapptugasakhir.handler.LocationPermissionHandler;
 import co.id.roningrum.dolanapptugasakhir.handler.NetworkHelper;
-import co.id.roningrum.dolanapptugasakhir.handler.PermissionHandler;
 import co.id.roningrum.dolanapptugasakhir.model.Transportation;
 import co.id.roningrum.dolanapptugasakhir.ui.transportation.transportationDetailActivity.TransportationAirportDetail;
 import co.id.roningrum.dolanapptugasakhir.ui.transportation.transportationMapActivity.TransportationAirportMaps;
@@ -56,7 +56,7 @@ public class TransportationAirportActivity extends AppCompatActivity {
     private FirebaseRecyclerAdapter<Transportation, AirportViewHolder> airportFirebaseadapter;
 
     private GPSHandler gpsHandler;
-    private PermissionHandler permissionHandler;
+    private LocationPermissionHandler locationPermissionHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -131,12 +131,12 @@ public class TransportationAirportActivity extends AppCompatActivity {
 
     private boolean havePermission() {
         if (Build.VERSION.SDK_INT >= 23) {
-            permissionHandler = PermissionHandler.getInstance(this);
-            if (permissionHandler.isAllPermissionAvailable()) {
+            locationPermissionHandler = LocationPermissionHandler.getInstance(this);
+            if (locationPermissionHandler.isAllPermissionAvailable()) {
                 Log.d("Pesan", "Permissions have done");
             } else {
-                permissionHandler.setActivity(this);
-                permissionHandler.deniedPermission();
+                locationPermissionHandler.setActivity(this);
+                locationPermissionHandler.deniedPermission();
             }
         } else {
             Toast.makeText(this, "Check your permission", Toast.LENGTH_SHORT).show();
@@ -152,8 +152,8 @@ public class TransportationAirportActivity extends AppCompatActivity {
                 Log.d("test", "Permission" + Arrays.toString(permissions) + "Success");
             } else {
                 //denied
-                permissionHandler.deniedPermission(Manifest.permission.ACCESS_FINE_LOCATION);
-                permissionHandler.deniedPermission(Manifest.permission.ACCESS_COARSE_LOCATION);
+                locationPermissionHandler.deniedPermission(Manifest.permission.ACCESS_FINE_LOCATION);
+                locationPermissionHandler.deniedPermission(Manifest.permission.ACCESS_COARSE_LOCATION);
             }
         }
     }
