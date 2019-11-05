@@ -78,7 +78,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         LinearLayout airportMenu = view.findViewById(R.id.ln_bandara_public_home);
         LinearLayout hotelMenu = view.findViewById(R.id.ln_hotel_public_home);
         LinearLayout trainMenu = view.findViewById(R.id.ln_train_public_home);
-//        LinearLayout busMenu = view.findViewById(R.id.ln_bus_public_home);
+        LinearLayout busMenu = view.findViewById(R.id.ln_bus_public_home);
 
         tvAllCategory.setOnClickListener(this);
         natureMenu.setOnClickListener(this);
@@ -88,7 +88,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         airportMenu.setOnClickListener(this);
         hotelMenu.setOnClickListener(this);
         trainMenu.setOnClickListener(this);
-//        busMenu.setOnClickListener(this);
+        busMenu.setOnClickListener(this);
 
         //rv
         rvTouristRecommendation = view.findViewById(R.id.rv_tourism_recommendation);
