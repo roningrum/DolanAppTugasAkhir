@@ -126,4 +126,7 @@
 
 
     <string name="km">km</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="search">Search</string>
 </resources>

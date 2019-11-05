@@ -25,7 +25,6 @@ import co.id.roningrum.dolanapptugasakhir.ui.gasstation.GasStationCategory;
 import co.id.roningrum.dolanapptugasakhir.ui.hospital.HospitalCategory;
 import co.id.roningrum.dolanapptugasakhir.ui.hotel.HotelActivity;
 import co.id.roningrum.dolanapptugasakhir.ui.police.PoliceCategory;
-import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismActivity.TourismActivity;
 import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismActivity.TourismEducationActivity;
 import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismActivity.TourismFoodActivity;
 import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismActivity.TourismHistoryActivity;
@@ -34,6 +33,7 @@ import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismActivity.TourismRecr
 import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismActivity.TourismReligiActivity;
 import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismActivity.TourismShoppingActivity;
 import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismActivity.TourismVillageActivity;
+import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismActivity.TourismWaterActivity;
 import co.id.roningrum.dolanapptugasakhir.ui.transportation.transportationActivity.TransportationAirportActivity;
 import co.id.roningrum.dolanapptugasakhir.ui.transportation.transportationActivity.TransportationBusActivity;
 import co.id.roningrum.dolanapptugasakhir.ui.transportation.transportationActivity.TransportationShipActivity;
@@ -106,7 +106,7 @@ public class AllCategoryActivity extends AppCompatActivity implements View.OnCli
                 startActivity(new Intent(AllCategoryActivity.this, TourismEducationActivity.class));
                 break;
             case R.id.ln_air_tour:
-                startActivity(new Intent(AllCategoryActivity.this, TourismActivity.class));
+                startActivity(new Intent(AllCategoryActivity.this, TourismWaterActivity.class));
                 break;
             case R.id.ln_religi_tour:
                 startActivity(new Intent(AllCategoryActivity.this, TourismReligiActivity.class));

@@ -70,6 +70,7 @@ public class GPSHandler extends Service implements LocationListener {
         try {
             locationManager = (LocationManager) context
                     .getSystemService(LOCATION_SERVICE);
+            assert locationManager != null;
             boolean isGPSEnabled = locationManager
                     .isProviderEnabled(LocationManager.GPS_PROVIDER);
             boolean isNetworkEnabled = locationManager
@@ -96,7 +97,7 @@ public class GPSHandler extends Service implements LocationListener {
                             longitude = location.getLongitude();
                         }
                     }
-                } else if (isGPSEnabled) {
+                } else {
                     locationManager
                             .requestLocationUpdates(
                                     LocationManager.NETWORK_PROVIDER,

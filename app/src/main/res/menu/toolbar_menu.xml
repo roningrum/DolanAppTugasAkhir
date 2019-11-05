@@ -20,5 +20,4 @@
         android:icon="@drawable/ic_map_24dp"
         android:title="@string/menu_icon_peta"
         app:showAsAction="ifRoom" />
-
 </menu>

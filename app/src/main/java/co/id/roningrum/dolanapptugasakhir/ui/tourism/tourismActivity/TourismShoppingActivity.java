@@ -19,11 +19,8 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -33,50 +30,50 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.facebook.shimmer.ShimmerFrameLayout;
-import com.firebase.ui.database.FirebaseRecyclerAdapter;
-import com.firebase.ui.database.FirebaseRecyclerOptions;
-import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
 import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.controller.FirebaseConstant;
-import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.handler.LocationPermissionHandler;
 import co.id.roningrum.dolanapptugasakhir.handler.NetworkHelper;
 import co.id.roningrum.dolanapptugasakhir.model.Tourism;
 import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismDetailActivity.TourismShoppingDetail;
 import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismMapActivity.TourismShoppingMaps;
-import co.id.roningrum.dolanapptugasakhir.viewholderActivity.tourism.ShoppingViewHolder;
+import co.id.roningrum.dolanapptugasakhir.viewholderActivity.tourism.TourismAdapter;
 
 public class TourismShoppingActivity extends AppCompatActivity {
 
     private RecyclerView rvShoppingList;
     private ShimmerFrameLayout shimmerFrameLayout;
-    private FirebaseRecyclerAdapter<Tourism, ShoppingViewHolder> shoppingFirebaseAdapter;
+    private TourismAdapter tourismAdapter;
 
-    private GPSHandler gpsHandler;
+    private ArrayList<Tourism> tourisms = new ArrayList<>();
     private LocationPermissionHandler locationPermissionHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_category_shopping);
-        rvShoppingList = findViewById(R.id.tourism_shopping_list);
         Toolbar toolbarShopping = findViewById(R.id.toolbar_top_shopping);
+        rvShoppingList = findViewById(R.id.tourism_shopping_list);
         shimmerFrameLayout = findViewById(R.id.shimmer_view_container);
         rvShoppingList.setLayoutManager(new LinearLayoutManager(this));
-        ArrayList<Tourism> tourisms = new ArrayList<>();
         checkConnection();
         setSupportActionBar(toolbarShopping);
     }
 
     private void checkConnection() {
         if (NetworkHelper.isConnectedToNetwork(getApplicationContext())) {
+            showLoading(false);
             showData();
         } else {
+            showLoading(true);
             Toast.makeText(this, "Check your connection", Toast.LENGTH_SHORT).show();
         }
     }
@@ -84,50 +81,33 @@ public class TourismShoppingActivity extends AppCompatActivity {
     private void showData() {
         if (havePermission()) {
             Query shoppingQuery = FirebaseConstant.getTourismBelanja();
-            FirebaseRecyclerOptions<Tourism> shoppingOptions = new FirebaseRecyclerOptions.Builder<Tourism>()
-                    .setQuery(shoppingQuery, Tourism.class)
-                    .build();
-            shoppingFirebaseAdapter = new FirebaseRecyclerAdapter<Tourism, ShoppingViewHolder>(shoppingOptions) {
+            shoppingQuery.addValueEventListener(new ValueEventListener() {
                 @Override
-                protected void onBindViewHolder(@NonNull ShoppingViewHolder holder, int position, @NonNull Tourism model) {
-                    final DatabaseReference shoppingCategoryRef = getRef(position);
-                    final String shoppingKey = shoppingCategoryRef.getKey();
-
-                    gpsHandler = new GPSHandler(getApplicationContext());
-                    if (gpsHandler.isCanGetLocation()) {
-                        double latitude = gpsHandler.getLatitude();
-                        double longitude = gpsHandler.getLongitude();
-
-                        Log.i("Message", "CurLoc :" + latitude + "," + longitude);
-
-                        shimmerFrameLayout.stopShimmer();
-                        shimmerFrameLayout.setVisibility(View.GONE);
-
-                        holder.showShoppingTourismData(model, latitude, longitude);
-                        holder.setOnClickListener(new ShoppingViewHolder.ClickListener() {
-                            @Override
-                            public void onItemClick(View view, int position) {
-                                Intent intent = new Intent(getApplicationContext(), TourismShoppingDetail.class);
-                                intent.putExtra(TourismShoppingDetail.EXTRA_WISATA_KEY, shoppingKey);
-                                startActivity(intent);
-                            }
-                        });
-
-                    } else {
-                        gpsHandler.showSettingsAlert();
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
+                        Tourism tourism = dataSnapshot1.getValue(Tourism.class);
+                        tourisms.add(tourism);
                     }
+                    tourismAdapter = new TourismAdapter();
+                    tourismAdapter.setTourismList(tourisms);
+                    tourismAdapter.setOnItemClickCallback(new TourismAdapter.OnItemClickCallback() {
+                        @Override
+                        public void onItemClicked(Tourism tourism) {
+                            String tourismKey = tourism.getId();
+                            Intent intent = new Intent(TourismShoppingActivity.this, TourismShoppingDetail.class);
+                            intent.putExtra(TourismShoppingDetail.EXTRA_WISATA_KEY, tourismKey);
+                            Log.d("Check id", "id :" + tourismKey);
+                            startActivity(intent);
+                        }
+                    });
+                    rvShoppingList.setAdapter(tourismAdapter);
                 }
 
-                @NonNull
                 @Override
-                public ShoppingViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-                    View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_menu_shopping_category_tourism, viewGroup, false);
-                    return new ShoppingViewHolder(view);
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                    Log.e("Error DatabaseError", " " + databaseError.getMessage());
                 }
-            };
-            shoppingFirebaseAdapter.notifyDataSetChanged();
-            rvShoppingList.setAdapter(shoppingFirebaseAdapter);
-
+            });
         }
     }
 
@@ -177,34 +157,11 @@ public class TourismShoppingActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        shimmerFrameLayout.startShimmer();
-        shoppingFirebaseAdapter.startListening();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        shimmerFrameLayout.stopShimmer();
-        shoppingFirebaseAdapter.stopListening();
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        if (shoppingFirebaseAdapter != null) {
-            shoppingFirebaseAdapter.startListening();
-        }
-
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        if (shoppingFirebaseAdapter != null) {
-            shoppingFirebaseAdapter.stopListening();
+    private void showLoading(Boolean state) {
+        if (state) {
+            shimmerFrameLayout.startShimmer();
+        } else {
+            shimmerFrameLayout.stopShimmer();
         }
     }
 

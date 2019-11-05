@@ -19,11 +19,8 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -33,29 +30,28 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.facebook.shimmer.ShimmerFrameLayout;
-import com.firebase.ui.database.FirebaseRecyclerAdapter;
-import com.firebase.ui.database.FirebaseRecyclerOptions;
-import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.controller.FirebaseConstant;
-import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.handler.LocationPermissionHandler;
 import co.id.roningrum.dolanapptugasakhir.handler.NetworkHelper;
 import co.id.roningrum.dolanapptugasakhir.model.Tourism;
 import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismDetailActivity.TourismRecreationDetail;
 import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismMapActivity.TourismRecreationMaps;
-import co.id.roningrum.dolanapptugasakhir.viewholderActivity.tourism.RecreationViewHolder;
+import co.id.roningrum.dolanapptugasakhir.viewholderActivity.tourism.TourismAdapter;
 
 public class TourismRecreationActivity extends AppCompatActivity {
     private RecyclerView rvRecreationList;
     private ShimmerFrameLayout shimmerFrameLayout;
-    private FirebaseRecyclerAdapter<Tourism, RecreationViewHolder> recreationFirebaseAdapter;
-
-    private GPSHandler gpsHandler;
+    private ArrayList<Tourism> tourisms = new ArrayList<>();
+    private TourismAdapter tourismAdapter;
     private LocationPermissionHandler locationPermissionHandler;
 
     @Override
@@ -81,51 +77,35 @@ public class TourismRecreationActivity extends AppCompatActivity {
     private void showData() {
         if (havePermission()) {
             Query recreationQuery = FirebaseConstant.getTourismRekreasi();
-            FirebaseRecyclerOptions<Tourism> recreationOptions = new FirebaseRecyclerOptions.Builder<Tourism>()
-                    .setQuery(recreationQuery, Tourism.class)
-                    .build();
-            recreationFirebaseAdapter = new FirebaseRecyclerAdapter<Tourism, RecreationViewHolder>(recreationOptions) {
-
+            recreationQuery.addValueEventListener(new ValueEventListener() {
                 @Override
-                protected void onBindViewHolder(@NonNull RecreationViewHolder holder, int position, @NonNull Tourism model) {
-                    final DatabaseReference recreationCategoryRef = getRef(position);
-                    final String recreationKey = recreationCategoryRef.getKey();
-
-                    gpsHandler = new GPSHandler(getApplicationContext());
-                    if (gpsHandler.isCanGetLocation()) {
-                        double latitude = gpsHandler.getLatitude();
-                        double longitude = gpsHandler.getLongitude();
-
-                        Log.i("Message", "CurLoc :" + latitude + "," + longitude);
-
-                        shimmerFrameLayout.stopShimmer();
-                        shimmerFrameLayout.setVisibility(View.GONE);
-
-                        holder.showRecreationTourismData(model, latitude, longitude);
-                        holder.setOnClickListener(new RecreationViewHolder.ClickListener() {
-                            @Override
-                            public void onItemClick(View view, int position) {
-                                Intent intent = new Intent(getApplicationContext(), TourismRecreationDetail.class);
-                                intent.putExtra(TourismRecreationDetail.EXTRA_WISATA_KEY, recreationKey);
-                                startActivity(intent);
-                            }
-                        });
-
-                    } else {
-                        gpsHandler.showSettingsAlert();
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
+                        Tourism tourism = dataSnapshot1.getValue(Tourism.class);
+                        tourisms.add(tourism);
                     }
+                    tourismAdapter = new TourismAdapter();
+                    tourismAdapter.setTourismList(tourisms);
+                    tourismAdapter.setOnItemClickCallback(new TourismAdapter.OnItemClickCallback() {
+                        @Override
+                        public void onItemClicked(Tourism tourism) {
+                            String tourismKey = tourism.getId();
+                            Intent intent = new Intent(TourismRecreationActivity.this, TourismRecreationDetail.class);
+                            intent.putExtra(TourismRecreationDetail.EXTRA_WISATA_KEY, tourismKey);
+                            Log.d("Check id", "id :" + tourismKey);
+                            startActivity(intent);
+                        }
+                    });
+
+                    rvRecreationList.setAdapter(tourismAdapter);
                 }
 
-                @NonNull
                 @Override
-                public RecreationViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-                    View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_menu_recreation_category_tourism, viewGroup, false);
-                    return new RecreationViewHolder(view);
-                }
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                    Log.e("Error DatabaseError", " " + databaseError.getMessage());
 
-            };
-            recreationFirebaseAdapter.notifyDataSetChanged();
-            rvRecreationList.setAdapter(recreationFirebaseAdapter);
+                }
+            });
         }
     }
 
@@ -174,35 +154,11 @@ public class TourismRecreationActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        shimmerFrameLayout.startShimmer();
-        recreationFirebaseAdapter.startListening();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        shimmerFrameLayout.stopShimmer();
-        recreationFirebaseAdapter.stopListening();
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        if (recreationFirebaseAdapter != null) {
-            recreationFirebaseAdapter.startListening();
+    private void showLoading(Boolean state) {
+        if (state) {
+            shimmerFrameLayout.startShimmer();
+        } else {
+            shimmerFrameLayout.stopShimmer();
         }
-
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        if (recreationFirebaseAdapter != null) {
-            recreationFirebaseAdapter.stopListening();
-        }
-
     }
 }

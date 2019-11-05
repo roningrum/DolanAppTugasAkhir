@@ -113,9 +113,9 @@ public class TourismFoodDetail extends AppCompatActivity implements OnMapReadyCa
 
 
         foodKey = getIntent().getStringExtra(EXTRA_WISATA_KEY);
-        if (foodKey == null) {
-            throw new IllegalArgumentException("Must pass EXTRA");
-        }
+//        if (foodKey == null) {
+//            throw new IllegalArgumentException("Must pass EXTRA");
+//        }
         Log.d("Check Id", "id Detail : " + foodKey);
         foodDetailRef = FirebaseConstant.getTourismRef(foodKey);
         gpsHandler = new GPSHandler(this);

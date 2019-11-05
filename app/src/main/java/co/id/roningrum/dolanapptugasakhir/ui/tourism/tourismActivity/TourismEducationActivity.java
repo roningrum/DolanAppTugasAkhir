@@ -19,11 +19,8 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -33,30 +30,30 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.facebook.shimmer.ShimmerFrameLayout;
-import com.firebase.ui.database.FirebaseRecyclerAdapter;
-import com.firebase.ui.database.FirebaseRecyclerOptions;
-import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.controller.FirebaseConstant;
-import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.handler.LocationPermissionHandler;
-import co.id.roningrum.dolanapptugasakhir.handler.NetworkHelper;
 import co.id.roningrum.dolanapptugasakhir.model.Tourism;
 import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismDetailActivity.TourismEducationDetail;
 import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismMapActivity.TourismEducationMaps;
-import co.id.roningrum.dolanapptugasakhir.viewholderActivity.tourism.EducationViewHolder;
+import co.id.roningrum.dolanapptugasakhir.util.Util;
+import co.id.roningrum.dolanapptugasakhir.viewholderActivity.tourism.TourismAdapter;
 
 public class TourismEducationActivity extends AppCompatActivity {
 
     private RecyclerView rvEducationList;
     private ShimmerFrameLayout shimmerFrameLayout;
-    private FirebaseRecyclerAdapter<Tourism, EducationViewHolder> educationFirebaseAdapter;
+    private TourismAdapter tourismAdapter;
+    private ArrayList<Tourism> tourisms = new ArrayList<>();
 
-    private GPSHandler gpsHandler;
     private LocationPermissionHandler locationPermissionHandler;
 
     @Override
@@ -68,13 +65,16 @@ public class TourismEducationActivity extends AppCompatActivity {
         shimmerFrameLayout = findViewById(R.id.shimmer_view_container);
         rvEducationList.setLayoutManager(new LinearLayoutManager(this));
         setSupportActionBar(toolbarEducation);
+
         checkConnection();
     }
 
     private void checkConnection() {
-        if (NetworkHelper.isConnectedToNetwork(getApplicationContext())) {
+        if (Util.isConnectedToNetwork(getApplicationContext())) {
+            showLoading(false);
             showEducationData();
         } else {
+            showLoading(true);
             Toast.makeText(this, "Check your connection", Toast.LENGTH_SHORT).show();
         }
     }
@@ -82,50 +82,36 @@ public class TourismEducationActivity extends AppCompatActivity {
     private void showEducationData() {
         if (havePermission()) {
             Query educationQuery = FirebaseConstant.getTourismEducation();
-            FirebaseRecyclerOptions<Tourism> educationOptions = new FirebaseRecyclerOptions.Builder<Tourism>()
-                    .setQuery(educationQuery, Tourism.class)
-                    .build();
-            educationFirebaseAdapter = new FirebaseRecyclerAdapter<Tourism, EducationViewHolder>(educationOptions) {
-                @NonNull
+            educationQuery.addValueEventListener(new ValueEventListener() {
                 @Override
-                public EducationViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-                    return new EducationViewHolder(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_education_category_menu, viewGroup, false));
-                }
-
-                @Override
-                protected void onBindViewHolder(@NonNull EducationViewHolder holder, int position, @NonNull Tourism model) {
-                    final DatabaseReference educationCategoryRef = getRef(position);
-                    final String eductaionKey = educationCategoryRef.getKey();
-                    Log.d("Check eduKey", "" + eductaionKey);
-
-                    gpsHandler = new GPSHandler(getApplicationContext());
-                    if (gpsHandler.isCanGetLocation()) {
-                        double latitude = gpsHandler.getLatitude();
-                        double longitude = gpsHandler.getLongitude();
-
-                        Log.i("Message", "CurLoc :" + latitude + "," + longitude);
-
-                        shimmerFrameLayout.stopShimmer();
-                        shimmerFrameLayout.setVisibility(View.GONE);
-
-                        holder.showEducationTourismData(model, latitude, longitude);
-                        holder.setOnClickListener(new EducationViewHolder.ClickListener() {
-                            @Override
-                            public void onItemClick(View view, int position) {
-                                Intent intent = new Intent(getApplicationContext(), TourismEducationDetail.class);
-                                intent.putExtra(TourismEducationDetail.EXTRA_WISATA_KEY, eductaionKey);
-                                startActivity(intent);
-                            }
-                        });
-
-                    } else {
-                        gpsHandler.stopUsingGPS();
-                        gpsHandler.showSettingsAlert();
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
+                        Tourism tourism = dataSnapshot1.getValue(Tourism.class);
+                        tourisms.add(tourism);
                     }
+                    tourismAdapter = new TourismAdapter();
+                    rvEducationList.setAdapter(tourismAdapter);
+                    tourismAdapter.setTourismList(tourisms);
+                    tourismAdapter.setOnItemClickCallback(new TourismAdapter.OnItemClickCallback() {
+                        @Override
+                        public void onItemClicked(Tourism tourism) {
+                            String tourismKey = tourism.getId();
+                            Intent intent = new Intent(TourismEducationActivity.this, TourismEducationDetail.class);
+                            intent.putExtra(TourismEducationDetail.EXTRA_WISATA_KEY, tourismKey);
+                            Log.d("Check id", "id :" + tourismKey);
+                            startActivity(intent);
+                        }
+                    });
+
+                    tourismAdapter.notifyDataSetChanged();
                 }
-            };
-            educationFirebaseAdapter.notifyDataSetChanged();
-            rvEducationList.setAdapter(educationFirebaseAdapter);
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                    Log.e("Error DatabaseError", " " + databaseError.getMessage());
+
+                }
+            });
         }
     }
 
@@ -143,6 +129,7 @@ public class TourismEducationActivity extends AppCompatActivity {
         }
         return true;
     }
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -162,48 +149,23 @@ public class TourismEducationActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.toolbar_menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == R.id.petaMenu) {
-            startActivity(new Intent(TourismEducationActivity.this, TourismEducationMaps.class));
+        if (item.getItemId() == R.id.petaMenu) {
+            startActivity(new Intent(this, TourismEducationMaps.class));
             return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        shimmerFrameLayout.startShimmer();
-        if (educationFirebaseAdapter != null) {
-            educationFirebaseAdapter.startListening();
+        } else {
+            return super.onOptionsItemSelected(item);
         }
     }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        shimmerFrameLayout.stopShimmer();
-        if (educationFirebaseAdapter != null) {
-            educationFirebaseAdapter.stopListening();
-        }
-    }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        if (educationFirebaseAdapter != null) {
-            educationFirebaseAdapter.startListening();
-        }
-
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        if (educationFirebaseAdapter != null) {
-            educationFirebaseAdapter.stopListening();
+    private void showLoading(Boolean state) {
+        if (state) {
+            shimmerFrameLayout.startShimmer();
+        } else {
+            shimmerFrameLayout.stopShimmer();
         }
     }
 }

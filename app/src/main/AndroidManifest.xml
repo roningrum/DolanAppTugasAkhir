@@ -26,8 +26,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.tourism.TourismDetailActivity"></activity>
-        <activity android:name=".ui.tourism.tourismActivity.TourismActivity" />
+        <activity android:name=".ui.tourism.TourismDetailActivity" />
         <activity android:name=".ui.useractivity.edit.ChangePhotoProfileActivity" />
         <activity android:name=".ui.useractivity.edit.ChangeEmailProfileActivity" />
         <activity android:name=".ui.useractivity.edit.ChangePasswordProfileActivity" />

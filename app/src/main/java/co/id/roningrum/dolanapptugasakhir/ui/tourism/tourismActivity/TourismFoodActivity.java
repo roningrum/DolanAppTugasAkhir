@@ -19,11 +19,8 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -33,28 +30,28 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.facebook.shimmer.ShimmerFrameLayout;
-import com.firebase.ui.database.FirebaseRecyclerAdapter;
-import com.firebase.ui.database.FirebaseRecyclerOptions;
-import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.controller.FirebaseConstant;
-import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.handler.LocationPermissionHandler;
-import co.id.roningrum.dolanapptugasakhir.handler.NetworkHelper;
 import co.id.roningrum.dolanapptugasakhir.model.Tourism;
 import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismDetailActivity.TourismFoodDetail;
 import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismMapActivity.TourismFoodMaps;
-import co.id.roningrum.dolanapptugasakhir.viewholderActivity.tourism.FoodViewHolder;
+import co.id.roningrum.dolanapptugasakhir.util.Util;
+import co.id.roningrum.dolanapptugasakhir.viewholderActivity.tourism.TourismAdapter;
 
 public class TourismFoodActivity extends AppCompatActivity {
     private RecyclerView rvFoodList;
     private ShimmerFrameLayout shimmerFrameLayout;
-    private FirebaseRecyclerAdapter<Tourism, FoodViewHolder> foodFirebaseAdapter;
-    private GPSHandler gpsHandler;
+    private TourismAdapter tourismAdapter;
+    private ArrayList<Tourism> tourisms = new ArrayList<>();
     private LocationPermissionHandler locationPermissionHandler;
 
 
@@ -66,64 +63,52 @@ public class TourismFoodActivity extends AppCompatActivity {
         shimmerFrameLayout = findViewById(R.id.shimmer_view_container);
         Toolbar toolbarFood = findViewById(R.id.toolbar_top_food);
         rvFoodList.setLayoutManager(new LinearLayoutManager(this));
+        rvFoodList.setHasFixedSize(true);
         setSupportActionBar(toolbarFood);
         checkConnection();
 
     }
 
     private void checkConnection() {
-        if (NetworkHelper.isConnectedToNetwork(getApplicationContext())) {
-            showData();
+        if (Util.isConnectedToNetwork(getApplicationContext())) {
+            showLoading(true);
+            showFoodData();
         } else {
+            showLoading(false);
             Toast.makeText(this, "Check your connection", Toast.LENGTH_SHORT).show();
         }
     }
 
-    private void showData() {
+    private void showFoodData() {
         if (havePermission()) {
-            Query educationQuery = FirebaseConstant.getTourismKuliner();
-            FirebaseRecyclerOptions<Tourism> foodOptions = new FirebaseRecyclerOptions.Builder<Tourism>()
-                    .setQuery(educationQuery, Tourism.class)
-                    .build();
-
-            foodFirebaseAdapter = new FirebaseRecyclerAdapter<Tourism, FoodViewHolder>(foodOptions) {
+            Query foodQuery = FirebaseConstant.getTourismKuliner();
+            foodQuery.addValueEventListener(new ValueEventListener() {
                 @Override
-                protected void onBindViewHolder(@NonNull FoodViewHolder holder, int position, @NonNull Tourism model) {
-                    final DatabaseReference foodCategoryRef = getRef(position);
-                    final String foodKey = foodCategoryRef.getKey();
-
-                    gpsHandler = new GPSHandler(getApplicationContext());
-                    if (gpsHandler.isCanGetLocation()) {
-                        double latitude = gpsHandler.getLatitude();
-                        double longitude = gpsHandler.getLongitude();
-
-                        Log.i("Message", "CurLoc :" + latitude + "," + longitude);
-
-                        shimmerFrameLayout.stopShimmer();
-                        shimmerFrameLayout.setVisibility(View.GONE);
-
-                        holder.showFoodTourismData(model, latitude, longitude);
-                        holder.setOnClickListener(new FoodViewHolder.ClickListener() {
-                            @Override
-                            public void onItemClick(View view, int position) {
-                                Intent intent = new Intent(getApplicationContext(), TourismFoodDetail.class);
-                                intent.putExtra(TourismFoodDetail.EXTRA_WISATA_KEY, foodKey);
-                                startActivity(intent);
-                            }
-                        });
-                    } else {
-                        gpsHandler.showSettingsAlert();
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
+                        Tourism tourism = dataSnapshot1.getValue(Tourism.class);
+                        tourisms.add(tourism);
                     }
+                    tourismAdapter = new TourismAdapter();
+                    tourismAdapter.setTourismList(tourisms);
+                    tourismAdapter.setOnItemClickCallback(new TourismAdapter.OnItemClickCallback() {
+                        @Override
+                        public void onItemClicked(Tourism tourism) {
+                            String tourismKey = FirebaseConstant.TourismRef.getKey();
+                            Intent intent = new Intent(TourismFoodActivity.this, TourismFoodDetail.class);
+                            intent.putExtra(TourismFoodDetail.EXTRA_WISATA_KEY, tourismKey);
+                            Log.d("Check id", "id :" + tourismKey);
+                            startActivity(intent);
+                        }
+                    });
+                    rvFoodList.setAdapter(tourismAdapter);
                 }
 
-                @NonNull
                 @Override
-                public FoodViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-                    return new FoodViewHolder(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_food_category_menu, viewGroup, false));
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                    Log.e("Error DatabaseError", " " + databaseError.getMessage());
                 }
-            };
-            foodFirebaseAdapter.notifyDataSetChanged();
-            rvFoodList.setAdapter(foodFirebaseAdapter);
+            });
         }
     }
 
@@ -172,34 +157,12 @@ public class TourismFoodActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        shimmerFrameLayout.startShimmer();
-        foodFirebaseAdapter.startListening();
-    }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        shimmerFrameLayout.stopShimmer();
-        foodFirebaseAdapter.stopListening();
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        if (foodFirebaseAdapter != null) {
-            foodFirebaseAdapter.startListening();
-        }
-
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        if (foodFirebaseAdapter != null) {
-            foodFirebaseAdapter.stopListening();
+    private void showLoading(Boolean state) {
+        if (state) {
+            shimmerFrameLayout.startShimmer();
+        } else {
+            shimmerFrameLayout.stopShimmer();
         }
     }
 }

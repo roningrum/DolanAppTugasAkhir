@@ -19,11 +19,8 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -33,30 +30,29 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.facebook.shimmer.ShimmerFrameLayout;
-import com.firebase.ui.database.FirebaseRecyclerAdapter;
-import com.firebase.ui.database.FirebaseRecyclerOptions;
-import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
 import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.controller.FirebaseConstant;
-import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.handler.LocationPermissionHandler;
 import co.id.roningrum.dolanapptugasakhir.handler.NetworkHelper;
 import co.id.roningrum.dolanapptugasakhir.model.Tourism;
 import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismDetailActivity.TourismVillageDetail;
 import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismMapActivity.TourismVillageMaps;
-import co.id.roningrum.dolanapptugasakhir.viewholderActivity.tourism.VillageViewHolder;
+import co.id.roningrum.dolanapptugasakhir.viewholderActivity.tourism.TourismAdapter;
 
 public class TourismVillageActivity extends AppCompatActivity {
     private RecyclerView rvVillageList;
     private ShimmerFrameLayout shimmerFrameLayout;
-    private FirebaseRecyclerAdapter<Tourism, VillageViewHolder> villageFirebaseAdapter;
+    private TourismAdapter tourismAdapter;
 
-    private GPSHandler gpsHandler;
+    private ArrayList<Tourism> tourisms = new ArrayList<>();
     private LocationPermissionHandler locationPermissionHandler;
 
     @Override
@@ -67,71 +63,51 @@ public class TourismVillageActivity extends AppCompatActivity {
         Toolbar toolbarVillage = findViewById(R.id.toolbar_top_village);
         shimmerFrameLayout = findViewById(R.id.shimmer_view_container);
         rvVillageList.setLayoutManager(new LinearLayoutManager(this));
-        ArrayList<Tourism> tourisms = new ArrayList<>();
         setSupportActionBar(toolbarVillage);
         checkConnection();
     }
 
     private void checkConnection() {
         if (NetworkHelper.isConnectedToNetwork(getApplicationContext())) {
-            showData();
+            showLoading(false);
+            showReligiData();
         } else {
+            showLoading(true);
             Toast.makeText(this, "Check your connection", Toast.LENGTH_SHORT).show();
         }
     }
 
-    private void showData() {
+    private void showReligiData() {
         if (havePermission()) {
             Query villageQuery = FirebaseConstant.getTourismDesa();
-            FirebaseRecyclerOptions<Tourism> villageOptions = new FirebaseRecyclerOptions.Builder<Tourism>()
-                    .setQuery(villageQuery, Tourism.class)
-                    .build();
-            villageFirebaseAdapter = new FirebaseRecyclerAdapter<Tourism, VillageViewHolder>(villageOptions) {
-                @NonNull
+            villageQuery.addValueEventListener(new ValueEventListener() {
                 @Override
-                public VillageViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-                    return new VillageViewHolder(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_menu_village_category_tourism, viewGroup, false));
-                }
-
-                @Override
-                protected void onBindViewHolder(@NonNull VillageViewHolder holder, int position, @NonNull Tourism model) {
-                    final DatabaseReference villageCategoryRef = getRef(position);
-                    final String villageKey = villageCategoryRef.getKey();
-
-                    gpsHandler = new GPSHandler(getApplicationContext());
-                    if (gpsHandler.isCanGetLocation()) {
-                        double latitude = gpsHandler.getLatitude();
-                        double longitude = gpsHandler.getLongitude();
-
-                        Log.i("Message", "CurLoc :" + latitude + "," + longitude);
-
-                        shimmerFrameLayout.stopShimmer();
-                        shimmerFrameLayout.setVisibility(View.GONE);
-
-                        holder.showVillageTourismData(model, latitude, longitude);
-                        holder.setOnClickListener(new VillageViewHolder.ClickListener() {
-                            @Override
-                            public void onItemClick(View view, int position) {
-                                Intent intent = new Intent(getApplicationContext(), TourismVillageDetail.class);
-                                intent.putExtra(TourismVillageDetail.EXTRA_WISATA_KEY, villageKey);
-                                startActivity(intent);
-                            }
-                        });
-
-                    } else {
-                        gpsHandler.showSettingsAlert();
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
+                        Tourism tourism = dataSnapshot1.getValue(Tourism.class);
+                        tourisms.add(tourism);
                     }
+                    tourismAdapter = new TourismAdapter();
+                    tourismAdapter.setTourismList(tourisms);
+                    tourismAdapter.setOnItemClickCallback(new TourismAdapter.OnItemClickCallback() {
+                        @Override
+                        public void onItemClicked(Tourism tourism) {
+                            String tourismKey = tourism.getId();
+                            Intent intent = new Intent(TourismVillageActivity.this, TourismVillageDetail.class);
+                            intent.putExtra(TourismVillageDetail.EXTRA_WISATA_KEY, tourismKey);
+                            Log.d("Check id", "id :" + tourismKey);
+                            startActivity(intent);
+                        }
+                    });
+                    rvVillageList.setAdapter(tourismAdapter);
                 }
 
-//                @NonNull
-//                @Override
-//                public ShoppingViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-//                    View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_menu_shopping_category_tourism, viewGroup, false);
-//                    return new ShoppingViewHolder(view);
-//                }
-            };
-            villageFirebaseAdapter.notifyDataSetChanged();
-            rvVillageList.setAdapter(villageFirebaseAdapter);
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                    Log.e("Error DatabaseError", " " + databaseError.getMessage());
+
+                }
+            });
 
         }
     }
@@ -180,34 +156,11 @@ public class TourismVillageActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        shimmerFrameLayout.startShimmer();
-        villageFirebaseAdapter.startListening();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        shimmerFrameLayout.stopShimmer();
-        villageFirebaseAdapter.stopListening();
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        if (villageFirebaseAdapter != null) {
-            villageFirebaseAdapter.startListening();
-        }
-
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        if (villageFirebaseAdapter != null) {
-            villageFirebaseAdapter.stopListening();
+    private void showLoading(Boolean state) {
+        if (state) {
+            shimmerFrameLayout.startShimmer();
+        } else {
+            shimmerFrameLayout.stopShimmer();
         }
     }
 }

@@ -19,11 +19,8 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -34,29 +31,29 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.facebook.shimmer.ShimmerFrameLayout;
-import com.firebase.ui.database.FirebaseRecyclerAdapter;
-import com.firebase.ui.database.FirebaseRecyclerOptions;
-import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.controller.FirebaseConstant;
-import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.handler.LocationPermissionHandler;
 import co.id.roningrum.dolanapptugasakhir.handler.NetworkHelper;
 import co.id.roningrum.dolanapptugasakhir.model.Tourism;
 import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismDetailActivity.TourismNatureDetail;
 import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismMapActivity.TourismNatureMaps;
-import co.id.roningrum.dolanapptugasakhir.viewholderActivity.tourism.NatureViewHolder;
+import co.id.roningrum.dolanapptugasakhir.viewholderActivity.tourism.TourismAdapter;
 
 public class TourismNatureActivity extends AppCompatActivity {
     private RecyclerView rvNatureList;
     private ShimmerFrameLayout shimmerFrameLayout;
-    private FirebaseRecyclerAdapter<Tourism, NatureViewHolder> natureFirebaseAdapter;
+    private TourismAdapter tourismAdapter;
+    private ArrayList<Tourism> tourisms = new ArrayList<>();
 
-    private GPSHandler gpsHandler;
     private LocationPermissionHandler locationPermissionHandler;
     protected ConstraintLayout layoutUnavailable;
 
@@ -75,60 +72,46 @@ public class TourismNatureActivity extends AppCompatActivity {
 
     private void checkConnection() {
         if (NetworkHelper.isConnectedToNetwork(getApplicationContext())) {
+            showLoading(false);
             showData();
         } else {
+            showLoading(true);
             Toast.makeText(this, "Check your connection", Toast.LENGTH_SHORT).show();
         }
     }
 
     private void showData() {
         if (havePermission()) {
-            Query query = FirebaseConstant.getTourismAlam();
-            FirebaseRecyclerOptions<Tourism> options = new FirebaseRecyclerOptions.Builder<Tourism>()
-                    .setQuery(query, Tourism.class)
-                    .build();
-            natureFirebaseAdapter = new FirebaseRecyclerAdapter<Tourism, NatureViewHolder>(options) {
-
+            Query natureQuery = FirebaseConstant.getTourismAlam();
+            natureQuery.addValueEventListener(new ValueEventListener() {
                 @Override
-                protected void onBindViewHolder(@NonNull NatureViewHolder holder, int position, @NonNull Tourism model) {
-                    final DatabaseReference natureCategoryRef = getRef(position);
-                    final String natureKey = natureCategoryRef.getKey();
-
-                    gpsHandler = new GPSHandler(getApplicationContext());
-                    if (gpsHandler.isCanGetLocation()) {
-                        double latitude = gpsHandler.getLatitude();
-                        double longitude = gpsHandler.getLongitude();
-
-                        Log.i("Message", "CurLoc :" + latitude + "," + longitude);
-
-                        shimmerFrameLayout.stopShimmer();
-                        shimmerFrameLayout.setVisibility(View.GONE);
-
-                        holder.showTourismData(model, longitude, latitude);
-                        holder.setOnClickListener(new NatureViewHolder.ClickListener() {
-                            @Override
-                            public void onItemClick(View view, int position) {
-                                Intent intent = new Intent(getApplicationContext(), TourismNatureDetail.class);
-                                intent.putExtra(TourismNatureDetail.EXTRA_WISATA_KEY, natureKey);
-                                startActivity(intent);
-                            }
-                        });
-
-                    } else {
-                        gpsHandler.showSettingsAlert();
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
+                        Tourism tourism = dataSnapshot1.getValue(Tourism.class);
+                        tourisms.add(tourism);
                     }
+                    tourismAdapter = new TourismAdapter();
+                    tourismAdapter.setTourismList(tourisms);
+                    tourismAdapter.setOnItemClickCallback(new TourismAdapter.OnItemClickCallback() {
+                        @Override
+                        public void onItemClicked(Tourism tourism) {
+                            String tourismKey = tourism.getId();
+                            Intent intent = new Intent(TourismNatureActivity.this, TourismNatureDetail.class);
+                            intent.putExtra(TourismNatureDetail.EXTRA_WISATA_KEY, tourismKey);
+                            Log.d("Check id", "id :" + tourismKey);
+                            startActivity(intent);
+                        }
+                    });
+                    rvNatureList.setAdapter(tourismAdapter);
                 }
 
-                @NonNull
                 @Override
-                public NatureViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-                    View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_menu_nature_category_tourism, viewGroup, false);
-                    return new NatureViewHolder(view);
-                }
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                    Log.e("Error DatabaseError", " " + databaseError.getMessage());
 
-            };
-            natureFirebaseAdapter.notifyDataSetChanged();
-            rvNatureList.setAdapter(natureFirebaseAdapter);
+                }
+            });
+
         }
     }
 
@@ -177,19 +160,11 @@ public class TourismNatureActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        if (natureFirebaseAdapter != null) {
-            natureFirebaseAdapter.startListening();
-        }
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        if (natureFirebaseAdapter != null) {
-            natureFirebaseAdapter.stopListening();
+    private void showLoading(Boolean state) {
+        if (state) {
+            shimmerFrameLayout.startShimmer();
+        } else {
+            shimmerFrameLayout.stopShimmer();
         }
     }
 

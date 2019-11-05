@@ -19,11 +19,8 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -33,30 +30,29 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.facebook.shimmer.ShimmerFrameLayout;
-import com.firebase.ui.database.FirebaseRecyclerAdapter;
-import com.firebase.ui.database.FirebaseRecyclerOptions;
-import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
 import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.controller.FirebaseConstant;
-import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.handler.LocationPermissionHandler;
 import co.id.roningrum.dolanapptugasakhir.handler.NetworkHelper;
 import co.id.roningrum.dolanapptugasakhir.model.Tourism;
 import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismDetailActivity.TourismWaterDetail;
 import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismMapActivity.TourismWaterMaps;
-import co.id.roningrum.dolanapptugasakhir.viewholderActivity.tourism.WaterViewHolder;
+import co.id.roningrum.dolanapptugasakhir.viewholderActivity.tourism.TourismAdapter;
 
 public class TourismWaterActivity extends AppCompatActivity {
     private RecyclerView rvWaterList;
     private ShimmerFrameLayout shimmerFrameLayout;
-    private FirebaseRecyclerAdapter<Tourism, WaterViewHolder> waterFirebaseAdapter;
+    private ArrayList<Tourism> tourisms = new ArrayList<>();
+    private TourismAdapter tourismAdapter;
 
-    private GPSHandler gpsHandler;
     private LocationPermissionHandler locationPermissionHandler;
 
     @Override
@@ -66,71 +62,50 @@ public class TourismWaterActivity extends AppCompatActivity {
         rvWaterList = findViewById(R.id.tourism_water_list);
         Toolbar toolbarWater = findViewById(R.id.toolbar_top_water);
         shimmerFrameLayout = findViewById(R.id.shimmer_view_container);
-
         rvWaterList.setLayoutManager(new LinearLayoutManager(this));
-        ArrayList<Tourism> tourisms = new ArrayList<>();
         checkConnection();
         setSupportActionBar(toolbarWater);
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
     }
 
     private void checkConnection() {
         if (NetworkHelper.isConnectedToNetwork(getApplicationContext())) {
-            showData();
+            showAirData();
         } else {
             Toast.makeText(this, "Check your connection", Toast.LENGTH_SHORT).show();
         }
     }
 
-    private void showData() {
+    private void showAirData() {
         if(havePermission()){
             Query waterItemListQuery = FirebaseConstant.getTourismAir();
-            FirebaseRecyclerOptions<Tourism> options = new FirebaseRecyclerOptions.Builder<Tourism>()
-                    .setQuery(waterItemListQuery, Tourism.class)
-                    .build();
-            waterFirebaseAdapter = new FirebaseRecyclerAdapter<Tourism, WaterViewHolder>(options) {
-
+            waterItemListQuery.addValueEventListener(new ValueEventListener() {
                 @Override
-                protected void onBindViewHolder(@NonNull WaterViewHolder holder, int position, @NonNull Tourism model) {
-                    final DatabaseReference waterCategoryRef = getRef(position);
-                    final String waterKey = waterCategoryRef.getKey();
-
-                    gpsHandler = new GPSHandler(getApplicationContext());
-                    if (gpsHandler.isCanGetLocation()) {
-                        double latitude = gpsHandler.getLatitude();
-                        double longitude = gpsHandler.getLongitude();
-
-                        Log.i("Message", "CurLoc :" + latitude + "," + longitude);
-
-                        shimmerFrameLayout.stopShimmer();
-                        shimmerFrameLayout.setVisibility(View.GONE);
-
-                        holder.showWaterTourismData(model, latitude, longitude);
-                        holder.setOnClickListener(new WaterViewHolder.ClickListener() {
-                            @Override
-                            public void onItemClick(View view, int position) {
-                                Intent intent = new Intent(getApplicationContext(), TourismWaterDetail.class);
-                                intent.putExtra(TourismWaterDetail.EXTRA_WISATA_KEY, waterKey);
-                                startActivity(intent);
-                            }
-                        });
-
-
-                    } else {
-                        gpsHandler.showSettingsAlert();
+                public void onDataChange(@NonNull final DataSnapshot dataSnapshot) {
+                    for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
+                        Tourism tourism = dataSnapshot1.getValue(Tourism.class);
+                        tourisms.add(tourism);
                     }
+                    tourismAdapter = new TourismAdapter();
+                    tourismAdapter.setTourismList(tourisms);
+                    tourismAdapter.setOnItemClickCallback(new TourismAdapter.OnItemClickCallback() {
+                        @Override
+                        public void onItemClicked(Tourism tourism) {
+                            String tourismKey = tourism.getId();
+                            Intent intent = new Intent(TourismWaterActivity.this, TourismWaterDetail.class);
+                            intent.putExtra(TourismWaterDetail.EXTRA_WISATA_KEY, tourismKey);
+                            Log.d("Check id", "id :" + tourismKey);
+                            startActivity(intent);
+                        }
+                    });
+                    rvWaterList.setAdapter(tourismAdapter);
                 }
 
-                @NonNull
                 @Override
-                public WaterViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-                    View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_menu_water_category_tourism, viewGroup, false);
-                    return new WaterViewHolder(view);
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
                 }
-            };
-            waterFirebaseAdapter.notifyDataSetChanged();
-            rvWaterList.setAdapter(waterFirebaseAdapter);
+            });
         }
     }
 
@@ -179,35 +154,11 @@ public class TourismWaterActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        shimmerFrameLayout.startShimmer();
-        waterFirebaseAdapter.startListening();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        shimmerFrameLayout.stopShimmer();
-        waterFirebaseAdapter.stopListening();
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        if (waterFirebaseAdapter != null) {
-            waterFirebaseAdapter.startListening();
+    private void showLoading(Boolean state) {
+        if (state) {
+            shimmerFrameLayout.startShimmer();
+        } else {
+            shimmerFrameLayout.stopShimmer();
         }
-
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        if (waterFirebaseAdapter != null) {
-            waterFirebaseAdapter.stopListening();
-        }
-
     }
 }
