@@ -11,7 +11,7 @@
  * limitations under the License.
  */
 
-package co.id.roningrum.dolanapptugasakhir.viewholderActivity.hotel;
+package co.id.roningrum.dolanapptugasakhir.adapter.hotel;
 
 import android.annotation.SuppressLint;
 import android.view.View;

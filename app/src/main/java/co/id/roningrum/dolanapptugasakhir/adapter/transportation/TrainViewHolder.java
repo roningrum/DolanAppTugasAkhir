@@ -11,7 +11,7 @@
  * limitations under the License.
  */
 
-package co.id.roningrum.dolanapptugasakhir.viewholderActivity.transportation;
+package co.id.roningrum.dolanapptugasakhir.adapter.transportation;
 
 import android.annotation.SuppressLint;
 import android.view.View;
@@ -27,44 +27,41 @@ import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.model.Transportation;
 import co.id.roningrum.dolanapptugasakhir.util.HaversineHandler;
 
-public class ShipViewHolder extends RecyclerView.ViewHolder {
-    private final TextView nameShip;
-    private final TextView locationShip;
-    private final TextView distanceShip;
-    private final ImageView shipPic;
+public class TrainViewHolder extends RecyclerView.ViewHolder {
 
-    private ShipViewHolder.ClickListener shipClickListener;
+    private final TextView nameTrain;
+    private final TextView locationTrain;
+    private final TextView distanceTrain;
+    private final ImageView trainPic;
 
-    public ShipViewHolder(@NonNull View itemView) {
+    private TrainViewHolder.ClickListener trainClickListener;
 
+    public TrainViewHolder(@NonNull View itemView) {
         super(itemView);
-        nameShip = itemView.findViewById(R.id.name_ship_item_tourism);
-        locationShip = itemView.findViewById(R.id.location_ship_item_tourism);
-        distanceShip = itemView.findViewById(R.id.distance_ship_item_tourism);
-        shipPic = itemView.findViewById(R.id.ship_pic);
+        nameTrain = itemView.findViewById(R.id.name_train_item_tourism);
+        locationTrain = itemView.findViewById(R.id.location_train_item_tourism);
+        distanceTrain = itemView.findViewById(R.id.distance_train_item_tourism);
+        trainPic = itemView.findViewById(R.id.train_pic);
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                shipClickListener.onItemClick(v, getAdapterPosition());
+                trainClickListener.onItemClick(v, getAdapterPosition());
             }
         });
     }
 
-
     @SuppressLint("SetTextI18n")
-    public void showHarborData(Transportation transportation, double latitude, double longitude) {
+    public void showTrainData(Transportation transportation, double latitude, double longitude) {
         double lattitude_a = transportation.getLat_transportation();
         double longitude_a = transportation.getLng_transportation();
 
         float jarakKM = (float) HaversineHandler.calculateDistance(latitude, longitude, lattitude_a, longitude_a);
-//        float jarakKM = jarakMeter / 1000;
-
         @SuppressLint("DefaultLocale") String distanceFormat = String.format("%.2f", jarakKM);
 
-        nameShip.setText(transportation.getName_transportation());
-        locationShip.setText(transportation.getLocation_transportation());
-        distanceShip.setText(distanceFormat + " km");
-        Glide.with(itemView.getContext()).load(transportation.getUrl_photo_transport()).into(shipPic);
+        nameTrain.setText(transportation.getName_transportation());
+        locationTrain.setText(transportation.getLocation_transportation());
+        distanceTrain.setText(distanceFormat + " km");
+        Glide.with(itemView.getContext()).load(transportation.getUrl_photo_transport()).into(trainPic);
     }
 
 //    private double calculateDistance(double lat1, double long1, double lat2, double long2) {
@@ -83,8 +80,8 @@ public class ShipViewHolder extends RecyclerView.ViewHolder {
 //        return (float) distance * meterConversion;
 //    }
 
-    public void setOnClickListener(ShipViewHolder.ClickListener clickListener) {
-        shipClickListener = clickListener;
+    public void setOnClickListener(TrainViewHolder.ClickListener clickListener) {
+        trainClickListener = clickListener;
     }
 
     public interface ClickListener {

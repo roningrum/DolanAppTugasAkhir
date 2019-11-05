@@ -11,7 +11,7 @@
  * limitations under the License.
  */
 
-package co.id.roningrum.dolanapptugasakhir.viewholderActivity.tourism;
+package co.id.roningrum.dolanapptugasakhir.adapter.transportation;
 
 import android.annotation.SuppressLint;
 import android.view.View;
@@ -24,46 +24,48 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 
 import co.id.roningrum.dolanapptugasakhir.R;
-import co.id.roningrum.dolanapptugasakhir.model.Tourism;
+import co.id.roningrum.dolanapptugasakhir.model.Transportation;
 import co.id.roningrum.dolanapptugasakhir.util.HaversineHandler;
 
-public class HistoryViewHolder extends RecyclerView.ViewHolder {
-    private final TextView nameHisToryTourismItem;
-    private final TextView locationHisToryTourismItem;
-    private final TextView distanceHisToryTourismItem;
-    private final ImageView hisToryTourismpic;
+public class AirportViewHolder extends RecyclerView.ViewHolder {
 
-    private HistoryViewHolder.ClickListener categoryOnClick;
+    private final TextView nameAirport;
+    private final TextView locationAirport;
+    private final TextView distanceAirport;
+    private final ImageView airportPic;
 
-    public HistoryViewHolder(@NonNull View itemView) {
+    private AirportViewHolder.ClickListener airportClickListener;
+
+
+    public AirportViewHolder(@NonNull View itemView) {
         super(itemView);
-        nameHisToryTourismItem = itemView.findViewById(R.id.name_history_item_tourism);
-        locationHisToryTourismItem = itemView.findViewById(R.id.location_history_item_tourism);
-        distanceHisToryTourismItem = itemView.findViewById(R.id.distance_history_item_tourism);
-        hisToryTourismpic = itemView.findViewById(R.id.tourism_history_pic);
+        nameAirport = itemView.findViewById(R.id.name_airport_item_tourism);
+        locationAirport = itemView.findViewById(R.id.location_airport_item_tourism);
+        distanceAirport = itemView.findViewById(R.id.distance_airport_item_tourism);
+        airportPic = itemView.findViewById(R.id.airport_pic);
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                categoryOnClick.onItemClick(v, getAdapterPosition());
+                airportClickListener.onItemClick(v, getAdapterPosition());
             }
         });
     }
 
     @SuppressLint("SetTextI18n")
-    public void showHistoryTourismData(Tourism tourism, double latitude, double longitude) {
+    public void showAirportData(Transportation transportation, double latitude, double longitude) {
 
-        double lattitude_a = tourism.getLat_location_tourism();
-        double longitude_a = tourism.getLng_location_tourism();
+        double lattitude_a = transportation.getLat_transportation();
+        double longitude_a = transportation.getLng_transportation();
 
         float jarakKM = (float) HaversineHandler.calculateDistance(latitude, longitude, lattitude_a, longitude_a);
 //        float jarakMeter = loc1.distanceTo(loc2);
 //        float jarakKM = jarakMeter / 1000;
         @SuppressLint("DefaultLocale") String distanceFormat = String.format("%.2f", jarakKM);
 
-        nameHisToryTourismItem.setText(tourism.getName_tourism());
-        locationHisToryTourismItem.setText(tourism.getLocation_tourism());
-        distanceHisToryTourismItem.setText(distanceFormat + " KM");
-        Glide.with(itemView.getContext()).load(tourism.getUrl_photo()).into(hisToryTourismpic);
+        nameAirport.setText(transportation.getName_transportation());
+        locationAirport.setText(transportation.getLocation_transportation());
+        distanceAirport.setText(distanceFormat + " km");
+        Glide.with(itemView.getContext()).load(transportation.getUrl_photo_transport()).into(airportPic);
     }
 
 //    private double calculateDistance(double lat1, double long1, double lat2, double long2) {
@@ -82,9 +84,8 @@ public class HistoryViewHolder extends RecyclerView.ViewHolder {
 //        return (float) distance * meterConversion;
 //    }
 
-
-    public void setOnClickListener(HistoryViewHolder.ClickListener clickListener) {
-        categoryOnClick = clickListener;
+    public void setOnClickListener(AirportViewHolder.ClickListener clickListener) {
+        airportClickListener = clickListener;
     }
 
     public interface ClickListener {

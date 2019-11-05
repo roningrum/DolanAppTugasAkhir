@@ -41,6 +41,7 @@ import com.google.firebase.database.Query;
 import java.util.Arrays;
 
 import co.id.roningrum.dolanapptugasakhir.R;
+import co.id.roningrum.dolanapptugasakhir.adapter.transportation.TrainViewHolder;
 import co.id.roningrum.dolanapptugasakhir.controller.FirebaseConstant;
 import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.handler.LocationPermissionHandler;
@@ -48,7 +49,6 @@ import co.id.roningrum.dolanapptugasakhir.handler.NetworkHelper;
 import co.id.roningrum.dolanapptugasakhir.model.Transportation;
 import co.id.roningrum.dolanapptugasakhir.ui.transportation.transportationDetailActivity.TransportationTrainDetail;
 import co.id.roningrum.dolanapptugasakhir.ui.transportation.transportationMapActivity.TransportationTrainMaps;
-import co.id.roningrum.dolanapptugasakhir.viewholderActivity.transportation.TrainViewHolder;
 
 public class TransportationTrainActivity extends AppCompatActivity {
     private RecyclerView rvTrainList;

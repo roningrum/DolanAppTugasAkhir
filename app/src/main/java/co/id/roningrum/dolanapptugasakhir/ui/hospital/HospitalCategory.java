@@ -41,12 +41,12 @@ import com.google.firebase.database.Query;
 import java.util.Arrays;
 
 import co.id.roningrum.dolanapptugasakhir.R;
+import co.id.roningrum.dolanapptugasakhir.adapter.hospital.HospitalViewHolder;
 import co.id.roningrum.dolanapptugasakhir.controller.FirebaseConstant;
 import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.handler.LocationPermissionHandler;
 import co.id.roningrum.dolanapptugasakhir.handler.NetworkHelper;
 import co.id.roningrum.dolanapptugasakhir.model.Hospital;
-import co.id.roningrum.dolanapptugasakhir.viewholderActivity.hospital.HospitalViewHolder;
 
 public class HospitalCategory extends AppCompatActivity {
 

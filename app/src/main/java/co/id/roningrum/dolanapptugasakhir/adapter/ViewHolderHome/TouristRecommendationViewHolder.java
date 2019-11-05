@@ -11,7 +11,7 @@
  * limitations under the License.
  */
 
-package co.id.roningrum.dolanapptugasakhir.viewholderActivity.ViewHolderHome;
+package co.id.roningrum.dolanapptugasakhir.adapter.ViewHolderHome;
 
 import android.view.View;
 import android.widget.ImageView;

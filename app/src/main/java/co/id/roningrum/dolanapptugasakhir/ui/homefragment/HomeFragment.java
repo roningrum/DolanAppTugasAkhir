@@ -34,6 +34,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 
 import co.id.roningrum.dolanapptugasakhir.R;
+import co.id.roningrum.dolanapptugasakhir.adapter.ViewHolderHome.FoodRecommendationViewHolder;
+import co.id.roningrum.dolanapptugasakhir.adapter.ViewHolderHome.HerritageHomeViewHolder;
+import co.id.roningrum.dolanapptugasakhir.adapter.ViewHolderHome.TouristRecommendationViewHolder;
 import co.id.roningrum.dolanapptugasakhir.model.Herritage;
 import co.id.roningrum.dolanapptugasakhir.model.Tourism;
 import co.id.roningrum.dolanapptugasakhir.ui.homeactivity.AllCategoryActivity;
@@ -44,9 +47,6 @@ import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismActivity.TourismShop
 import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismActivity.TourismVillageActivity;
 import co.id.roningrum.dolanapptugasakhir.ui.transportation.transportationActivity.TransportationAirportActivity;
 import co.id.roningrum.dolanapptugasakhir.ui.transportation.transportationActivity.TransportationTrainActivity;
-import co.id.roningrum.dolanapptugasakhir.viewholderActivity.ViewHolderHome.FoodRecommendationViewHolder;
-import co.id.roningrum.dolanapptugasakhir.viewholderActivity.ViewHolderHome.HerritageHomeViewHolder;
-import co.id.roningrum.dolanapptugasakhir.viewholderActivity.ViewHolderHome.TouristRecommendationViewHolder;
 
 
 /**

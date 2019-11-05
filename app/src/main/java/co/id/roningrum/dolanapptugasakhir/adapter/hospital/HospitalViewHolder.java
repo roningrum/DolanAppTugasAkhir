@@ -11,7 +11,7 @@
  * limitations under the License.
  */
 
-package co.id.roningrum.dolanapptugasakhir.viewholderActivity.hospital;
+package co.id.roningrum.dolanapptugasakhir.adapter.hospital;
 
 import android.annotation.SuppressLint;
 import android.view.View;

@@ -11,7 +11,7 @@
  * limitations under the License.
  */
 
-package co.id.roningrum.dolanapptugasakhir.viewholderActivity.tourism;
+package co.id.roningrum.dolanapptugasakhir.adapter.transportation;
 
 import android.annotation.SuppressLint;
 import android.view.View;
@@ -24,45 +24,49 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 
 import co.id.roningrum.dolanapptugasakhir.R;
-import co.id.roningrum.dolanapptugasakhir.model.Tourism;
+import co.id.roningrum.dolanapptugasakhir.model.Transportation;
 import co.id.roningrum.dolanapptugasakhir.util.HaversineHandler;
 
-public class VillageViewHolder extends RecyclerView.ViewHolder {
-    private final TextView name_village_tourism;
-    private final TextView location_village_tourism;
-    private final TextView distance_village_tourism;
-    private final ImageView village_tourism_pic;
+public class ShipViewHolder extends RecyclerView.ViewHolder {
+    private final TextView nameShip;
+    private final TextView locationShip;
+    private final TextView distanceShip;
+    private final ImageView shipPic;
 
-    public VillageViewHolder(@NonNull View itemView) {
+    private ShipViewHolder.ClickListener shipClickListener;
+
+    public ShipViewHolder(@NonNull View itemView) {
+
         super(itemView);
-        name_village_tourism = itemView.findViewById(R.id.name_village_item_tourism);
-        location_village_tourism = itemView.findViewById(R.id.location_village_item_tourism);
-        distance_village_tourism = itemView.findViewById(R.id.distance_village_item_tourism);
-        village_tourism_pic = itemView.findViewById(R.id.tourism_village_pic);
+        nameShip = itemView.findViewById(R.id.name_ship_item_tourism);
+        locationShip = itemView.findViewById(R.id.location_ship_item_tourism);
+        distanceShip = itemView.findViewById(R.id.distance_ship_item_tourism);
+        shipPic = itemView.findViewById(R.id.ship_pic);
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                categoryOnClick.onItemClick(v, getAdapterPosition());
+                shipClickListener.onItemClick(v, getAdapterPosition());
             }
         });
     }
 
-    @SuppressLint("SetTextI18n")
-    public void showVillageTourismData(Tourism tourism, double latitude, double longitude) {
 
-        double lattitude_a = tourism.getLat_location_tourism();
-        double longitude_a = tourism.getLng_location_tourism();
+    @SuppressLint("SetTextI18n")
+    public void showHarborData(Transportation transportation, double latitude, double longitude) {
+        double lattitude_a = transportation.getLat_transportation();
+        double longitude_a = transportation.getLng_transportation();
+
         float jarakKM = (float) HaversineHandler.calculateDistance(latitude, longitude, lattitude_a, longitude_a);
-//        float jarakMeter = loc1.distanceTo(loc2);
 //        float jarakKM = jarakMeter / 1000;
+
         @SuppressLint("DefaultLocale") String distanceFormat = String.format("%.2f", jarakKM);
 
-        name_village_tourism.setText(tourism.getName_tourism());
-        location_village_tourism.setText(tourism.getLocation_tourism());
-        distance_village_tourism.setText(distanceFormat + " km");
-        Glide.with(itemView.getContext()).load(tourism.getUrl_photo()).into(village_tourism_pic);
+        nameShip.setText(transportation.getName_transportation());
+        locationShip.setText(transportation.getLocation_transportation());
+        distanceShip.setText(distanceFormat + " km");
+        Glide.with(itemView.getContext()).load(transportation.getUrl_photo_transport()).into(shipPic);
     }
-//
+
 //    private double calculateDistance(double lat1, double long1, double lat2, double long2) {
 //
 //        double earthRadius = 6371;
@@ -79,15 +83,12 @@ public class VillageViewHolder extends RecyclerView.ViewHolder {
 //        return (float) distance * meterConversion;
 //    }
 
-    //interface
-    private VillageViewHolder.ClickListener categoryOnClick;
+    public void setOnClickListener(ShipViewHolder.ClickListener clickListener) {
+        shipClickListener = clickListener;
+    }
 
     public interface ClickListener {
         void onItemClick(View view, int position);
-    }
-
-    public void setOnClickListener(VillageViewHolder.ClickListener clickListener) {
-        categoryOnClick = clickListener;
     }
 
 }
