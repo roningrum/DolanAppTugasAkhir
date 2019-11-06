@@ -78,13 +78,13 @@ public class TransportationTrainDetail extends AppCompatActivity implements OnMa
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_detail_train);
-        tvNameTrainDetail = findViewById(R.id.name_place_train_detail);
-        tvAddressTrainDetail = findViewById(R.id.address_place_train_detail);
-        tvDistanceTrainport = findViewById(R.id.distance_place_train_detail);
+        setContentView(R.layout.activity_detail_transportation_train);
+        tvNameTrainDetail = findViewById(R.id.name_place_transport_detail);
+        tvAddressTrainDetail = findViewById(R.id.location_transport_detail);
+        tvDistanceTrainport = findViewById(R.id.distance_location_trans);
         imgTrainDetail = findViewById(R.id.img_train_detail);
         collapsingToolbarTrain = findViewById(R.id.collapseToolbar_train);
-        trainMapView = findViewById(R.id.location_train_map_detail);
+        trainMapView = findViewById(R.id.location_trans_map_detail);
 
         Toolbar toolbarTrain = findViewById(R.id.toolbar_train_detail);
         setSupportActionBar(toolbarTrain);

@@ -21,7 +21,7 @@
     <color name="bgWhiteGetStarted">#99FFFFFF</color>
     <color name="greyColorSelected">#A1A1A1</color>
     <!-- For Text Color -->
-    <color name="blackTextPrimary">#1D1D1D</color>
+    <color name="blackTextPrimary">#090808</color>
     <color name="orangePrimaryDark">#FF6701</color>
     <color name="orangeWhitePrimary">#FFFAFA</color>
 </resources>

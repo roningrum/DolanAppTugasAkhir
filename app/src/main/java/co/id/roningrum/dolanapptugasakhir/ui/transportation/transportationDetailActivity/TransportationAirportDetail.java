@@ -81,13 +81,13 @@ public class TransportationAirportDetail extends AppCompatActivity implements On
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_detail_airport);
-        tvNameAirportDetail = findViewById(R.id.name_place_airport_detail);
-        tvAddressAiportDetail = findViewById(R.id.address_place_airport_detail);
-        tvDistanceAirport = findViewById(R.id.distance_place_airport_detail);
+        setContentView(R.layout.activity_detail_transportation_airport);
+        tvNameAirportDetail = findViewById(R.id.name_place_transport_detail);
+        tvAddressAiportDetail = findViewById(R.id.location_transport_detail);
+        tvDistanceAirport = findViewById(R.id.distance_location_trans);
         imgAirportDetail = findViewById(R.id.img_airport_detail);
         collapsingToolbarAiport = findViewById(R.id.collapseToolbar_airport);
-        airportMapView = findViewById(R.id.location_airport_map_detail);
+        airportMapView = findViewById(R.id.location_trans_map_detail);
 
         Toolbar toolbarAirport = findViewById(R.id.toolbar_aiport_detail);
         setSupportActionBar(toolbarAirport);

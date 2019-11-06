@@ -80,12 +80,12 @@ public class TransportationBusDetail extends AppCompatActivity implements OnMapR
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_detail_bus);
-        tvNameBusDetail = findViewById(R.id.name_place_bus_detail);
-        tvAddressBusDetail = findViewById(R.id.address_place_bus_detail);
-        tvDistanceAirport = findViewById(R.id.distance_place_bus_detail);
+        setContentView(R.layout.activity_detail_transportation_bus);
+        tvNameBusDetail = findViewById(R.id.name_place_transport_detail);
+        tvAddressBusDetail = findViewById(R.id.location_transport_detail);
+        tvDistanceAirport = findViewById(R.id.distance_location_trans);
         collapsingToolbarBus = findViewById(R.id.collapseToolbar_bus);
-        busMapView = findViewById(R.id.location_bus_map_detail);
+        busMapView = findViewById(R.id.location_trans_map_detail);
         imgBusDetail = findViewById(R.id.img_bus_detail);
 
         Toolbar toolbarBus = findViewById(R.id.toolbar_bus_detail);
@@ -107,7 +107,7 @@ public class TransportationBusDetail extends AppCompatActivity implements OnMapR
         if (busKey == null) {
             throw new IllegalArgumentException("Must pass Extra");
         }
-        busDetailRef = FirebaseConstant.getTourismRef(busKey);
+        busDetailRef = FirebaseConstant.getTransportByKey(busKey);
         gpsHandler = new GPSHandler(this);
 
         LoadBusDetail();

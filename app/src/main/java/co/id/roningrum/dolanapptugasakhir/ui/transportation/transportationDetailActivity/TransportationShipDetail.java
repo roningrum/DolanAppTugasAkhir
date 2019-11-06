@@ -77,11 +77,11 @@ public class TransportationShipDetail extends AppCompatActivity implements OnMap
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_detail_ship);
-        tvNameShipDetail = findViewById(R.id.name_place_ship_detail);
-        tvAddressShipDetail = findViewById(R.id.address_place_ship_detail);
-        tvDistanceShip = findViewById(R.id.distance_place_ship_detail);
-        shipMapView = findViewById(R.id.location_ship_map_detail);
+        setContentView(R.layout.activity_detail_transportation_ship);
+        tvNameShipDetail = findViewById(R.id.name_place_transport_detail);
+        tvAddressShipDetail = findViewById(R.id.location_transport_detail);
+        tvDistanceShip = findViewById(R.id.distance_location_trans);
+        shipMapView = findViewById(R.id.location_trans_map_detail);
         imgShipDetail = findViewById(R.id.img_ship_detail);
         collapsingToolbarShip = findViewById(R.id.collapseToolbar_ship);
 
