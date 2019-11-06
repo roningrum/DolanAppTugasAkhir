@@ -70,18 +70,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         hotelMenu.setOnClickListener(this);
         trainMenu.setOnClickListener(this);
         busMenu.setOnClickListener(this);
-
-//        //rv
-//        rvTouristRecommendation = view.findViewById(R.id.rv_tourism_recommendation);
-//        rvFoodRecommendation = view.findViewById(R.id.rv_food_recommendation);
-//        rvHeriitageHome = view.findViewById(R.id.rv_herritage);
-
-//        rvFoodRecommendation.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-//        rvTouristRecommendation.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-//        rvHeriitageHome.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-//        showFoodReccomendation();
-//        showTourismRecommendation();
-//        showHerritageHome();
         return view;
     }
 
