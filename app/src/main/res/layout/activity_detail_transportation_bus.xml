@@ -64,7 +64,7 @@
             android:orientation="vertical">
 
             <include
-                layout="@layout/layout_content_transport_info"
+                layout="@layout/layout_content_transportation_info"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
@@ -76,7 +76,7 @@
                 android:background="#DEDEDE" />
 
             <include
-                layout="@layout/layout_content_map_transport"
+                layout="@layout/layout_content_transportation_map"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
         </LinearLayout>
