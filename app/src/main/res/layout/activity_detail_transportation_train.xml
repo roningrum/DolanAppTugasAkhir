@@ -70,7 +70,7 @@
             <include
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                layout="@layout/layout_content_transportation_info" />
+                layout="@layout/layout_content_transportasi_info" />
 
             <View
                 android:layout_width="match_parent"
@@ -82,7 +82,7 @@
             <include
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                layout="@layout/layout_content_transportation_map" />
+                layout="@layout/layout_content_transportasi_map" />
         </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>
