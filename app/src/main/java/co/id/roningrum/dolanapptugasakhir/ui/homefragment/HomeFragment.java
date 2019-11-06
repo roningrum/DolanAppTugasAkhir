@@ -24,21 +24,8 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import com.firebase.ui.database.FirebaseRecyclerAdapter;
-import com.firebase.ui.database.FirebaseRecyclerOptions;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 
 import co.id.roningrum.dolanapptugasakhir.R;
-import co.id.roningrum.dolanapptugasakhir.adapter.ViewHolderHome.FoodRecommendationViewHolder;
-import co.id.roningrum.dolanapptugasakhir.adapter.ViewHolderHome.HerritageHomeViewHolder;
-import co.id.roningrum.dolanapptugasakhir.adapter.ViewHolderHome.TouristRecommendationViewHolder;
-import co.id.roningrum.dolanapptugasakhir.model.Herritage;
-import co.id.roningrum.dolanapptugasakhir.model.Tourism;
 import co.id.roningrum.dolanapptugasakhir.ui.homeactivity.AllCategoryActivity;
 import co.id.roningrum.dolanapptugasakhir.ui.hotel.HotelActivity;
 import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismActivity.TourismNatureActivity;
@@ -53,12 +40,6 @@ import co.id.roningrum.dolanapptugasakhir.ui.transportation.transportationActivi
  * A simple {@link Fragment} subclass.
  */
 public class HomeFragment extends Fragment implements View.OnClickListener {
-    private RecyclerView rvTouristRecommendation, rvFoodRecommendation, rvHeriitageHome;
-
-    private FirebaseRecyclerAdapter<Tourism, FoodRecommendationViewHolder> foodRecommendAdapter;
-    private FirebaseRecyclerAdapter<Tourism, TouristRecommendationViewHolder> touristRecommendAdapter;
-    private FirebaseRecyclerAdapter<Herritage, HerritageHomeViewHolder> herritageItemAdapter;
-    private DatabaseReference recommendationDB;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -90,83 +71,18 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         trainMenu.setOnClickListener(this);
         busMenu.setOnClickListener(this);
 
-        //rv
-        rvTouristRecommendation = view.findViewById(R.id.rv_tourism_recommendation);
-        rvFoodRecommendation = view.findViewById(R.id.rv_food_recommendation);
-        rvHeriitageHome = view.findViewById(R.id.rv_herritage);
+//        //rv
+//        rvTouristRecommendation = view.findViewById(R.id.rv_tourism_recommendation);
+//        rvFoodRecommendation = view.findViewById(R.id.rv_food_recommendation);
+//        rvHeriitageHome = view.findViewById(R.id.rv_herritage);
 
-        rvFoodRecommendation.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-        rvTouristRecommendation.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-        rvHeriitageHome.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-
-        recommendationDB = FirebaseDatabase.getInstance().getReference();
-        showFoodReccomendation();
-        showTourismRecommendation();
-        showHerritageHome();
+//        rvFoodRecommendation.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+//        rvTouristRecommendation.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+//        rvHeriitageHome.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+//        showFoodReccomendation();
+//        showTourismRecommendation();
+//        showHerritageHome();
         return view;
-    }
-
-    private void showHerritageHome() {
-        Query herritageQuery = recommendationDB.child("HerritageSemarang");
-        FirebaseRecyclerOptions<Herritage> herritageOption = new FirebaseRecyclerOptions.Builder<Herritage>()
-                .setQuery(herritageQuery, Herritage.class)
-                .build();
-        herritageItemAdapter = new FirebaseRecyclerAdapter<Herritage, HerritageHomeViewHolder>(herritageOption) {
-            @Override
-            protected void onBindViewHolder(@NonNull HerritageHomeViewHolder holder, int position, @NonNull Herritage model) {
-                holder.showHerritageData(model);
-            }
-
-            @NonNull
-            @Override
-            public HerritageHomeViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-                return new HerritageHomeViewHolder(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_herritage_home, viewGroup, false));
-            }
-        };
-        herritageItemAdapter.notifyDataSetChanged();
-        rvHeriitageHome.setAdapter(herritageItemAdapter);
-    }
-
-    private void showTourismRecommendation() {
-        Query tourismRecommendQuery = recommendationDB.child("BestPlaceTourism");
-        FirebaseRecyclerOptions<Tourism> tourismOption = new FirebaseRecyclerOptions.Builder<Tourism>()
-                .setQuery(tourismRecommendQuery, Tourism.class)
-                .build();
-        touristRecommendAdapter = new FirebaseRecyclerAdapter<Tourism, TouristRecommendationViewHolder>(tourismOption) {
-            @Override
-            protected void onBindViewHolder(@NonNull TouristRecommendationViewHolder holder, int position, @NonNull Tourism model) {
-                holder.showRecommendationTourismData(model);
-            }
-
-            @NonNull
-            @Override
-            public TouristRecommendationViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-                return new TouristRecommendationViewHolder(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_content_tourism_recommend_home, viewGroup, false));
-            }
-        };
-        touristRecommendAdapter.notifyDataSetChanged();
-        rvTouristRecommendation.setAdapter(touristRecommendAdapter);
-    }
-
-    private void showFoodReccomendation() {
-        Query foodRecommendedQuery = recommendationDB.child("Tourism").orderByChild("category_tourism").equalTo("kuliner").limitToFirst(5);
-        FirebaseRecyclerOptions<Tourism> foodOption = new FirebaseRecyclerOptions.Builder<Tourism>()
-                .setQuery(foodRecommendedQuery, Tourism.class)
-                .build();
-        foodRecommendAdapter = new FirebaseRecyclerAdapter<Tourism, FoodRecommendationViewHolder>(foodOption) {
-            @Override
-            protected void onBindViewHolder(@NonNull FoodRecommendationViewHolder holder, int position, @NonNull Tourism model) {
-                holder.showFoodRecommendationTourismData(model);
-            }
-
-            @NonNull
-            @Override
-            public FoodRecommendationViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-                return new FoodRecommendationViewHolder(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_food_recommendation_home, viewGroup, false));
-            }
-        };
-        foodRecommendAdapter.notifyDataSetChanged();
-        rvFoodRecommendation.setAdapter(foodRecommendAdapter);
     }
 
     @Override
@@ -203,31 +119,4 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        if (touristRecommendAdapter != null) {
-            touristRecommendAdapter.startListening();
-        }
-        if (foodRecommendAdapter != null) {
-            foodRecommendAdapter.startListening();
-        }
-        if (herritageItemAdapter != null) {
-            herritageItemAdapter.startListening();
-        }
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        if (touristRecommendAdapter != null) {
-            touristRecommendAdapter.stopListening();
-        }
-        if (foodRecommendAdapter != null) {
-            foodRecommendAdapter.stopListening();
-        }
-        if (herritageItemAdapter != null) {
-            herritageItemAdapter.stopListening();
-        }
-    }
 }
