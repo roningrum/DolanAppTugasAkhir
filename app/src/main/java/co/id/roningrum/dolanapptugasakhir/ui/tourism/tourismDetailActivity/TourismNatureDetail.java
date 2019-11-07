@@ -77,8 +77,10 @@ public class TourismNatureDetail extends AppCompatActivity implements OnMapReady
     private double endLng;
     private double distance;
 
-    String natureKey;
-    boolean isFavorite;
+    boolean isFavorite = false;
+    Menu menuItem;
+    Tourism tourism = new Tourism();
+    private String natureKey;
     private FirebaseUser user;
     private DatabaseReference favoritedb;
 
@@ -110,8 +112,8 @@ public class TourismNatureDetail extends AppCompatActivity implements OnMapReady
         natureMapView.onCreate(mapViewBundle);
         natureMapView.getMapAsync(this);
 
-        String alamKey = getIntent().getStringExtra(EXTRA_WISATA_KEY);
-        if(alamKey == null){
+        natureKey = getIntent().getStringExtra(EXTRA_WISATA_KEY);
+        if (natureKey == null) {
             throw new IllegalArgumentException("Must pass Extra");
         }
 
@@ -119,12 +121,29 @@ public class TourismNatureDetail extends AppCompatActivity implements OnMapReady
         user = firebaseAuth.getCurrentUser();
 
         favoritedb = FirebaseDatabase.getInstance().getReference("Favorite");
-        natureDetailRef = FirebaseConstant.getTourismRef(alamKey);
-//        Query natureQuery = natureDetailRef.orderByChild("category_tourism").equalTo("alam");
+        natureDetailRef = FirebaseConstant.getTourismRef(natureKey);
         gpsHandler = new GPSHandler(this);
 
-
+        favoriteState();
         LoadDetail();
+    }
+
+    private void favoriteState() {
+        final String uid = user.getUid();
+        favoritedb.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.child(uid).child(natureKey).exists()) {
+                    isFavorite = true;
+                    menuItem.getItem(0).setIcon(R.drawable.ic_bookmarkadded_24dp);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
     private void LoadDetail() {
@@ -221,28 +240,13 @@ public class TourismNatureDetail extends AppCompatActivity implements OnMapReady
 
     }
 
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.favorite_menu, menu);
-
-        final MenuItem item = menu.findItem(R.id.add_to_favorite);
-        final String uid = user.getUid();
-        favoritedb.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.child(uid).child(natureKey).exists()) {
-                    item.setIcon(R.drawable.ic_bookmarkadded_24dp);
-                } else {
-                    item.setIcon(R.drawable.ic_unbookmarked_24dp);
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-        return super.onCreateOptionsMenu(menu);
+        menuItem = menu;
+        setFavorite();
+        return true;
     }
 
     @Override
@@ -251,36 +255,60 @@ public class TourismNatureDetail extends AppCompatActivity implements OnMapReady
         if (item.getItemId() == android.R.id.home) {
             onBackPressed();
             return true;
-        }
-        if (item.getItemId() == R.id.add_to_favorite) {
-
-            final String uid = user.getUid();
-            favoritedb.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                    DataSnapshot favorit = dataSnapshot.child(uid);
-                    if (isFavorite) {
-                        item.setIcon(R.drawable.ic_unbookmarked_24dp);
-                        favoritedb.getRef().child(uid).child(natureKey).removeValue();
-                        isFavorite = false;
-
-                    } else {
-                        item.setIcon(R.drawable.ic_bookmarkadded_24dp);
-                        favoritedb.getRef().child(uid).child(natureKey).setValue(true);
-                        isFavorite = true;
-                    }
-
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                }
-            });
+        } else if (item.getItemId() == R.id.add_to_favorite) {
+            if (isFavorite) {
+                removeFavorite();
+            } else {
+                addToFavorite();
+            }
+            isFavorite = !isFavorite;
+            setFavorite();
             return true;
 
+        } else {
+            return super.onOptionsItemSelected(item);
         }
-        return super.onOptionsItemSelected(item);
+
+    }
+
+    private void addToFavorite() {
+        final String uid = user.getUid();
+        favoritedb.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                favoritedb.getRef().child(uid).child(natureKey).setValue(true);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
+    }
+
+    private void removeFavorite() {
+        final String uid = user.getUid();
+        favoritedb.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                favoritedb.getRef().child(uid).child(natureKey).removeValue();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    private void setFavorite() {
+        if (isFavorite) {
+            menuItem.getItem(0).setIcon(R.drawable.ic_bookmarkadded_24dp);
+        } else {
+            menuItem.getItem(0).setIcon(R.drawable.ic_unbookmarked_24dp);
+        }
     }
 
     @Override

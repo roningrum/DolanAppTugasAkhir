@@ -31,7 +31,14 @@
         <activity android:name=".ui.useractivity.edit.ChangePasswordProfileActivity" />
         <activity android:name=".ui.useractivity.edit.ChangeNameProfileActivity" />
         <activity android:name=".ui.useractivity.edit.EditProfileActivity" />
-        <activity android:name=".WelcomingScreenActivity" />
+        <activity android:name=".WelcomingScreenActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity android:name=".ui.useractivity.register.RegisterAccountProfileActivity" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
@@ -138,14 +145,7 @@
         <activity android:name=".ui.tourism.tourismActivity.TourismNatureActivity" />
         <activity android:name=".ui.useractivity.register.RegisterSuccessActivity" />
         <activity android:name=".ui.homeactivity.AllCategoryActivity" />
-        <activity android:name=".ui.homeactivity.MainMenuActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+        <activity android:name=".ui.homeactivity.MainMenuActivity" />
         <activity android:name=".ui.useractivity.reset.ResetPasswordActivity" />
         <activity android:name=".ui.useractivity.register.RegisterAccountEmailActivity" />
         <activity android:name=".ui.useractivity.login.SignInEmailActivity" />

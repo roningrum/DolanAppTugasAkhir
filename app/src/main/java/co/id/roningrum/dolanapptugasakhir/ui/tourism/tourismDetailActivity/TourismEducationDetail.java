@@ -274,7 +274,6 @@ public class TourismEducationDetail extends AppCompatActivity implements OnMapRe
         getMenuInflater().inflate(R.menu.favorite_menu, menu);
         menuItem = menu;
         setFavorite();
-//        final MenuItem item = menu.findItem(R.id.add_to_favorite);
         return true;
     }
 
@@ -314,16 +313,6 @@ public class TourismEducationDetail extends AppCompatActivity implements OnMapRe
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 favoritedb.getRef().child(uid).child(eduKey).removeValue();
-//                isFavorite = false;
-//                if (isFavorite) {
-//                    item.setIcon(R.drawable.ic_unbookmarked_24dp);
-//
-//
-//                } else {
-//                    item.setIcon(R.drawable.ic_bookmarkadded_24dp);
-//
-//                }
-
             }
 
             @Override
@@ -339,21 +328,8 @@ public class TourismEducationDetail extends AppCompatActivity implements OnMapRe
         favoritedb.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                    DataSnapshot favorit = dataSnapshot.child(uid);
                 favoritedb.getRef().child(uid).child(eduKey).setValue(true);
-//                isFavorite = true;
-//                if (isFavorite) {
-//                    item.setIcon(R.drawable.ic_unbookmarked_24dp);
-//                    favoritedb.getRef().child(uid).child(eduKey).removeValue();
-//                    isFavorite = false;
-//
-//                } else {
-//                    item.setIcon(R.drawable.ic_bookmarkadded_24dp);
-//
-//                }
-
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
 

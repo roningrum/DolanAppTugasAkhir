@@ -94,7 +94,7 @@ public class TourismFoodActivity extends AppCompatActivity {
                     tourismAdapter.setOnItemClickCallback(new TourismAdapter.OnItemClickCallback() {
                         @Override
                         public void onItemClicked(Tourism tourism) {
-                            String tourismKey = FirebaseConstant.TourismRef.getKey();
+                            String tourismKey = tourism.getId();
                             Intent intent = new Intent(TourismFoodActivity.this, TourismFoodDetail.class);
                             intent.putExtra(TourismFoodDetail.EXTRA_WISATA_KEY, tourismKey);
                             Log.d("Check id", "id :" + tourismKey);
