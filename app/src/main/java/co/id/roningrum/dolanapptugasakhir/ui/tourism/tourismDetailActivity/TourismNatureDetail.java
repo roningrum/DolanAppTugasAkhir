@@ -87,14 +87,14 @@ public class TourismNatureDetail extends AppCompatActivity implements OnMapReady
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_detail_nature);
+        setContentView(R.layout.activity_detail_tourism_nature);
 
-        tvNameNatureDetail = findViewById(R.id.name_place_nature_detail);
-        tvAddressNature = findViewById(R.id.address_place_nature_detail);
-        tvDescNature = findViewById(R.id.info_place_nature_detail);
-        tvDistanceNature = findViewById(R.id.distance_place_nature_detail);
+        tvNameNatureDetail = findViewById(R.id.name_place_tourism_detail);
+        tvAddressNature = findViewById(R.id.location_tourism_detail);
+        tvDescNature = findViewById(R.id.info_place_tourism_detail);
+        tvDistanceNature = findViewById(R.id.distance_location_tourism);
         imgNature = findViewById(R.id.img_nature_place_detail);
-        natureMapView = findViewById(R.id.loc_nature_map);
+        natureMapView = findViewById(R.id.location_tourism_map_detail);
         collapsingToolbarLayout_nature = findViewById(R.id.collapseToolbar_nature);
 
 
@@ -152,7 +152,7 @@ public class TourismNatureDetail extends AppCompatActivity implements OnMapReady
                 @SuppressLint("SetTextI18n")
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    final Tourism tourism = dataSnapshot.getValue(Tourism.class);
+                    tourism = dataSnapshot.getValue(Tourism.class);
                     startLat = gpsHandler.getLatitude();
                     startlng = gpsHandler.getLongitude();
                     assert tourism != null;

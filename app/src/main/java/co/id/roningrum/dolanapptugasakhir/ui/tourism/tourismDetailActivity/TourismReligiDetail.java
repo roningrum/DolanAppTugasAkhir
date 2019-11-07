@@ -76,18 +76,14 @@ public class TourismReligiDetail extends AppCompatActivity implements OnMapReady
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_detail_religi);
-//        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-//                .findFragmentById(R.id.map_place_religi_detail);
-//        assert mapFragment != null;
-//        mapFragment.getMapAsync(this);
+        setContentView(R.layout.activity_detail_tourism_religi);
 
-        tvNameReligiDetail = findViewById(R.id.name_place_religi_detail);
-        tvAddressReligiDetail = findViewById(R.id.address_place_religi_detail);
-        tvDescReligiDetail = findViewById(R.id.info_place_religi_detail);
-        tvDistanceReligiDetail = findViewById(R.id.distance_place_religi_detail);
+        tvNameReligiDetail = findViewById(R.id.name_place_tourism_detail);
+        tvAddressReligiDetail = findViewById(R.id.location_tourism_detail);
+        tvDescReligiDetail = findViewById(R.id.info_place_tourism_detail);
+        tvDistanceReligiDetail = findViewById(R.id.distance_location_tourism);
         imgReligiDetail = findViewById(R.id.img_religi_place_detail);
-        religiMapView = findViewById(R.id.loc_map_religi);
+        religiMapView = findViewById(R.id.location_tourism_map_detail);
         collapsingToolbarLayout_religi = findViewById(R.id.collapseToolbar_religi);
 
         Toolbar toolbarReligi = findViewById(R.id.toolbar_religi_detail);
@@ -153,8 +149,6 @@ public class TourismReligiDetail extends AppCompatActivity implements OnMapReady
 
                         }
                     });
-
-
                 }
 
                 @Override
@@ -168,21 +162,6 @@ public class TourismReligiDetail extends AppCompatActivity implements OnMapReady
 
         }
     }
-//
-//    private double calculateDistance(double startLat, double startlng, double endlat, double endLng) {
-//        double earthRadius = 6371;
-//        double latDiff = Math.toRadians(startLat - endlat);
-//        double lngDiff = Math.toRadians(startlng - endLng);
-//        double a = Math.sin(latDiff / 2) * Math.sin(latDiff / 2) +
-//                Math.cos(Math.toRadians(startLat)) * Math.cos(Math.toRadians(endlat)) *
-//                        Math.sin(lngDiff / 2) * Math.sin(lngDiff / 2);
-//        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-//        double distance = earthRadius * c;
-//
-//        int meterConversion = 1609;
-//
-//        return (distance * meterConversion / 1000);
-//    }
 
     @Override
     protected void onSaveInstanceState(@NotNull Bundle outState) {
