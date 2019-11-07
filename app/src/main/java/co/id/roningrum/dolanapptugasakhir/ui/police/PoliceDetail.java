@@ -78,8 +78,8 @@ public class PoliceDetail extends AppCompatActivity implements OnMapReadyCallbac
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_police);
         tvNamePoliceDetail = findViewById(R.id.name_place_police_detail);
-        tvAddressPoliceDetail = findViewById(R.id.address_place_police_detail);
-        tvDistancePoliceDetail = findViewById(R.id.distance_place_police_detail);
+        tvAddressPoliceDetail = findViewById(R.id.location_police_detail);
+        tvDistancePoliceDetail = findViewById(R.id.distance_location_police);
         collapsingToolbarPolice = findViewById(R.id.collapseToolbar_police);
         policeMapView = findViewById(R.id.location_police_map_detail);
         imgPoliceDetail = findViewById(R.id.img_police_detail);
