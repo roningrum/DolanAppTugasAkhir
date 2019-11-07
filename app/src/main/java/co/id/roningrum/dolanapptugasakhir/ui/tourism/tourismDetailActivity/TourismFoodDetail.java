@@ -86,7 +86,7 @@ public class TourismFoodDetail extends AppCompatActivity implements OnMapReadyCa
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_detail_food);
+        setContentView(R.layout.activity_detail_tourism_food);
 
         tvNameFoodDetail = findViewById(R.id.name_place_tourism_detail);
         tvDescFoodDetail = findViewById(R.id.info_place_tourism_detail);

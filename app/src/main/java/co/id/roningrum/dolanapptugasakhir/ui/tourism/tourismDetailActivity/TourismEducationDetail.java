@@ -87,13 +87,13 @@ public class TourismEducationDetail extends AppCompatActivity implements OnMapRe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_detail_education_category);
-        tvNameEducationDetail = findViewById(R.id.name_place_education_detail);
-        tvAddressEducationDetail = findViewById(R.id.address_place_education_detail);
-        tvDescEducation = findViewById(R.id.info_place_education_detail);
-        tvDistanceEducation = findViewById(R.id.distance_place_education_detail);
+        setContentView(R.layout.activity_detail_tourism_education);
+        tvNameEducationDetail = findViewById(R.id.name_place_tourism_detail);
+        tvAddressEducationDetail = findViewById(R.id.location_tourism_detail);
+        tvDescEducation = findViewById(R.id.info_place_tourism_detail);
+        tvDistanceEducation = findViewById(R.id.distance_location_tourism);
         imgEducation = findViewById(R.id.img_nature_education_detail);
-        educationMapView = findViewById(R.id.loc_edu_map);
+        educationMapView = findViewById(R.id.location_tourism_map_detail);
         collapsingToolbarLayout = findViewById(R.id.collapseToolbar);
 
         Toolbar toolbarEducation = findViewById(R.id.toolbar_education_detail);
