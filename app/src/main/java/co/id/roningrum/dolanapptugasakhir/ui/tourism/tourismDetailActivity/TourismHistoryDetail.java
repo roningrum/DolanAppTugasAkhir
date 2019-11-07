@@ -85,15 +85,15 @@ public class TourismHistoryDetail extends AppCompatActivity implements OnMapRead
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_detail_history);
+        setContentView(R.layout.activity_detail_tourism_history);
 
 
-        tvNameHistoryDetail = findViewById(R.id.name_place_history_detail);
-        tvAddressHistoryDetail = findViewById(R.id.address_place_history_detail);
-        tvDescHistoryDetail = findViewById(R.id.info_place_histroy_detail);
-        tvDistanceHistoryDetail = findViewById(R.id.distance_place_history_detail);
+        tvNameHistoryDetail = findViewById(R.id.name_place_tourism_detail);
+        tvAddressHistoryDetail = findViewById(R.id.location_tourism_detail);
+        tvDescHistoryDetail = findViewById(R.id.info_place_tourism_detail);
+        tvDistanceHistoryDetail = findViewById(R.id.distance_location_tourism);
         imgHistory = findViewById(R.id.img_history_place_detail);
-        historyMapView = findViewById(R.id.loc_history_map_detail);
+        historyMapView = findViewById(R.id.location_tourism_map_detail);
         collapsingToolbarLayout_history = findViewById(R.id.collapseToolbar_history);
 
 

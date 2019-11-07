@@ -77,12 +77,12 @@ public class TourismWaterDetail extends AppCompatActivity implements OnMapReadyC
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_water);
-        tvNameWaterDetail = findViewById(R.id.name_place_water_detail);
-        tvAddressWaterDetail = findViewById(R.id.address_place_water_detail);
-        tvDescWaterDetail = findViewById(R.id.info_place_water_detail);
-        tvDistanceWaterDetail = findViewById(R.id.distance_place_water_detail);
+        tvNameWaterDetail = findViewById(R.id.name_place_tourism_detail);
+        tvAddressWaterDetail = findViewById(R.id.location_tourism_detail);
+        tvDescWaterDetail = findViewById(R.id.info_place_tourism_detail);
+        tvDistanceWaterDetail = findViewById(R.id.distance_location_tourism);
         imgWaterObject = findViewById(R.id.img_water_place_detail);
-        waterMapView = findViewById(R.id.loc_water_map);
+        waterMapView = findViewById(R.id.location_tourism_map_detail);
         collapsingToolbarLayout_water = findViewById(R.id.collapseToolbar_water_detail);
 
 

@@ -77,14 +77,14 @@ public class TourismVillageDetail extends AppCompatActivity implements OnMapRead
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_detail_village);
-        
-        tvNameVillageDetail = findViewById(R.id.name_place_village_detail);
-        tvAddressVillageDetail = findViewById(R.id.address_place_village_detail);
-        tvDescVillageDetail = findViewById(R.id.info_place_village_detail);
-        tvDistanceVillageDetail = findViewById(R.id.distance_place_village_detail);
+        setContentView(R.layout.activity_detail_tourism_village);
+
+        tvNameVillageDetail = findViewById(R.id.name_place_tourism_detail);
+        tvAddressVillageDetail = findViewById(R.id.location_tourism_detail);
+        tvDescVillageDetail = findViewById(R.id.info_place_tourism_detail);
+        tvDistanceVillageDetail = findViewById(R.id.distance_location_tourism);
         imgVillageObject = findViewById(R.id.img_village_place_detail);
-        villageMapView = findViewById(R.id.loc_village_map);
+        villageMapView = findViewById(R.id.location_tourism_map_detail);
         collapsingToolbarLayout_village = findViewById(R.id.collapseToolbar_village);
 
         Toolbar toolbarVillage = findViewById(R.id.toolbar_village_detail_top);
