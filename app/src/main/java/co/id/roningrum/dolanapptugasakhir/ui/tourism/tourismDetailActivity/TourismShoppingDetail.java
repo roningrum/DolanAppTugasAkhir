@@ -76,13 +76,13 @@ public class TourismShoppingDetail extends AppCompatActivity implements OnMapRea
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_detail_shopping);
-        tvNameShoppingDetail = findViewById(R.id.name_place_shopping_detail);
-        tvAddressShoppingDetail = findViewById(R.id.address_place_shopping_detail);
-        tvDescShoppingDetail = findViewById(R.id.info_place_shopping_detail);
-        tvDistanceShoppingDetail = findViewById(R.id.distance_place_shopping_detail);
+        setContentView(R.layout.activity_detail_tourism_shopping);
+        tvNameShoppingDetail = findViewById(R.id.name_place_tourism_detail);
+        tvAddressShoppingDetail = findViewById(R.id.location_tourism_detail);
+        tvDescShoppingDetail = findViewById(R.id.info_place_tourism_detail);
+        tvDistanceShoppingDetail = findViewById(R.id.distance_location_tourism);
         imgShoppingObject = findViewById(R.id.img_shopping_place_detail);
-        shoppingMapView = findViewById(R.id.loc_map_shopping);
+        shoppingMapView = findViewById(R.id.location_tourism_map_detail);
         collapsingToolbarLayout_shopping = findViewById(R.id.collapseToolbar_shopping);
 
         Toolbar toolbarShopping = findViewById(R.id.toolbar_shopping_detail_top);
@@ -90,7 +90,6 @@ public class TourismShoppingDetail extends AppCompatActivity implements OnMapRea
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back_24dp);
 
         Bundle mapViewBundle = null;
         if (savedInstanceState != null) {
