@@ -17,10 +17,10 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/tv_map_location_trans"
+        android:id="@+id/tv_map_location_gas"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:fontFamily="@font/monsterrat_sembold"
         android:text="@string/string_lokasi_detail_menu"
@@ -33,14 +33,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_map_location_trans">
+        app:layout_constraintTop_toBottomOf="@+id/tv_map_location_gas">
 
         <com.google.android.gms.maps.MapView
-            android:id="@+id/location_trans_map_detail"
+            android:id="@+id/location_gas_map_detail"
             android:layout_width="match_parent"
             android:layout_height="200dp" />
 

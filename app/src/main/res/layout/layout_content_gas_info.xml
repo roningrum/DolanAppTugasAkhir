@@ -20,7 +20,7 @@
 
 
     <TextView
-        android:id="@+id/name_place_transport_detail"
+        android:id="@+id/name_place_gas_detail"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -30,12 +30,13 @@
         android:textColor="@color/blackTextPrimary"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="Spbu Akpol" />
+        tools:text="Bandara Ahmad Yani" />
 
     <TextView
-        android:id="@+id/location_transport_detail"
+        android:id="@+id/location_gas_detail"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -45,12 +46,12 @@
         android:lineSpacingExtra="4sp"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/location_icon_trans_pic"
-        app:layout_constraintTop_toBottomOf="@+id/name_place_transport_detail"
-        tools:text="Jalan Sisingamaharaja" />
+        app:layout_constraintStart_toEndOf="@+id/location_icon_gas_pic"
+        app:layout_constraintTop_toBottomOf="@+id/name_place_gas_detail"
+        tools:text="Jalan Kalibanteng" />
 
     <ImageView
-        android:id="@+id/location_icon_trans_pic"
+        android:id="@+id/location_icon_gas_pic"
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:layout_marginStart="16dp"
@@ -58,10 +59,10 @@
         android:contentDescription="@null"
         android:src="@drawable/ic_location_orange"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/name_place_transport_detail" />
+        app:layout_constraintTop_toBottomOf="@+id/name_place_gas_detail" />
 
     <TextView
-        android:id="@+id/distance_location_trans"
+        android:id="@+id/distance_location_gas"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -72,7 +73,7 @@
         android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/location_transport_detail"
+        app:layout_constraintTop_toBottomOf="@+id/location_gas_detail"
         tools:text="3.6km" />
 
 

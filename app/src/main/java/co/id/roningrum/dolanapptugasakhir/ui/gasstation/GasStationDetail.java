@@ -81,11 +81,11 @@ public class GasStationDetail extends AppCompatActivity implements OnMapReadyCal
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_gas_station);
-        tvNameGasDetail = findViewById(R.id.name_place_spbu_detail);
-        tvAddressGasDetail = findViewById(R.id.address_place_spbu_detail);
-        tvDistanceGasDetail = findViewById(R.id.distance_place_spbu_detail);
+        tvNameGasDetail = findViewById(R.id.name_place_gas_detail);
+        tvAddressGasDetail = findViewById(R.id.location_gas_detail);
+        tvDistanceGasDetail = findViewById(R.id.distance_location_gas);
         collapsingToolbarGas = findViewById(R.id.collapseToolbar_spbu);
-        gasMapView = findViewById(R.id.location_spbu_map_detail);
+        gasMapView = findViewById(R.id.location_gas_map_detail);
         imgGasDetail = findViewById(R.id.img_spbu_detail);
 
         Toolbar toolbarSPBU = findViewById(R.id.toolbar_spbu_detail);
