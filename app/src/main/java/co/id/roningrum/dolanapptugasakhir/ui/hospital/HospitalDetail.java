@@ -78,8 +78,8 @@ public class HospitalDetail extends AppCompatActivity implements OnMapReadyCallb
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_hospital);
         tvNameHospitalDetail = findViewById(R.id.name_place_hospital_detail);
-        tvAddressHospitalDetail = findViewById(R.id.address_place_hospital_detail);
-        tvDistanceHospitalDetail = findViewById(R.id.distance_place_hospital_detail);
+        tvAddressHospitalDetail = findViewById(R.id.location_hospital_detail);
+        tvDistanceHospitalDetail = findViewById(R.id.distance_location_hospital);
         collapsingToolbarHospital = findViewById(R.id.collapseToolbar_hospital);
         hospitalMapView = findViewById(R.id.location_hospital_map_detail);
         imgHospitalDetail = findViewById(R.id.img_hospital_detail);
