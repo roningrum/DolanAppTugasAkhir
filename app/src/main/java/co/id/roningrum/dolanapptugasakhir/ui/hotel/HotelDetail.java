@@ -14,16 +14,12 @@
 package co.id.roningrum.dolanapptugasakhir.ui.hotel;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -41,7 +37,6 @@ import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import org.jetbrains.annotations.NotNull;
@@ -84,13 +79,11 @@ public class HotelDetail extends AppCompatActivity implements OnMapReadyCallback
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_hotel);
         tvNameHotelDetail = findViewById(R.id.name_place_hotel_detail);
-        tvAddressHotelDetail = findViewById(R.id.address_place_hotel_detail);
-        tvDistanceHotelEducation = findViewById(R.id.distance_place_hotel_detail);
+        tvAddressHotelDetail = findViewById(R.id.location_hotel_detail);
+        tvDistanceHotelEducation = findViewById(R.id.distance_location_hotel);
         imgHotelDetail = findViewById(R.id.img_hotel_detail);
-        hotelMapView = findViewById(R.id.loc_hotel_map_detail);
+        hotelMapView = findViewById(R.id.location_hotel_map_detail);
         collapsingToolbarHotel = findViewById(R.id.collapseToolbar_hotel);
-        LinearLayout btnOrderHotel = findViewById(R.id.btn_order_link_hotel);
-        LinearLayout btnOrderHotel1 = findViewById(R.id.btn_order_link_hotel1);
 
         Toolbar toolbarHotel = findViewById(R.id.toolbar_hotel_detail);
         setSupportActionBar(toolbarHotel);
@@ -112,9 +105,6 @@ public class HotelDetail extends AppCompatActivity implements OnMapReadyCallback
         }
         hotelDetailRef = FirebaseConstant.getHotelKey(hotelKey);
         gpsHandler = new GPSHandler(this);
-
-        btnOrderHotel1.setOnClickListener(this);
-        btnOrderHotel.setOnClickListener(this);
 
         LoadHotelDetail();
 
@@ -216,66 +206,17 @@ public class HotelDetail extends AppCompatActivity implements OnMapReadyCallback
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.btn_order_link_hotel:
-                getOrderKamarHotel();
-                break;
-            case R.id.btn_order_link_hotel1:
-                getOrderKamarHotel1();
-                break;
+//            case R.id.btn_order_link_hotel:
+//                getOrderKamarHotel();
+//                break;
+//            case R.id.btn_order_link_hotel1:
+//                getOrderKamarHotel1();
+//                break;
         }
 
     }
 
-    private void getOrderKamarHotel1() {
-        final Query orderHotelLinkQuery = hotelDetailRef.orderByChild("order_link_hotel1");
-        orderHotelLinkQuery.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                Hotel hotel = dataSnapshot.getValue(Hotel.class);
-                assert hotel != null;
-                String orderLink = hotel.getOrder_link_hotel1();
 
-                if (orderLink.equals("tidak tersedia")) {
-                    Toast.makeText(HotelDetail.this, "Maaf Link Tidak tersedia", Toast.LENGTH_SHORT).show();
-                } else {
-                    Intent linkOrderNow = new Intent(Intent.ACTION_VIEW, Uri.parse(orderLink));
-                    startActivity(linkOrderNow);
-                }
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                Log.e(TAG, "" + databaseError.getMessage());
-            }
-        });
-
-    }
-
-    private void getOrderKamarHotel() {
-        final Query orderHotelLinkQuery = hotelDetailRef.orderByChild("order_link_hotel");
-        orderHotelLinkQuery.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                Hotel hotel = dataSnapshot.getValue(Hotel.class);
-                assert hotel != null;
-                String orderLink = hotel.getOrder_link_hotel();
-
-                if (orderLink.equals("tidak tersedia")) {
-                    Toast.makeText(HotelDetail.this, "Maaf Link Tidak tersedia", Toast.LENGTH_SHORT).show();
-                } else {
-                    Intent linkOrderNow = new Intent(Intent.ACTION_VIEW, Uri.parse(orderLink));
-                    startActivity(linkOrderNow);
-                }
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                Log.e(TAG, "" + databaseError.getMessage());
-            }
-        });
-    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
