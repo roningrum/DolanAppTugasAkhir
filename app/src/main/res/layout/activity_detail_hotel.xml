@@ -80,6 +80,20 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
+            <Button
+                android:id="@+id/btn_order_hotel"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="24dp"
+                android:background="@drawable/bg_button_orange"
+                android:fontFamily="@font/montserrat"
+                android:padding="8dp"
+                android:text="@string/order_hotel_button"
+                android:textAlignment="center"
+                android:textColor="#FFF" />
+
         </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>

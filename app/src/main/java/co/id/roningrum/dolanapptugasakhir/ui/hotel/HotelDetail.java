@@ -18,12 +18,14 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.FragmentManager;
 
 import com.bumptech.glide.Glide;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -43,6 +45,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
+import co.id.roningrum.dolanapptugasakhir.OptionalOrderHotelFragment;
 import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.controller.FirebaseConstant;
 import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
@@ -51,6 +54,7 @@ import co.id.roningrum.dolanapptugasakhir.util.Util;
 
 public class HotelDetail extends AppCompatActivity implements OnMapReadyCallback, View.OnClickListener {
     public static final String EXTRA_HOTEL_KEY = "hotel_key";
+
     private static final String MAP_VIEW_KEY = "mapViewBundle";
 
     private final static String TAG = "Pesan";
@@ -74,6 +78,8 @@ public class HotelDetail extends AppCompatActivity implements OnMapReadyCallback
     private double endLng;
     private double distance;
 
+    String hotelKey;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,6 +90,8 @@ public class HotelDetail extends AppCompatActivity implements OnMapReadyCallback
         imgHotelDetail = findViewById(R.id.img_hotel_detail);
         hotelMapView = findViewById(R.id.location_hotel_map_detail);
         collapsingToolbarHotel = findViewById(R.id.collapseToolbar_hotel);
+
+        Button btnOrdeHotel = findViewById(R.id.btn_order_hotel);
 
         Toolbar toolbarHotel = findViewById(R.id.toolbar_hotel_detail);
         setSupportActionBar(toolbarHotel);
@@ -99,13 +107,14 @@ public class HotelDetail extends AppCompatActivity implements OnMapReadyCallback
         hotelMapView.onCreate(mapViewBundle);
         hotelMapView.getMapAsync(this);
 
-        String hotelKey = getIntent().getStringExtra(EXTRA_HOTEL_KEY);
+        hotelKey = getIntent().getStringExtra(EXTRA_HOTEL_KEY);
         if (hotelKey == null) {
             throw new IllegalArgumentException("Must pass Extra");
         }
         hotelDetailRef = FirebaseConstant.getHotelKey(hotelKey);
         gpsHandler = new GPSHandler(this);
 
+        btnOrdeHotel.setOnClickListener(this);
         LoadHotelDetail();
 
     }
@@ -205,13 +214,13 @@ public class HotelDetail extends AppCompatActivity implements OnMapReadyCallback
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-//            case R.id.btn_order_link_hotel:
-//                getOrderKamarHotel();
-//                break;
-//            case R.id.btn_order_link_hotel1:
-//                getOrderKamarHotel1();
-//                break;
+        if (v.getId() == R.id.btn_order_hotel) {
+            OptionalOrderHotelFragment optionalOrderHotelFragment = new OptionalOrderHotelFragment();
+            FragmentManager fm = getSupportFragmentManager();
+            Bundle data = new Bundle();
+            data.putString(EXTRA_HOTEL_KEY, hotelKey);
+            optionalOrderHotelFragment.setArguments(data);
+            optionalOrderHotelFragment.show(fm, OptionalOrderHotelFragment.class.getSimpleName());
         }
 
     }

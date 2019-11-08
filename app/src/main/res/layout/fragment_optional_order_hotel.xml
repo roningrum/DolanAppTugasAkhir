@@ -11,16 +11,19 @@
   ~ limitations under the License.
   -->
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:padding="16dp"
+    android:layout_height="match_parent"
+    android:layout_margin="16dp"
+    android:padding="10dp"
     tools:context=".OptionalOrderHotelFragment">
 
-    <!-- TODO: Update blank fragment layout -->
+
     <TextView
+        android:id="@+id/textView"
+        style="@style/TextAppearance.AppCompat.Headline"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fontFamily="@font/montserrat_medium"
@@ -28,27 +31,29 @@
         android:textColor="@color/blackTextPrimary"
         android:textSize="16sp" />
 
-
     <LinearLayout
         android:id="@+id/btn_order_link_hotel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@id/textView"
         android:layout_marginTop="16dp"
-        android:orientation="horizontal"
         android:padding="8dp"
-        tools:ignore="UseCompoundDrawables">
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView">
 
         <ImageView
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:contentDescription="@null"
             android:src="@drawable/traveloka" />
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginStart="12dp"
+            android:layout_marginStart="20dp"
             android:fontFamily="@font/montserrat"
             android:text="@string/order_link_hotel_traveloka"
             android:textSize="15sp" />
@@ -59,26 +64,28 @@
         android:id="@+id/btn_order_link_hotel1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
         android:orientation="horizontal"
         android:padding="8dp"
-        tools:ignore="UseCompoundDrawables">
+        android:layout_below="@id/btn_order_link_hotel"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_order_link_hotel">
 
         <ImageView
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:contentDescription="@null"
             android:src="@drawable/tiketdotcom" />
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginStart="12dp"
+            android:layout_marginStart="20dp"
             android:fontFamily="@font/montserrat"
             android:text="@string/order_link_hotel_tiket"
             android:textSize="15sp" />
 
     </LinearLayout>
 
-</LinearLayout>
+</RelativeLayout>

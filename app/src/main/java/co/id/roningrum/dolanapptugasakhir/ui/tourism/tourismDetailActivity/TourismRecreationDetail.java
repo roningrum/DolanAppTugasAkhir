@@ -91,7 +91,6 @@ public class TourismRecreationDetail extends AppCompatActivity implements OnMapR
         tvDistanceRecreationDetail = findViewById(R.id.distance_location_tourism);
         imgRecreation = findViewById(R.id.img_recreation_place_detail);
         recreationMapView = findViewById(R.id.location_tourism_map_detail);
-        LikeButton likeButton = findViewById(R.id.heart);
         collapsingToolbarLayout_recreation = findViewById(R.id.collapseToolbar_recreation);
 
 
@@ -108,7 +107,6 @@ public class TourismRecreationDetail extends AppCompatActivity implements OnMapR
         }
         recreationMapView.onCreate(mapViewBundle);
         recreationMapView.getMapAsync(this);
-        likeButton.setOnLikeListener(this);
 
 
         recreationKey = getIntent().getStringExtra(EXTRA_WISATA_KEY);
