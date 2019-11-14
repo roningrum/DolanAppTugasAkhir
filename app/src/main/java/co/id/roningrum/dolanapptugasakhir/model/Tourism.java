@@ -13,9 +13,8 @@
 
 package co.id.roningrum.dolanapptugasakhir.model;
 
-import java.io.Serializable;
 
-public class Tourism implements Serializable {
+public class Tourism {
     private String id;
     private String name_tourism;
     private String location_tourism;
