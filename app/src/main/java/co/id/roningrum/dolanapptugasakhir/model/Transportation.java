@@ -14,6 +14,7 @@
 package co.id.roningrum.dolanapptugasakhir.model;
 
 public class Transportation {
+    private String id;
     private String name_transportation;
     private String location_transportation;
     private String url_photo_transport;
@@ -23,12 +24,21 @@ public class Transportation {
     public Transportation() {
     }
 
-    public Transportation(String name_transportation, String location_transportation, String url_photo_transport, double lat_transportation, double lng_transportation) {
+    public Transportation(String id, String name_transportation, String location_transportation, String url_photo_transport, double lat_transportation, double lng_transportation) {
+        this.id = id;
         this.name_transportation = name_transportation;
         this.location_transportation = location_transportation;
         this.url_photo_transport = url_photo_transport;
         this.lat_transportation = lat_transportation;
         this.lng_transportation = lng_transportation;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getName_transportation() {

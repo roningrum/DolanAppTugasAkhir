@@ -19,11 +19,8 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -33,29 +30,30 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.facebook.shimmer.ShimmerFrameLayout;
-import com.firebase.ui.database.FirebaseRecyclerAdapter;
-import com.firebase.ui.database.FirebaseRecyclerOptions;
-import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import co.id.roningrum.dolanapptugasakhir.R;
-import co.id.roningrum.dolanapptugasakhir.adapter.transportation.BusViewHolder;
+import co.id.roningrum.dolanapptugasakhir.adapter.transportation.TransportasiClickCallback;
+import co.id.roningrum.dolanapptugasakhir.adapter.transportation.TransportationAdapter;
 import co.id.roningrum.dolanapptugasakhir.controller.FirebaseConstant;
-import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.handler.LocationPermissionHandler;
-import co.id.roningrum.dolanapptugasakhir.handler.NetworkHelper;
 import co.id.roningrum.dolanapptugasakhir.model.Transportation;
 import co.id.roningrum.dolanapptugasakhir.ui.transportation.transportationDetailActivity.TransportationBusDetail;
 import co.id.roningrum.dolanapptugasakhir.ui.transportation.transportationMapActivity.TransportationBusMaps;
+import co.id.roningrum.dolanapptugasakhir.util.Util;
 
 public class TransportationBusActivity extends AppCompatActivity {
     private RecyclerView rvBusList;
     private ShimmerFrameLayout shimmerFrameLayout;
-    private FirebaseRecyclerAdapter<Transportation, BusViewHolder> busFirebaseadapter;
+    private ArrayList<Transportation> transportations = new ArrayList<>();
+    private TransportationAdapter transportationAdapter;
 
-    private GPSHandler gpsHandler;
     private LocationPermissionHandler locationPermissionHandler;
 
     @Override
@@ -71,9 +69,11 @@ public class TransportationBusActivity extends AppCompatActivity {
     }
 
     private void checkConnection() {
-        if (NetworkHelper.isConnectedToNetwork(getApplicationContext())) {
+        if (Util.isConnectedToNetwork(getApplicationContext())) {
+            showLoading(false);
             showBusData();
         } else {
+            showLoading(true);
             Toast.makeText(this, "Check your connection", Toast.LENGTH_SHORT).show();
         }
     }
@@ -81,50 +81,31 @@ public class TransportationBusActivity extends AppCompatActivity {
     private void showBusData() {
         if (havePermission()) {
             Query busQuery = FirebaseConstant.getTransportBus();
-            FirebaseRecyclerOptions<Transportation> busOptions = new FirebaseRecyclerOptions.Builder<Transportation>()
-                    .setQuery(busQuery, Transportation.class)
-                    .build();
-
-            busFirebaseadapter = new FirebaseRecyclerAdapter<Transportation, BusViewHolder>(busOptions) {
+            busQuery.addValueEventListener(new ValueEventListener() {
                 @Override
-                protected void onBindViewHolder(@NonNull BusViewHolder holder, int position, @NonNull Transportation model) {
-                    final DatabaseReference busRef = getRef(position);
-                    final String busKey = busRef.getKey();
-
-                    gpsHandler = new GPSHandler(getApplicationContext());
-                    if (gpsHandler.isCanGetLocation()) {
-                        double latitude = gpsHandler.getLatitude();
-                        double longitude = gpsHandler.getLongitude();
-
-                        Log.i("Message", "CurLoc :" + latitude + "," + longitude);
-
-                        shimmerFrameLayout.stopShimmer();
-                        shimmerFrameLayout.setVisibility(View.GONE);
-
-                        holder.showBusData(model, latitude, longitude);
-                        holder.setOnClickListener(new BusViewHolder.ClickListener() {
-                            @Override
-                            public void onItemClick(View view, int position) {
-                                Intent intent = new Intent(getApplicationContext(), TransportationBusDetail.class);
-                                intent.putExtra(TransportationBusDetail.EXTRA_BUS_KEY, busKey);
-                                startActivity(intent);
-                            }
-                        });
-
-                    } else {
-                        gpsHandler.stopUsingGPS();
-                        gpsHandler.showSettingsAlert();
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
+                        Transportation transportation = dataSnapshot1.getValue(Transportation.class);
+                        transportations.add(transportation);
                     }
+                    transportationAdapter = new TransportationAdapter();
+                    rvBusList.setAdapter(transportationAdapter);
+                    transportationAdapter.setTransportations(transportations);
+                    transportationAdapter.setTransportasiClickCallback(new TransportasiClickCallback() {
+                        @Override
+                        public void onItemCallback(Transportation transportation) {
+                            String transportKey = transportation.getId();
+                            Intent intent = new Intent(TransportationBusActivity.this, TransportationBusDetail.class);
+                            intent.putExtra(TransportationBusDetail.EXTRA_BUS_KEY, transportKey);
+                            startActivity(intent);
+                        }
+                    });
                 }
-
-                @NonNull
                 @Override
-                public BusViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-                    return new BusViewHolder(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_menu_bus_category_transport, viewGroup, false));
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                    Log.e("Error DatabaseError", " " + databaseError.getMessage());
                 }
-            };
-            busFirebaseadapter.notifyDataSetChanged();
-            rvBusList.setAdapter(busFirebaseadapter);
+            });
 
         }
     }
@@ -174,39 +155,11 @@ public class TransportationBusActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        shimmerFrameLayout.startShimmer();
-        if (busFirebaseadapter != null) {
-            busFirebaseadapter.startListening();
+    private void showLoading(boolean state) {
+        if (state) {
+            shimmerFrameLayout.startShimmer();
+        } else {
+            shimmerFrameLayout.stopShimmer();
         }
     }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        shimmerFrameLayout.stopShimmer();
-        if (busFirebaseadapter != null) {
-            busFirebaseadapter.stopListening();
-        }
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        if (busFirebaseadapter != null) {
-            busFirebaseadapter.startListening();
-        }
-
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        if (busFirebaseadapter != null) {
-            busFirebaseadapter.stopListening();
-        }
-    }
-
 }

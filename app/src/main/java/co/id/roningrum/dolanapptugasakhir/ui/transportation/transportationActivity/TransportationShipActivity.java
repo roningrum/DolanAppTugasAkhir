@@ -19,11 +19,8 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -33,29 +30,29 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.facebook.shimmer.ShimmerFrameLayout;
-import com.firebase.ui.database.FirebaseRecyclerAdapter;
-import com.firebase.ui.database.FirebaseRecyclerOptions;
-import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import co.id.roningrum.dolanapptugasakhir.R;
-import co.id.roningrum.dolanapptugasakhir.adapter.transportation.ShipViewHolder;
+import co.id.roningrum.dolanapptugasakhir.adapter.transportation.TransportasiClickCallback;
+import co.id.roningrum.dolanapptugasakhir.adapter.transportation.TransportationAdapter;
 import co.id.roningrum.dolanapptugasakhir.controller.FirebaseConstant;
-import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.handler.LocationPermissionHandler;
-import co.id.roningrum.dolanapptugasakhir.handler.NetworkHelper;
 import co.id.roningrum.dolanapptugasakhir.model.Transportation;
 import co.id.roningrum.dolanapptugasakhir.ui.transportation.transportationDetailActivity.TransportationShipDetail;
 import co.id.roningrum.dolanapptugasakhir.ui.transportation.transportationMapActivity.TransportationShipMaps;
+import co.id.roningrum.dolanapptugasakhir.util.Util;
 
 public class TransportationShipActivity extends AppCompatActivity {
     private RecyclerView rvShipList;
+    private TransportationAdapter transportationAdapter;
+    private ArrayList<Transportation> transportations = new ArrayList<>();
     private ShimmerFrameLayout shimmerFrameLayout;
-    private FirebaseRecyclerAdapter<Transportation, ShipViewHolder> shipFirebaseadapter;
-
-    private GPSHandler gpsHandler;
     private LocationPermissionHandler locationPermissionHandler;
 
     @Override
@@ -71,9 +68,11 @@ public class TransportationShipActivity extends AppCompatActivity {
     }
 
     private void checkConnection() {
-        if (NetworkHelper.isConnectedToNetwork(getApplicationContext())) {
+        if (Util.isConnectedToNetwork(getApplicationContext())) {
+            showLoading(false);
             showShipData();
         } else {
+            showLoading(true);
             Toast.makeText(this, "Check your connection", Toast.LENGTH_SHORT).show();
         }
     }
@@ -81,49 +80,31 @@ public class TransportationShipActivity extends AppCompatActivity {
     private void showShipData() {
         if (havePermission()) {
             Query shipQuery = FirebaseConstant.getTransportShip();
-            final FirebaseRecyclerOptions<Transportation> shipOptions = new FirebaseRecyclerOptions.Builder<Transportation>()
-                    .setQuery(shipQuery, Transportation.class)
-                    .build();
-            shipFirebaseadapter = new FirebaseRecyclerAdapter<Transportation, ShipViewHolder>(shipOptions) {
+            shipQuery.addValueEventListener(new ValueEventListener() {
                 @Override
-                protected void onBindViewHolder(@NonNull ShipViewHolder holder, int position, @NonNull Transportation model) {
-                    final DatabaseReference shipRef = getRef(position);
-                    final String shipKey = shipRef.getKey();
-                    gpsHandler = new GPSHandler(getApplicationContext());
-                    if (gpsHandler.isCanGetLocation()) {
-                        double latitude = gpsHandler.getLatitude();
-                        double longitude = gpsHandler.getLongitude();
-
-                        Log.i("Message", "CurLoc :" + latitude + "," + longitude);
-
-                        shimmerFrameLayout.stopShimmer();
-                        shimmerFrameLayout.setVisibility(View.GONE);
-
-                        holder.showHarborData(model, latitude, longitude);
-                        holder.setOnClickListener(new ShipViewHolder.ClickListener() {
-                            @Override
-                            public void onItemClick(View view, int position) {
-                                Intent intent = new Intent(getApplicationContext(), TransportationShipDetail.class);
-                                intent.putExtra(TransportationShipDetail.EXTRA_SHIP_KEY, shipKey);
-                                startActivity(intent);
-                            }
-                        });
-
-                    } else {
-                        gpsHandler.stopUsingGPS();
-                        gpsHandler.showSettingsAlert();
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
+                        Transportation transportation = dataSnapshot1.getValue(Transportation.class);
+                        transportations.add(transportation);
                     }
-
+                    transportationAdapter = new TransportationAdapter();
+                    rvShipList.setAdapter(transportationAdapter);
+                    transportationAdapter.setTransportations(transportations);
+                    transportationAdapter.setTransportasiClickCallback(new TransportasiClickCallback() {
+                        @Override
+                        public void onItemCallback(Transportation transportation) {
+                            String transportKey = transportation.getId();
+                            Intent intent = new Intent(TransportationShipActivity.this, TransportationShipDetail.class);
+                            intent.putExtra(TransportationShipDetail.EXTRA_SHIP_KEY, transportKey);
+                            startActivity(intent);
+                        }
+                    });
                 }
-
-                @NonNull
                 @Override
-                public ShipViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-                    return new ShipViewHolder(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_menu_ship_category_transport, viewGroup, false));
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                    Log.e("Error DatabaseError", " " + databaseError.getMessage());
                 }
-            };
-            shipFirebaseadapter.notifyDataSetChanged();
-            rvShipList.setAdapter(shipFirebaseadapter);
+            });
         }
     }
 
@@ -172,38 +153,11 @@ public class TransportationShipActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        shimmerFrameLayout.startShimmer();
-        if (shipFirebaseadapter != null) {
-            shipFirebaseadapter.startListening();
-        }
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        shimmerFrameLayout.stopShimmer();
-        if (shipFirebaseadapter != null) {
-            shipFirebaseadapter.stopListening();
-        }
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        if (shipFirebaseadapter != null) {
-            shipFirebaseadapter.startListening();
-        }
-
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        if (shipFirebaseadapter != null) {
-            shipFirebaseadapter.stopListening();
+    private void showLoading(boolean state) {
+        if (state) {
+            shimmerFrameLayout.startShimmer();
+        } else {
+            shimmerFrameLayout.stopShimmer();
         }
     }
 }

@@ -19,11 +19,8 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -33,29 +30,30 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.facebook.shimmer.ShimmerFrameLayout;
-import com.firebase.ui.database.FirebaseRecyclerAdapter;
-import com.firebase.ui.database.FirebaseRecyclerOptions;
-import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import co.id.roningrum.dolanapptugasakhir.R;
-import co.id.roningrum.dolanapptugasakhir.adapter.transportation.TrainViewHolder;
+import co.id.roningrum.dolanapptugasakhir.adapter.transportation.TransportasiClickCallback;
+import co.id.roningrum.dolanapptugasakhir.adapter.transportation.TransportationAdapter;
 import co.id.roningrum.dolanapptugasakhir.controller.FirebaseConstant;
-import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.handler.LocationPermissionHandler;
-import co.id.roningrum.dolanapptugasakhir.handler.NetworkHelper;
 import co.id.roningrum.dolanapptugasakhir.model.Transportation;
 import co.id.roningrum.dolanapptugasakhir.ui.transportation.transportationDetailActivity.TransportationTrainDetail;
 import co.id.roningrum.dolanapptugasakhir.ui.transportation.transportationMapActivity.TransportationTrainMaps;
+import co.id.roningrum.dolanapptugasakhir.util.Util;
 
 public class TransportationTrainActivity extends AppCompatActivity {
     private RecyclerView rvTrainList;
     private ShimmerFrameLayout shimmerFrameLayout;
-    private FirebaseRecyclerAdapter<Transportation, TrainViewHolder> trainFirebaseadapter;
+    private TransportationAdapter transportationAdapter;
+    private ArrayList<Transportation> transportations = new ArrayList<>();
 
-    private GPSHandler gpsHandler;
     private LocationPermissionHandler locationPermissionHandler;
 
     @Override
@@ -71,9 +69,11 @@ public class TransportationTrainActivity extends AppCompatActivity {
     }
 
     private void checkConnection() {
-        if (NetworkHelper.isConnectedToNetwork(getApplicationContext())) {
+        if (Util.isConnectedToNetwork(getApplicationContext())) {
+            showLoading(false);
             showTrainData();
         } else {
+            showLoading(true);
             Toast.makeText(this, "Check your connection", Toast.LENGTH_SHORT).show();
         }
     }
@@ -81,50 +81,31 @@ public class TransportationTrainActivity extends AppCompatActivity {
     private void showTrainData() {
         if (havePermission()) {
             Query trainQuery = FirebaseConstant.getTransportKereta();
-            FirebaseRecyclerOptions<Transportation> busOptions = new FirebaseRecyclerOptions.Builder<Transportation>()
-                    .setQuery(trainQuery, Transportation.class)
-                    .build();
-
-            trainFirebaseadapter = new FirebaseRecyclerAdapter<Transportation, TrainViewHolder>(busOptions) {
+            trainQuery.addValueEventListener(new ValueEventListener() {
                 @Override
-                protected void onBindViewHolder(@NonNull TrainViewHolder holder, int position, @NonNull Transportation model) {
-                    final DatabaseReference trainRef = getRef(position);
-                    final String trainKey = trainRef.getKey();
-
-                    gpsHandler = new GPSHandler(getApplicationContext());
-                    if (gpsHandler.isCanGetLocation()) {
-                        double latitude = gpsHandler.getLatitude();
-                        double longitude = gpsHandler.getLongitude();
-
-                        Log.i("Message", "CurLoc :" + latitude + "," + longitude);
-
-                        shimmerFrameLayout.stopShimmer();
-                        shimmerFrameLayout.setVisibility(View.GONE);
-
-                        holder.showTrainData(model, latitude, longitude);
-                        holder.setOnClickListener(new TrainViewHolder.ClickListener() {
-                            @Override
-                            public void onItemClick(View view, int position) {
-                                Intent intent = new Intent(getApplicationContext(), TransportationTrainDetail.class);
-                                intent.putExtra(TransportationTrainDetail.EXTRA_TRAIN_KEY, trainKey);
-                                startActivity(intent);
-                            }
-                        });
-
-                    } else {
-                        gpsHandler.stopUsingGPS();
-                        gpsHandler.showSettingsAlert();
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
+                        Transportation transportation = dataSnapshot1.getValue(Transportation.class);
+                        transportations.add(transportation);
                     }
+                    transportationAdapter = new TransportationAdapter();
+                    rvTrainList.setAdapter(transportationAdapter);
+                    transportationAdapter.setTransportations(transportations);
+                    transportationAdapter.setTransportasiClickCallback(new TransportasiClickCallback() {
+                        @Override
+                        public void onItemCallback(Transportation transportation) {
+                            String transportKey = transportation.getId();
+                            Intent intent = new Intent(TransportationTrainActivity.this, TransportationTrainDetail.class);
+                            intent.putExtra(TransportationTrainDetail.EXTRA_TRAIN_KEY, transportKey);
+                            startActivity(intent);
+                        }
+                    });
                 }
-
-                @NonNull
                 @Override
-                public TrainViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-                    return new TrainViewHolder(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_menu_train_transport_category, viewGroup, false));
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                    Log.e("Error DatabaseError", " " + databaseError.getMessage());
                 }
-            };
-            trainFirebaseadapter.notifyDataSetChanged();
-            rvTrainList.setAdapter(trainFirebaseadapter);
+            });
 
         }
     }
@@ -174,38 +155,11 @@ public class TransportationTrainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        shimmerFrameLayout.startShimmer();
-        if (trainFirebaseadapter != null) {
-            trainFirebaseadapter.startListening();
-        }
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        shimmerFrameLayout.stopShimmer();
-        if (trainFirebaseadapter != null) {
-            trainFirebaseadapter.stopListening();
-        }
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        if (trainFirebaseadapter != null) {
-            trainFirebaseadapter.startListening();
-        }
-
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        if (trainFirebaseadapter != null) {
-            trainFirebaseadapter.stopListening();
+    private void showLoading(boolean state) {
+        if (state) {
+            shimmerFrameLayout.startShimmer();
+        } else {
+            shimmerFrameLayout.stopShimmer();
         }
     }
 }
