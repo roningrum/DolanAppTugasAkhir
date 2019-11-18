@@ -40,10 +40,7 @@
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <include
-            layout="@layout/layout_shimmer_loading_vertical"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+        <include layout="@layout/layout_shimmer_loading_vertical" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_hotel_list"

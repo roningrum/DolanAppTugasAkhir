@@ -17,6 +17,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.maps.android.clustering.ClusterItem;
 
 public class Hotel implements ClusterItem {
+    private String id;
     private String name_hotel;
     private String location_hotel;
     private String telepon;
@@ -29,7 +30,8 @@ public class Hotel implements ClusterItem {
     public Hotel() {
     }
 
-    public Hotel(String name_hotel, String location_hotel, String telepon, String url_photo_hotel, String order_link_hotel, String order_link_hotel1, double lat_location_hotel, double lng_location_hotel) {
+    public Hotel(String id, String name_hotel, String location_hotel, String telepon, String url_photo_hotel, String order_link_hotel, String order_link_hotel1, double lat_location_hotel, double lng_location_hotel) {
+        this.id = id;
         this.name_hotel = name_hotel;
         this.location_hotel = location_hotel;
         this.telepon = telepon;
@@ -117,5 +119,13 @@ public class Hotel implements ClusterItem {
     @Override
     public String getSnippet() {
         return getLocation_hotel();
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }

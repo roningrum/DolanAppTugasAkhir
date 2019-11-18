@@ -19,11 +19,8 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -33,45 +30,51 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.facebook.shimmer.ShimmerFrameLayout;
-import com.firebase.ui.database.FirebaseRecyclerAdapter;
-import com.firebase.ui.database.FirebaseRecyclerOptions;
-import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import co.id.roningrum.dolanapptugasakhir.R;
-import co.id.roningrum.dolanapptugasakhir.adapter.hotel.HotelViewHolder;
+import co.id.roningrum.dolanapptugasakhir.adapter.hotel.HotelAdapter;
+import co.id.roningrum.dolanapptugasakhir.adapter.hotel.HotelClickCallback;
 import co.id.roningrum.dolanapptugasakhir.controller.FirebaseConstant;
-import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.handler.LocationPermissionHandler;
-import co.id.roningrum.dolanapptugasakhir.handler.NetworkHelper;
 import co.id.roningrum.dolanapptugasakhir.model.Hotel;
+import co.id.roningrum.dolanapptugasakhir.util.Util;
 
 public class HotelActivity extends AppCompatActivity {
-    private RecyclerView rvHotelList;
     private ShimmerFrameLayout shimmerFrameLayout;
-    private FirebaseRecyclerAdapter<Hotel, HotelViewHolder> hotelFirebaseAdapter;
-
-    private GPSHandler gpsHandler;
+    private HotelAdapter hotelAdapter;
+    private ArrayList<Hotel> hotels = new ArrayList<>();
     private LocationPermissionHandler locationPermissionHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_category_hotel);
-        rvHotelList = findViewById(R.id.rv_hotel_list);
+        RecyclerView rvHotelList = findViewById(R.id.rv_hotel_list);
         Toolbar toolbarHotel = findViewById(R.id.toolbar_top_hotel);
         shimmerFrameLayout = findViewById(R.id.shimmer_view_container);
+
+
         rvHotelList.setLayoutManager(new LinearLayoutManager(this));
+        hotelAdapter = new HotelAdapter();
+        rvHotelList.setAdapter(hotelAdapter);
+
         setSupportActionBar(toolbarHotel);
         checkConnection();
     }
 
     private void checkConnection() {
-        if (NetworkHelper.isConnectedToNetwork(getApplicationContext())) {
+        if (Util.isConnectedToNetwork(getApplicationContext())) {
+            showLoading(false);
             showHotelData();
         } else {
+            showLoading(true);
             Toast.makeText(this, "Check your connection", Toast.LENGTH_SHORT).show();
         }
     }
@@ -79,49 +82,33 @@ public class HotelActivity extends AppCompatActivity {
     private void showHotelData() {
         if (havePermission()) {
             Query hotelQuery = FirebaseConstant.getHotel();
-            FirebaseRecyclerOptions<Hotel> hotelOptions = new FirebaseRecyclerOptions.Builder<Hotel>()
-                    .setQuery(hotelQuery, Hotel.class)
-                    .build();
-            hotelFirebaseAdapter = new FirebaseRecyclerAdapter<Hotel, HotelViewHolder>(hotelOptions) {
+            hotelQuery.addValueEventListener(new ValueEventListener() {
                 @Override
-                protected void onBindViewHolder(@NonNull HotelViewHolder holder, int position, @NonNull Hotel model) {
-                    final DatabaseReference hotelCategoryRef = getRef(position);
-                    final String hotelKey = hotelCategoryRef.getKey();
-
-                    gpsHandler = new GPSHandler(getApplicationContext());
-                    if (gpsHandler.isCanGetLocation()) {
-                        double latitude = gpsHandler.getLatitude();
-                        double longitude = gpsHandler.getLongitude();
-
-                        Log.i("Message", "CurLoc :" + latitude + "," + longitude);
-
-                        shimmerFrameLayout.stopShimmer();
-                        shimmerFrameLayout.setVisibility(View.GONE);
-
-                        holder.showHotelData(model, latitude, longitude);
-                        holder.setOnClickListener(new HotelViewHolder.ClickListener() {
-                            @Override
-                            public void onItemClick(View view, int position) {
-                                Intent intent = new Intent(getApplicationContext(), HotelDetail.class);
-                                intent.putExtra(HotelDetail.EXTRA_HOTEL_KEY, hotelKey);
-                                startActivity(intent);
-                            }
-                        });
-
-                    } else {
-                        gpsHandler.stopUsingGPS();
-                        gpsHandler.showSettingsAlert();
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
+                        Hotel hotel = dataSnapshot1.getValue(Hotel.class);
+                        hotels.add(hotel);
                     }
+                    hotelAdapter.setHotelList(hotels);
+                    hotelAdapter.setHotelClickCallback(new HotelClickCallback() {
+                        @Override
+                        public void onItemClicked(Hotel hotel) {
+                            String hotelKey = hotel.getId();
+                            Intent intent = new Intent(HotelActivity.this, HotelDetail.class);
+                            intent.putExtra(HotelDetail.EXTRA_HOTEL_KEY, hotelKey);
+                            Log.d("Check id Hotel", "id :" + hotelKey);
+                            startActivity(intent);
+                        }
+                    });
+                    hotelAdapter.notifyDataSetChanged();
                 }
 
-                @NonNull
                 @Override
-                public HotelViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-                    return new HotelViewHolder(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_menu_hotel_category_hotel, viewGroup, false));
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                    Log.e("Error DatabaseError", " " + databaseError.getMessage());
                 }
-            };
-            hotelFirebaseAdapter.notifyDataSetChanged();
-            rvHotelList.setAdapter(hotelFirebaseAdapter);
+            });
+            hotelAdapter.notifyDataSetChanged();
         }
     }
 
@@ -170,38 +157,11 @@ public class HotelActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        shimmerFrameLayout.startShimmer();
-        if (hotelFirebaseAdapter != null) {
-            hotelFirebaseAdapter.startListening();
-        }
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        shimmerFrameLayout.stopShimmer();
-        if (hotelFirebaseAdapter != null) {
-            hotelFirebaseAdapter.stopListening();
-        }
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        if (hotelFirebaseAdapter != null) {
-            hotelFirebaseAdapter.startListening();
-        }
-
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        if (hotelFirebaseAdapter != null) {
-            hotelFirebaseAdapter.stopListening();
+    private void showLoading(boolean state) {
+        if (state) {
+            shimmerFrameLayout.startShimmer();
+        } else {
+            shimmerFrameLayout.stopShimmer();
         }
     }
 }
