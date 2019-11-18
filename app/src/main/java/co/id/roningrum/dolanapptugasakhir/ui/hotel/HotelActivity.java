@@ -49,6 +49,7 @@ import co.id.roningrum.dolanapptugasakhir.util.Util;
 public class HotelActivity extends AppCompatActivity {
     private ShimmerFrameLayout shimmerFrameLayout;
     private HotelAdapter hotelAdapter;
+    private RecyclerView rvHotelList;
     private ArrayList<Hotel> hotels = new ArrayList<>();
     private LocationPermissionHandler locationPermissionHandler;
 
@@ -56,14 +57,12 @@ public class HotelActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_category_hotel);
-        RecyclerView rvHotelList = findViewById(R.id.rv_hotel_list);
+        rvHotelList = findViewById(R.id.rv_hotel_list);
         Toolbar toolbarHotel = findViewById(R.id.toolbar_top_hotel);
         shimmerFrameLayout = findViewById(R.id.shimmer_view_container);
 
 
         rvHotelList.setLayoutManager(new LinearLayoutManager(this));
-        hotelAdapter = new HotelAdapter();
-        rvHotelList.setAdapter(hotelAdapter);
 
         setSupportActionBar(toolbarHotel);
         checkConnection();
@@ -89,6 +88,8 @@ public class HotelActivity extends AppCompatActivity {
                         Hotel hotel = dataSnapshot1.getValue(Hotel.class);
                         hotels.add(hotel);
                     }
+                    hotelAdapter = new HotelAdapter();
+                    rvHotelList.setAdapter(hotelAdapter);
                     hotelAdapter.setHotelList(hotels);
                     hotelAdapter.setHotelClickCallback(new HotelClickCallback() {
                         @Override

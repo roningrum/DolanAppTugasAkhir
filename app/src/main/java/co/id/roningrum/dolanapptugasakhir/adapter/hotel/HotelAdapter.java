@@ -85,7 +85,7 @@ public class HotelAdapter extends RecyclerView.Adapter<HotelAdapter.HotelViewHol
             double longitude_hotel = hotel.getLng_location_hotel();
 
             float jarakKM = (float) HaversineHandler.calculateDistance(latitude, longitude, lattitude_hotel, longitude_hotel);
-            @SuppressLint("DefaultLocale") String distanceFormat = String.format("%.2f", jarakKM);
+            String distanceFormat = String.format("%.2f", jarakKM);
 
             nameHotel.setText(hotel.getName_hotel());
             locationHotel.setText(hotel.getLocation_hotel());

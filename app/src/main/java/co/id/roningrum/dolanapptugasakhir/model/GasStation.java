@@ -14,6 +14,7 @@
 package co.id.roningrum.dolanapptugasakhir.model;
 
 public class GasStation {
+    private String id;
     private String name_gasstation;
     private String location_gasstation;
     private double lat_gasstation;
@@ -23,7 +24,8 @@ public class GasStation {
     public GasStation() {
     }
 
-    public GasStation(String name_gasstation, String location_gasstation, double lat_gasstation, double lng_gasstation, String url_photo_gasstation) {
+    public GasStation(String id, String name_gasstation, String location_gasstation, double lat_gasstation, double lng_gasstation, String url_photo_gasstation) {
+        this.id = id;
         this.name_gasstation = name_gasstation;
         this.location_gasstation = location_gasstation;
         this.lat_gasstation = lat_gasstation;
@@ -69,5 +71,13 @@ public class GasStation {
 
     public void setLng_gasstation(double lng_gasstation) {
         this.lng_gasstation = lng_gasstation;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }

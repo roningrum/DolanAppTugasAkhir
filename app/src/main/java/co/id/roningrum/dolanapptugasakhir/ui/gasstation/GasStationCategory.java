@@ -19,11 +19,8 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -33,17 +30,18 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.facebook.shimmer.ShimmerFrameLayout;
-import com.firebase.ui.database.FirebaseRecyclerAdapter;
-import com.firebase.ui.database.FirebaseRecyclerOptions;
-import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import co.id.roningrum.dolanapptugasakhir.R;
-import co.id.roningrum.dolanapptugasakhir.adapter.gasstation.GasViewHolder;
+import co.id.roningrum.dolanapptugasakhir.adapter.gasstation.GasAdapter;
+import co.id.roningrum.dolanapptugasakhir.adapter.gasstation.GasClickCallback;
 import co.id.roningrum.dolanapptugasakhir.controller.FirebaseConstant;
-import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.handler.LocationPermissionHandler;
 import co.id.roningrum.dolanapptugasakhir.handler.NetworkHelper;
 import co.id.roningrum.dolanapptugasakhir.model.GasStation;
@@ -51,9 +49,8 @@ import co.id.roningrum.dolanapptugasakhir.model.GasStation;
 public class GasStationCategory extends AppCompatActivity {
     private RecyclerView rvSpbuList;
     private ShimmerFrameLayout shimmerFrameLayout;
-    private FirebaseRecyclerAdapter<GasStation, GasViewHolder> gasFirebaseAdapter;
-
-    private GPSHandler gpsHandler;
+    private GasAdapter gasAdapter;
+    private ArrayList<GasStation> gasStations = new ArrayList<>();
     private LocationPermissionHandler locationPermissionHandler;
 
 
@@ -71,8 +68,10 @@ public class GasStationCategory extends AppCompatActivity {
 
     private void checkConnection() {
         if (NetworkHelper.isConnectedToNetwork(getApplicationContext())) {
+            showLoading(false);
             showGasData();
         } else {
+            showLoading(true);
             Toast.makeText(this, "Check your connection", Toast.LENGTH_SHORT).show();
         }
     }
@@ -80,50 +79,32 @@ public class GasStationCategory extends AppCompatActivity {
     private void showGasData() {
         if (havePermission()) {
             Query spbuQuery = FirebaseConstant.getGas();
-            FirebaseRecyclerOptions<GasStation> gasOptions = new FirebaseRecyclerOptions.Builder<GasStation>()
-                    .setQuery(spbuQuery, GasStation.class)
-                    .build();
-
-            gasFirebaseAdapter = new FirebaseRecyclerAdapter<GasStation, GasViewHolder>(gasOptions) {
+            spbuQuery.addValueEventListener(new ValueEventListener() {
                 @Override
-                protected void onBindViewHolder(@NonNull GasViewHolder holder, int position, @NonNull GasStation model) {
-                    final DatabaseReference gasRef = getRef(position);
-                    final String gasKey = gasRef.getKey();
-
-                    gpsHandler = new GPSHandler(getApplicationContext());
-                    if (gpsHandler.isCanGetLocation()) {
-                        double latitude = gpsHandler.getLatitude();
-                        double longitude = gpsHandler.getLongitude();
-
-                        Log.i("Message", "CurLoc :" + latitude + "," + longitude);
-
-                        shimmerFrameLayout.stopShimmer();
-                        shimmerFrameLayout.setVisibility(View.GONE);
-
-                        holder.showGasData(model, latitude, longitude);
-                        holder.setOnClickListener(new GasViewHolder.ClickListener() {
-                            @Override
-                            public void onItemClick(View view, int position) {
-                                Intent intent = new Intent(getApplicationContext(), GasStationDetail.class);
-                                intent.putExtra(GasStationDetail.EXTRA_GAS_KEY, gasKey);
-                                startActivity(intent);
-                            }
-                        });
-
-                    } else {
-                        gpsHandler.stopUsingGPS();
-                        gpsHandler.showSettingsAlert();
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
+                        GasStation gasStation = dataSnapshot1.getValue(GasStation.class);
+                        gasStations.add(gasStation);
                     }
+                    gasAdapter = new GasAdapter();
+                    rvSpbuList.setAdapter(gasAdapter);
+                    gasAdapter.setGasStations(gasStations);
+                    gasAdapter.setGasClickCallback(new GasClickCallback() {
+                        @Override
+                        public void onItemClicked(GasStation gasStation) {
+                            String gasKey = gasStation.getId();
+                            Intent intent = new Intent(GasStationCategory.this, GasStationDetail.class);
+                            intent.putExtra(GasStationDetail.EXTRA_GAS_KEY, gasKey);
+                            startActivity(intent);
+                        }
+                    });
                 }
 
-                @NonNull
                 @Override
-                public GasViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-                    return new GasViewHolder(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_gasstation_facility_menu, viewGroup, false));
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
                 }
-            };
-            gasFirebaseAdapter.notifyDataSetChanged();
-            rvSpbuList.setAdapter(gasFirebaseAdapter);
+            });
 
         }
     }
@@ -173,38 +154,11 @@ public class GasStationCategory extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        shimmerFrameLayout.startShimmer();
-        if (gasFirebaseAdapter != null) {
-            gasFirebaseAdapter.startListening();
-        }
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        shimmerFrameLayout.stopShimmer();
-        if (gasFirebaseAdapter != null) {
-            gasFirebaseAdapter.stopListening();
-        }
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        if (gasFirebaseAdapter != null) {
-            gasFirebaseAdapter.startListening();
-        }
-
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        if (gasFirebaseAdapter != null) {
-            gasFirebaseAdapter.stopListening();
+    private void showLoading(boolean state) {
+        if (state) {
+            shimmerFrameLayout.startShimmer();
+        } else {
+            shimmerFrameLayout.stopShimmer();
         }
     }
 
