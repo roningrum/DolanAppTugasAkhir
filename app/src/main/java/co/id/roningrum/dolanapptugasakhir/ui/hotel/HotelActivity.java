@@ -109,7 +109,6 @@ public class HotelActivity extends AppCompatActivity {
                     Log.e("Error DatabaseError", " " + databaseError.getMessage());
                 }
             });
-            hotelAdapter.notifyDataSetChanged();
         }
     }
 
