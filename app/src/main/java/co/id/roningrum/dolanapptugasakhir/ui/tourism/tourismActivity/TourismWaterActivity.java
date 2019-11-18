@@ -39,7 +39,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import co.id.roningrum.dolanapptugasakhir.R;
-import co.id.roningrum.dolanapptugasakhir.adapter.TourismAdapter;
+import co.id.roningrum.dolanapptugasakhir.adapter.tourism.TourismAdapter;
+import co.id.roningrum.dolanapptugasakhir.adapter.tourism.TourismClickCallback;
 import co.id.roningrum.dolanapptugasakhir.controller.FirebaseConstant;
 import co.id.roningrum.dolanapptugasakhir.handler.LocationPermissionHandler;
 import co.id.roningrum.dolanapptugasakhir.handler.NetworkHelper;
@@ -70,8 +71,10 @@ public class TourismWaterActivity extends AppCompatActivity {
 
     private void checkConnection() {
         if (NetworkHelper.isConnectedToNetwork(getApplicationContext())) {
+            showLoading(false);
             showAirData();
         } else {
+            showLoading(true);
             Toast.makeText(this, "Check your connection", Toast.LENGTH_SHORT).show();
         }
     }
@@ -88,7 +91,7 @@ public class TourismWaterActivity extends AppCompatActivity {
                     }
                     tourismAdapter = new TourismAdapter();
                     tourismAdapter.setTourismList(tourisms);
-                    tourismAdapter.setOnItemClickCallback(new TourismAdapter.OnItemClickCallback() {
+                    tourismAdapter.setOnItemClickCallback(new TourismClickCallback() {
                         @Override
                         public void onItemClicked(Tourism tourism) {
                             String tourismKey = tourism.getId();

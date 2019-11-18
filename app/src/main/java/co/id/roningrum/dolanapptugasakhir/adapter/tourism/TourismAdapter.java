@@ -11,7 +11,7 @@
  * limitations under the License.
  */
 
-package co.id.roningrum.dolanapptugasakhir.adapter;
+package co.id.roningrum.dolanapptugasakhir.adapter.tourism;
 
 import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
@@ -35,14 +35,14 @@ import co.id.roningrum.dolanapptugasakhir.util.Util;
 
 public class TourismAdapter extends RecyclerView.Adapter<TourismAdapter.TourismViewHolder> {
     private List<Tourism> tourismList = new ArrayList<>();
-    private TourismAdapter.OnItemClickCallback onItemClickCallback;
-
-    public void setOnItemClickCallback(OnItemClickCallback onItemClickCallback) {
-        this.onItemClickCallback = onItemClickCallback;
-    }
+    private TourismClickCallback onItemClickCallback;
 
     public void setTourismList(List<Tourism> tourismList) {
         this.tourismList = tourismList;
+    }
+
+    public void setOnItemClickCallback(TourismClickCallback onItemClickCallback) {
+        this.onItemClickCallback = onItemClickCallback;
     }
 
     @NonNull
@@ -64,10 +64,6 @@ public class TourismAdapter extends RecyclerView.Adapter<TourismAdapter.TourismV
         return tourismList.size();
     }
 
-
-    public interface OnItemClickCallback {
-        void onItemClicked(Tourism tourism);
-    }
 
     class TourismViewHolder extends RecyclerView.ViewHolder {
         ImageView tourismPic;
