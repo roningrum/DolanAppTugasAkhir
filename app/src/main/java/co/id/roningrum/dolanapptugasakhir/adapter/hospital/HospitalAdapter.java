@@ -29,6 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import co.id.roningrum.dolanapptugasakhir.R;
+import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.model.Hospital;
 import co.id.roningrum.dolanapptugasakhir.util.Util;
 
@@ -52,7 +53,10 @@ public class HospitalAdapter extends RecyclerView.Adapter<HospitalAdapter.Hospit
 
     @Override
     public void onBindViewHolder(@NonNull HospitalAdapter.HospitalViewHolder holder, int position) {
-
+        GPSHandler gpsHandler = new GPSHandler(holder.itemView.getContext());
+        double lat = gpsHandler.getLatitude();
+        double lng = gpsHandler.getLongitude();
+        holder.bindToHospital(hospitalList.get(position), lat, lng);
     }
 
     @Override
@@ -86,6 +90,13 @@ public class HospitalAdapter extends RecyclerView.Adapter<HospitalAdapter.Hospit
             String distanceFormat = String.format("%.2f", jarakKM);
             distaceHospital.setText(distanceFormat + "km");
             Glide.with(itemView.getContext()).load(hospital.getUrl_photo_hospital()).into(hospitalPic);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    hospitalClickCallback.onItemCallback(hospitalList.get(getAdapterPosition()));
+                }
+            });
         }
     }
 }

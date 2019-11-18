@@ -19,11 +19,8 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -33,28 +30,29 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.facebook.shimmer.ShimmerFrameLayout;
-import com.firebase.ui.database.FirebaseRecyclerAdapter;
-import com.firebase.ui.database.FirebaseRecyclerOptions;
-import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import co.id.roningrum.dolanapptugasakhir.R;
-import co.id.roningrum.dolanapptugasakhir.adapter.hospital.HospitalViewHolder;
+import co.id.roningrum.dolanapptugasakhir.adapter.hospital.HospitalAdapter;
+import co.id.roningrum.dolanapptugasakhir.adapter.hospital.HospitalClickCallback;
 import co.id.roningrum.dolanapptugasakhir.controller.FirebaseConstant;
-import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.handler.LocationPermissionHandler;
-import co.id.roningrum.dolanapptugasakhir.handler.NetworkHelper;
 import co.id.roningrum.dolanapptugasakhir.model.Hospital;
+import co.id.roningrum.dolanapptugasakhir.util.Util;
 
 public class HospitalCategory extends AppCompatActivity {
 
     private RecyclerView rvHospitalList;
     private ShimmerFrameLayout shimmerFrameLayout;
-    private FirebaseRecyclerAdapter<Hospital, HospitalViewHolder> hospitalFirebaseAdapter;
+    private HospitalAdapter hospitalAdapter;
+    private ArrayList<Hospital> hospitals = new ArrayList<>();
 
-    private GPSHandler gpsHandler;
     private LocationPermissionHandler locationPermissionHandler;
 
     @Override
@@ -70,9 +68,11 @@ public class HospitalCategory extends AppCompatActivity {
     }
 
     private void checkConnection() {
-        if (NetworkHelper.isConnectedToNetwork(getApplicationContext())) {
+        if (Util.isConnectedToNetwork(getApplicationContext())) {
+            showLoading(false);
             showHospitalData();
         } else {
+            showLoading(true);
             Toast.makeText(this, "Check your connection", Toast.LENGTH_SHORT).show();
         }
     }
@@ -80,50 +80,32 @@ public class HospitalCategory extends AppCompatActivity {
     private void showHospitalData() {
         if (havePermission()) {
             Query hospitalQuery = FirebaseConstant.getHospital();
-            FirebaseRecyclerOptions<Hospital> policeOptions = new FirebaseRecyclerOptions.Builder<Hospital>()
-                    .setQuery(hospitalQuery, Hospital.class)
-                    .build();
-
-            hospitalFirebaseAdapter = new FirebaseRecyclerAdapter<Hospital, HospitalViewHolder>(policeOptions) {
+            hospitalQuery.addValueEventListener(new ValueEventListener() {
                 @Override
-                protected void onBindViewHolder(@NonNull HospitalViewHolder holder, int position, @NonNull Hospital model) {
-                    final DatabaseReference hospitalRef = getRef(position);
-                    final String hospitalKey = hospitalRef.getKey();
-
-                    gpsHandler = new GPSHandler(getApplicationContext());
-                    if (gpsHandler.isCanGetLocation()) {
-                        double latitude = gpsHandler.getLatitude();
-                        double longitude = gpsHandler.getLongitude();
-
-                        Log.i("Message", "CurLoc :" + latitude + "," + longitude);
-
-                        shimmerFrameLayout.stopShimmer();
-                        shimmerFrameLayout.setVisibility(View.GONE);
-
-                        holder.showHospitalData(model, latitude, longitude);
-                        holder.setOnClickListener(new HospitalViewHolder.ClickListener() {
-                            @Override
-                            public void onItemClick(View view, int position) {
-                                Intent intent = new Intent(getApplicationContext(), HospitalDetail.class);
-                                intent.putExtra(HospitalDetail.EXTRA_HOSPITAL_KEY, hospitalKey);
-                                startActivity(intent);
-                            }
-                        });
-
-                    } else {
-                        gpsHandler.stopUsingGPS();
-                        gpsHandler.showSettingsAlert();
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
+                        Hospital hospital = dataSnapshot1.getValue(Hospital.class);
+                        hospitals.add(hospital);
                     }
+                    hospitalAdapter = new HospitalAdapter();
+                    rvHospitalList.setAdapter(hospitalAdapter);
+                    hospitalAdapter.setHospitalList(hospitals);
+                    hospitalAdapter.setHospitalClickCallback(new HospitalClickCallback() {
+                        @Override
+                        public void onItemCallback(Hospital hospital) {
+                            String hospitalKey = hospital.getId();
+                            Intent intent = new Intent(HospitalCategory.this, HospitalDetail.class);
+                            intent.putExtra(HospitalDetail.EXTRA_HOSPITAL_KEY, hospitalKey);
+                            startActivity(intent);
+                        }
+                    });
                 }
 
-                @NonNull
                 @Override
-                public HospitalViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-                    return new HospitalViewHolder(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_hospital_facility_menu, viewGroup, false));
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                    Log.e("Database Error", "" + databaseError.getMessage());
                 }
-            };
-            hospitalFirebaseAdapter.notifyDataSetChanged();
-            rvHospitalList.setAdapter(hospitalFirebaseAdapter);
+            });
         }
     }
 
@@ -172,38 +154,11 @@ public class HospitalCategory extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        shimmerFrameLayout.startShimmer();
-        if (hospitalFirebaseAdapter != null) {
-            hospitalFirebaseAdapter.startListening();
-        }
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        shimmerFrameLayout.stopShimmer();
-        if (hospitalFirebaseAdapter != null) {
-            hospitalFirebaseAdapter.stopListening();
-        }
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        if (hospitalFirebaseAdapter != null) {
-            hospitalFirebaseAdapter.startListening();
-        }
-
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        if (hospitalFirebaseAdapter != null) {
-            hospitalFirebaseAdapter.stopListening();
+    private void showLoading(boolean state) {
+        if (state) {
+            shimmerFrameLayout.startShimmer();
+        } else {
+            shimmerFrameLayout.stopShimmer();
         }
     }
 }
