@@ -19,11 +19,8 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -33,17 +30,18 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.facebook.shimmer.ShimmerFrameLayout;
-import com.firebase.ui.database.FirebaseRecyclerAdapter;
-import com.firebase.ui.database.FirebaseRecyclerOptions;
-import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import co.id.roningrum.dolanapptugasakhir.R;
-import co.id.roningrum.dolanapptugasakhir.adapter.police.PoliceViewHolder;
+import co.id.roningrum.dolanapptugasakhir.adapter.police.PoliceAdapter;
+import co.id.roningrum.dolanapptugasakhir.adapter.police.PoliceClickCallback;
 import co.id.roningrum.dolanapptugasakhir.controller.FirebaseConstant;
-import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.handler.LocationPermissionHandler;
 import co.id.roningrum.dolanapptugasakhir.handler.NetworkHelper;
 import co.id.roningrum.dolanapptugasakhir.model.Police;
@@ -52,9 +50,8 @@ public class PoliceCategory extends AppCompatActivity {
 
     private RecyclerView rvPoliceList;
     private ShimmerFrameLayout shimmerFrameLayout;
-    private FirebaseRecyclerAdapter<Police, PoliceViewHolder> policeFirebaseAdapter;
-
-    private GPSHandler gpsHandler;
+    private PoliceAdapter policeAdapter;
+    private ArrayList<Police> polices = new ArrayList<>();
     private LocationPermissionHandler locationPermissionHandler;
 
     @Override
@@ -80,50 +77,29 @@ public class PoliceCategory extends AppCompatActivity {
     private void showPoliceData() {
         if (havePermission()) {
             Query policeQuery = FirebaseConstant.getPolice();
-            FirebaseRecyclerOptions<Police> policeOptions = new FirebaseRecyclerOptions.Builder<Police>()
-                    .setQuery(policeQuery, Police.class)
-                    .build();
-
-            policeFirebaseAdapter = new FirebaseRecyclerAdapter<Police, PoliceViewHolder>(policeOptions) {
+            policeQuery.addValueEventListener(new ValueEventListener() {
                 @Override
-                protected void onBindViewHolder(@NonNull PoliceViewHolder holder, int position, @NonNull Police model) {
-                    final DatabaseReference policeRef = getRef(position);
-                    final String policeKey = policeRef.getKey();
-
-                    gpsHandler = new GPSHandler(getApplicationContext());
-                    if (gpsHandler.isCanGetLocation()) {
-                        double latitude = gpsHandler.getLatitude();
-                        double longitude = gpsHandler.getLongitude();
-
-                        Log.i("Message", "CurLoc :" + latitude + "," + longitude);
-
-                        shimmerFrameLayout.stopShimmer();
-                        shimmerFrameLayout.setVisibility(View.GONE);
-
-                        holder.showPoliceData(model, latitude, longitude);
-                        holder.setOnClickListener(new PoliceViewHolder.ClickListener() {
-                            @Override
-                            public void onItemClick(View view, int position) {
-                                Intent intent = new Intent(getApplicationContext(), PoliceDetail.class);
-                                intent.putExtra(PoliceDetail.EXTRA_POLICE_KEY, policeKey);
-                                startActivity(intent);
-                            }
-                        });
-
-                    } else {
-                        gpsHandler.stopUsingGPS();
-                        gpsHandler.showSettingsAlert();
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
+                        Police police = dataSnapshot1.getValue(Police.class);
+                        polices.add(police);
                     }
+                    policeAdapter = new PoliceAdapter();
+                    rvPoliceList.setAdapter(policeAdapter);
+                    policeAdapter.setPoliceList(polices);
+                    policeAdapter.setPoliceClickCallback(new PoliceClickCallback() {
+                        @Override
+                        public void onItemCallback(Police police) {
+
+                        }
+                    });
                 }
 
-                @NonNull
                 @Override
-                public PoliceViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-                    return new PoliceViewHolder(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_menu_police_category_public, viewGroup, false));
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
                 }
-            };
-            policeFirebaseAdapter.notifyDataSetChanged();
-            rvPoliceList.setAdapter(policeFirebaseAdapter);
+            });
         }
     }
 
@@ -170,41 +146,6 @@ public class PoliceCategory extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        shimmerFrameLayout.startShimmer();
-        if (policeFirebaseAdapter != null) {
-            policeFirebaseAdapter.startListening();
-        }
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        shimmerFrameLayout.stopShimmer();
-        if (policeFirebaseAdapter != null) {
-            policeFirebaseAdapter.stopListening();
-        }
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        if (policeFirebaseAdapter != null) {
-            policeFirebaseAdapter.startListening();
-        }
-
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        if (policeFirebaseAdapter != null) {
-            policeFirebaseAdapter.stopListening();
-        }
     }
 
 }

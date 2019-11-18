@@ -14,6 +14,7 @@
 package co.id.roningrum.dolanapptugasakhir.model;
 
 public class Police {
+    private String id;
     private String name_police;
     private String location_police;
     private double lat_police;
@@ -24,7 +25,8 @@ public class Police {
     public Police() {
     }
 
-    public Police(String name_police, String location_police, double lat_police, double lng_police, String url_photo_police) {
+    public Police(String id, String name_police, String location_police, double lat_police, double lng_police, String url_photo_police) {
+        this.id = id;
         this.name_police = name_police;
         this.location_police = location_police;
         this.lat_police = lat_police;
@@ -70,5 +72,13 @@ public class Police {
 
     public void setUrl_photo_police(String url_photo_police) {
         this.url_photo_police = url_photo_police;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }
