@@ -31,7 +31,7 @@ import java.util.List;
 import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.model.Hotel;
-import co.id.roningrum.dolanapptugasakhir.util.HaversineHandler;
+import co.id.roningrum.dolanapptugasakhir.util.Util;
 
 public class HotelAdapter extends RecyclerView.Adapter<HotelAdapter.HotelViewHolder> {
     private List<Hotel> hotelList = new ArrayList<>();
@@ -84,7 +84,7 @@ public class HotelAdapter extends RecyclerView.Adapter<HotelAdapter.HotelViewHol
             double lattitude_hotel = hotel.getLat_location_hotel();
             double longitude_hotel = hotel.getLng_location_hotel();
 
-            float jarakKM = (float) HaversineHandler.calculateDistance(latitude, longitude, lattitude_hotel, longitude_hotel);
+            float jarakKM = (float) Util.calculateDistance(latitude, longitude, lattitude_hotel, longitude_hotel);
             String distanceFormat = String.format("%.2f", jarakKM);
 
             nameHotel.setText(hotel.getName_hotel());
