@@ -29,6 +29,7 @@ import com.bumptech.glide.Glide;
 import java.util.ArrayList;
 
 import co.id.roningrum.dolanapptugasakhir.R;
+import co.id.roningrum.dolanapptugasakhir.adapter.tourism.TourismClickCallback;
 import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.model.Tourism;
 import co.id.roningrum.dolanapptugasakhir.util.HaversineHandler;
@@ -36,10 +37,15 @@ import co.id.roningrum.dolanapptugasakhir.util.HaversineHandler;
 public class FavoritAdapter extends RecyclerView.Adapter<FavoritAdapter.FavoritViewHolder> {
     private ArrayList<Tourism> tourisms;
     private Context context;
+    private TourismClickCallback tourismClickCallback;
 
     FavoritAdapter(ArrayList<Tourism> tourisms, Context context) {
         this.tourisms = tourisms;
         this.context = context;
+    }
+
+    void setTourismClickCallback(TourismClickCallback tourismClickCallback) {
+        this.tourismClickCallback = tourismClickCallback;
     }
 
     @NonNull
@@ -95,6 +101,12 @@ public class FavoritAdapter extends RecyclerView.Adapter<FavoritAdapter.FavoritV
             @SuppressLint("DefaultLocale") String distanceFormat = String.format("%.2f", jarakKM);
             distanceFavTourism.setText(distanceFormat + " km");
             Glide.with(itemView.getContext()).load(favoriteItem.getUrl_photo()).into(favTourismPic);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    tourismClickCallback.onItemClicked(tourisms.get(getAdapterPosition()));
+                }
+            });
         }
     }
 

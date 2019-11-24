@@ -15,6 +15,7 @@ package co.id.roningrum.dolanapptugasakhir.favorite;
 
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -41,7 +42,9 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import co.id.roningrum.dolanapptugasakhir.DetailFavTourism;
 import co.id.roningrum.dolanapptugasakhir.R;
+import co.id.roningrum.dolanapptugasakhir.adapter.tourism.TourismClickCallback;
 import co.id.roningrum.dolanapptugasakhir.handler.LocationPermissionHandler;
 import co.id.roningrum.dolanapptugasakhir.model.Tourism;
 
@@ -93,17 +96,28 @@ public class FavoriteFragment extends Fragment {
 
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                         Tourism tourism = snapshot.getValue(Tourism.class);
-                        final String idTourism = tourism.getId();
-                        Log.d("check id user", "" + idTourism);
-                        for (String id : checkUserList) {
-                            assert idTourism != null;
-                            if (idTourism.equals(id)) {
-                                tourismList.add(tourism);
+                        if (tourism != null) {
+                            final String idTourism = tourism.getId();
+                            Log.d("check id user", "" + idTourism);
+                            for (String id : checkUserList) {
+                                assert idTourism != null;
+                                if (idTourism.equals(id)) {
+                                    tourismList.add(tourism);
 
+                                }
                             }
                         }
+
                     }
                     favoritAdapter = new FavoritAdapter(tourismList, getContext());
+                    favoritAdapter.setTourismClickCallback(new TourismClickCallback() {
+                        @Override
+                        public void onItemClicked(Tourism tourism) {
+                            Intent intent = new Intent(getActivity(), DetailFavTourism.class);
+                            intent.putExtra(DetailFavTourism.EXTRA_TOURISM, tourism.getId());
+                            startActivity(intent);
+                        }
+                    });
                     rvFavoritList.setAdapter(favoritAdapter);
                     favoritAdapter.notifyDataSetChanged();
 
