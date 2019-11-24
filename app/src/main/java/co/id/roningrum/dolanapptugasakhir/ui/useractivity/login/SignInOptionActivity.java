@@ -162,7 +162,7 @@ public class SignInOptionActivity extends AppCompatActivity implements View.OnCl
                                         userRef.child(uid).child("login").setValue("Google");
 
                                         Intent googleRegistered = new Intent(SignInOptionActivity.this, MainMenuActivity.class);
-//                                        googleRegistered.putExtra("isGoogle", isGoogleSignIn);
+                                        googleRegistered.putExtra("isGoogle", isGoogleSignIn);
                                         startActivity(googleRegistered);
                                     }
                                 }

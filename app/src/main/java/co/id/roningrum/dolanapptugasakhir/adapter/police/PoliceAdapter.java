@@ -31,7 +31,7 @@ import java.util.List;
 import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.model.Police;
-import co.id.roningrum.dolanapptugasakhir.util.HaversineHandler;
+import co.id.roningrum.dolanapptugasakhir.util.Util;
 
 public class PoliceAdapter extends RecyclerView.Adapter<PoliceAdapter.PoliceViewHolder> {
     private List<Police> policeList = new ArrayList<>();
@@ -83,7 +83,7 @@ public class PoliceAdapter extends RecyclerView.Adapter<PoliceAdapter.PoliceView
             double lattitude_a = police.getLat_police();
             double longitude_a = police.getLng_police();
 
-            float jarakKM = (float) HaversineHandler.calculateDistance(latitude, longitude, lattitude_a, longitude_a);
+            float jarakKM = (float) Util.calculateDistance(latitude, longitude, lattitude_a, longitude_a);
 
             String distanceFormat = String.format("%.2f", jarakKM);
             namePolice.setText(police.getName_police());

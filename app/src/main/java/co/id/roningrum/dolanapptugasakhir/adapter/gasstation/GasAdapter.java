@@ -31,7 +31,7 @@ import java.util.List;
 import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.model.GasStation;
-import co.id.roningrum.dolanapptugasakhir.util.HaversineHandler;
+import co.id.roningrum.dolanapptugasakhir.util.Util;
 
 public class GasAdapter extends RecyclerView.Adapter<GasAdapter.GasViewHolder> {
     private List<GasStation> gasStations = new ArrayList<>();
@@ -84,7 +84,7 @@ public class GasAdapter extends RecyclerView.Adapter<GasAdapter.GasViewHolder> {
             double lattitude_a = gasStation.getLat_gasstation();
             double longitude_a = gasStation.getLng_gasstation();
 
-            float jarakKM = (float) HaversineHandler.calculateDistance(latitude, longitude, lattitude_a, longitude_a);
+            float jarakKM = (float) Util.calculateDistance(latitude, longitude, lattitude_a, longitude_a);
 
             String distanceFormat = String.format("%.2f", jarakKM);
 

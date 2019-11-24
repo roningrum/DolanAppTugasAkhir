@@ -93,7 +93,7 @@ public class FavoriteFragment extends Fragment {
 
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                         Tourism tourism = snapshot.getValue(Tourism.class);
-                        final String idTourism = snapshot.getKey();
+                        final String idTourism = tourism.getId();
                         Log.d("check id user", "" + idTourism);
                         for (String id : checkUserList) {
                             assert idTourism != null;

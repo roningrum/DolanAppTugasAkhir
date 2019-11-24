@@ -107,7 +107,7 @@ public class RegisterAccountEmailActivity extends AppCompatActivity implements V
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if (task.isSuccessful()) {
                         Log.d(TAG, "Register Account: " + task.getResult());
-                        FirebaseUser userRegister = authRegister.getCurrentUser();
+                        final FirebaseUser userRegister = authRegister.getCurrentUser();
                         if (userRegister != null) {
                             String uid = userRegister.getUid();
 
@@ -119,6 +119,7 @@ public class RegisterAccountEmailActivity extends AppCompatActivity implements V
                                         userRegisterStoreDB.child("email").setValue(emailRegister);
                                         userRegisterStoreDB.child("password").setValue(passwordRegister);
                                         userRegisterStoreDB.child("login").setValue("email");
+                                        userRegisterStoreDB.child("uid").setValue(dataSnapshot.getKey());
                                     } else {
                                         Log.d(TAG, "Data sudah ada di Database");
                                     }

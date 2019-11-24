@@ -90,11 +90,12 @@ public class ChangeEmailProfileActivity extends AppCompatActivity implements Vie
     private void saveEmailChange() {
         if (changeEmailUser != null) {
             final String uid = changeEmailUser.getUid();
-            changeEmailUser.updateEmail(edtChangeEmail.getText().toString().trim()).addOnCompleteListener(new OnCompleteListener<Void>() {
+            final String email = edtChangeEmail.getText().toString().trim();
+            changeEmailUser.updateEmail(email).addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
                     if (task.isSuccessful()) {
-                        dbProfileRef.child(uid).child("email").setValue(edtChangeEmail.getText().toString().trim());
+                        dbProfileRef.child(uid).child("email").setValue(email);
                         changeEmailAuth.signOut();
                         startActivity(new Intent(ChangeEmailProfileActivity.this, SignInOptionActivity.class));
                         finish();

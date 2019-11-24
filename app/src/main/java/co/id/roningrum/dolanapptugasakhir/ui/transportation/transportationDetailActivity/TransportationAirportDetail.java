@@ -14,8 +14,6 @@
 package co.id.roningrum.dolanapptugasakhir.ui.transportation.transportationDetailActivity;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -48,7 +46,7 @@ import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.controller.FirebaseConstant;
 import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.model.Transportation;
-import co.id.roningrum.dolanapptugasakhir.util.HaversineHandler;
+import co.id.roningrum.dolanapptugasakhir.util.Util;
 
 public class TransportationAirportDetail extends AppCompatActivity implements OnMapReadyCallback {
 
@@ -70,13 +68,6 @@ public class TransportationAirportDetail extends AppCompatActivity implements On
 
     private ImageView imgAirportDetail;
     private CollapsingToolbarLayout collapsingToolbarAiport;
-
-
-    private double startLat;
-    private double startlng;
-    private double endlat;
-    private double endLng;
-    private double distance;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -120,12 +111,12 @@ public class TransportationAirportDetail extends AppCompatActivity implements On
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     final Transportation transportation = dataSnapshot.getValue(Transportation.class);
-                    startLat = gpsHandler.getLatitude();
-                    startlng = gpsHandler.getLongitude();
+                    double startLat = gpsHandler.getLatitude();
+                    double startlng = gpsHandler.getLongitude();
                     assert transportation != null;
-                    endlat = transportation.getLat_transportation();
-                    endLng = transportation.getLng_transportation();
-                    distance = HaversineHandler.calculateDistance(startLat, startlng, endlat, endLng);
+                    double endlat = transportation.getLat_transportation();
+                    double endLng = transportation.getLng_transportation();
+                    double distance = Util.calculateDistance(startLat, startlng, endlat, endLng);
 
                     @SuppressLint("DefaultLocale") String distanceFormat = String.format("%.2f", distance);
                     tvDistanceAirport.setText("" + distanceFormat + " km");
@@ -192,21 +183,12 @@ public class TransportationAirportDetail extends AppCompatActivity implements On
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 final Transportation transportation = dataSnapshot.getValue(Transportation.class);
                 assert transportation != null;
-                endlat = transportation.getLat_transportation();
-                endLng = transportation.getLng_transportation();
+                final double endlat = transportation.getLat_transportation();
+                final double endLng = transportation.getLng_transportation();
 
                 LatLng location = new LatLng(endlat, endLng);
                 airportGoogleMap.addMarker(new MarkerOptions().position(location));
                 airportGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 16.0f));
-
-                airportGoogleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
-                    @Override
-                    public void onMapClick(LatLng latLng) {
-                        String uri = "http://maps.google.com/maps?saddr=" + startLat + "," + startlng + "&daddr=" + endlat + "," + endLng + "&mode=driving";
-                        Intent intent = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(uri));
-                        startActivity(Intent.createChooser(intent, "Select an application"));
-                    }
-                });
             }
 
             @Override

@@ -105,11 +105,13 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
                 break;
             case R.id.ln_change_email_menu:
                 if (isGoogleSignIn) {
+                    isGoogleSignIn = getIntent().getBooleanExtra("isGoogle", true);
                     changeEmailMenu.setEnabled(false);
-                    isGoogleSignIn = true;
+//                    isGoogleSignIn = true;
                 } else {
+                    changeEmailMenu.setEnabled(true);
                     goToEditEmail();
-                    isGoogleSignIn = false;
+//                    isGoogleSignIn = getIntent().getBooleanExtra("isGoogle", true);
                 }
                 break;
             case R.id.ln_change_password_menu:
@@ -117,6 +119,7 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
                     changePasswordmenu.setEnabled(false);
                     isGoogleSignIn = true;
                 } else {
+                    changeEmailMenu.setEnabled(true);
                     goToEditPassword();
                     isGoogleSignIn = false;
                 }
