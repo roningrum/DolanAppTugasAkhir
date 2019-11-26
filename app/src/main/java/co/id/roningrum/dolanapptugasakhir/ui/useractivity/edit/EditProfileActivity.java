@@ -44,6 +44,7 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
 
     private DatabaseReference dbProfileReferece;
     private FirebaseAuth editProfileAuth;
+    FirebaseUser editUser;
     private String TAG = "PROFILE_STATUS";
 
     boolean isGoogleSignIn;
@@ -71,20 +72,19 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
 
         dbProfileReferece = FirebaseDatabase.getInstance().getReference();
         editProfileAuth = FirebaseAuth.getInstance();
+        editUser = editProfileAuth.getCurrentUser();
         showProfileData();
     }
 
     private void showProfileData() {
-        final FirebaseUser editUser = editProfileAuth.getCurrentUser();
+
         assert editUser != null;
         dbProfileReferece.child("Users").child(editUser.getUid()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                isGoogleSignIn = getIntent().getBooleanExtra("isGoogle", true);
                 nameProfile.setText(Objects.requireNonNull(dataSnapshot.child("nama_user").getValue()).toString().trim());
                 emailProfile.setText(Objects.requireNonNull(dataSnapshot.child("email").getValue()).toString().trim());
                 Glide.with(EditProfileActivity.this).load(Objects.requireNonNull(dataSnapshot.child("photo_user").getValue()).toString()).into(imageEditprofile);
-
             }
 
             @Override
@@ -104,37 +104,54 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
                 goToEditName();
                 break;
             case R.id.ln_change_email_menu:
-                if (isGoogleSignIn) {
-                    isGoogleSignIn = getIntent().getBooleanExtra("isGoogle", true);
-                    changeEmailMenu.setEnabled(false);
-//                    isGoogleSignIn = true;
-                } else {
-                    changeEmailMenu.setEnabled(true);
-                    goToEditEmail();
-//                    isGoogleSignIn = getIntent().getBooleanExtra("isGoogle", true);
-                }
+                goToEditEmail();
                 break;
             case R.id.ln_change_password_menu:
-                if (isGoogleSignIn) {
-                    changePasswordmenu.setEnabled(false);
-                    isGoogleSignIn = true;
-                } else {
-                    changeEmailMenu.setEnabled(true);
-                    goToEditPassword();
-                    isGoogleSignIn = false;
-                }
+                goToEditPassword();
+                break;
 
         }
     }
 
     private void goToEditPassword() {
-        Intent changePasswordIntent = new Intent(EditProfileActivity.this, ChangePasswordProfileActivity.class);
-        startActivity(changePasswordIntent);
+        dbProfileReferece.child("Users").child(editUser.getUid()).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.child("login").getValue().equals("Google")) {
+                    changeEmailMenu.setEnabled(false);
+                }
+                if (dataSnapshot.child("login").getValue().equals("email")) {
+                    Intent changePasswordIntent = new Intent(EditProfileActivity.this, ChangePasswordProfileActivity.class);
+                    startActivity(changePasswordIntent);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                databaseError.getMessage();
+            }
+        });
     }
 
     private void goToEditEmail() {
-        Intent changeEmailIntent = new Intent(EditProfileActivity.this, ChangeEmailProfileActivity.class);
-        startActivity(changeEmailIntent);
+        dbProfileReferece.child("Users").child(editUser.getUid()).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.child("login").getValue().equals("Google")) {
+                    changeEmailMenu.setEnabled(false);
+                }
+                if (dataSnapshot.child("login").getValue().equals("email")) {
+                    Intent changeEmailIntent = new Intent(EditProfileActivity.this, ChangeEmailProfileActivity.class);
+                    startActivity(changeEmailIntent);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                databaseError.getMessage();
+            }
+        });
+
     }
 
     private void goToEditName() {

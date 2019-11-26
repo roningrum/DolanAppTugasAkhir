@@ -122,9 +122,6 @@ public class SignInOptionActivity extends AppCompatActivity implements View.OnCl
             } catch (ApiException e) {
                 // Google Sign In failed, update UI appropriately
                 Log.w(TAG, "Google sign in failed", e);
-                // [START_EXCLUDE]
-//                updateUI(null);
-                // [END_EXCLUDE]
             }
         }
     }
@@ -155,14 +152,14 @@ public class SignInOptionActivity extends AppCompatActivity implements View.OnCl
                                         Intent googleRegistered = new Intent(SignInOptionActivity.this, MainMenuActivity.class);
                                         googleRegistered.putExtra("isGoogle", isGoogleSignIn);
                                         startActivity(googleRegistered);
-                                    } else if (!dataSnapshot.exists() && isGoogleSignIn) {
+                                    } else if (!dataSnapshot.exists()) {
                                         userRef.child(uid).child("nama_user").setValue(user.getDisplayName());
                                         userRef.child(uid).child("email").setValue(user.getEmail());
                                         userRef.child(uid).child("photo_user").setValue(String.valueOf(user.getPhotoUrl()));
                                         userRef.child(uid).child("login").setValue("Google");
 
                                         Intent googleRegistered = new Intent(SignInOptionActivity.this, MainMenuActivity.class);
-                                        googleRegistered.putExtra("isGoogle", isGoogleSignIn);
+//                                        googleRegistered.putExtra("isGoogle", isGoogleSignIn);
                                         startActivity(googleRegistered);
                                     }
                                 }

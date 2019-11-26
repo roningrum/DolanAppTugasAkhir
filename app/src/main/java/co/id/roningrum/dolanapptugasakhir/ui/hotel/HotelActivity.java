@@ -41,7 +41,7 @@ import java.util.Arrays;
 import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.adapter.hotel.HotelAdapter;
 import co.id.roningrum.dolanapptugasakhir.adapter.hotel.HotelClickCallback;
-import co.id.roningrum.dolanapptugasakhir.controller.FirebaseConstant;
+import co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseConstant;
 import co.id.roningrum.dolanapptugasakhir.handler.LocationPermissionHandler;
 import co.id.roningrum.dolanapptugasakhir.model.Hotel;
 import co.id.roningrum.dolanapptugasakhir.util.Util;

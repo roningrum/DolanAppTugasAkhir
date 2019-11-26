@@ -41,7 +41,7 @@ import java.util.Arrays;
 import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.adapter.transportation.TransportasiClickCallback;
 import co.id.roningrum.dolanapptugasakhir.adapter.transportation.TransportationAdapter;
-import co.id.roningrum.dolanapptugasakhir.controller.FirebaseConstant;
+import co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseConstant;
 import co.id.roningrum.dolanapptugasakhir.handler.LocationPermissionHandler;
 import co.id.roningrum.dolanapptugasakhir.model.Transportation;
 import co.id.roningrum.dolanapptugasakhir.ui.transportation.transportationDetailActivity.TransportationBusDetail;

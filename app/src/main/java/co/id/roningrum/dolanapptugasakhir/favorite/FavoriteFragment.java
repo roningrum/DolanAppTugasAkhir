@@ -45,6 +45,7 @@ import java.util.Arrays;
 import co.id.roningrum.dolanapptugasakhir.DetailFavTourism;
 import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.adapter.tourism.TourismClickCallback;
+import co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseConstant;
 import co.id.roningrum.dolanapptugasakhir.handler.LocationPermissionHandler;
 import co.id.roningrum.dolanapptugasakhir.model.Tourism;
 
@@ -82,7 +83,7 @@ public class FavoriteFragment extends Fragment {
         rvFavoritList = view.findViewById(R.id.rv_bookmark);
         rvFavoritList.setHasFixedSize(true);
         rvFavoritList.setLayoutManager(new LinearLayoutManager(getContext()));
-        databaseReference = FirebaseDatabase.getInstance().getReference().child("Tourism");
+        databaseReference = FirebaseConstant.TourismRef;
         checkUser();
     }
 

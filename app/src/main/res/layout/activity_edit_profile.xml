@@ -102,7 +102,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="12sp"
             android:fontFamily="@font/montserrat_medium"
-            android:text="@string/string_dummy_profname"
+            tools:text="@string/string_dummy_profname"
             android:textSize="14sp" />
 
     </LinearLayout>
@@ -129,7 +129,7 @@
         android:layout_marginTop="8dp"
         android:background="@android:color/white"
         android:orientation="vertical"
-        android:padding="16dp"
+        android:padding="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_email_edit_menu_title">
@@ -138,9 +138,8 @@
             android:id="@+id/tv_email_edit_profile"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8sp"
             android:fontFamily="@font/montserrat_medium"
-            android:text="@string/string_email_dummy"
+            tools:text="@string/string_email_dummy"
             android:textSize="14sp" />
 
     </LinearLayout>
@@ -152,7 +151,7 @@
         android:layout_marginTop="16dp"
         android:background="@android:color/white"
         android:orientation="vertical"
-        android:padding="18dp"
+        android:padding="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ln_change_email_menu">
@@ -162,6 +161,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/monsterrat_sembold"
             android:text="@string/txt_change_password"
+            android:textSize="14sp"
             android:textColor="@color/blackTextPrimary" />
     </LinearLayout>
 
