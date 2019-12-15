@@ -35,29 +35,26 @@ import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import co.id.roningrum.dolanapptugasakhir.R;
+import co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseConstant;
 import co.id.roningrum.dolanapptugasakhir.model.Tourism;
 
-public class TourismNatureMaps extends FragmentActivity implements OnMapReadyCallback {
+public class TourismEdukasiMaps extends FragmentActivity implements OnMapReadyCallback {
 
-    private GoogleMap natureMap;
-    private DatabaseReference natureRefMap;
+    private GoogleMap educationPlaceMap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_maps_nature);
+        setContentView(R.layout.activity_maps_education);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.nature_map);
+                .findFragmentById(R.id.education_map);
         assert mapFragment != null;
         mapFragment.getMapAsync(this);
-        natureRefMap = FirebaseDatabase.getInstance().getReference().child("Tourism");
     }
 
 
@@ -72,38 +69,40 @@ public class TourismNatureMaps extends FragmentActivity implements OnMapReadyCal
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        showNatureMap(googleMap);
+        showEducationMap(googleMap);
+
+
     }
 
-    private void showNatureMap(GoogleMap googleMap) {
-        natureMap = googleMap;
-        Query natureMapQuery = natureRefMap.orderByChild("category_tourism").equalTo("alam");
-        natureMapQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+    private void showEducationMap(GoogleMap googleMap) {
+
+        educationPlaceMap = googleMap;
+        Query educationMapQuery = FirebaseConstant.getTourismEducation();
+        educationMapQuery.addListenerForSingleValueEvent(new ValueEventListener() {
 
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for(DataSnapshot dsNature : dataSnapshot.getChildren()){
+                for (DataSnapshot dsNature : dataSnapshot.getChildren()) {
                     Tourism tourism = dsNature.getValue(Tourism.class);
                     assert tourism != null;
                     double latNature = tourism.getLat_location_tourism();
                     double lngNature = tourism.getLng_location_tourism();
                     LatLng naturePlaceLoc = new LatLng(latNature, lngNature);
-                    natureMap.moveCamera(CameraUpdateFactory.newLatLngZoom(naturePlaceLoc, 10.0f));
-                    natureMap.addMarker(new MarkerOptions().position(naturePlaceLoc).title(tourism.getName_tourism())
-                            .icon(getBitmapDescriptor())
-                            .snippet(tourism.getLocation_tourism()));
+                    educationPlaceMap.moveCamera(CameraUpdateFactory.newLatLngZoom(naturePlaceLoc, 10.0f));
+                    educationPlaceMap.addMarker(new MarkerOptions().position(naturePlaceLoc).icon(getBitmapDescriptor()).title(tourism.getName_tourism()).snippet(tourism.getLocation_tourism()));
                 }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                Log.e("Pesan", "Check Database :" +databaseError.getMessage());
+                Log.e("Pesan", "Check Database :" + databaseError.getMessage());
             }
         });
+
         try {
             // Customise the styling of the base map using a JSON object defined
             // in a raw resource file.
-            boolean success = natureMap.setMapStyle(
+            boolean success = educationPlaceMap.setMapStyle(
                     MapStyleOptions.loadRawResourceStyle(
                             this, R.raw.google_map_style));
 

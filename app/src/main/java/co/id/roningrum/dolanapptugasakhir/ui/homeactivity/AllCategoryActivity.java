@@ -25,15 +25,15 @@ import co.id.roningrum.dolanapptugasakhir.ui.gasstation.GasStationCategory;
 import co.id.roningrum.dolanapptugasakhir.ui.hospital.HospitalCategory;
 import co.id.roningrum.dolanapptugasakhir.ui.hotel.HotelActivity;
 import co.id.roningrum.dolanapptugasakhir.ui.police.PoliceCategory;
-import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismActivity.TourismEducationActivity;
-import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismActivity.TourismFoodActivity;
-import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismActivity.TourismHistoryActivity;
-import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismActivity.TourismNatureActivity;
-import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismActivity.TourismRecreationActivity;
+import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismActivity.TourismAirActivity;
+import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismActivity.TourismAlamActivity;
+import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismActivity.TourismBelanjaActivity;
+import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismActivity.TourismDesaActivity;
+import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismActivity.TourismEdukasiActivity;
+import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismActivity.TourismKulinerActivity;
+import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismActivity.TourismRekreasiActivity;
 import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismActivity.TourismReligiActivity;
-import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismActivity.TourismShoppingActivity;
-import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismActivity.TourismVillageActivity;
-import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismActivity.TourismWaterActivity;
+import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismActivity.TourismSejarahActivity;
 import co.id.roningrum.dolanapptugasakhir.ui.transportation.transportationActivity.TransportationAirportActivity;
 import co.id.roningrum.dolanapptugasakhir.ui.transportation.transportationActivity.TransportationBusActivity;
 import co.id.roningrum.dolanapptugasakhir.ui.transportation.transportationActivity.TransportationShipActivity;
@@ -88,31 +88,31 @@ public class AllCategoryActivity extends AppCompatActivity implements View.OnCli
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.ln_nature_tour:
-                startActivity(new Intent(AllCategoryActivity.this, TourismNatureActivity.class));
+                startActivity(new Intent(AllCategoryActivity.this, TourismAlamActivity.class));
                 break;
             case R.id.ln_entertain_tour:
-                startActivity(new Intent(AllCategoryActivity.this, TourismRecreationActivity.class));
+                startActivity(new Intent(AllCategoryActivity.this, TourismRekreasiActivity.class));
                 break;
             case R.id.ln_belanja_tour:
-                startActivity(new Intent(AllCategoryActivity.this, TourismShoppingActivity.class));
+                startActivity(new Intent(AllCategoryActivity.this, TourismBelanjaActivity.class));
                 break;
             case R.id.ln_desa_tour:
-                startActivity(new Intent(AllCategoryActivity.this, TourismVillageActivity.class));
+                startActivity(new Intent(AllCategoryActivity.this, TourismDesaActivity.class));
                 break;
             case R.id.ln_kuliner_tour:
-                startActivity(new Intent(AllCategoryActivity.this, TourismFoodActivity.class));
+                startActivity(new Intent(AllCategoryActivity.this, TourismKulinerActivity.class));
                 break;
             case R.id.ln_edukasi_tour:
-                startActivity(new Intent(AllCategoryActivity.this, TourismEducationActivity.class));
+                startActivity(new Intent(AllCategoryActivity.this, TourismEdukasiActivity.class));
                 break;
             case R.id.ln_air_tour:
-                startActivity(new Intent(AllCategoryActivity.this, TourismWaterActivity.class));
+                startActivity(new Intent(AllCategoryActivity.this, TourismAirActivity.class));
                 break;
             case R.id.ln_religi_tour:
                 startActivity(new Intent(AllCategoryActivity.this, TourismReligiActivity.class));
                 break;
             case R.id.ln_sejarah_tour:
-                startActivity(new Intent(AllCategoryActivity.this, TourismHistoryActivity.class));
+                startActivity(new Intent(AllCategoryActivity.this, TourismSejarahActivity.class));
                 break;
             case R.id.ln_hotel_public:
                 startActivity(new Intent(AllCategoryActivity.this, HotelActivity.class));

@@ -26,6 +26,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -45,28 +46,29 @@ import co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseConstant;
 import co.id.roningrum.dolanapptugasakhir.handler.LocationPermissionHandler;
 import co.id.roningrum.dolanapptugasakhir.handler.NetworkHelper;
 import co.id.roningrum.dolanapptugasakhir.model.Tourism;
-import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismDetailActivity.TourismShoppingDetail;
-import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismMapActivity.TourismShoppingMaps;
+import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismDetailActivity.TourismAlamDetail;
+import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismMapActivity.TourismAlamMaps;
 
-public class TourismShoppingActivity extends AppCompatActivity {
-
-    private RecyclerView rvShoppingList;
+public class TourismAlamActivity extends AppCompatActivity {
+    private RecyclerView rvNatureList;
     private ShimmerFrameLayout shimmerFrameLayout;
     private TourismAdapter tourismAdapter;
-
     private ArrayList<Tourism> tourisms = new ArrayList<>();
+
     private LocationPermissionHandler locationPermissionHandler;
+    protected ConstraintLayout layoutUnavailable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_category_shopping);
-        Toolbar toolbarShopping = findViewById(R.id.toolbar_top_shopping);
-        rvShoppingList = findViewById(R.id.tourism_shopping_list);
+        setContentView(R.layout.activity_category_nature);
+        rvNatureList = findViewById(R.id.tourism_nature_list);
+        Toolbar toolbarNature = findViewById(R.id.toolbar_top_nature);
+        layoutUnavailable = findViewById(R.id.layout_connect);
         shimmerFrameLayout = findViewById(R.id.shimmer_view_container);
-        rvShoppingList.setLayoutManager(new LinearLayoutManager(this));
+        rvNatureList.setLayoutManager(new LinearLayoutManager(this));
+        setSupportActionBar(toolbarNature);
         checkConnection();
-        setSupportActionBar(toolbarShopping);
     }
 
     private void checkConnection() {
@@ -81,8 +83,8 @@ public class TourismShoppingActivity extends AppCompatActivity {
 
     private void showData() {
         if (havePermission()) {
-            Query shoppingQuery = FirebaseConstant.getTourismBelanja();
-            shoppingQuery.addValueEventListener(new ValueEventListener() {
+            Query natureQuery = FirebaseConstant.getTourismAlam();
+            natureQuery.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
@@ -95,20 +97,22 @@ public class TourismShoppingActivity extends AppCompatActivity {
                         @Override
                         public void onItemClicked(Tourism tourism) {
                             String tourismKey = tourism.getId();
-                            Intent intent = new Intent(TourismShoppingActivity.this, TourismShoppingDetail.class);
-                            intent.putExtra(TourismShoppingDetail.EXTRA_WISATA_KEY, tourismKey);
+                            Intent intent = new Intent(TourismAlamActivity.this, TourismAlamDetail.class);
+                            intent.putExtra(TourismAlamDetail.EXTRA_WISATA_KEY, tourismKey);
                             Log.d("Check id", "id :" + tourismKey);
                             startActivity(intent);
                         }
                     });
-                    rvShoppingList.setAdapter(tourismAdapter);
+                    rvNatureList.setAdapter(tourismAdapter);
                 }
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError databaseError) {
                     Log.e("Error DatabaseError", " " + databaseError.getMessage());
+
                 }
             });
+
         }
     }
 
@@ -126,7 +130,6 @@ public class TourismShoppingActivity extends AppCompatActivity {
         }
         return true;
     }
-
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -152,7 +155,7 @@ public class TourismShoppingActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.petaMenu) {
-            startActivity(new Intent(TourismShoppingActivity.this, TourismShoppingMaps.class));
+            startActivity(new Intent(TourismAlamActivity.this, TourismAlamMaps.class));
             return true;
         }
         return super.onOptionsItemSelected(item);

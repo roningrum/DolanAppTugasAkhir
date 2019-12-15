@@ -42,7 +42,7 @@ import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseConstant;
 import co.id.roningrum.dolanapptugasakhir.model.Tourism;
 
-public class TourismShoppingMaps extends FragmentActivity implements OnMapReadyCallback {
+public class TourismBelanjaMaps extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap shoppingMap;
 

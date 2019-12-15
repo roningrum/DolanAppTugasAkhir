@@ -52,7 +52,7 @@ import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.model.Tourism;
 import co.id.roningrum.dolanapptugasakhir.util.HaversineHandler;
 
-public class TourismHistoryDetail extends AppCompatActivity implements OnMapReadyCallback {
+public class TourismSejarahDetail extends AppCompatActivity implements OnMapReadyCallback {
     public static final String EXTRA_WISATA_KEY = "history_key";
     private static final String MAP_VIEW_KEY = "maViewBundle";
     private final static String TAG = "Pesan";

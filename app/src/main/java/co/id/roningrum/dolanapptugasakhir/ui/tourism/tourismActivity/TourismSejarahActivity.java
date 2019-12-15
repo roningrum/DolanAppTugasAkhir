@@ -45,43 +45,45 @@ import co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseConstant;
 import co.id.roningrum.dolanapptugasakhir.handler.LocationPermissionHandler;
 import co.id.roningrum.dolanapptugasakhir.handler.NetworkHelper;
 import co.id.roningrum.dolanapptugasakhir.model.Tourism;
-import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismDetailActivity.TourismVillageDetail;
-import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismMapActivity.TourismVillageMaps;
+import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismDetailActivity.TourismSejarahDetail;
+import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismMapActivity.TourismSejarahMaps;
 
-public class TourismVillageActivity extends AppCompatActivity {
-    private RecyclerView rvVillageList;
+public class TourismSejarahActivity extends AppCompatActivity {
+
+    private RecyclerView rvHistoryList;
     private ShimmerFrameLayout shimmerFrameLayout;
     private TourismAdapter tourismAdapter;
-
     private ArrayList<Tourism> tourisms = new ArrayList<>();
     private LocationPermissionHandler locationPermissionHandler;
-
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_category_village);
-        rvVillageList = findViewById(R.id.tourism_village_list);
-        Toolbar toolbarVillage = findViewById(R.id.toolbar_top_village);
+        setContentView(R.layout.activity_category_history);
+        rvHistoryList = findViewById(R.id.tourism_history_list);
+        Toolbar toolbarHistory = findViewById(R.id.toolbar_top_history);
         shimmerFrameLayout = findViewById(R.id.shimmer_view_container);
-        rvVillageList.setLayoutManager(new LinearLayoutManager(this));
-        setSupportActionBar(toolbarVillage);
+        rvHistoryList.setLayoutManager(new LinearLayoutManager(this));
+        rvHistoryList.setHasFixedSize(true);
         checkConnection();
+        setSupportActionBar(toolbarHistory);
+
     }
 
     private void checkConnection() {
         if (NetworkHelper.isConnectedToNetwork(getApplicationContext())) {
             showLoading(false);
-            showReligiData();
+            showData();
         } else {
             showLoading(true);
             Toast.makeText(this, "Check your connection", Toast.LENGTH_SHORT).show();
         }
     }
 
-    private void showReligiData() {
+    private void showData() {
         if (havePermission()) {
-            Query villageQuery = FirebaseConstant.getTourismDesa();
-            villageQuery.addValueEventListener(new ValueEventListener() {
+            Query historyQuery = FirebaseConstant.getTourismSejarah();
+            historyQuery.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
@@ -94,13 +96,13 @@ public class TourismVillageActivity extends AppCompatActivity {
                         @Override
                         public void onItemClicked(Tourism tourism) {
                             String tourismKey = tourism.getId();
-                            Intent intent = new Intent(TourismVillageActivity.this, TourismVillageDetail.class);
-                            intent.putExtra(TourismVillageDetail.EXTRA_WISATA_KEY, tourismKey);
+                            Intent intent = new Intent(TourismSejarahActivity.this, TourismSejarahDetail.class);
+                            intent.putExtra(TourismSejarahDetail.EXTRA_WISATA_KEY, tourismKey);
                             Log.d("Check id", "id :" + tourismKey);
                             startActivity(intent);
                         }
                     });
-                    rvVillageList.setAdapter(tourismAdapter);
+                    rvHistoryList.setAdapter(tourismAdapter);
                 }
 
                 @Override
@@ -109,7 +111,6 @@ public class TourismVillageActivity extends AppCompatActivity {
 
                 }
             });
-
         }
     }
 
@@ -127,6 +128,7 @@ public class TourismVillageActivity extends AppCompatActivity {
         }
         return true;
     }
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -151,7 +153,7 @@ public class TourismVillageActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.petaMenu) {
-            startActivity(new Intent(TourismVillageActivity.this, TourismVillageMaps.class));
+            startActivity(new Intent(TourismSejarahActivity.this, TourismSejarahMaps.class));
             return true;
         }
         return super.onOptionsItemSelected(item);

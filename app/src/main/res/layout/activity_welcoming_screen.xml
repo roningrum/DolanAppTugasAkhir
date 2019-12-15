@@ -62,7 +62,7 @@
         android:lineSpacingExtra="4sp"
         android:text="@string/judul_ta"
         android:textAlignment="center"
-        android:textColor="@color/blackTextPrimary"
+        android:textColor="#202020"
         android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -106,9 +106,9 @@
         android:textColor="@color/txtWhitePrimary"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_nim_ta"
-        app:layout_constraintVertical_bias="0.74" />
+        app:layout_constraintVertical_bias="0.492" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

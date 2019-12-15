@@ -111,15 +111,13 @@ public class RegisterAccountProfileActivity extends AppCompatActivity implements
 
     }
 
-    private boolean checkAccessFilePermission() {
+    private void checkAccessFilePermission() {
         if (Build.VERSION.SDK_INT >= 23) {
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                 btnUploadImageProfile.setEnabled(false);
                 ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
             }
-            return true;
         }
-        return false;
     }
 
     @Override

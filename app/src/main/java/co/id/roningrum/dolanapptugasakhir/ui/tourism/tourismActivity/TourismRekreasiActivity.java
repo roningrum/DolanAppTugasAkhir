@@ -45,10 +45,10 @@ import co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseConstant;
 import co.id.roningrum.dolanapptugasakhir.handler.LocationPermissionHandler;
 import co.id.roningrum.dolanapptugasakhir.handler.NetworkHelper;
 import co.id.roningrum.dolanapptugasakhir.model.Tourism;
-import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismDetailActivity.TourismRecreationDetail;
-import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismMapActivity.TourismRecreationMaps;
+import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismDetailActivity.TourismRekreasiDetail;
+import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismMapActivity.TourismRekreasiMaps;
 
-public class TourismRecreationActivity extends AppCompatActivity {
+public class TourismRekreasiActivity extends AppCompatActivity {
     private RecyclerView rvRecreationList;
     private ShimmerFrameLayout shimmerFrameLayout;
     private ArrayList<Tourism> tourisms = new ArrayList<>();
@@ -91,8 +91,8 @@ public class TourismRecreationActivity extends AppCompatActivity {
                         @Override
                         public void onItemClicked(Tourism tourism) {
                             String tourismKey = tourism.getId();
-                            Intent intent = new Intent(TourismRecreationActivity.this, TourismRecreationDetail.class);
-                            intent.putExtra(TourismRecreationDetail.EXTRA_WISATA_KEY, tourismKey);
+                            Intent intent = new Intent(TourismRekreasiActivity.this, TourismRekreasiDetail.class);
+                            intent.putExtra(TourismRekreasiDetail.EXTRA_WISATA_KEY, tourismKey);
                             Log.d("Check id", "id :" + tourismKey);
                             startActivity(intent);
                         }
@@ -149,7 +149,7 @@ public class TourismRecreationActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.petaMenu) {
-            startActivity(new Intent(TourismRecreationActivity.this, TourismRecreationMaps.class));
+            startActivity(new Intent(TourismRekreasiActivity.this, TourismRekreasiMaps.class));
             return true;
         }
         return super.onOptionsItemSelected(item);

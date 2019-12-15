@@ -26,20 +26,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".DetailFavTourism" />
+        <activity android:name=".favorite.DetailFavTourism" />
         <activity android:name=".ui.useractivity.edit.ChangePhotoProfileActivity" />
         <activity android:name=".ui.useractivity.edit.ChangeEmailProfileActivity" />
         <activity android:name=".ui.useractivity.edit.ChangePasswordProfileActivity" />
         <activity android:name=".ui.useractivity.edit.ChangeNameProfileActivity" />
         <activity android:name=".ui.useractivity.edit.EditProfileActivity" />
-        <activity android:name=".WelcomingScreenActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-                <action android:name="android.intent.action.MAIN" />
+        <activity android:name=".WelcomingScreenActivity" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
         <activity android:name=".ui.useractivity.register.RegisterAccountProfileActivity" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
@@ -94,56 +88,56 @@
         <activity android:name=".ui.hotel.HotelDetail" />
         <activity android:name=".ui.hotel.HotelActivity" />
         <activity
-            android:name=".ui.tourism.tourismMapActivity.TourismFoodMaps"
+            android:name=".ui.tourism.tourismMapActivity.TourismKulinerMaps"
             android:label="@string/title_activity_food_category_map" />
-        <activity android:name=".ui.tourism.tourismDetailActivity.TourismFoodDetail" />
-        <activity android:name=".ui.tourism.tourismActivity.TourismFoodActivity" />
+        <activity android:name=".ui.tourism.tourismDetailActivity.TourismKulinerDetail" />
+        <activity android:name=".ui.tourism.tourismActivity.TourismKulinerActivity" />
         <activity
-            android:name=".ui.tourism.tourismMapActivity.TourismHistoryMaps"
+            android:name=".ui.tourism.tourismMapActivity.TourismSejarahMaps"
             android:label="@string/title_activity_history_category_map" />
-        <activity android:name=".ui.tourism.tourismDetailActivity.TourismHistoryDetail" />
-        <activity android:name=".ui.tourism.tourismActivity.TourismHistoryActivity" />
+        <activity android:name=".ui.tourism.tourismDetailActivity.TourismSejarahDetail" />
+        <activity android:name=".ui.tourism.tourismActivity.TourismSejarahActivity" />
         <activity
             android:name=".ui.tourism.tourismMapActivity.TourismReligiMaps"
             android:label="@string/title_activity_religi_category_maps" />
         <activity android:name=".ui.tourism.tourismDetailActivity.TourismReligiDetail" />
         <activity android:name=".ui.tourism.tourismActivity.TourismReligiActivity" />
         <activity
-            android:name=".ui.tourism.tourismMapActivity.TourismRecreationMaps"
+            android:name=".ui.tourism.tourismMapActivity.TourismRekreasiMaps"
             android:label="@string/title_activity_recreation_category_maps" />
-        <activity android:name=".ui.tourism.tourismDetailActivity.TourismRecreationDetail" />
-        <activity android:name=".ui.tourism.tourismActivity.TourismRecreationActivity" />
+        <activity android:name=".ui.tourism.tourismDetailActivity.TourismRekreasiDetail" />
+        <activity android:name=".ui.tourism.tourismActivity.TourismRekreasiActivity" />
         <activity
-            android:name=".ui.tourism.tourismMapActivity.TourismEducationMaps"
+            android:name=".ui.tourism.tourismMapActivity.TourismEdukasiMaps"
             android:label="@string/title_activity_education_maps" />
-        <activity android:name=".ui.tourism.tourismActivity.TourismEducationActivity" />
-        <activity android:name=".ui.tourism.tourismDetailActivity.TourismEducationDetail" />
+        <activity android:name=".ui.tourism.tourismActivity.TourismEdukasiActivity" />
+        <activity android:name=".ui.tourism.tourismDetailActivity.TourismEdukasiDetail" />
         <activity
-            android:name=".ui.tourism.tourismMapActivity.TourismVillageMaps"
+            android:name=".ui.tourism.tourismMapActivity.TourismDesaMaps"
             android:label="@string/title_activity_village_maps" />
         <activity
-            android:name=".ui.tourism.tourismDetailActivity.TourismVillageDetail"
-            android:parentActivityName=".ui.tourism.tourismActivity.TourismVillageActivity" />
-        <activity android:name=".ui.tourism.tourismActivity.TourismVillageActivity" />
+            android:name=".ui.tourism.tourismDetailActivity.TourismDesaDetail"
+            android:parentActivityName=".ui.tourism.tourismActivity.TourismDesaActivity" />
+        <activity android:name=".ui.tourism.tourismActivity.TourismDesaActivity" />
         <activity
-            android:name=".ui.tourism.tourismMapActivity.TourismShoppingMaps"
+            android:name=".ui.tourism.tourismMapActivity.TourismBelanjaMaps"
             android:label="@string/title_activity_shopping_category_map" />
         <activity
-            android:name=".ui.tourism.tourismDetailActivity.TourismShoppingDetail"
-            android:parentActivityName=".ui.tourism.tourismActivity.TourismShoppingActivity" />
-        <activity android:name=".ui.tourism.tourismActivity.TourismShoppingActivity" />
+            android:name=".ui.tourism.tourismDetailActivity.TourismBelanjaDetail"
+            android:parentActivityName=".ui.tourism.tourismActivity.TourismBelanjaActivity" />
+        <activity android:name=".ui.tourism.tourismActivity.TourismBelanjaActivity" />
         <activity
-            android:name=".ui.tourism.tourismMapActivity.TourismWaterMaps"
+            android:name=".ui.tourism.tourismMapActivity.TourismAirMaps"
             android:label="@string/title_activity_water_maps" />
-        <activity android:name=".ui.tourism.tourismMapActivity.TourismNatureMaps" />
+        <activity android:name=".ui.tourism.tourismMapActivity.TourismAlamMaps" />
         <activity
-            android:name=".ui.tourism.tourismDetailActivity.TourismWaterDetail"
-            android:parentActivityName=".ui.tourism.tourismActivity.TourismWaterActivity" />
-        <activity android:name=".ui.tourism.tourismActivity.TourismWaterActivity" />
+            android:name=".ui.tourism.tourismDetailActivity.TourismAirDetail"
+            android:parentActivityName=".ui.tourism.tourismActivity.TourismAirActivity" />
+        <activity android:name=".ui.tourism.tourismActivity.TourismAirActivity" />
         <activity
-            android:name=".ui.tourism.tourismDetailActivity.TourismNatureDetail"
-            android:parentActivityName=".ui.tourism.tourismActivity.TourismNatureActivity" />
-        <activity android:name=".ui.tourism.tourismActivity.TourismNatureActivity" />
+            android:name=".ui.tourism.tourismDetailActivity.TourismAlamDetail"
+            android:parentActivityName=".ui.tourism.tourismActivity.TourismAlamActivity" />
+        <activity android:name=".ui.tourism.tourismActivity.TourismAlamActivity" />
         <activity android:name=".ui.useractivity.register.RegisterSuccessActivity" />
         <activity android:name=".ui.homeactivity.AllCategoryActivity" />
         <activity android:name=".ui.homeactivity.MainMenuActivity" />
@@ -151,7 +145,14 @@
         <activity android:name=".ui.useractivity.register.RegisterAccountEmailActivity" />
         <activity android:name=".ui.useractivity.login.SignInEmailActivity" />
         <activity android:name=".ui.useractivity.login.SignInOptionActivity" />
-        <activity android:name=".SplashScreenActivity" />
+        <activity android:name=".SplashScreenActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity android:name=".ui.useractivity.reset.ResetSendEmailSuccessActivity" />
 
         <service

@@ -14,6 +14,10 @@
 package co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismMapActivity;
 
 import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.drawable.VectorDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -24,32 +28,36 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import co.id.roningrum.dolanapptugasakhir.R;
-import co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseConstant;
 import co.id.roningrum.dolanapptugasakhir.model.Tourism;
-import co.id.roningrum.dolanapptugasakhir.util.BitmapDescriptorHandler;
 
-public class TourismVillageMaps extends FragmentActivity implements OnMapReadyCallback {
+public class TourismKulinerMaps extends FragmentActivity implements OnMapReadyCallback {
 
-    private GoogleMap villageMap;
+    private GoogleMap foodMap;
+    private DatabaseReference foodRefMap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_maps_village);
+        setContentView(R.layout.activity_maps_food);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.tourist_village_map);
+                .findFragmentById(R.id.tourism_food_map);
         assert mapFragment != null;
         mapFragment.getMapAsync(this);
+        foodRefMap = FirebaseDatabase.getInstance().getReference().child("Tourism");
     }
 
 
@@ -64,13 +72,13 @@ public class TourismVillageMaps extends FragmentActivity implements OnMapReadyCa
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        showVillageMap(googleMap);
+        showFoodMap(googleMap);
     }
 
-    private void showVillageMap(GoogleMap googleMap) {
-        villageMap = googleMap;
-        Query villageMapQuery = FirebaseConstant.getTourismDesa();
-        villageMapQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+    private void showFoodMap(GoogleMap googleMap) {
+        foodMap = googleMap;
+        Query foodMapQuery = foodRefMap.orderByChild("category_tourism").equalTo("kuliner");
+        foodMapQuery.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot dsNature : dataSnapshot.getChildren()) {
@@ -78,9 +86,11 @@ public class TourismVillageMaps extends FragmentActivity implements OnMapReadyCa
                     assert tourism != null;
                     double latNature = tourism.getLat_location_tourism();
                     double lngNature = tourism.getLng_location_tourism();
-                    LatLng villagePlaceLoc = new LatLng(latNature, lngNature);
-                    villageMap.moveCamera(CameraUpdateFactory.newLatLngZoom(villagePlaceLoc, 10.0f));
-                    villageMap.addMarker(new MarkerOptions().position(villagePlaceLoc).icon(BitmapDescriptorHandler.getBitmapDescriptor(getApplicationContext())).title(tourism.getName_tourism()).snippet(tourism.getLocation_tourism()));
+                    LatLng naturePlaceLoc = new LatLng(latNature, lngNature);
+                    foodMap.moveCamera(CameraUpdateFactory.newLatLngZoom(naturePlaceLoc, 10.0f));
+                    foodMap.addMarker(new MarkerOptions().position(naturePlaceLoc).title(tourism.getName_tourism())
+                            .icon(getBitmapDescriptor())
+                            .snippet(tourism.getLocation_tourism()));
                 }
             }
 
@@ -89,10 +99,11 @@ public class TourismVillageMaps extends FragmentActivity implements OnMapReadyCa
                 Log.e("Pesan", "Check Database :" + databaseError.getMessage());
             }
         });
+
         try {
             // Customise the styling of the base map using a JSON object defined
             // in a raw resource file.
-            boolean success = villageMap.setMapStyle(
+            boolean success = foodMap.setMapStyle(
                     MapStyleOptions.loadRawResourceStyle(
                             this, R.raw.google_map_style));
 
@@ -104,4 +115,24 @@ public class TourismVillageMaps extends FragmentActivity implements OnMapReadyCa
         }
     }
 
+    private BitmapDescriptor getBitmapDescriptor() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            VectorDrawable vectorDrawable = (VectorDrawable) getDrawable(R.drawable.ic_marker);
+
+            assert vectorDrawable != null;
+            int h = vectorDrawable.getIntrinsicHeight();
+            int w = vectorDrawable.getIntrinsicWidth();
+
+            vectorDrawable.setBounds(0, 0, w, h);
+
+            Bitmap bm = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
+            Canvas canvas = new Canvas(bm);
+            vectorDrawable.draw(canvas);
+
+            return BitmapDescriptorFactory.fromBitmap(bm);
+
+        } else {
+            return BitmapDescriptorFactory.fromResource(R.drawable.ic_marker);
+        }
+    }
 }

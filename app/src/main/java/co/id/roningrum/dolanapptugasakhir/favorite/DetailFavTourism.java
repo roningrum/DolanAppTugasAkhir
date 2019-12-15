@@ -11,7 +11,7 @@
  * limitations under the License.
  */
 
-package co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismDetailActivity;
+package co.id.roningrum.dolanapptugasakhir.favorite;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -52,34 +52,29 @@ import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.model.Tourism;
 import co.id.roningrum.dolanapptugasakhir.util.HaversineHandler;
 
-public class TourismEducationDetail extends AppCompatActivity implements OnMapReadyCallback {
-    public static final String EXTRA_WISATA_KEY = "edukasi_key";
+public class DetailFavTourism extends AppCompatActivity implements OnMapReadyCallback {
+    public static final String EXTRA_TOURISM = "Tourism";
+
     private static final String MAP_VIEW_KEY = "mapViewBundle";
 
     private final static String TAG = "Pesan";
+    boolean isFavorite = false;
+    Menu menuItem;
+    Tourism tourism = new Tourism();
     private GoogleMap educationGoogleMap;
     private MapView educationMapView;
-
     private DatabaseReference educationDetailRef;
-
     private GPSHandler gpsHandler;
     private ValueEventListener valueEventListener;
-
-    private TextView tvNameEducationDetail, tvAddressEducationDetail,
-            tvDescEducation, tvDistanceEducation;
-
-    private ImageView imgEducation;
+    private TextView tvNameTourismDetail, tvAddressTourismDetail,
+            tvDescTourism, tvDistanceTourism;
+    private ImageView imgTourism;
     private CollapsingToolbarLayout collapsingToolbarLayout;
-
     private double startLat;
     private double startlng;
     private double endlat;
     private double endLng;
     private double distance;
-
-    boolean isFavorite = false;
-    Menu menuItem;
-    Tourism tourism = new Tourism();
     private String eduKey;
     private FirebaseUser user;
     private DatabaseReference favoritedb;
@@ -87,14 +82,16 @@ public class TourismEducationDetail extends AppCompatActivity implements OnMapRe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_detail_tourism_education);
-        tvNameEducationDetail = findViewById(R.id.name_place_tourism_detail);
-        tvAddressEducationDetail = findViewById(R.id.location_tourism_detail);
-        tvDescEducation = findViewById(R.id.info_place_tourism_detail);
-        tvDistanceEducation = findViewById(R.id.distance_location_tourism);
-        imgEducation = findViewById(R.id.img_nature_education_detail);
+        setContentView(R.layout.activity_detail_fav_tourism);
+
+        tvNameTourismDetail = findViewById(R.id.name_place_tourism_detail);
+        tvAddressTourismDetail = findViewById(R.id.location_tourism_detail);
+        tvDescTourism = findViewById(R.id.info_place_tourism_detail);
+        tvDistanceTourism = findViewById(R.id.distance_location_tourism);
+        imgTourism = findViewById(R.id.img_nature_education_detail);
         educationMapView = findViewById(R.id.location_tourism_map_detail);
         collapsingToolbarLayout = findViewById(R.id.collapseToolbar);
+
 
         Toolbar toolbarEducation = findViewById(R.id.toolbar_education_detail);
         setSupportActionBar(toolbarEducation);
@@ -106,7 +103,6 @@ public class TourismEducationDetail extends AppCompatActivity implements OnMapRe
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         user = firebaseAuth.getCurrentUser();
 
-
         Bundle mapViewBundle = null;
         if (savedInstanceState != null) {
             mapViewBundle = savedInstanceState.getBundle(MAP_VIEW_KEY);
@@ -114,7 +110,7 @@ public class TourismEducationDetail extends AppCompatActivity implements OnMapRe
         educationMapView.onCreate(mapViewBundle);
         educationMapView.getMapAsync(this);
 
-        eduKey = getIntent().getStringExtra(EXTRA_WISATA_KEY);
+        eduKey = getIntent().getStringExtra(EXTRA_TOURISM);
         if (eduKey == null) {
             throw new IllegalArgumentException("Must pass Extra");
         }
@@ -160,11 +156,11 @@ public class TourismEducationDetail extends AppCompatActivity implements OnMapRe
                     distance = HaversineHandler.calculateDistance(startLat, startlng, endlat, endLng);
 
                     @SuppressLint("DefaultLocale") String distanceFormat = String.format("%.2f", distance);
-                    tvDistanceEducation.setText("" + distanceFormat + " km");
-                    tvNameEducationDetail.setText(tourism.getName_tourism());
-                    tvAddressEducationDetail.setText(tourism.getLocation_tourism());
-                    tvDescEducation.setText(tourism.getInfo_tourism());
-                    Glide.with(getApplicationContext()).load(tourism.getUrl_photo()).into(imgEducation);
+                    tvDistanceTourism.setText("" + distanceFormat + " km");
+                    tvNameTourismDetail.setText(tourism.getName_tourism());
+                    tvAddressTourismDetail.setText(tourism.getLocation_tourism());
+                    tvDescTourism.setText(tourism.getInfo_tourism());
+                    Glide.with(getApplicationContext()).load(tourism.getUrl_photo()).into(imgTourism);
                     AppBarLayout appBarLayout = findViewById(R.id.app_bar);
                     appBarLayout.addOnOffsetChangedListener(new AppBarLayout.BaseOnOffsetChangedListener() {
                         boolean isShow = true;
@@ -330,6 +326,7 @@ public class TourismEducationDetail extends AppCompatActivity implements OnMapRe
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 favoritedb.getRef().child(uid).child(eduKey).setValue(true);
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
 

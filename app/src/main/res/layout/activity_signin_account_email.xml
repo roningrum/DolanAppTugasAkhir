@@ -114,6 +114,7 @@
         android:fontFamily="@font/montserrat_medium"
         android:text="@string/txt_link_reset_page"
         android:textAlignment="textEnd"
+        android:textSize="12sp"
         android:textColor="#D7FF5722"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"

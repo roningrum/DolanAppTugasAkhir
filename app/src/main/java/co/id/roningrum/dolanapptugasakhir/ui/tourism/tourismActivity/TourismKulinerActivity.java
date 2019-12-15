@@ -43,48 +43,49 @@ import co.id.roningrum.dolanapptugasakhir.adapter.tourism.TourismAdapter;
 import co.id.roningrum.dolanapptugasakhir.adapter.tourism.TourismClickCallback;
 import co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseConstant;
 import co.id.roningrum.dolanapptugasakhir.handler.LocationPermissionHandler;
-import co.id.roningrum.dolanapptugasakhir.handler.NetworkHelper;
 import co.id.roningrum.dolanapptugasakhir.model.Tourism;
-import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismDetailActivity.TourismWaterDetail;
-import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismMapActivity.TourismWaterMaps;
+import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismDetailActivity.TourismKulinerDetail;
+import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismMapActivity.TourismKulinerMaps;
+import co.id.roningrum.dolanapptugasakhir.util.Util;
 
-public class TourismWaterActivity extends AppCompatActivity {
-    private RecyclerView rvWaterList;
+public class TourismKulinerActivity extends AppCompatActivity {
+    private RecyclerView rvFoodList;
     private ShimmerFrameLayout shimmerFrameLayout;
-    private ArrayList<Tourism> tourisms = new ArrayList<>();
     private TourismAdapter tourismAdapter;
-
+    private ArrayList<Tourism> tourisms = new ArrayList<>();
     private LocationPermissionHandler locationPermissionHandler;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_category_water);
-        rvWaterList = findViewById(R.id.tourism_water_list);
-        Toolbar toolbarWater = findViewById(R.id.toolbar_top_water);
+        setContentView(R.layout.activity_category_food);
+        rvFoodList = findViewById(R.id.tourism_food_list);
         shimmerFrameLayout = findViewById(R.id.shimmer_view_container);
-        rvWaterList.setLayoutManager(new LinearLayoutManager(this));
+        Toolbar toolbarFood = findViewById(R.id.toolbar_top_food);
+        rvFoodList.setLayoutManager(new LinearLayoutManager(this));
+        rvFoodList.setHasFixedSize(true);
+        setSupportActionBar(toolbarFood);
         checkConnection();
-        setSupportActionBar(toolbarWater);
 
     }
 
     private void checkConnection() {
-        if (NetworkHelper.isConnectedToNetwork(getApplicationContext())) {
-            showLoading(false);
-            showAirData();
-        } else {
+        if (Util.isConnectedToNetwork(getApplicationContext())) {
             showLoading(true);
+            showFoodData();
+        } else {
+            showLoading(false);
             Toast.makeText(this, "Check your connection", Toast.LENGTH_SHORT).show();
         }
     }
 
-    private void showAirData() {
-        if(havePermission()){
-            Query waterItemListQuery = FirebaseConstant.getTourismAir();
-            waterItemListQuery.addValueEventListener(new ValueEventListener() {
+    private void showFoodData() {
+        if (havePermission()) {
+            Query foodQuery = FirebaseConstant.getTourismKuliner();
+            foodQuery.addValueEventListener(new ValueEventListener() {
                 @Override
-                public void onDataChange(@NonNull final DataSnapshot dataSnapshot) {
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
                         Tourism tourism = dataSnapshot1.getValue(Tourism.class);
                         tourisms.add(tourism);
@@ -95,18 +96,18 @@ public class TourismWaterActivity extends AppCompatActivity {
                         @Override
                         public void onItemClicked(Tourism tourism) {
                             String tourismKey = tourism.getId();
-                            Intent intent = new Intent(TourismWaterActivity.this, TourismWaterDetail.class);
-                            intent.putExtra(TourismWaterDetail.EXTRA_WISATA_KEY, tourismKey);
+                            Intent intent = new Intent(TourismKulinerActivity.this, TourismKulinerDetail.class);
+                            intent.putExtra(TourismKulinerDetail.EXTRA_WISATA_KEY, tourismKey);
                             Log.d("Check id", "id :" + tourismKey);
                             startActivity(intent);
                         }
                     });
-                    rvWaterList.setAdapter(tourismAdapter);
+                    rvFoodList.setAdapter(tourismAdapter);
                 }
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                    Log.e("Error DatabaseError", " " + databaseError.getMessage());
                 }
             });
         }
@@ -151,11 +152,12 @@ public class TourismWaterActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.petaMenu) {
-            startActivity(new Intent(TourismWaterActivity.this, TourismWaterMaps.class));
+            startActivity(new Intent(TourismKulinerActivity.this, TourismKulinerMaps.class));
             return true;
         }
         return super.onOptionsItemSelected(item);
     }
+
 
     private void showLoading(Boolean state) {
         if (state) {

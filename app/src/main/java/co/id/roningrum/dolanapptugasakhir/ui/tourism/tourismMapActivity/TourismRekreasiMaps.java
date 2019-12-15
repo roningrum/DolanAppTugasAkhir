@@ -35,19 +35,22 @@ import com.google.firebase.database.ValueEventListener;
 import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseConstant;
 import co.id.roningrum.dolanapptugasakhir.model.Tourism;
+import co.id.roningrum.dolanapptugasakhir.util.Util;
 
-public class TourismWaterMaps extends FragmentActivity implements OnMapReadyCallback {
+public class TourismRekreasiMaps extends FragmentActivity implements OnMapReadyCallback {
 
-    private GoogleMap waterMap;
+    private GoogleMap recreationMap;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_maps_water);
+        setContentView(R.layout.activity_maps_recreation);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.water_tourism_map);
+                .findFragmentById(R.id.tourist_recreation_map);
         assert mapFragment != null;
         mapFragment.getMapAsync(this);
+
     }
 
 
@@ -62,36 +65,37 @@ public class TourismWaterMaps extends FragmentActivity implements OnMapReadyCall
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        showWaterMap(googleMap);
+        showRecreationMap(googleMap);
+
     }
 
-    private void showWaterMap(GoogleMap googleMap) {
-        waterMap = googleMap;
-        Query waterMapQuery = FirebaseConstant.getTourismAir();
-        waterMapQuery.addListenerForSingleValueEvent(new ValueEventListener() {
-
+    private void showRecreationMap(GoogleMap googleMap) {
+        recreationMap = googleMap;
+        Query recreationQuery = FirebaseConstant.getTourismRekreasi();
+        recreationQuery.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for(DataSnapshot dsNature : dataSnapshot.getChildren()){
+                for (DataSnapshot dsNature : dataSnapshot.getChildren()) {
                     Tourism tourism = dsNature.getValue(Tourism.class);
                     assert tourism != null;
                     double latNature = tourism.getLat_location_tourism();
                     double lngNature = tourism.getLng_location_tourism();
                     LatLng naturePlaceLoc = new LatLng(latNature, lngNature);
-                    waterMap.moveCamera(CameraUpdateFactory.newLatLngZoom(naturePlaceLoc, 10.0f));
-                    waterMap.addMarker(new MarkerOptions().position(naturePlaceLoc).title(tourism.getName_tourism()).snippet(tourism.getLocation_tourism()));
+                    recreationMap.moveCamera(CameraUpdateFactory.newLatLngZoom(naturePlaceLoc, 14.0f));
+                    recreationMap.addMarker(new MarkerOptions().position(naturePlaceLoc).title(tourism.getName_tourism()).
+                            icon(Util.getBitmapDescriptor(getApplicationContext())).snippet(tourism.getLocation_tourism()));
                 }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                Log.e("Pesan", "Check Database :" +databaseError.getMessage());
+                Log.e("Pesan", "Check Database :" + databaseError.getMessage());
             }
         });
         try {
             // Customise the styling of the base map using a JSON object defined
             // in a raw resource file.
-            boolean success = waterMap.setMapStyle(
+            boolean success = recreationMap.setMapStyle(
                     MapStyleOptions.loadRawResourceStyle(
                             this, R.raw.google_map_style));
 

@@ -47,7 +47,7 @@ import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.model.Tourism;
 import co.id.roningrum.dolanapptugasakhir.util.HaversineHandler;
 
-public class TourismVillageDetail extends AppCompatActivity implements OnMapReadyCallback {
+public class TourismDesaDetail extends AppCompatActivity implements OnMapReadyCallback {
     public static final String EXTRA_WISATA_KEY = "wisata_key";
     private static final String MAP_VIEW_KEY = "mapViewBundle";
 

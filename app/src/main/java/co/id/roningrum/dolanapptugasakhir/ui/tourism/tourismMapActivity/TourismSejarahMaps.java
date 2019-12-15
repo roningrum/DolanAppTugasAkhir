@@ -42,17 +42,16 @@ import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseConstant;
 import co.id.roningrum.dolanapptugasakhir.model.Tourism;
 
-public class TourismEducationMaps extends FragmentActivity implements OnMapReadyCallback {
+public class TourismSejarahMaps extends FragmentActivity implements OnMapReadyCallback {
 
-    private GoogleMap educationPlaceMap;
-
+    private GoogleMap historyMap;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_maps_education);
+        setContentView(R.layout.activity_maps_history);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.education_map);
+                .findFragmentById(R.id.history_map);
         assert mapFragment != null;
         mapFragment.getMapAsync(this);
     }
@@ -69,16 +68,13 @@ public class TourismEducationMaps extends FragmentActivity implements OnMapReady
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        showEducationMap(googleMap);
-
-
+        showHistoryMap(googleMap);
     }
 
-    private void showEducationMap(GoogleMap googleMap) {
-
-        educationPlaceMap = googleMap;
-        Query educationMapQuery = FirebaseConstant.getTourismEducation();
-        educationMapQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+    private void showHistoryMap(GoogleMap googleMap) {
+        historyMap = googleMap;
+        Query historyMapQuery = FirebaseConstant.getTourismSejarah();
+        historyMapQuery.addListenerForSingleValueEvent(new ValueEventListener() {
 
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -88,8 +84,10 @@ public class TourismEducationMaps extends FragmentActivity implements OnMapReady
                     double latNature = tourism.getLat_location_tourism();
                     double lngNature = tourism.getLng_location_tourism();
                     LatLng naturePlaceLoc = new LatLng(latNature, lngNature);
-                    educationPlaceMap.moveCamera(CameraUpdateFactory.newLatLngZoom(naturePlaceLoc, 10.0f));
-                    educationPlaceMap.addMarker(new MarkerOptions().position(naturePlaceLoc).icon(getBitmapDescriptor()).title(tourism.getName_tourism()).snippet(tourism.getLocation_tourism()));
+                    historyMap.moveCamera(CameraUpdateFactory.newLatLngZoom(naturePlaceLoc, 10.0f));
+                    historyMap.addMarker(new MarkerOptions().position(naturePlaceLoc).title(tourism.getName_tourism())
+                            .icon(getBitmapDescriptor())
+                            .snippet(tourism.getLocation_tourism()));
                 }
             }
 
@@ -98,11 +96,10 @@ public class TourismEducationMaps extends FragmentActivity implements OnMapReady
                 Log.e("Pesan", "Check Database :" + databaseError.getMessage());
             }
         });
-
         try {
             // Customise the styling of the base map using a JSON object defined
             // in a raw resource file.
-            boolean success = educationPlaceMap.setMapStyle(
+            boolean success = historyMap.setMapStyle(
                     MapStyleOptions.loadRawResourceStyle(
                             this, R.raw.google_map_style));
 

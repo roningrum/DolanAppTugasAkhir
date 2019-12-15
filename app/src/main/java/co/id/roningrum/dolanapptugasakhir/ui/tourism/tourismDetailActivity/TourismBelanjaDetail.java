@@ -15,7 +15,6 @@ package co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismDetailActivity;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -48,24 +47,25 @@ import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.model.Tourism;
 import co.id.roningrum.dolanapptugasakhir.util.HaversineHandler;
 
-public class TourismWaterDetail extends AppCompatActivity implements OnMapReadyCallback {
-    public static final String EXTRA_WISATA_KEY = "air_key";
+public class TourismBelanjaDetail extends AppCompatActivity implements OnMapReadyCallback {
 
+    public static final String EXTRA_WISATA_KEY = "shopping_key";
     private static final String MAP_VIEW_KEY = "mapViewBundle";
 
-    private final static String TAG = "Pesan";
-    private GoogleMap waterLocationMap;
-    private MapView waterMapView;
-    private DatabaseReference waterDetailRef;
+//    private final static String TAG = "Pesan";
+
+    private GoogleMap shoppingLocationMap;
+    private MapView shoppingMapView;
+    private DatabaseReference shoppingDetailRef;
 
     private GPSHandler gpsHandler;
     private ValueEventListener valueEventListener;
 
-    private TextView tvNameWaterDetail, tvAddressWaterDetail, tvDescWaterDetail,
-    tvDistanceWaterDetail;
+    private TextView tvNameShoppingDetail, tvAddressShoppingDetail, tvDescShoppingDetail,
+            tvDistanceShoppingDetail;
 
-    private ImageView imgWaterObject;
-    private CollapsingToolbarLayout collapsingToolbarLayout_water;
+    private ImageView imgShoppingObject;
+    private CollapsingToolbarLayout collapsingToolbarLayout_shopping;
 
     private double startLat;
     private double startLng;
@@ -76,41 +76,39 @@ public class TourismWaterDetail extends AppCompatActivity implements OnMapReadyC
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_detail_tourism_water);
-        tvNameWaterDetail = findViewById(R.id.name_place_tourism_detail);
-        tvAddressWaterDetail = findViewById(R.id.location_tourism_detail);
-        tvDescWaterDetail = findViewById(R.id.info_place_tourism_detail);
-        tvDistanceWaterDetail = findViewById(R.id.distance_location_tourism);
-        imgWaterObject = findViewById(R.id.img_water_place_detail);
-        waterMapView = findViewById(R.id.location_tourism_map_detail);
-        collapsingToolbarLayout_water = findViewById(R.id.collapseToolbar_water_detail);
+        setContentView(R.layout.activity_detail_tourism_shopping);
+        tvNameShoppingDetail = findViewById(R.id.name_place_tourism_detail);
+        tvAddressShoppingDetail = findViewById(R.id.location_tourism_detail);
+        tvDescShoppingDetail = findViewById(R.id.info_place_tourism_detail);
+        tvDistanceShoppingDetail = findViewById(R.id.distance_location_tourism);
+        imgShoppingObject = findViewById(R.id.img_shopping_place_detail);
+        shoppingMapView = findViewById(R.id.location_tourism_map_detail);
+        collapsingToolbarLayout_shopping = findViewById(R.id.collapseToolbar_shopping);
 
-
-        Toolbar toolbarWater = findViewById(R.id.toolbar_water_detail);
-        setSupportActionBar(toolbarWater);
+        Toolbar toolbarShopping = findViewById(R.id.toolbar_shopping_detail_top);
+        setSupportActionBar(toolbarShopping);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back_24dp);
 
         Bundle mapViewBundle = null;
         if (savedInstanceState != null) {
             mapViewBundle = savedInstanceState.getBundle(MAP_VIEW_KEY);
         }
-        waterMapView.onCreate(mapViewBundle);
-        waterMapView.getMapAsync(this);
+        shoppingMapView.onCreate(mapViewBundle);
+        shoppingMapView.getMapAsync(this);
 
-        String waterKey = getIntent().getStringExtra(EXTRA_WISATA_KEY);
-
-        assert waterKey != null;
-        waterDetailRef = FirebaseConstant.getTourismRef(waterKey);
-        Log.d("Check id", " idDetail : " + waterKey);
-        gpsHandler = new GPSHandler( this);
-
-        LoadDetail();
+        String shoppingKey = getIntent().getStringExtra(EXTRA_WISATA_KEY);
+        if(shoppingKey == null){
+            throw new IllegalArgumentException("Must pass Extra");
+        }
+        shoppingDetailRef = FirebaseConstant.getTourismRef(shoppingKey);
+        gpsHandler = new GPSHandler(this);
+        
+        LoadShoppingDetail();
     }
 
-    private void LoadDetail() {
+    private void LoadShoppingDetail() {
         if(gpsHandler.isCanGetLocation()){
             ValueEventListener eventListener = new ValueEventListener() {
                 @SuppressLint("SetTextI18n")
@@ -125,12 +123,12 @@ public class TourismWaterDetail extends AppCompatActivity implements OnMapReadyC
                     distance = HaversineHandler.calculateDistance(startLat, startLng, endLat, endLng);
 
                     @SuppressLint("DefaultLocale") String distanceFormat = String.format("%.2f",distance);
-                    tvDistanceWaterDetail.setText(""+distanceFormat+" KM");
-                    tvNameWaterDetail.setText(tourism.getName_tourism());
-                    tvAddressWaterDetail.setText(tourism.getLocation_tourism());
-                    tvDescWaterDetail.setText(tourism.getInfo_tourism());
-                    Glide.with(getApplicationContext()).load(tourism.getUrl_photo()).into(imgWaterObject);
-                    AppBarLayout appBarLayout = findViewById(R.id.app_bar_water);
+                    tvDistanceShoppingDetail.setText(""+distanceFormat+" KM");
+                    tvNameShoppingDetail.setText(tourism.getName_tourism());
+                    tvAddressShoppingDetail.setText(tourism.getLocation_tourism());
+                    tvDescShoppingDetail.setText(tourism.getInfo_tourism());
+                    Glide.with(getApplicationContext()).load(tourism.getUrl_photo()).into(imgShoppingObject);
+                    AppBarLayout appBarLayout = findViewById(R.id.app_bar_shopping);
                     appBarLayout.addOnOffsetChangedListener(new AppBarLayout.BaseOnOffsetChangedListener() {
                         boolean isShow = true;
                         int scrollRange = -1;
@@ -141,42 +139,41 @@ public class TourismWaterDetail extends AppCompatActivity implements OnMapReadyC
                                 scrollRange = appBarLayout.getTotalScrollRange();
                             }
                             if (scrollRange + verticalOffset == 0) {
-                                collapsingToolbarLayout_water.setTitle(tourism.getName_tourism());
+                                collapsingToolbarLayout_shopping.setTitle(tourism.getName_tourism());
                                 isShow = true;
                             } else {
-                                collapsingToolbarLayout_water.setTitle(" ");
+                                collapsingToolbarLayout_shopping.setTitle(" ");
                                 isShow = false;
                             }
 
                         }
                     });
-
                 }
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError databaseError) {
-                    Log.e(TAG, "Firebase Database Error" + databaseError.getMessage());
+
                 }
             };
-            waterDetailRef.addValueEventListener(eventListener);
+            shoppingDetailRef.addValueEventListener(eventListener);
             valueEventListener = eventListener;
         }
     }
 
-    private double calculateDistance(double startLat, double startLng, double endLat, double endLng) {
-        double earthRadius = 6371;
-        double latDiff = Math.toRadians(startLat-endLat);
-        double lngDiff = Math.toRadians(startLng-endLng);
-        double a = Math.sin(latDiff /2) * Math.sin(latDiff /2) +
-                Math.cos(Math.toRadians(startLat)) * Math.cos(Math.toRadians(endLat)) *
-                        Math.sin(lngDiff /2) * Math.sin(lngDiff /2);
-        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-        double distance = earthRadius * c;
-
-        int meterConversion = 1609;
-
-        return (distance*meterConversion/1000);
-    }
+//    private double calculateDistance(double startLat, double startLng, double endLat, double endLng) {
+//        double earthRadius = 6371;
+//        double latDiff = Math.toRadians(startLat-endLat);
+//        double lngDiff = Math.toRadians(startLng-endLng);
+//        double a = Math.sin(latDiff /2) * Math.sin(latDiff /2) +
+//                Math.cos(Math.toRadians(startLat)) * Math.cos(Math.toRadians(endLat)) *
+//                        Math.sin(lngDiff /2) * Math.sin(lngDiff /2);
+//        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+//        double distance = earthRadius * c;
+//
+//        int meterConversion = 1609;
+//
+//        return (distance*meterConversion/1000);
+//    }
 
     @Override
     protected void onSaveInstanceState(@NotNull Bundle outState) {
@@ -186,13 +183,14 @@ public class TourismWaterDetail extends AppCompatActivity implements OnMapReadyC
             mapViewBundle = new Bundle();
             outState.putBundle(MAP_VIEW_KEY, mapViewBundle);
         }
-        waterMapView.onSaveInstanceState(mapViewBundle);
+        shoppingMapView.onSaveInstanceState(mapViewBundle);
 
     }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        waterLocationMap = googleMap;
+
+        shoppingLocationMap = googleMap;
 
         ValueEventListener eventListener = new ValueEventListener() {
             @Override
@@ -203,8 +201,8 @@ public class TourismWaterDetail extends AppCompatActivity implements OnMapReadyC
                 double longitude = tourism.getLng_location_tourism();
 
                 LatLng location = new LatLng(lattitude, longitude);
-                waterLocationMap.addMarker(new MarkerOptions().position(location));
-                waterLocationMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location,16.0f));
+                shoppingLocationMap.addMarker(new MarkerOptions().position(location));
+                shoppingLocationMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location,16.0f));
             }
 
             @Override
@@ -212,9 +210,8 @@ public class TourismWaterDetail extends AppCompatActivity implements OnMapReadyC
 
             }
         };
-        waterDetailRef.addValueEventListener(eventListener);
+        shoppingDetailRef.addValueEventListener(eventListener);
         valueEventListener = eventListener;
-
     }
 
     @Override
@@ -227,30 +224,32 @@ public class TourismWaterDetail extends AppCompatActivity implements OnMapReadyC
         return super.onOptionsItemSelected(item);
     }
 
+
     @Override
     protected void onResume() {
         super.onResume();
-        waterMapView.onResume();
+        shoppingMapView.onResume();
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        LoadDetail();
-        waterMapView.onStart();
+        LoadShoppingDetail();
+        shoppingMapView.onStart();
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        waterMapView.onStop();
-        waterDetailRef.removeEventListener(valueEventListener);
+        shoppingMapView.onStop();
+        shoppingDetailRef.removeEventListener(valueEventListener);
 
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        waterMapView.onPause();
+        shoppingMapView.onPause();
     }
+
 }

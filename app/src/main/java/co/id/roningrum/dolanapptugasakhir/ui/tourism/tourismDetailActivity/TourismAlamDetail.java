@@ -11,7 +11,7 @@
  * limitations under the License.
  */
 
-package co.id.roningrum.dolanapptugasakhir;
+package co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismDetailActivity;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -46,80 +46,86 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
+import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseConstant;
 import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.model.Tourism;
 import co.id.roningrum.dolanapptugasakhir.util.HaversineHandler;
 
-public class DetailFavTourism extends AppCompatActivity implements OnMapReadyCallback {
-    public static final String EXTRA_TOURISM = "Tourism";
-
+public class TourismAlamDetail extends AppCompatActivity implements OnMapReadyCallback {
+    public static final String EXTRA_WISATA_KEY = "alam_key";
     private static final String MAP_VIEW_KEY = "mapViewBundle";
 
     private final static String TAG = "Pesan";
-    boolean isFavorite = false;
-    Menu menuItem;
-    Tourism tourism = new Tourism();
-    private GoogleMap educationGoogleMap;
-    private MapView educationMapView;
-    private DatabaseReference educationDetailRef;
+
+    private GoogleMap gMap;
+    private MapView natureMapView;
+
+    private DatabaseReference natureDetailRef;
     private GPSHandler gpsHandler;
     private ValueEventListener valueEventListener;
-    private TextView tvNameTourismDetail, tvAddressTourismDetail,
-            tvDescTourism, tvDistanceTourism;
-    private ImageView imgTourism;
-    private CollapsingToolbarLayout collapsingToolbarLayout;
+
+    private TextView tvNameNatureDetail, tvAddressNature,
+    tvDescNature, tvDistanceNature;
+
+    private ImageView imgNature;
+    private CollapsingToolbarLayout collapsingToolbarLayout_nature;
+
     private double startLat;
     private double startlng;
     private double endlat;
     private double endLng;
     private double distance;
-    private String eduKey;
+
+    boolean isFavorite = false;
+    Menu menuItem;
+    Tourism tourism = new Tourism();
+    private String natureKey;
     private FirebaseUser user;
     private DatabaseReference favoritedb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_detail_fav_tourism);
+        setContentView(R.layout.activity_detail_tourism_nature);
 
-        tvNameTourismDetail = findViewById(R.id.name_place_tourism_detail);
-        tvAddressTourismDetail = findViewById(R.id.location_tourism_detail);
-        tvDescTourism = findViewById(R.id.info_place_tourism_detail);
-        tvDistanceTourism = findViewById(R.id.distance_location_tourism);
-        imgTourism = findViewById(R.id.img_nature_education_detail);
-        educationMapView = findViewById(R.id.location_tourism_map_detail);
-        collapsingToolbarLayout = findViewById(R.id.collapseToolbar);
+        tvNameNatureDetail = findViewById(R.id.name_place_tourism_detail);
+        tvAddressNature = findViewById(R.id.location_tourism_detail);
+        tvDescNature = findViewById(R.id.info_place_tourism_detail);
+        tvDistanceNature = findViewById(R.id.distance_location_tourism);
+        imgNature = findViewById(R.id.img_nature_place_detail);
+        natureMapView = findViewById(R.id.location_tourism_map_detail);
+        collapsingToolbarLayout_nature = findViewById(R.id.collapseToolbar_nature);
 
 
-        Toolbar toolbarEducation = findViewById(R.id.toolbar_education_detail);
-        setSupportActionBar(toolbarEducation);
+        Toolbar toolbarNature = findViewById(R.id.toolbar_nature_detail);
+        setSupportActionBar(toolbarNature);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back_24dp);
 
-        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
-        user = firebaseAuth.getCurrentUser();
-
         Bundle mapViewBundle = null;
         if (savedInstanceState != null) {
             mapViewBundle = savedInstanceState.getBundle(MAP_VIEW_KEY);
         }
-        educationMapView.onCreate(mapViewBundle);
-        educationMapView.getMapAsync(this);
+        natureMapView.onCreate(mapViewBundle);
+        natureMapView.getMapAsync(this);
 
-        eduKey = getIntent().getStringExtra(EXTRA_TOURISM);
-        if (eduKey == null) {
+        natureKey = getIntent().getStringExtra(EXTRA_WISATA_KEY);
+        if (natureKey == null) {
             throw new IllegalArgumentException("Must pass Extra");
         }
-        educationDetailRef = FirebaseConstant.getTourismRef(eduKey);
-        gpsHandler = new GPSHandler(this);
+
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        user = firebaseAuth.getCurrentUser();
+
         favoritedb = FirebaseDatabase.getInstance().getReference("Favorite");
+        natureDetailRef = FirebaseConstant.getTourismRef(natureKey);
+        gpsHandler = new GPSHandler(this);
 
         favoriteState();
-        LoadEducationDetail();
-
+        LoadDetail();
     }
 
     private void favoriteState() {
@@ -127,7 +133,7 @@ public class DetailFavTourism extends AppCompatActivity implements OnMapReadyCal
         favoritedb.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.child(uid).child(eduKey).exists()) {
+                if (dataSnapshot.child(uid).child(natureKey).exists()) {
                     isFavorite = true;
                     menuItem.getItem(0).setIcon(R.drawable.ic_bookmarkadded_24dp);
                 }
@@ -140,8 +146,8 @@ public class DetailFavTourism extends AppCompatActivity implements OnMapReadyCal
         });
     }
 
-    private void LoadEducationDetail() {
-        if (gpsHandler.isCanGetLocation()) {
+    private void LoadDetail() {
+        if(gpsHandler.isCanGetLocation()){
             ValueEventListener eventListener = new ValueEventListener() {
                 @SuppressLint("SetTextI18n")
                 @Override
@@ -154,13 +160,14 @@ public class DetailFavTourism extends AppCompatActivity implements OnMapReadyCal
                     endLng = tourism.getLng_location_tourism();
                     distance = HaversineHandler.calculateDistance(startLat, startlng, endlat, endLng);
 
-                    @SuppressLint("DefaultLocale") String distanceFormat = String.format("%.2f", distance);
-                    tvDistanceTourism.setText("" + distanceFormat + " km");
-                    tvNameTourismDetail.setText(tourism.getName_tourism());
-                    tvAddressTourismDetail.setText(tourism.getLocation_tourism());
-                    tvDescTourism.setText(tourism.getInfo_tourism());
-                    Glide.with(getApplicationContext()).load(tourism.getUrl_photo()).into(imgTourism);
-                    AppBarLayout appBarLayout = findViewById(R.id.app_bar);
+                    @SuppressLint("DefaultLocale") String distanceFormat = String.format("%.2f",distance);
+                    tvDistanceNature.setText("" + distanceFormat + " km");
+                    tvNameNatureDetail.setText(tourism.getName_tourism());
+                    tvAddressNature.setText(tourism.getLocation_tourism());
+                    tvDescNature.setText(tourism.getInfo_tourism());
+                    Glide.with(getApplicationContext()).load(tourism.getUrl_photo()).into(imgNature);
+
+                    AppBarLayout appBarLayout = findViewById(R.id.app_bar_nature);
                     appBarLayout.addOnOffsetChangedListener(new AppBarLayout.BaseOnOffsetChangedListener() {
                         boolean isShow = true;
                         int scrollRange = -1;
@@ -171,10 +178,10 @@ public class DetailFavTourism extends AppCompatActivity implements OnMapReadyCal
                                 scrollRange = appBarLayout.getTotalScrollRange();
                             }
                             if (scrollRange + verticalOffset == 0) {
-                                collapsingToolbarLayout.setTitle(tourism.getName_tourism());
+                                collapsingToolbarLayout_nature.setTitle(tourism.getName_tourism());
                                 isShow = true;
                             } else {
-                                collapsingToolbarLayout.setTitle(" ");
+                                collapsingToolbarLayout_nature.setTitle(" ");
                                 isShow = false;
                             }
 
@@ -183,13 +190,15 @@ public class DetailFavTourism extends AppCompatActivity implements OnMapReadyCal
 
                 }
 
+
                 @Override
                 public void onCancelled(@NonNull DatabaseError databaseError) {
                     Log.e(TAG, "Firebase Database Error" + databaseError.getMessage());
                 }
             };
-            educationDetailRef.addValueEventListener(eventListener);
+            natureDetailRef.addValueEventListener(eventListener);
             valueEventListener = eventListener;
+
         }
     }
 
@@ -201,29 +210,24 @@ public class DetailFavTourism extends AppCompatActivity implements OnMapReadyCal
             mapViewBundle = new Bundle();
             outState.putBundle(MAP_VIEW_KEY, mapViewBundle);
         }
-        educationMapView.onSaveInstanceState(mapViewBundle);
+        natureMapView.onSaveInstanceState(mapViewBundle);
 
     }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        educationGoogleMap = googleMap;
-        showTourismMapDetail();
-
-    }
-
-    private void showTourismMapDetail() {
+        gMap = googleMap;
         ValueEventListener eventListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                tourism = dataSnapshot.getValue(Tourism.class);
+                Tourism tourism = dataSnapshot.getValue(Tourism.class);
                 assert tourism != null;
                 double lattitude = tourism.getLat_location_tourism();
                 double longitude = tourism.getLng_location_tourism();
 
                 LatLng location = new LatLng(lattitude, longitude);
-                educationGoogleMap.addMarker(new MarkerOptions().position(location));
-                educationGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 16.0f));
+                gMap.addMarker(new MarkerOptions().position(location));
+                gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location,16.0f));
             }
 
             @Override
@@ -231,36 +235,9 @@ public class DetailFavTourism extends AppCompatActivity implements OnMapReadyCal
                 Log.e(TAG, "Firebase Database Error" + databaseError.getMessage());
             }
         };
-        educationDetailRef.addValueEventListener(eventListener);
+        natureDetailRef.addValueEventListener(eventListener);
         valueEventListener = eventListener;
-    }
 
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        educationMapView.onResume();
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        LoadEducationDetail();
-        educationMapView.onStart();
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        educationMapView.onStop();
-        educationDetailRef.removeEventListener(valueEventListener);
-
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        educationMapView.onPause();
     }
 
 
@@ -272,6 +249,60 @@ public class DetailFavTourism extends AppCompatActivity implements OnMapReadyCal
         return true;
     }
 
+    @Override
+    public boolean onOptionsItemSelected(final MenuItem item) {
+        // Respond to the action bar's Up/Home button
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
+            return true;
+        } else if (item.getItemId() == R.id.add_to_favorite) {
+            if (isFavorite) {
+                removeFavorite();
+            } else {
+                addToFavorite();
+            }
+            isFavorite = !isFavorite;
+            setFavorite();
+            return true;
+
+        } else {
+            return super.onOptionsItemSelected(item);
+        }
+
+    }
+
+    private void addToFavorite() {
+        final String uid = user.getUid();
+        favoritedb.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                favoritedb.getRef().child(uid).child(natureKey).setValue(true);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
+    }
+
+    private void removeFavorite() {
+        final String uid = user.getUid();
+        favoritedb.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                favoritedb.getRef().child(uid).child(natureKey).removeValue();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
     private void setFavorite() {
         if (isFavorite) {
             menuItem.getItem(0).setIcon(R.drawable.ic_bookmarkadded_24dp);
@@ -281,57 +312,29 @@ public class DetailFavTourism extends AppCompatActivity implements OnMapReadyCal
     }
 
     @Override
-    public boolean onOptionsItemSelected(final MenuItem item) {
-        // Respond to the action bar's Up/Home button
-        if (item.getItemId() == android.R.id.home) {
-            onBackPressed();
-            return true;
-        } else if (item.getItemId() == R.id.add_to_favorite) {
+    protected void onResume() {
+        super.onResume();
+        natureMapView.onResume();
+    }
 
-            if (isFavorite) {
-                removeFavorite();
-            } else {
-                addToFavorite();
-            }
-            isFavorite = !isFavorite;
-            setFavorite();
-            return true;
-        } else {
-            return super.onOptionsItemSelected(item);
-        }
+    @Override
+    protected void onStart() {
+        super.onStart();
+        LoadDetail();
+        natureMapView.onStart();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        natureMapView.onStop();
+        natureDetailRef.removeEventListener(valueEventListener);
 
     }
 
-    private void removeFavorite() {
-        final String uid = user.getUid();
-        favoritedb.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                favoritedb.getRef().child(uid).child(eduKey).removeValue();
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-
+    @Override
+    protected void onPause() {
+        super.onPause();
+        natureMapView.onPause();
     }
-
-    private void addToFavorite() {
-        final String uid = user.getUid();
-        favoritedb.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                favoritedb.getRef().child(uid).child(eduKey).setValue(true);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-
-    }
-
 }

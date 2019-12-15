@@ -44,11 +44,11 @@ import co.id.roningrum.dolanapptugasakhir.adapter.tourism.TourismClickCallback;
 import co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseConstant;
 import co.id.roningrum.dolanapptugasakhir.handler.LocationPermissionHandler;
 import co.id.roningrum.dolanapptugasakhir.model.Tourism;
-import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismDetailActivity.TourismEducationDetail;
-import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismMapActivity.TourismEducationMaps;
+import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismDetailActivity.TourismEdukasiDetail;
+import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismMapActivity.TourismEdukasiMaps;
 import co.id.roningrum.dolanapptugasakhir.util.Util;
 
-public class TourismEducationActivity extends AppCompatActivity {
+public class TourismEdukasiActivity extends AppCompatActivity {
 
     private RecyclerView rvEducationList;
     private ShimmerFrameLayout shimmerFrameLayout;
@@ -97,8 +97,8 @@ public class TourismEducationActivity extends AppCompatActivity {
                         @Override
                         public void onItemClicked(Tourism tourism) {
                             String tourismKey = tourism.getId();
-                            Intent intent = new Intent(TourismEducationActivity.this, TourismEducationDetail.class);
-                            intent.putExtra(TourismEducationDetail.EXTRA_WISATA_KEY, tourismKey);
+                            Intent intent = new Intent(TourismEdukasiActivity.this, TourismEdukasiDetail.class);
+                            intent.putExtra(TourismEdukasiDetail.EXTRA_WISATA_KEY, tourismKey);
                             Log.d("Check id", "id :" + tourismKey);
                             startActivity(intent);
                         }
@@ -154,7 +154,7 @@ public class TourismEducationActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.petaMenu) {
-            startActivity(new Intent(this, TourismEducationMaps.class));
+            startActivity(new Intent(this, TourismEdukasiMaps.class));
             return true;
         } else {
             return super.onOptionsItemSelected(item);

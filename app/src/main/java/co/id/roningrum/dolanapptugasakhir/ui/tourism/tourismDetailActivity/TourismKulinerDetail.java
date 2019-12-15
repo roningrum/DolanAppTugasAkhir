@@ -16,6 +16,7 @@ package co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismDetailActivity;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -40,8 +41,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.like.LikeButton;
-import com.like.OnLikeListener;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -51,99 +50,122 @@ import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseConstant;
 import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.model.Tourism;
-import co.id.roningrum.dolanapptugasakhir.util.HaversineHandler;
+import co.id.roningrum.dolanapptugasakhir.util.Util;
 
-public class TourismRecreationDetail extends AppCompatActivity implements OnMapReadyCallback, OnLikeListener {
-    public static final String EXTRA_WISATA_KEY = "rekreasi_key";
+public class TourismKulinerDetail extends AppCompatActivity implements OnMapReadyCallback {
+    public static final String EXTRA_WISATA_KEY = "kuliner_key";
     private static final String MAP_VIEW_KEY = "mapViewBundle";
-
     private final static String TAG = "Pesan";
-    private GoogleMap recreationMap;
-    private MapView recreationMapView;
 
-    private DatabaseReference recreationDetailRef;
-    String recreationKey;
-    private FirebaseAuth firebaseAuth;
+    private GoogleMap foodMap;
+    private MapView foodMapView;
+    private DatabaseReference foodDetailRef;
     private GPSHandler gpsHandler;
     private ValueEventListener valueEventListener;
 
-    private TextView tvNameRecreationDetail, tvAddressRecreationDetail,
-            tvDescRecreationDetail, tvDistanceRecreationDetail;
+    private TextView tvNameFoodDetail, tvAddressFoodDetail,
+            tvDescFoodDetail, tvDistanceFoodDetail;
 
-    private ImageView imgRecreation;
-    private CollapsingToolbarLayout collapsingToolbarLayout_recreation;
+    private ImageView imgFoodDetail;
+    private CollapsingToolbarLayout collapsingToolbarLayout;
 
     private double startLat;
     private double startlng;
     private double endlat;
     private double endLng;
     private double distance;
+
+    boolean isFavorite = false;
+    Menu menuItem;
+    Tourism tourism = new Tourism();
+
+    String foodKey;
     private FirebaseUser user;
+    private DatabaseReference favoritedb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_detail_tourism_recreation);
+        setContentView(R.layout.activity_detail_tourism_food);
 
-        tvNameRecreationDetail = findViewById(R.id.name_place_tourism_detail);
-        tvAddressRecreationDetail = findViewById(R.id.location_tourism_detail);
-        tvDescRecreationDetail = findViewById(R.id.info_place_tourism_detail);
-        tvDistanceRecreationDetail = findViewById(R.id.distance_location_tourism);
-        imgRecreation = findViewById(R.id.img_recreation_place_detail);
-        recreationMapView = findViewById(R.id.location_tourism_map_detail);
-        collapsingToolbarLayout_recreation = findViewById(R.id.collapseToolbar_recreation);
+        tvNameFoodDetail = findViewById(R.id.name_place_tourism_detail);
+        tvDescFoodDetail = findViewById(R.id.info_place_tourism_detail);
+        tvAddressFoodDetail = findViewById(R.id.location_tourism_detail);
+        tvDistanceFoodDetail = findViewById(R.id.distance_location_tourism);
+        imgFoodDetail = findViewById(R.id.img_food_place_detail);
+        collapsingToolbarLayout = findViewById(R.id.collapseToolbar_food);
+        foodMapView = findViewById(R.id.location_tourism_map_detail);
 
-
-        Toolbar toolbarRekreasi = findViewById(R.id.toolbar_recreation_detail);
-        setSupportActionBar(toolbarRekreasi);
+        Toolbar toolbarFood = findViewById(R.id.toolbar_food_detail);
+        setSupportActionBar(toolbarFood);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back_24dp);
 
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        user = firebaseAuth.getCurrentUser();
+
+        favoritedb = FirebaseDatabase.getInstance().getReference("Favorite");
+
         Bundle mapViewBundle = null;
         if (savedInstanceState != null) {
             mapViewBundle = savedInstanceState.getBundle(MAP_VIEW_KEY);
         }
-        recreationMapView.onCreate(mapViewBundle);
-        recreationMapView.getMapAsync(this);
+        foodMapView.onCreate(mapViewBundle);
+        foodMapView.getMapAsync(this);
 
 
-        recreationKey = getIntent().getStringExtra(EXTRA_WISATA_KEY);
-        if (recreationKey == null) {
-            throw new IllegalArgumentException("Must pass Extra");
+        foodKey = getIntent().getStringExtra(EXTRA_WISATA_KEY);
+        if (foodKey == null) {
+            throw new IllegalArgumentException("Must pass EXTRA");
         }
-        recreationDetailRef = FirebaseConstant.getTourismRef(recreationKey);
+        Log.d("Check Id", "id Detail : " + foodKey);
+        foodDetailRef = FirebaseConstant.getTourismRef(foodKey);
         gpsHandler = new GPSHandler(this);
-
-        LoadRecreationDetail();
-
+        LoadFoodDetail();
+        favoriteState();
     }
 
-    private void LoadRecreationDetail() {
+    private void favoriteState() {
+        final String uid = user.getUid();
+        favoritedb.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.child(uid).child(foodKey).exists()) {
+                    isFavorite = true;
+                    menuItem.getItem(0).setIcon(R.drawable.ic_bookmarkadded_24dp);
+                }
+            }
 
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    private void LoadFoodDetail() {
         if (gpsHandler.isCanGetLocation()) {
             ValueEventListener eventListener = new ValueEventListener() {
                 @SuppressLint("SetTextI18n")
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    final Tourism tourism = dataSnapshot.getValue(Tourism.class);
+                    tourism = dataSnapshot.getValue(Tourism.class);
                     startLat = gpsHandler.getLatitude();
                     startlng = gpsHandler.getLongitude();
-
                     assert tourism != null;
                     endlat = tourism.getLat_location_tourism();
                     endLng = tourism.getLng_location_tourism();
-                    distance = HaversineHandler.calculateDistance(startLat, startlng, endlat, endLng);
+                    distance = Util.calculateDistance(startLat, startlng, endlat, endLng);
 
                     @SuppressLint("DefaultLocale") String distanceFormat = String.format("%.2f", distance);
-                    tvDistanceRecreationDetail.setText("" + distanceFormat + " KM");
-                    tvNameRecreationDetail.setText(tourism.getName_tourism());
-                    tvAddressRecreationDetail.setText(tourism.getLocation_tourism());
-                    tvDescRecreationDetail.setText(tourism.getInfo_tourism());
-                    Glide.with(getApplicationContext()).load(tourism.getUrl_photo()).into(imgRecreation);
-
-                    AppBarLayout appBarLayout = findViewById(R.id.app_bar_recreation);
+                    tvDistanceFoodDetail.setText("" + distanceFormat + " KM");
+                    tvNameFoodDetail.setText(tourism.getName_tourism());
+                    tvAddressFoodDetail.setText(tourism.getLocation_tourism());
+                    tvDescFoodDetail.setText(tourism.getInfo_tourism());
+                    Glide.with(getApplicationContext()).load(tourism.getUrl_photo()).into(imgFoodDetail);
+                    AppBarLayout appBarLayout = findViewById(R.id.app_bar_food);
                     appBarLayout.addOnOffsetChangedListener(new AppBarLayout.BaseOnOffsetChangedListener() {
                         boolean isShow = true;
                         int scrollRange = -1;
@@ -154,10 +176,10 @@ public class TourismRecreationDetail extends AppCompatActivity implements OnMapR
                                 scrollRange = appBarLayout.getTotalScrollRange();
                             }
                             if (scrollRange + verticalOffset == 0) {
-                                collapsingToolbarLayout_recreation.setTitle(tourism.getName_tourism());
+                                collapsingToolbarLayout.setTitle(tourism.getName_tourism());
                                 isShow = true;
                             } else {
-                                collapsingToolbarLayout_recreation.setTitle(" ");
+                                collapsingToolbarLayout.setTitle(" ");
                                 isShow = false;
                             }
 
@@ -170,11 +192,13 @@ public class TourismRecreationDetail extends AppCompatActivity implements OnMapR
                     Log.e(TAG, "Firebase Database Error" + databaseError.getMessage());
                 }
             };
-            recreationDetailRef.addValueEventListener(eventListener);
+            foodDetailRef.addValueEventListener(eventListener);
             valueEventListener = eventListener;
 
         }
     }
+//
+
     @Override
     protected void onSaveInstanceState(@NotNull Bundle outState) {
         super.onSaveInstanceState(outState);
@@ -183,90 +207,130 @@ public class TourismRecreationDetail extends AppCompatActivity implements OnMapR
             mapViewBundle = new Bundle();
             outState.putBundle(MAP_VIEW_KEY, mapViewBundle);
         }
-        recreationMapView.onSaveInstanceState(mapViewBundle);
+        foodMapView.onSaveInstanceState(mapViewBundle);
 
     }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-
-        recreationMap = googleMap;
+        foodMap = googleMap;
         ValueEventListener eventListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 Tourism tourism = dataSnapshot.getValue(Tourism.class);
+//                assert tourism != null;
                 assert tourism != null;
                 double lattitude = tourism.getLat_location_tourism();
                 double longitude = tourism.getLng_location_tourism();
 
                 LatLng location = new LatLng(lattitude, longitude);
-                recreationMap.addMarker(new MarkerOptions().position(location));
-                recreationMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 16.0f));
+                foodMap.addMarker(new MarkerOptions().position(location));
+                foodMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 15.0f));
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                Log.e(TAG, "Firebase Database Error" + databaseError.getMessage());
+
             }
         };
-        recreationDetailRef.addValueEventListener(eventListener);
+        foodDetailRef.addValueEventListener(eventListener);
         valueEventListener = eventListener;
 
     }
 
+    private void setFavorite() {
+        if (isFavorite) {
+            menuItem.getItem(0).setIcon(R.drawable.ic_bookmarkadded_24dp);
+        } else {
+            menuItem.getItem(0).setIcon(R.drawable.ic_unbookmarked_24dp);
+        }
+    }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.favorite_menu, menu);
+        menuItem = menu;
+        setFavorite();
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(final MenuItem item) {
         // Respond to the action bar's Up/Home button
         if (item.getItemId() == android.R.id.home) {
-            finish();
+            onBackPressed();
             return true;
+        } else if (item.getItemId() == R.id.add_to_favorite) {
+
+            if (isFavorite) {
+                removeFavorite();
+            } else {
+                addToFavorite();
+            }
+            isFavorite = !isFavorite;
+            setFavorite();
+            return true;
+        } else {
+            return super.onOptionsItemSelected(item);
         }
-        return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        recreationMapView.onResume();
+    private void removeFavorite() {
+        final String uid = user.getUid();
+        favoritedb.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                favoritedb.getRef().child(uid).child(foodKey).removeValue();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
     }
 
+    private void addToFavorite() {
+        final String uid = user.getUid();
+        favoritedb.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                favoritedb.getRef().child(uid).child(foodKey).setValue(true);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
     @Override
     protected void onStart() {
         super.onStart();
-        LoadRecreationDetail();
-        recreationMapView.onStart();
+        LoadFoodDetail();
+        foodMapView.onStart();
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        recreationMapView.onStop();
-        recreationDetailRef.removeEventListener(valueEventListener);
+        foodMapView.onStop();
+        foodDetailRef.removeEventListener(valueEventListener);
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        foodMapView.onResume();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        recreationMapView.onPause();
+        foodMapView.onPause();
     }
 
-    @Override
-    public void liked(LikeButton likeButton) {
-        firebaseAuth = FirebaseAuth.getInstance();
-        user = firebaseAuth.getCurrentUser();
-        if (likeButton.isLiked() && user != null) {
-            String uid = user.getUid();
-            DatabaseReference favoritedb = FirebaseDatabase.getInstance().getReference("Favorite");
-            favoritedb.getRef().child(uid).child(recreationKey).setValue(true);
-        }
 
-
-    }
-
-    @Override
-    public void unLiked(LikeButton likeButton) {
-
-    }
 }

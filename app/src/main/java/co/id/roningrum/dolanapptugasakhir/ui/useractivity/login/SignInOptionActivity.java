@@ -27,7 +27,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -60,7 +59,7 @@ public class SignInOptionActivity extends AppCompatActivity implements View.OnCl
         setContentView(R.layout.activity_signin_account_options);
         Button btnSignInEmailPage = findViewById(R.id.btn_login_email);
         TextView tvRegisterLinkPage = findViewById(R.id.register_link);
-        SignInButton signInGooglebtn = findViewById(R.id.btn_sign_in_google);
+        Button signInGooglebtn = findViewById(R.id.btn_sign_in_google);
 
         btnSignInEmailPage.setOnClickListener(this);
         signInGooglebtn.setOnClickListener(this);

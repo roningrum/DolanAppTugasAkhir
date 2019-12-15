@@ -43,12 +43,10 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
     private CircleImageView imageEditprofile;
 
     private DatabaseReference dbProfileReferece;
-    private FirebaseAuth editProfileAuth;
-    FirebaseUser editUser;
+    private FirebaseUser editUser;
     private String TAG = "PROFILE_STATUS";
 
-    boolean isGoogleSignIn;
-    private LinearLayout changeEmailMenu, changePasswordmenu;
+    private LinearLayout changeEmailMenu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +55,7 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
         ImageButton btnStartUploadImage = findViewById(R.id.btn_edit_profile_image);
         LinearLayout changeNameMenu = findViewById(R.id.ln_change_name_menu);
         changeEmailMenu = findViewById(R.id.ln_change_email_menu);
-        changePasswordmenu = findViewById(R.id.ln_change_password_menu);
+        LinearLayout changePasswordmenu = findViewById(R.id.ln_change_password_menu);
         nameProfile = findViewById(R.id.tv_name_edit_profile);
         emailProfile = findViewById(R.id.tv_email_edit_profile);
         imageEditprofile = findViewById(R.id.image_profile_edit);
@@ -68,10 +66,9 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
         changeNameMenu.setOnClickListener(this);
         changeEmailMenu.setOnClickListener(this);
         changePasswordmenu.setOnClickListener(this);
-//        changePasswordmenu.setOnClickListener(this);
 
         dbProfileReferece = FirebaseDatabase.getInstance().getReference();
-        editProfileAuth = FirebaseAuth.getInstance();
+        FirebaseAuth editProfileAuth = FirebaseAuth.getInstance();
         editUser = editProfileAuth.getCurrentUser();
         showProfileData();
     }
@@ -98,7 +95,8 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_edit_profile_image:
-                goToEditPhoto();
+//                BottomDialogEditPhoto bottomDialogEditPhoto = new BottomDialogEditPhoto();
+//                bottomDialogEditPhoto.show(getSupportFragmentManager(), bottomDialogEditPhoto.getTag());
                 break;
             case R.id.ln_change_name_menu:
                 goToEditName();
@@ -159,8 +157,4 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
         startActivity(changeNameIntent);
     }
 
-    private void goToEditPhoto() {
-        Intent changePhotoIntent = new Intent(EditProfileActivity.this, ChangePhotoProfileActivity.class);
-        startActivity(changePhotoIntent);
-    }
 }
