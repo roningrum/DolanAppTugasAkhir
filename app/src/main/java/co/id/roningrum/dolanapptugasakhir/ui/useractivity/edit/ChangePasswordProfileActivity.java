@@ -27,18 +27,17 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.ui.useractivity.login.SignInOptionActivity;
+
+import static co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseConstant.UserRef;
 
 public class ChangePasswordProfileActivity extends AppCompatActivity implements View.OnClickListener {
     private static final String TAG = "UpdatePassword";
     private EditText edtChangePassword;
 
     private FirebaseAuth changePasswordAuth;
-    private DatabaseReference dbProfileref;
     private FirebaseUser changePasswordUser;
 
     @Override
@@ -50,7 +49,6 @@ public class ChangePasswordProfileActivity extends AppCompatActivity implements 
 
         changePasswordAuth = FirebaseAuth.getInstance();
         changePasswordUser = changePasswordAuth.getCurrentUser();
-        dbProfileref = FirebaseDatabase.getInstance().getReference("Users");
         btnSaveChangePassword.setOnClickListener(this);
 
     }
@@ -69,7 +67,7 @@ public class ChangePasswordProfileActivity extends AppCompatActivity implements 
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
                     if (task.isSuccessful()) {
-                        dbProfileref.child(uid).child("password").setValue(edtChangePassword.getText().toString().trim());
+                        UserRef.child(uid).child("password").setValue(edtChangePassword.getText().toString().trim());
                         changePasswordAuth.signOut();
                         startActivity(new Intent(ChangePasswordProfileActivity.this, SignInOptionActivity.class));
                         finish();

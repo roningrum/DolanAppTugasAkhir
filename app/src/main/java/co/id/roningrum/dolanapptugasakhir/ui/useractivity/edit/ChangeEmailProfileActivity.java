@@ -29,8 +29,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.Objects;
@@ -38,11 +36,12 @@ import java.util.Objects;
 import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.ui.useractivity.login.SignInOptionActivity;
 
+import static co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseConstant.UserRef;
+
 public class ChangeEmailProfileActivity extends AppCompatActivity implements View.OnClickListener {
     private static final String TAG = "UPDATE_EMAIL";
     private EditText edtChangeEmail;
 
-    private DatabaseReference dbProfileRef;
     private FirebaseUser changeEmailUser;
     private FirebaseAuth changeEmailAuth;
 
@@ -55,7 +54,6 @@ public class ChangeEmailProfileActivity extends AppCompatActivity implements Vie
 
         changeEmailAuth = FirebaseAuth.getInstance();
         changeEmailUser = changeEmailAuth.getCurrentUser();
-        dbProfileRef = FirebaseDatabase.getInstance().getReference("Users");
 
         btnSaveChangeEmail.setOnClickListener(this);
         showEmailBeforeChange();
@@ -65,7 +63,7 @@ public class ChangeEmailProfileActivity extends AppCompatActivity implements Vie
     private void showEmailBeforeChange() {
         if (changeEmailUser != null) {
             final String uid = changeEmailUser.getUid();
-            dbProfileRef.getRef().child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
+            UserRef.getRef().child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     edtChangeEmail.setText(Objects.requireNonNull(dataSnapshot.child("email").getValue()).toString().trim());
@@ -95,7 +93,7 @@ public class ChangeEmailProfileActivity extends AppCompatActivity implements Vie
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
                     if (task.isSuccessful()) {
-                        dbProfileRef.child(uid).child("email").setValue(email);
+                        UserRef.child(uid).child("email").setValue(email);
                         changeEmailAuth.signOut();
                         startActivity(new Intent(ChangeEmailProfileActivity.this, SignInOptionActivity.class));
                         finish();

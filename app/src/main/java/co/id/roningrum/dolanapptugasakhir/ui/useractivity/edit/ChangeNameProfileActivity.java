@@ -30,19 +30,18 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.Objects;
 
 import co.id.roningrum.dolanapptugasakhir.R;
 
+import static co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseConstant.UserRef;
+
 public class ChangeNameProfileActivity extends AppCompatActivity implements View.OnClickListener {
     private static final String TAG = "UBAH_NAMA";
     private EditText edtChangeName;
 
-    private DatabaseReference dbProfileRef;
     private FirebaseUser changeNameUser;
 
     @Override
@@ -55,8 +54,6 @@ public class ChangeNameProfileActivity extends AppCompatActivity implements View
 
         FirebaseAuth changeNameAuth = FirebaseAuth.getInstance();
         changeNameUser = changeNameAuth.getCurrentUser();
-        dbProfileRef = FirebaseDatabase.getInstance().getReference("Users");
-
         btnSaveChangeName.setOnClickListener(this);
         showNameBeforeChanges();
 
@@ -67,7 +64,7 @@ public class ChangeNameProfileActivity extends AppCompatActivity implements View
     private void showNameBeforeChanges() {
         if (changeNameUser != null) {
             final String uid = changeNameUser.getUid();
-            dbProfileRef.getRef().child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
+            UserRef.getRef().child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     edtChangeName.setText(Objects.requireNonNull(dataSnapshot.child("nama_user").getValue()).toString().trim());
@@ -91,7 +88,7 @@ public class ChangeNameProfileActivity extends AppCompatActivity implements View
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
                     if (task.isSuccessful()) {
-                        dbProfileRef.child(uid).child("nama_user").setValue(edtChangeName.getText().toString().trim());
+                        UserRef.child(uid).child("nama_user").setValue(edtChangeName.getText().toString().trim());
                         startActivity(new Intent(ChangeNameProfileActivity.this, EditProfileActivity.class));
                         finish();
                     }

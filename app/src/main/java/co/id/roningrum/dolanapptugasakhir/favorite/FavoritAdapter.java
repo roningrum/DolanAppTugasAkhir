@@ -25,6 +25,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 
 import java.util.ArrayList;
 
@@ -100,7 +101,9 @@ public class FavoritAdapter extends RecyclerView.Adapter<FavoritAdapter.FavoritV
             locationFavTourism.setText(favoriteItem.getLocation_tourism());
             @SuppressLint("DefaultLocale") String distanceFormat = String.format("%.2f", jarakKM);
             distanceFavTourism.setText(distanceFormat + " km");
-            Glide.with(itemView.getContext()).load(favoriteItem.getUrl_photo()).into(favTourismPic);
+            Glide.with(itemView.getContext()).load(favoriteItem.getUrl_photo())
+                    .apply(RequestOptions.placeholderOf(R.drawable.ic_loading).error(R.drawable.ic_loading))
+                    .into(favTourismPic);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

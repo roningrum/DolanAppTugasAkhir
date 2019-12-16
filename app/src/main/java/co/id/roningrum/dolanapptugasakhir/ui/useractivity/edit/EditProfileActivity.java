@@ -29,8 +29,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.Objects;
@@ -38,11 +36,12 @@ import java.util.Objects;
 import co.id.roningrum.dolanapptugasakhir.R;
 import de.hdodenhof.circleimageview.CircleImageView;
 
+import static co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseConstant.UserRef;
+
 public class EditProfileActivity extends AppCompatActivity implements View.OnClickListener {
     private TextView nameProfile, emailProfile;
     private CircleImageView imageEditprofile;
 
-    private DatabaseReference dbProfileReferece;
     private FirebaseUser editUser;
     private String TAG = "PROFILE_STATUS";
 
@@ -67,7 +66,6 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
         changeEmailMenu.setOnClickListener(this);
         changePasswordmenu.setOnClickListener(this);
 
-        dbProfileReferece = FirebaseDatabase.getInstance().getReference();
         FirebaseAuth editProfileAuth = FirebaseAuth.getInstance();
         editUser = editProfileAuth.getCurrentUser();
         showProfileData();
@@ -76,7 +74,7 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
     private void showProfileData() {
 
         assert editUser != null;
-        dbProfileReferece.child("Users").child(editUser.getUid()).addValueEventListener(new ValueEventListener() {
+        UserRef.child(editUser.getUid()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 nameProfile.setText(Objects.requireNonNull(dataSnapshot.child("nama_user").getValue()).toString().trim());
@@ -112,7 +110,7 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
     }
 
     private void goToEditPassword() {
-        dbProfileReferece.child("Users").child(editUser.getUid()).addValueEventListener(new ValueEventListener() {
+        UserRef.child(editUser.getUid()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.child("login").getValue().equals("Google")) {
@@ -132,7 +130,7 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
     }
 
     private void goToEditEmail() {
-        dbProfileReferece.child("Users").child(editUser.getUid()).addValueEventListener(new ValueEventListener() {
+        UserRef.child(editUser.getUid()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.child("login").getValue().equals("Google")) {
