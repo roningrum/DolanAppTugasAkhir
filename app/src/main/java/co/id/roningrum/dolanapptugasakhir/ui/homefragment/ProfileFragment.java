@@ -156,6 +156,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener, G
                 @Override
                 public void onResult(@NonNull Status status) {
                     startActivity(new Intent(getActivity(), SignInOptionActivity.class));
+
                 }
             });
             Toast.makeText(getContext(), "Thanks for visiting", Toast.LENGTH_LONG).show();
@@ -191,24 +192,4 @@ public class ProfileFragment extends Fragment implements View.OnClickListener, G
         mGoogleApiClient.disconnect();
     }
 
-//    @Override
-//    public void onStart() {
-//        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-//                .requestEmail()
-//                .build();
-//        mGoogleApiClient = new GoogleApiClient.Builder(getActivity())
-//                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
-//                .build();
-//        mGoogleApiClient.connect();
-//        super.onStart();
-//    }
-//
-//    @Override
-//    public void onStop() {
-//        super.onStop();
-//        if (mGoogleApiClient != null && mGoogleApiClient.isConnected()) {
-//            mGoogleApiClient.stopAutoManage(getActivity());
-//            mGoogleApiClient.disconnect();
-//        }
-//    }
 }

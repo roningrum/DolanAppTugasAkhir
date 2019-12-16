@@ -34,6 +34,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.Objects;
 
 import co.id.roningrum.dolanapptugasakhir.R;
+import co.id.roningrum.dolanapptugasakhir.ui.homeactivity.MainMenuActivity;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 import static co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseConstant.UserRef;
@@ -93,8 +94,7 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_edit_profile_image:
-//                BottomDialogEditPhoto bottomDialogEditPhoto = new BottomDialogEditPhoto();
-//                bottomDialogEditPhoto.show(getSupportFragmentManager(), bottomDialogEditPhoto.getTag());
+                goToEditPhoto();
                 break;
             case R.id.ln_change_name_menu:
                 goToEditName();
@@ -107,6 +107,10 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
                 break;
 
         }
+    }
+
+    private void goToEditPhoto() {
+        startActivity(new Intent(this, ChangePhotoProfileActivity.class));
     }
 
     private void goToEditPassword() {
@@ -155,4 +159,12 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
         startActivity(changeNameIntent);
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent i = new Intent(this, MainMenuActivity.class);
+        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        finish();
+    }
 }
