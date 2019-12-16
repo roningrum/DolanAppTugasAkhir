@@ -52,7 +52,7 @@ import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.model.Tourism;
 import co.id.roningrum.dolanapptugasakhir.util.HaversineHandler;
 
-public class DetailFavTourism extends AppCompatActivity implements OnMapReadyCallback {
+public class FavoriteDetailTourism extends AppCompatActivity implements OnMapReadyCallback {
     public static final String EXTRA_TOURISM = "Tourism";
 
     private static final String MAP_VIEW_KEY = "mapViewBundle";

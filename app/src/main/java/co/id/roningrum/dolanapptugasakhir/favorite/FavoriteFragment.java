@@ -113,8 +113,8 @@ public class FavoriteFragment extends Fragment {
                     favoritAdapter.setTourismClickCallback(new TourismClickCallback() {
                         @Override
                         public void onItemClicked(Tourism tourism) {
-                            Intent intent = new Intent(getActivity(), DetailFavTourism.class);
-                            intent.putExtra(DetailFavTourism.EXTRA_TOURISM, tourism.getId());
+                            Intent intent = new Intent(getActivity(), FavoriteDetailTourism.class);
+                            intent.putExtra(FavoriteDetailTourism.EXTRA_TOURISM, tourism.getId());
                             startActivity(intent);
                         }
                     });
