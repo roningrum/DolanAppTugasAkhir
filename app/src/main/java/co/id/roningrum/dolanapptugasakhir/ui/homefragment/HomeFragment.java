@@ -14,9 +14,11 @@
 package co.id.roningrum.dolanapptugasakhir.ui.homefragment;
 
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,11 +29,18 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.bumptech.glide.Glide;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 import com.smarteist.autoimageslider.IndicatorAnimations;
 import com.smarteist.autoimageslider.SliderAnimations;
 import com.smarteist.autoimageslider.SliderView;
 
 import java.util.Calendar;
+import java.util.Objects;
 
 import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.adapter.SlideAdapterExample;
@@ -44,6 +53,10 @@ import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismActivity.TourismRekr
 import co.id.roningrum.dolanapptugasakhir.ui.transportation.transportationActivity.TransportationAirportActivity;
 import co.id.roningrum.dolanapptugasakhir.ui.transportation.transportationActivity.TransportationBusActivity;
 import co.id.roningrum.dolanapptugasakhir.ui.transportation.transportationActivity.TransportationTrainActivity;
+import de.hdodenhof.circleimageview.CircleImageView;
+
+import static androidx.constraintlayout.widget.Constraints.TAG;
+import static co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseConstant.UserRef;
 
 
 /**
@@ -51,6 +64,9 @@ import co.id.roningrum.dolanapptugasakhir.ui.transportation.transportationActivi
  */
 public class HomeFragment extends Fragment implements View.OnClickListener {
     private TextView tvGreetApp;
+    private CircleImageView userPhotoHome;
+    private FirebaseUser homeUser;
+    private FirebaseAuth firebaseAuth;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -70,6 +86,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         super.onViewCreated(view, savedInstanceState);
         TextView tvAllCategory = view.findViewById(R.id.tv_subtitle_category_main_menu);
         tvGreetApp = view.findViewById(R.id.tv_greeting_app);
+        userPhotoHome = view.findViewById(R.id.img_user_home);
         LinearLayout natureMenu = view.findViewById(R.id.ln_alam_tour_home_menu);
         LinearLayout entertainMenu = view.findViewById(R.id.ln_hiburan_tour_home_menu);
         LinearLayout shoppingMenu = view.findViewById(R.id.ln_belanja_tour_home_menu);
@@ -101,20 +118,42 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         trainMenu.setOnClickListener(this);
         busMenu.setOnClickListener(this);
 
-        greetText();
+        firebaseAuth = FirebaseAuth.getInstance();
+        homeUser = firebaseAuth.getCurrentUser();
+
+        showProfileToHome();
+
     }
 
-    private void greetText() {
+    private void showProfileToHome() {
+        assert homeUser != null;
+        UserRef.child(homeUser.getUid()).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String nama = dataSnapshot.child("nama_user").getValue().toString().trim();
+                greetText(nama);
+                Glide.with(getContext()).load(Objects.requireNonNull(dataSnapshot.child("photo_user").getValue()).toString()).into(userPhotoHome);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Log.e(TAG, "" + databaseError.getMessage());
+            }
+        });
+    }
+
+    @SuppressLint("SetTextI18n")
+    private void greetText(String nama) {
         Calendar c = Calendar.getInstance();
         int timeOfDay = c.get(Calendar.HOUR_OF_DAY);
-        if (timeOfDay >= 0 && timeOfDay < 12) {
-            tvGreetApp.setText("Selamat Pagi");
-        } else if (timeOfDay >= 12 && timeOfDay < 16) {
-            tvGreetApp.setText("Selamat Sore");
-        } else if (timeOfDay >= 16 && timeOfDay < 21) {
-            tvGreetApp.setText("Selamat Malam");
-        } else if (timeOfDay >= 21 && timeOfDay < 24) {
-            tvGreetApp.setText("Selamat Malam");
+        if (timeOfDay < 12) {
+            tvGreetApp.setText("Selamat Pagi" + " " + nama);
+        } else if (timeOfDay < 16) {
+            tvGreetApp.setText("Selamat Sore" + " " + nama);
+        } else if (timeOfDay < 21) {
+            tvGreetApp.setText("Selamat Malam" + " " + nama);
+        } else {
+            tvGreetApp.setText("Selamat Malam" + " " + nama);
         }
     }
 

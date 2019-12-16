@@ -53,6 +53,7 @@
         tools:text="Selamat pagi,Hailey Bieber" />
 
     <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/img_user_home"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_marginTop="36dp"
