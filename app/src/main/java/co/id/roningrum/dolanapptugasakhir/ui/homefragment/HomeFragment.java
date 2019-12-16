@@ -31,6 +31,8 @@ import com.smarteist.autoimageslider.IndicatorAnimations;
 import com.smarteist.autoimageslider.SliderAnimations;
 import com.smarteist.autoimageslider.SliderView;
 
+import java.util.Calendar;
+
 import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.adapter.SlideAdapterExample;
 import co.id.roningrum.dolanapptugasakhir.ui.homeactivity.AllCategoryActivity;
@@ -48,6 +50,7 @@ import co.id.roningrum.dolanapptugasakhir.ui.transportation.transportationActivi
  * A simple {@link Fragment} subclass.
  */
 public class HomeFragment extends Fragment implements View.OnClickListener {
+    private TextView tvGreetApp;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -66,6 +69,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         TextView tvAllCategory = view.findViewById(R.id.tv_subtitle_category_main_menu);
+        tvGreetApp = view.findViewById(R.id.tv_greeting_app);
         LinearLayout natureMenu = view.findViewById(R.id.ln_alam_tour_home_menu);
         LinearLayout entertainMenu = view.findViewById(R.id.ln_hiburan_tour_home_menu);
         LinearLayout shoppingMenu = view.findViewById(R.id.ln_belanja_tour_home_menu);
@@ -96,6 +100,22 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         hotelMenu.setOnClickListener(this);
         trainMenu.setOnClickListener(this);
         busMenu.setOnClickListener(this);
+
+        greetText();
+    }
+
+    private void greetText() {
+        Calendar c = Calendar.getInstance();
+        int timeOfDay = c.get(Calendar.HOUR_OF_DAY);
+        if (timeOfDay >= 0 && timeOfDay < 12) {
+            tvGreetApp.setText("Selamat Pagi");
+        } else if (timeOfDay >= 12 && timeOfDay < 16) {
+            tvGreetApp.setText("Selamat Sore");
+        } else if (timeOfDay >= 16 && timeOfDay < 21) {
+            tvGreetApp.setText("Selamat Malam");
+        } else if (timeOfDay >= 21 && timeOfDay < 24) {
+            tvGreetApp.setText("Selamat Malam");
+        }
     }
 
     @Override
