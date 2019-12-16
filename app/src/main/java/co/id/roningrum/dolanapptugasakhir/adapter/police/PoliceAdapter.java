@@ -49,7 +49,7 @@ public class PoliceAdapter extends RecyclerView.Adapter<PoliceAdapter.PoliceView
     @NonNull
     @Override
     public PoliceViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new PoliceViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_menu_police_category_public, parent, false));
+        return new PoliceViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_police_list, parent, false));
     }
 
     @Override

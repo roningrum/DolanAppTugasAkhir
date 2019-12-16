@@ -49,7 +49,7 @@ public class HospitalAdapter extends RecyclerView.Adapter<HospitalAdapter.Hospit
     @NonNull
     @Override
     public HospitalAdapter.HospitalViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new HospitalViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_hospital_facility_menu, parent, false));
+        return new HospitalViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_hospital_list, parent, false));
     }
 
     @Override

@@ -49,7 +49,7 @@ public class TourismAdapter extends RecyclerView.Adapter<TourismAdapter.TourismV
     @NonNull
     @Override
     public TourismViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new TourismViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_menu_category_tourism, parent, false));
+        return new TourismViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_tourism_list, parent, false));
     }
 
     @Override

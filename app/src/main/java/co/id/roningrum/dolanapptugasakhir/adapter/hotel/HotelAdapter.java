@@ -49,7 +49,7 @@ public class HotelAdapter extends RecyclerView.Adapter<HotelAdapter.HotelViewHol
     @NonNull
     @Override
     public HotelViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new HotelViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_menu_hotel_category_hotel, parent, false));
+        return new HotelViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_hotel_list, parent, false));
     }
 
     @Override

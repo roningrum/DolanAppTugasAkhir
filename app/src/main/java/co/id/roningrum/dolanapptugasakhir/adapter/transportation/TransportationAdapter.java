@@ -48,7 +48,7 @@ public class TransportationAdapter extends RecyclerView.Adapter<TransportationAd
     @NonNull
     @Override
     public AirportViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new AirportViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_menu_transportation, parent, false));
+        return new AirportViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_transportation_list, parent, false));
     }
 
     @Override
