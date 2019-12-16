@@ -20,31 +20,20 @@
     android:padding="8dp"
     tools:context=".ui.useractivity.login.SignInEmailActivity">
 
-    <ImageView
-        android:id="@+id/img_login_page"
-        android:layout_width="170dp"
-        android:layout_height="145dp"
-        android:layout_marginTop="16dp"
-        android:background="@drawable/login"
-        android:contentDescription="@null"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/tv_heading_login_page"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="56dp"
         android:fontFamily="@font/montserrat_bold"
         android:lineSpacingExtra="24sp"
         android:text="@string/txt_heading_signin_page"
         android:textColor="#27221F"
         android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/img_login_page" />
-
+        app:layout_constraintTop_toTopOf="parent" />
 
     <include
         android:id="@+id/include"
@@ -52,17 +41,18 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginTop="48dp"
+        android:layout_marginEnd="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_heading_login_page" />
+        app:layout_constraintTop_toBottomOf="@+id/textView7" />
+
 
     <Button
         android:id="@+id/btn_login"
         android:layout_width="300dp"
         android:layout_height="55dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="28dp"
         android:background="@drawable/bg_button_orange"
         android:fontFamily="@font/montserrat"
         android:text="@string/txt_btn_login"
@@ -74,52 +64,58 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_reset_pass" />
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:gravity="center"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_login">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/montserrat"
-            android:text="@string/txt_tanya_akun"
-            android:textColor="@color/blackTextPrimary"
-            android:textSize="12sp" />
-
-        <TextView
-            android:id="@+id/tv_register_link"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="2dp"
-            android:fontFamily="@font/montserrat"
-            android:text="@string/txt_link_register"
-            android:textColor="@color/orangePrimary"
-            android:textSize="12sp" />
-    </LinearLayout>
-
     <TextView
         android:id="@+id/tv_reset_pass"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="8dp"
-        android:fontFamily="@font/montserrat_medium"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="24dp"
+        android:fontFamily="@font/montserrat"
         android:text="@string/txt_link_reset_page"
         android:textAlignment="textEnd"
+        android:textColor="@color/colorAccent"
         android:textSize="12sp"
-        android:textColor="#D7FF5722"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/include" />
+
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="91dp"
+        android:layout_marginTop="73dp"
+        android:fontFamily="@font/montserrat"
+        android:text="@string/txt_tanya_akun"
+        android:textColor="#2a2727"
+        android:textSize="12sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_login" />
+
+    <TextView
+        android:id="@+id/tv_register_link"
+        android:layout_width="38dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="73dp"
+        android:fontFamily="@font/montserrat"
+        android:text="@string/txt_link_register"
+        android:textColor="@color/colorAccent"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/textView6"
+        app:layout_constraintTop_toBottomOf="@+id/btn_login" />
+
+    <TextView
+        android:id="@+id/textView7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/montserrat"
+        android:text="Silakan masukkan akun kamu"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_heading_login_page" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

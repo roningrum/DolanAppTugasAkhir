@@ -15,6 +15,6 @@ package co.id.roningrum.dolanapptugasakhir.adapter.transportation;
 
 import co.id.roningrum.dolanapptugasakhir.model.Transportation;
 
-public interface TransportasiClickCallback {
+public interface TransportationClickCallback {
     void onItemCallback(Transportation transportation);
 }

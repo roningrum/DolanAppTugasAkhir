@@ -24,6 +24,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -89,7 +90,9 @@ public class PoliceAdapter extends RecyclerView.Adapter<PoliceAdapter.PoliceView
             namePolice.setText(police.getName_police());
             addressPolice.setText(police.getLocation_police());
             distancePolice.setText(distanceFormat + " km");
-            Glide.with(itemView.getContext()).load(police.getUrl_photo_police()).into(policePic);
+            Glide.with(itemView.getContext()).load(police.getUrl_photo_police())
+                    .apply(RequestOptions.placeholderOf(R.drawable.ic_loading).error(R.drawable.ic_loading))
+                    .into(policePic);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

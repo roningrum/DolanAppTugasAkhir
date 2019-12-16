@@ -22,7 +22,7 @@
     <string name="txt_btn_email_reset">Lanjutkan</string>
     <string name="txt_subtitle_reset_page">Silakan masukkan email kamu \n Agar dapat menerima link reset kata sandi</string>
     <string name="txt_heading_reset_page">Lupa kata sandi kamu?</string>
-    <string name="txt_heading_register_page">Daftarkan Akunmu Disini</string>
+    <string name="txt_heading_register_page">Daftar</string>
     <string name="txt_edit_text_register_nama">nama</string>
     <string name="txt_edit_text_email_register">email</string>
     <string name="txt_edit_text_kata_sandi_register">password</string>

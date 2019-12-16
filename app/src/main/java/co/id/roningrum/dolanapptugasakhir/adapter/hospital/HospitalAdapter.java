@@ -24,6 +24,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -89,7 +90,9 @@ public class HospitalAdapter extends RecyclerView.Adapter<HospitalAdapter.Hospit
 
             String distanceFormat = String.format("%.2f", jarakKM);
             distaceHospital.setText(distanceFormat + "km");
-            Glide.with(itemView.getContext()).load(hospital.getUrl_photo_hospital()).into(hospitalPic);
+            Glide.with(itemView.getContext()).load(hospital.getUrl_photo_hospital())
+                    .apply(RequestOptions.placeholderOf(R.drawable.ic_loading).error(R.drawable.ic_loading))
+                    .into(hospitalPic);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

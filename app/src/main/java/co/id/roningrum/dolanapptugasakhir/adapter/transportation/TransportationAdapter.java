@@ -35,14 +35,14 @@ import co.id.roningrum.dolanapptugasakhir.util.Util;
 
 public class TransportationAdapter extends RecyclerView.Adapter<TransportationAdapter.AirportViewHolder> {
     private List<Transportation> transportations = new ArrayList<>();
-    private TransportasiClickCallback transportasiClickCallback;
+    private TransportationClickCallback transportationClickCallback;
 
     public void setTransportations(List<Transportation> transportations) {
         this.transportations = transportations;
     }
 
-    public void setTransportasiClickCallback(TransportasiClickCallback transportasiClickCallback) {
-        this.transportasiClickCallback = transportasiClickCallback;
+    public void setTransportationClickCallback(TransportationClickCallback transportationClickCallback) {
+        this.transportationClickCallback = transportationClickCallback;
     }
 
     @NonNull
@@ -95,7 +95,7 @@ public class TransportationAdapter extends RecyclerView.Adapter<TransportationAd
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    transportasiClickCallback.onItemCallback(transportations.get(getAdapterPosition()));
+                    transportationClickCallback.onItemCallback(transportations.get(getAdapterPosition()));
                 }
             });
         }

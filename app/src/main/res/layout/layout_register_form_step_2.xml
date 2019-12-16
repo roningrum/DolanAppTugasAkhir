@@ -46,11 +46,10 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/edt_name_register_layout"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="24dp"
         android:layout_marginEnd="24dp"
         android:hint="@string/txt_edit_text_register_nama"
         app:counterEnabled="true"

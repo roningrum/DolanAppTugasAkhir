@@ -20,35 +20,19 @@
     android:padding="8dp"
     tools:context=".ui.useractivity.register.RegisterAccountEmailActivity">
 
-    <ImageView
-        android:id="@+id/img_heading_register_page"
-        android:layout_width="170dp"
-        android:layout_height="145dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="8dp"
-        android:contentDescription="@null"
-        android:src="@drawable/register"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.494"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <TextView
         android:id="@+id/tv_heading_register_page"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="56dp"
         android:fontFamily="@font/montserrat_bold"
         android:lineSpacingExtra="24sp"
         android:text="@string/txt_heading_register_page"
-        android:textColor="@color/blackTextPrimary"
+        android:textColor="#2A2727"
         android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/img_heading_register_page" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <include
         android:id="@+id/layout_form_email_pass"
@@ -56,18 +40,19 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="32dp"
         android:layout_marginEnd="16dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_heading_register_page" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_sub_register1" />
 
     <Button
         android:id="@+id/btn_register1_page"
         android:layout_width="0dp"
         android:layout_height="55dp"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="24dp"
         android:layout_marginEnd="24dp"
         android:background="@drawable/bg_button_orange"
         android:fontFamily="@font/montserrat"
@@ -86,7 +71,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="72dp"
         android:layout_marginEnd="8dp"
         android:gravity="center"
         android:orientation="horizontal"
@@ -99,7 +84,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/montserrat"
             android:text="@string/txt_tanya_punya_akun_register_page"
-            android:textColor="@color/blackTextPrimary"
+            android:textColor="#2A2727"
             android:textSize="12sp" />
 
         <TextView
@@ -109,9 +94,20 @@
             android:layout_marginStart="4dp"
             android:fontFamily="@font/montserrat"
             android:text="@string/txt_link_signin_page"
-            android:textColor="#FF5722"
+            android:textColor="@color/colorAccent"
             android:textSize="12sp" />
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_sub_register1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/montserrat"
+        android:text="Daftarkan Akun mu disini"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_heading_register_page" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

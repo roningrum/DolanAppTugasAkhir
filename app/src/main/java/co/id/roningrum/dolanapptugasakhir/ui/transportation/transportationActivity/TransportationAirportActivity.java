@@ -40,8 +40,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import co.id.roningrum.dolanapptugasakhir.R;
-import co.id.roningrum.dolanapptugasakhir.adapter.transportation.TransportasiClickCallback;
 import co.id.roningrum.dolanapptugasakhir.adapter.transportation.TransportationAdapter;
+import co.id.roningrum.dolanapptugasakhir.adapter.transportation.TransportationClickCallback;
 import co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseConstant;
 import co.id.roningrum.dolanapptugasakhir.handler.LocationPermissionHandler;
 import co.id.roningrum.dolanapptugasakhir.model.Transportation;
@@ -93,7 +93,7 @@ public class TransportationAirportActivity extends AppCompatActivity {
                     transportationAdapter = new TransportationAdapter();
                     rvAirportList.setAdapter(transportationAdapter);
                     transportationAdapter.setTransportations(transportations);
-                    transportationAdapter.setTransportasiClickCallback(new TransportasiClickCallback() {
+                    transportationAdapter.setTransportationClickCallback(new TransportationClickCallback() {
                         @Override
                         public void onItemCallback(Transportation transportation) {
                             String transportKey = transportation.getId();

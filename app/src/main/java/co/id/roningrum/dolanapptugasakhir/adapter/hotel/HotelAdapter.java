@@ -24,6 +24,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -90,7 +91,9 @@ public class HotelAdapter extends RecyclerView.Adapter<HotelAdapter.HotelViewHol
             nameHotel.setText(hotel.getName_hotel());
             locationHotel.setText(hotel.getLocation_hotel());
             distanceHotel.setText(distanceFormat + " km");
-            Glide.with(itemView.getContext()).load(hotel.getUrl_photo_hotel()).into(hotelPic);
+            Glide.with(itemView.getContext()).load(hotel.getUrl_photo_hotel())
+                    .apply(RequestOptions.placeholderOf(R.drawable.ic_loading).error(R.drawable.ic_loading))
+                    .into(hotelPic);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

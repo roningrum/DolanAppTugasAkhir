@@ -13,13 +13,14 @@
 
 <resources>
     <color name="colorPrimary">#F15A22</color>
-    <color name="colorPrimaryDark">#FF3D00</color>
-    <color name="colorAccent">#EE4919</color>
-    <color name="orangePrimary">#FF9C09</color>
+    <color name="colorPrimaryDark">#E93306</color>
+    <color name="colorAccent">#FF9100</color>
+    <color name="orangePrimary">#F0420B</color>
 
     <color name="txtWhitePrimary">#FFFFFF</color>
     <color name="bgWhiteGetStarted">#99FFFFFF</color>
     <color name="greyColorSelected">#A1A1A1</color>
+    <color name="grey">#BDBBBB</color>
     <!-- For Text Color -->
     <color name="blackTextPrimary">#090808</color>
     <color name="orangePrimaryDark">#FF6701</color>

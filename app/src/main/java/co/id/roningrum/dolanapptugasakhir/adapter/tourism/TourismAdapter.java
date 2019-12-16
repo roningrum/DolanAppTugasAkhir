@@ -24,6 +24,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -89,7 +90,9 @@ public class TourismAdapter extends RecyclerView.Adapter<TourismAdapter.TourismV
             tourismName.setText(tourism.getName_tourism());
             tourismLocation.setText(tourism.getLocation_tourism());
             tourismDistance.setText(distanceFormat + " " + itemView.getContext().getString(R.string.km));
-            Glide.with(itemView.getContext()).load(tourism.getUrl_photo()).into(tourismPic);
+            Glide.with(itemView.getContext()).load(tourism.getUrl_photo())
+                    .apply(RequestOptions.placeholderOf(R.drawable.ic_loading).error(R.drawable.ic_loading))
+                    .into(tourismPic);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

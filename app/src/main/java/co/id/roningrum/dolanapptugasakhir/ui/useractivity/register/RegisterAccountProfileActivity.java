@@ -63,7 +63,7 @@ public class RegisterAccountProfileActivity extends AppCompatActivity implements
 
     private DatabaseReference dbRegisterRef;
     private StorageReference photoProfileStore;
-    private FirebaseAuth registerProfileAuth;
+    private FirebaseUser profileUser;
 
     private Uri photo_location;
     private Integer photo_max = 1;
@@ -79,9 +79,10 @@ public class RegisterAccountProfileActivity extends AppCompatActivity implements
         btnUploadImageProfile = findViewById(R.id.btn_upload_image);
         profilePhotoImage = findViewById(R.id.image_profile_register);
 
-        registerProfileAuth = FirebaseAuth.getInstance();
+        FirebaseAuth registerProfileAuth = FirebaseAuth.getInstance();
         dbRegisterRef = FirebaseDatabase.getInstance().getReference();
         photoProfileStore = FirebaseStorage.getInstance().getReference("Photo Users");
+        profileUser = registerProfileAuth.getCurrentUser();
 
         btnUploadImageProfile.setOnClickListener(this);
         btnRegisterProfile.setOnClickListener(this);
@@ -107,7 +108,7 @@ public class RegisterAccountProfileActivity extends AppCompatActivity implements
         Intent photoIntent = new Intent();
         photoIntent.setType("image/*");
         photoIntent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(photoIntent, photo_max);
+        startActivityForResult(Intent.createChooser(photoIntent, "SelectPicture"), photo_max);
 
     }
 
@@ -146,8 +147,8 @@ public class RegisterAccountProfileActivity extends AppCompatActivity implements
     }
 
     private void registerProfileProcess() {
+        nameRegister = edtNamaRegister.getEditText().getText().toString();
         if (photo_location != null) {
-            nameRegister = edtNamaRegister.getEditText().getText().toString();
             StorageReference storageReference = photoProfileStore.child(System.currentTimeMillis() + "." + getFileExtension(photo_location));
             storageReference.putFile(photo_location).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
@@ -161,7 +162,6 @@ public class RegisterAccountProfileActivity extends AppCompatActivity implements
                                     .setDisplayName(nameRegister)
                                     .setPhotoUri(Uri.parse(uri_photo))
                                     .build();
-                            final FirebaseUser profileUser = registerProfileAuth.getCurrentUser();
                             assert profileUser != null;
                             profileUser.updateProfile(profileChangeRequest)
                                     .addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -194,6 +194,24 @@ public class RegisterAccountProfileActivity extends AppCompatActivity implements
                     });
                 }
             });
+
+        } else {
+            final DatabaseReference profileDb = dbRegisterRef.child("Users").child(profileUser.getUid());
+            profileDb.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    profileDb.child("nama_user").setValue(nameRegister);
+                    profileDb.child("photo_user").setValue("https://image.flaticon.com/icons/png/512/149/149071.png");
+
+                    Log.d(TAG, "Profile Data sukses ke Daftar");
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                    Log.e(TAG, "" + databaseError.getMessage());
+                }
+            });
+            gotoFinishRegisterPage();
         }
     }
 

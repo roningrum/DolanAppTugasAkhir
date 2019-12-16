@@ -24,6 +24,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -91,7 +92,10 @@ public class GasAdapter extends RecyclerView.Adapter<GasAdapter.GasViewHolder> {
             nameSPBU.setText(gasStation.getName_gasstation());
             locationSPBU.setText(gasStation.getLocation_gasstation());
             distanceSPBU.setText(distanceFormat + " km");
-            Glide.with(itemView.getContext()).load(gasStation.getUrl_photo_gasstation()).into(spbuPic);
+            Glide.with(itemView.getContext()).
+                    load(gasStation.getUrl_photo_gasstation())
+                    .apply(RequestOptions.placeholderOf(R.drawable.ic_loading).error(R.drawable.ic_loading))
+                    .into(spbuPic);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
