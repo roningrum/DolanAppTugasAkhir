@@ -110,7 +110,6 @@ public class ProfileFragment extends Fragment implements View.OnClickListener, G
         profileReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                isGooglesignIn = getActivity().getIntent().getBooleanExtra("isGoogle", true);
                 tvNameProfile.setText(Objects.requireNonNull(dataSnapshot.child("nama_user").getValue()).toString().trim());
                 tvEmailProfile.setText(Objects.requireNonNull(dataSnapshot.child("email").getValue()).toString().trim());
                 Glide.with(view).load(Objects.requireNonNull(dataSnapshot.child("photo_user").getValue()).toString()).into(photo_profile);
