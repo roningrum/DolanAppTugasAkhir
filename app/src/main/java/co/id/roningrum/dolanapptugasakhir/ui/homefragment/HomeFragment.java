@@ -66,7 +66,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     private TextView tvGreetApp;
     private CircleImageView userPhotoHome;
     private FirebaseUser homeUser;
-    private FirebaseAuth firebaseAuth;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -118,7 +117,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         trainMenu.setOnClickListener(this);
         busMenu.setOnClickListener(this);
 
-        firebaseAuth = FirebaseAuth.getInstance();
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         homeUser = firebaseAuth.getCurrentUser();
 
         showProfileToHome();
@@ -130,9 +129,12 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         UserRef.child(homeUser.getUid()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                String nama = dataSnapshot.child("nama_user").getValue().toString().trim();
+                if (getActivity() == null) {
+                    return;
+                }
+                String nama = Objects.requireNonNull(dataSnapshot.child("nama_user").getValue()).toString().trim();
                 greetText(nama);
-                Glide.with(getContext()).load(Objects.requireNonNull(dataSnapshot.child("photo_user").getValue()).toString()).into(userPhotoHome);
+                Glide.with(getActivity()).load(Objects.requireNonNull(dataSnapshot.child("photo_user").getValue()).toString()).into(userPhotoHome);
             }
 
             @Override

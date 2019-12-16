@@ -53,6 +53,22 @@ public class SignInOptionActivity extends AppCompatActivity implements View.OnCl
     private DatabaseReference userRef;
     private GoogleSignInClient googleSignInClient;
 
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        FirebaseUser currentUser = fbAuth.getCurrentUser();
+        updateUI(currentUser);
+    }
+
+    private void updateUI(FirebaseUser user) {
+        if (user != null) {
+            Intent goToHomeIntent = new Intent(SignInOptionActivity.this, MainMenuActivity.class);
+            startActivity(goToHomeIntent);
+        }
+
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -46,6 +46,21 @@ public class SignInEmailActivity extends AppCompatActivity implements View.OnCli
     private FirebaseAuth authLogin;
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        FirebaseUser currentUser = authLogin.getCurrentUser();
+        updateUI(currentUser);
+    }
+
+    private void updateUI(FirebaseUser user) {
+        if (user != null) {
+            Intent goToHomeIntent = new Intent(SignInEmailActivity.this, MainMenuActivity.class);
+            startActivity(goToHomeIntent);
+        }
+
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signin_account_email);
