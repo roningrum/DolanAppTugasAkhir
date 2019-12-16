@@ -154,7 +154,9 @@ public class ProfileFragment extends Fragment implements View.OnClickListener, G
             Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(new ResultCallback<Status>() {
                 @Override
                 public void onResult(@NonNull Status status) {
-                    startActivity(new Intent(getActivity(), SignInOptionActivity.class));
+                    Intent intent = new Intent(getActivity(), SignInOptionActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
 
                 }
             });
