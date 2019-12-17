@@ -133,6 +133,7 @@ public class SignInEmailActivity extends AppCompatActivity implements View.OnCli
                             Toast.makeText(SignInEmailActivity.this, "Pastikan email sudah diverifikasi", Toast.LENGTH_SHORT).show();
                         }
                     } else {
+                        Toast.makeText(SignInEmailActivity.this, "Email kamu tidak terdaftar", Toast.LENGTH_SHORT).show();
                         Log.e(TAG, "Gagal Masuk");
                     }
                 }
