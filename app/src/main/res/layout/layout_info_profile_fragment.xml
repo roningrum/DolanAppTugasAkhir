@@ -15,6 +15,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
     android:padding="8dp">
 
     <de.hdodenhof.circleimageview.CircleImageView
@@ -25,7 +26,6 @@
         android:layout_marginStart="10dp"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="16dp"
-        android:src="@drawable/icon_nopic"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -38,7 +38,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="22dp"
         android:fontFamily="@font/monsterrat_sembold"
-        android:text="@string/string_dummy_profname"
+        tools:text="@string/string_dummy_profname"
         android:textColor="@color/blackTextPrimary"
         android:textSize="14sp"
         app:layout_constraintStart_toEndOf="@+id/photo_akun_beranda"
@@ -50,9 +50,9 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="10dp"
         android:fontFamily="@font/montserrat"
-        android:text="@string/string_email_dummy"
+        tools:text="@string/string_email_dummy"
         android:textColor="@color/blackTextPrimary"
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"

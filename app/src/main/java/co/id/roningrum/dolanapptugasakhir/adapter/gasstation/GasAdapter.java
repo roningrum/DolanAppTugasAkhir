@@ -49,7 +49,7 @@ public class GasAdapter extends RecyclerView.Adapter<GasAdapter.GasViewHolder> {
     @NonNull
     @Override
     public GasAdapter.GasViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new GasViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_gasstation_facility_menu, parent, false));
+        return new GasViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_gasstation_list, parent, false));
     }
 
     @Override

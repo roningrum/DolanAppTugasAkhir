@@ -57,6 +57,7 @@ public class SignInOptionActivity extends AppCompatActivity implements View.OnCl
     @Override
     protected void onStart() {
         super.onStart();
+//        pbLoading.setVisibility(View.VISIBLE);
         FirebaseUser currentUser = fbAuth.getCurrentUser();
         updateUI(currentUser);
     }
@@ -134,6 +135,7 @@ public class SignInOptionActivity extends AppCompatActivity implements View.OnCl
                 GoogleSignInAccount account = task.getResult(ApiException.class);
                 assert account != null;
                 firebaseAuthWithGoogle(account);
+
             } catch (ApiException e) {
                 // Google Sign In failed, update UI appropriately
                 Log.w(TAG, "Google sign in failed", e);
@@ -143,6 +145,7 @@ public class SignInOptionActivity extends AppCompatActivity implements View.OnCl
 
     private void firebaseAuthWithGoogle(GoogleSignInAccount account) {
         Log.d(TAG, "firebaseAuthWithGoogle:" + account.getId());
+
         AuthCredential credential = GoogleAuthProvider.getCredential(account.getIdToken(), null);
         fbAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -160,6 +163,7 @@ public class SignInOptionActivity extends AppCompatActivity implements View.OnCl
                             final String uid = user.getUid();
 
                             //the problem code is here! How I can detect the google user account has stored and registered
+//                            pbLoading.setVisibility(View.VISIBLE);
                             userRef.child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -169,10 +173,12 @@ public class SignInOptionActivity extends AppCompatActivity implements View.OnCl
                                         startActivity(googleRegistered);
                                     } else if (!dataSnapshot.exists()) {
                                         userRef.child(uid).child("nama_user").setValue(user.getDisplayName());
+                                        userRef.child(uid).child("password").setValue("");
                                         userRef.child(uid).child("email").setValue(user.getEmail());
                                         userRef.child(uid).child("photo_user").setValue(String.valueOf(user.getPhotoUrl()));
                                         userRef.child(uid).child("login").setValue("Google");
-
+//
+//                                        pbLoading.setVisibility(View.GONE);
                                         Intent googleRegistered = new Intent(SignInOptionActivity.this, MainMenuActivity.class);
 //                                        googleRegistered.putExtra("isGoogle", isGoogleSignIn);
                                         startActivity(googleRegistered);
@@ -191,9 +197,6 @@ public class SignInOptionActivity extends AppCompatActivity implements View.OnCl
                             Log.w(TAG, "signInWithCredential:failure", task.getException());
                         }
 
-                        // [START_EXCLUDE]
-//                        hideProgressDialog();
-                        // [END_EXCLUDE]
                     }
                 });
 
