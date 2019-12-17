@@ -45,6 +45,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/appBarLayout" />
 
+    <ProgressBar
+        android:id="@+id/pb_loading_upload"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@+id/btn_upload_image_from_device"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/appBarLayout" />
+
     <Button
         android:id="@+id/btn_upload_image_from_device"
         android:layout_width="match_parent"
@@ -60,20 +70,20 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/photo_akun_beranda" />
 
-    <Button
-        android:id="@+id/btn_save_upload_image_from_device"
-        android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:background="@color/orangePrimaryDark"
-        android:fontFamily="@font/monsterrat_sembold"
-        android:text="@string/txt_btn_save_change"
-        android:textColor="#FFFF"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_upload_image_from_device" />
+    <!--    <Button-->
+    <!--        android:id="@+id/btn_save_upload_image_from_device"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="56dp"-->
+    <!--        android:layout_marginStart="16dp"-->
+    <!--        android:layout_marginTop="16dp"-->
+    <!--        android:layout_marginEnd="16dp"-->
+    <!--        android:background="@color/orangePrimaryDark"-->
+    <!--        android:fontFamily="@font/monsterrat_sembold"-->
+    <!--        android:text="@string/txt_btn_save_change"-->
+    <!--        android:textColor="#FFFF"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toBottomOf="@+id/btn_upload_image_from_device" />-->
 
     <!--    <Button-->
     <!--        android:id="@+id/btn_remove_image_upload"-->
@@ -103,6 +113,6 @@
         android:textColor="@color/orangePrimaryDark"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_save_upload_image_from_device" />
+        app:layout_constraintTop_toBottomOf="@+id/btn_upload_image_from_device" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

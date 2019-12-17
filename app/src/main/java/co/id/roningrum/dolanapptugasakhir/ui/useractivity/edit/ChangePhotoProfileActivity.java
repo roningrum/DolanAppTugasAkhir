@@ -21,6 +21,7 @@ import android.util.Log;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
+import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -52,6 +53,7 @@ public class ChangePhotoProfileActivity extends AppCompatActivity implements Vie
     private DatabaseReference dbProfileRef;
     private StorageReference storagePhoto;
     private FirebaseUser changePhotoUser;
+    private ProgressBar pbLoading;
 
     private CircleImageView photo_profile;
 //    boolean isGoogleSignIn;
@@ -67,12 +69,11 @@ public class ChangePhotoProfileActivity extends AppCompatActivity implements Vie
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chang_photo_profile);
         Button btnUploadPhoto = findViewById(R.id.btn_upload_image_from_device);
-        Button btnSaveChange = findViewById(R.id.btn_save_upload_image_from_device);
+        pbLoading = findViewById(R.id.pb_loading_upload);
         Button btnCancelChange = findViewById(R.id.btn_cancel_upload);
         photo_profile = findViewById(R.id.photo_akun_beranda);
 
         btnUploadPhoto.setOnClickListener(this);
-        btnSaveChange.setOnClickListener(this);
         btnCancelChange.setOnClickListener(this);
 
         FirebaseAuth changePhotoAuth = FirebaseAuth.getInstance();
@@ -102,9 +103,6 @@ public class ChangePhotoProfileActivity extends AppCompatActivity implements Vie
         switch (v.getId()) {
             case R.id.btn_upload_image_from_device:
                 uploadPhotoFromFile();
-                break;
-            case R.id.btn_save_upload_image_from_device:
-                uploadPhotoProcess();
                 break;
             case R.id.btn_cancel_upload:
                 cancelProcess();
@@ -140,11 +138,14 @@ public class ChangePhotoProfileActivity extends AppCompatActivity implements Vie
                                                     @Override
                                                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                                         profileDb.child("photo_user").setValue(uri_photo);
+                                                        Glide.with(ChangePhotoProfileActivity.this).load(photo_location).into(photo_profile);
+                                                        pbLoading.setVisibility(View.GONE);
                                                         Log.d(TAG, "Profile Data sukses ke Daftar");
                                                     }
 
                                                     @Override
                                                     public void onCancelled(@NonNull DatabaseError databaseError) {
+                                                        pbLoading.setVisibility(View.VISIBLE);
                                                         Log.e(TAG, "" + databaseError.getMessage());
                                                     }
                                                 });
@@ -180,7 +181,8 @@ public class ChangePhotoProfileActivity extends AppCompatActivity implements Vie
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == photo_max && resultCode == RESULT_OK && data != null && data.getData() != null) {
             photo_location = data.getData();
-            Glide.with(this).load(photo_location).into(photo_profile);
+            pbLoading.setVisibility(View.VISIBLE);
+            uploadPhotoProcess();
         }
     }
 }
