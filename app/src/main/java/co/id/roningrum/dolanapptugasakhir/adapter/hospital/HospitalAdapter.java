@@ -32,7 +32,7 @@ import java.util.List;
 import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.model.Hospital;
-import co.id.roningrum.dolanapptugasakhir.util.Util;
+import co.id.roningrum.dolanapptugasakhir.util.Utils;
 
 public class HospitalAdapter extends RecyclerView.Adapter<HospitalAdapter.HospitalViewHolder> {
     private List<Hospital> hospitalList = new ArrayList<>();
@@ -84,7 +84,7 @@ public class HospitalAdapter extends RecyclerView.Adapter<HospitalAdapter.Hospit
             double latitude_a = hospital.getLat_hospital();
             double longitude_a = hospital.getLng_hospital();
 
-            float jarakKM = (float) Util.calculateDistance(latitude, longitude, latitude_a, longitude_a);
+            float jarakKM = (float) Utils.calculateDistance(latitude, longitude, latitude_a, longitude_a);
             nameHospital.setText(hospital.getName_hospital());
             locationHospital.setText(hospital.getLocation_hospital());
 

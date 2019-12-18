@@ -47,7 +47,7 @@ import co.id.roningrum.dolanapptugasakhir.handler.LocationPermissionHandler;
 import co.id.roningrum.dolanapptugasakhir.model.Transportation;
 import co.id.roningrum.dolanapptugasakhir.ui.transportation.transportationDetailActivity.TransportationAirportDetail;
 import co.id.roningrum.dolanapptugasakhir.ui.transportation.transportationMapActivity.TransportationAirportMaps;
-import co.id.roningrum.dolanapptugasakhir.util.Util;
+import co.id.roningrum.dolanapptugasakhir.util.Utils;
 
 public class TransportationAirportActivity extends AppCompatActivity {
     private RecyclerView rvAirportList;
@@ -71,7 +71,7 @@ public class TransportationAirportActivity extends AppCompatActivity {
     }
 
     private void checkConnection() {
-        if (Util.isConnectedToNetwork(getApplicationContext())) {
+        if (Utils.isConnectedToNetwork(getApplicationContext())) {
             showLoading(false);
             showAirportData();
         } else {

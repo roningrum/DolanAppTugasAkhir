@@ -46,7 +46,7 @@ import co.id.roningrum.dolanapptugasakhir.handler.LocationPermissionHandler;
 import co.id.roningrum.dolanapptugasakhir.model.Tourism;
 import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismDetailActivity.TourismReligiDetail;
 import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismMapActivity.TourismReligiMaps;
-import co.id.roningrum.dolanapptugasakhir.util.Util;
+import co.id.roningrum.dolanapptugasakhir.util.Utils;
 
 public class TourismReligiActivity extends AppCompatActivity {
     private RecyclerView rvReligiList;
@@ -70,7 +70,7 @@ public class TourismReligiActivity extends AppCompatActivity {
     }
 
     private void checkConnection() {
-        if (Util.isConnectedToNetwork(getApplicationContext())) {
+        if (Utils.isConnectedToNetwork(getApplicationContext())) {
             showLoading(false);
             showReligiData();
         } else {

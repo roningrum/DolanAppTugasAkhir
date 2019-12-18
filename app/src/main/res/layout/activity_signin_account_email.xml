@@ -113,7 +113,7 @@
         android:layout_marginStart="24dp"
         android:layout_marginTop="16dp"
         android:fontFamily="@font/montserrat"
-        android:text="Silakan masukkan akun kamu"
+        android:text="@string/silakan_masukkan_akun_kamu"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_heading_login_page" />
 

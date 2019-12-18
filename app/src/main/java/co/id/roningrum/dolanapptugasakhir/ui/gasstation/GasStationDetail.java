@@ -48,7 +48,7 @@ import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseConstant;
 import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.model.GasStation;
-import co.id.roningrum.dolanapptugasakhir.util.HaversineHandler;
+import co.id.roningrum.dolanapptugasakhir.util.Utils;
 
 public class GasStationDetail extends AppCompatActivity implements OnMapReadyCallback {
 
@@ -75,6 +75,8 @@ public class GasStationDetail extends AppCompatActivity implements OnMapReadyCal
     private double endlat;
     private double endLng;
     private double distance;
+
+    private GasStation gasStation;
 
 
     @Override
@@ -109,6 +111,8 @@ public class GasStationDetail extends AppCompatActivity implements OnMapReadyCal
         gasDetailRef = FirebaseConstant.getGasByKey(gasKey);
         gpsHandler = new GPSHandler(this);
 
+        gasStation = new GasStation();
+
         LoadGasDetail();
     }
 
@@ -118,13 +122,13 @@ public class GasStationDetail extends AppCompatActivity implements OnMapReadyCal
                 @SuppressLint("SetTextI18n")
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    final GasStation gasStation = dataSnapshot.getValue(GasStation.class);
+                    gasStation = dataSnapshot.getValue(GasStation.class);
                     startLat = gpsHandler.getLatitude();
                     startlng = gpsHandler.getLongitude();
                     assert gasStation != null;
                     endlat = gasStation.getLat_gasstation();
                     endLng = gasStation.getLng_gasstation();
-                    distance = HaversineHandler.calculateDistance(startLat, startlng, endlat, endLng);
+                    distance = Utils.calculateDistance(startLat, startlng, endlat, endLng);
 
 
                     @SuppressLint("DefaultLocale") String distanceFormat = String.format("%.2f", distance);

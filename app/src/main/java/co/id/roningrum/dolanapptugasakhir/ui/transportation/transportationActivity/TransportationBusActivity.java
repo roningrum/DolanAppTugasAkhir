@@ -46,7 +46,7 @@ import co.id.roningrum.dolanapptugasakhir.handler.LocationPermissionHandler;
 import co.id.roningrum.dolanapptugasakhir.model.Transportation;
 import co.id.roningrum.dolanapptugasakhir.ui.transportation.transportationDetailActivity.TransportationBusDetail;
 import co.id.roningrum.dolanapptugasakhir.ui.transportation.transportationMapActivity.TransportationBusMaps;
-import co.id.roningrum.dolanapptugasakhir.util.Util;
+import co.id.roningrum.dolanapptugasakhir.util.Utils;
 
 public class TransportationBusActivity extends AppCompatActivity {
     private RecyclerView rvBusList;
@@ -69,7 +69,7 @@ public class TransportationBusActivity extends AppCompatActivity {
     }
 
     private void checkConnection() {
-        if (Util.isConnectedToNetwork(getApplicationContext())) {
+        if (Utils.isConnectedToNetwork(getApplicationContext())) {
             showLoading(false);
             showBusData();
         } else {

@@ -16,6 +16,7 @@ package co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismDetailActivity;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -38,10 +39,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.like.LikeButton;
-import com.like.OnLikeListener;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -51,9 +49,11 @@ import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseConstant;
 import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.model.Tourism;
-import co.id.roningrum.dolanapptugasakhir.util.HaversineHandler;
+import co.id.roningrum.dolanapptugasakhir.util.Utils;
 
-public class TourismRekreasiDetail extends AppCompatActivity implements OnMapReadyCallback, OnLikeListener {
+import static co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseConstant.favoriteRef;
+
+public class TourismRekreasiDetail extends AppCompatActivity implements OnMapReadyCallback {
     public static final String EXTRA_WISATA_KEY = "rekreasi_key";
     private static final String MAP_VIEW_KEY = "mapViewBundle";
 
@@ -62,8 +62,7 @@ public class TourismRekreasiDetail extends AppCompatActivity implements OnMapRea
     private MapView recreationMapView;
 
     private DatabaseReference recreationDetailRef;
-    String recreationKey;
-    private FirebaseAuth firebaseAuth;
+
     private GPSHandler gpsHandler;
     private ValueEventListener valueEventListener;
 
@@ -78,7 +77,13 @@ public class TourismRekreasiDetail extends AppCompatActivity implements OnMapRea
     private double endlat;
     private double endLng;
     private double distance;
+
+    boolean isFavorite = false;
+    private Menu menuItem;
+    private Tourism tourism;
+    private String recreationKey;
     private FirebaseUser user;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,10 +121,31 @@ public class TourismRekreasiDetail extends AppCompatActivity implements OnMapRea
         recreationDetailRef = FirebaseConstant.getTourismRef(recreationKey);
         gpsHandler = new GPSHandler(this);
 
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        user = firebaseAuth.getCurrentUser();
+
         LoadRecreationDetail();
+        favoriteState();
 
     }
 
+    private void favoriteState() {
+        final String uid = user.getUid();
+        favoriteRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.child(uid).child(recreationKey).exists()) {
+                    isFavorite = true;
+                    menuItem.getItem(0).setIcon(R.drawable.ic_bookmarkadded_24dp);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
     private void LoadRecreationDetail() {
 
         if (gpsHandler.isCanGetLocation()) {
@@ -127,14 +153,14 @@ public class TourismRekreasiDetail extends AppCompatActivity implements OnMapRea
                 @SuppressLint("SetTextI18n")
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    final Tourism tourism = dataSnapshot.getValue(Tourism.class);
+                    tourism = dataSnapshot.getValue(Tourism.class);
                     startLat = gpsHandler.getLatitude();
                     startlng = gpsHandler.getLongitude();
 
                     assert tourism != null;
                     endlat = tourism.getLat_location_tourism();
                     endLng = tourism.getLng_location_tourism();
-                    distance = HaversineHandler.calculateDistance(startLat, startlng, endlat, endLng);
+                    distance = Utils.calculateDistance(startLat, startlng, endlat, endLng);
 
                     @SuppressLint("DefaultLocale") String distanceFormat = String.format("%.2f", distance);
                     tvDistanceRecreationDetail.setText("" + distanceFormat + " KM");
@@ -216,13 +242,73 @@ public class TourismRekreasiDetail extends AppCompatActivity implements OnMapRea
 
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.favorite_menu, menu);
+        menuItem = menu;
+        setFavorite();
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(final MenuItem item) {
         // Respond to the action bar's Up/Home button
         if (item.getItemId() == android.R.id.home) {
-            finish();
+            onBackPressed();
             return true;
+        } else if (item.getItemId() == R.id.add_to_favorite) {
+            if (isFavorite) {
+                removeFavorite();
+            } else {
+                addToFavorite();
+            }
+            isFavorite = !isFavorite;
+            setFavorite();
+            return true;
+
+        } else {
+            return super.onOptionsItemSelected(item);
         }
-        return super.onOptionsItemSelected(item);
+
+    }
+
+    private void addToFavorite() {
+        final String uid = user.getUid();
+        favoriteRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                favoriteRef.getRef().child(uid).child(recreationKey).setValue(true);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
+    }
+
+    private void removeFavorite() {
+        final String uid = user.getUid();
+        favoriteRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                favoriteRef.getRef().child(uid).child(recreationKey).removeValue();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    private void setFavorite() {
+        if (isFavorite) {
+            menuItem.getItem(0).setIcon(R.drawable.ic_bookmarkadded_24dp);
+        } else {
+            menuItem.getItem(0).setIcon(R.drawable.ic_unbookmarked_24dp);
+        }
     }
 
     @Override
@@ -252,21 +338,4 @@ public class TourismRekreasiDetail extends AppCompatActivity implements OnMapRea
         recreationMapView.onPause();
     }
 
-    @Override
-    public void liked(LikeButton likeButton) {
-        firebaseAuth = FirebaseAuth.getInstance();
-        user = firebaseAuth.getCurrentUser();
-        if (likeButton.isLiked() && user != null) {
-            String uid = user.getUid();
-            DatabaseReference favoritedb = FirebaseDatabase.getInstance().getReference("Favorite");
-            favoritedb.getRef().child(uid).child(recreationKey).setValue(true);
-        }
-
-
-    }
-
-    @Override
-    public void unLiked(LikeButton likeButton) {
-
-    }
 }

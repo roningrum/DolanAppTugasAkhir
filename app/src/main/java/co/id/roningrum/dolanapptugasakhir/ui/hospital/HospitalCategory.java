@@ -44,7 +44,7 @@ import co.id.roningrum.dolanapptugasakhir.adapter.hospital.HospitalClickCallback
 import co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseConstant;
 import co.id.roningrum.dolanapptugasakhir.handler.LocationPermissionHandler;
 import co.id.roningrum.dolanapptugasakhir.model.Hospital;
-import co.id.roningrum.dolanapptugasakhir.util.Util;
+import co.id.roningrum.dolanapptugasakhir.util.Utils;
 
 public class HospitalCategory extends AppCompatActivity {
 
@@ -68,7 +68,7 @@ public class HospitalCategory extends AppCompatActivity {
     }
 
     private void checkConnection() {
-        if (Util.isConnectedToNetwork(getApplicationContext())) {
+        if (Utils.isConnectedToNetwork(getApplicationContext())) {
             showLoading(false);
             showHospitalData();
         } else {

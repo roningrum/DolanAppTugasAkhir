@@ -35,7 +35,7 @@ import com.google.firebase.database.ValueEventListener;
 import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseConstant;
 import co.id.roningrum.dolanapptugasakhir.model.Tourism;
-import co.id.roningrum.dolanapptugasakhir.util.Util;
+import co.id.roningrum.dolanapptugasakhir.util.Utils;
 
 public class TourismRekreasiMaps extends FragmentActivity implements OnMapReadyCallback {
 
@@ -83,7 +83,7 @@ public class TourismRekreasiMaps extends FragmentActivity implements OnMapReadyC
                     LatLng naturePlaceLoc = new LatLng(latNature, lngNature);
                     recreationMap.moveCamera(CameraUpdateFactory.newLatLngZoom(naturePlaceLoc, 14.0f));
                     recreationMap.addMarker(new MarkerOptions().position(naturePlaceLoc).title(tourism.getName_tourism()).
-                            icon(Util.getBitmapDescriptor(getApplicationContext())).snippet(tourism.getLocation_tourism()));
+                            icon(Utils.getBitmapDescriptor(getApplicationContext())).snippet(tourism.getLocation_tourism()));
                 }
             }
 

@@ -46,7 +46,7 @@ import co.id.roningrum.dolanapptugasakhir.handler.LocationPermissionHandler;
 import co.id.roningrum.dolanapptugasakhir.model.Transportation;
 import co.id.roningrum.dolanapptugasakhir.ui.transportation.transportationDetailActivity.TransportationShipDetail;
 import co.id.roningrum.dolanapptugasakhir.ui.transportation.transportationMapActivity.TransportationShipMaps;
-import co.id.roningrum.dolanapptugasakhir.util.Util;
+import co.id.roningrum.dolanapptugasakhir.util.Utils;
 
 public class TransportationShipActivity extends AppCompatActivity {
     private RecyclerView rvShipList;
@@ -68,7 +68,7 @@ public class TransportationShipActivity extends AppCompatActivity {
     }
 
     private void checkConnection() {
-        if (Util.isConnectedToNetwork(getApplicationContext())) {
+        if (Utils.isConnectedToNetwork(getApplicationContext())) {
             showLoading(false);
             showShipData();
         } else {

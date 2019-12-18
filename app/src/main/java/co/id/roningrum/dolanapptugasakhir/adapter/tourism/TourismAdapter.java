@@ -32,7 +32,7 @@ import java.util.List;
 import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.model.Tourism;
-import co.id.roningrum.dolanapptugasakhir.util.Util;
+import co.id.roningrum.dolanapptugasakhir.util.Utils;
 
 public class TourismAdapter extends RecyclerView.Adapter<TourismAdapter.TourismViewHolder> {
     private List<Tourism> tourismList = new ArrayList<>();
@@ -85,7 +85,7 @@ public class TourismAdapter extends RecyclerView.Adapter<TourismAdapter.TourismV
             double latitude_a = tourism.getLat_location_tourism();
             double longitude_a = tourism.getLng_location_tourism();
 
-            float jarakKM = (float) Util.calculateDistance(latitude, longitude, latitude_a, longitude_a);
+            float jarakKM = (float) Utils.calculateDistance(latitude, longitude, latitude_a, longitude_a);
             String distanceFormat = String.format("%.2f", jarakKM);
             tourismName.setText(tourism.getName_tourism());
             tourismLocation.setText(tourism.getLocation_tourism());

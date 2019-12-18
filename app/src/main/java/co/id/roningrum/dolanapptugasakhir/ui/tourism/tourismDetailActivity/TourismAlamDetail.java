@@ -39,7 +39,6 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import org.jetbrains.annotations.NotNull;
@@ -50,7 +49,9 @@ import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseConstant;
 import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.model.Tourism;
-import co.id.roningrum.dolanapptugasakhir.util.HaversineHandler;
+import co.id.roningrum.dolanapptugasakhir.util.Utils;
+
+import static co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseConstant.favoriteRef;
 
 public class TourismAlamDetail extends AppCompatActivity implements OnMapReadyCallback {
     public static final String EXTRA_WISATA_KEY = "alam_key";
@@ -78,11 +79,10 @@ public class TourismAlamDetail extends AppCompatActivity implements OnMapReadyCa
     private double distance;
 
     boolean isFavorite = false;
-    Menu menuItem;
-    Tourism tourism = new Tourism();
+    private Menu menuItem;
+    private Tourism tourism;
     private String natureKey;
     private FirebaseUser user;
-    private DatabaseReference favoritedb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -120,9 +120,10 @@ public class TourismAlamDetail extends AppCompatActivity implements OnMapReadyCa
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         user = firebaseAuth.getCurrentUser();
 
-        favoritedb = FirebaseDatabase.getInstance().getReference("Favorite");
         natureDetailRef = FirebaseConstant.getTourismRef(natureKey);
         gpsHandler = new GPSHandler(this);
+
+        tourism = new Tourism();
 
         favoriteState();
         LoadDetail();
@@ -130,7 +131,7 @@ public class TourismAlamDetail extends AppCompatActivity implements OnMapReadyCa
 
     private void favoriteState() {
         final String uid = user.getUid();
-        favoritedb.addListenerForSingleValueEvent(new ValueEventListener() {
+        favoriteRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.child(uid).child(natureKey).exists()) {
@@ -158,7 +159,7 @@ public class TourismAlamDetail extends AppCompatActivity implements OnMapReadyCa
                     assert tourism != null;
                     endlat = tourism.getLat_location_tourism();
                     endLng = tourism.getLng_location_tourism();
-                    distance = HaversineHandler.calculateDistance(startLat, startlng, endlat, endLng);
+                    distance = Utils.calculateDistance(startLat, startlng, endlat, endLng);
 
                     @SuppressLint("DefaultLocale") String distanceFormat = String.format("%.2f",distance);
                     tvDistanceNature.setText("" + distanceFormat + " km");
@@ -220,7 +221,7 @@ public class TourismAlamDetail extends AppCompatActivity implements OnMapReadyCa
         ValueEventListener eventListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                Tourism tourism = dataSnapshot.getValue(Tourism.class);
+                tourism = dataSnapshot.getValue(Tourism.class);
                 assert tourism != null;
                 double lattitude = tourism.getLat_location_tourism();
                 double longitude = tourism.getLng_location_tourism();
@@ -273,10 +274,10 @@ public class TourismAlamDetail extends AppCompatActivity implements OnMapReadyCa
 
     private void addToFavorite() {
         final String uid = user.getUid();
-        favoritedb.addListenerForSingleValueEvent(new ValueEventListener() {
+        favoriteRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                favoritedb.getRef().child(uid).child(natureKey).setValue(true);
+                favoriteRef.getRef().child(uid).child(natureKey).setValue(true);
             }
 
             @Override
@@ -290,10 +291,10 @@ public class TourismAlamDetail extends AppCompatActivity implements OnMapReadyCa
 
     private void removeFavorite() {
         final String uid = user.getUid();
-        favoritedb.addListenerForSingleValueEvent(new ValueEventListener() {
+        favoriteRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                favoritedb.getRef().child(uid).child(natureKey).removeValue();
+                favoriteRef.getRef().child(uid).child(natureKey).removeValue();
             }
 
             @Override

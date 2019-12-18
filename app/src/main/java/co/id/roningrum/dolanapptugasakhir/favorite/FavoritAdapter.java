@@ -33,7 +33,7 @@ import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.adapter.tourism.TourismClickCallback;
 import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.model.Tourism;
-import co.id.roningrum.dolanapptugasakhir.util.HaversineHandler;
+import co.id.roningrum.dolanapptugasakhir.util.Utils;
 
 public class FavoritAdapter extends RecyclerView.Adapter<FavoritAdapter.FavoritViewHolder> {
     private ArrayList<Tourism> tourisms;
@@ -96,7 +96,7 @@ public class FavoritAdapter extends RecyclerView.Adapter<FavoritAdapter.FavoritV
             double lattitude_a = favoriteItem.getLat_location_tourism();
             double longitude_a = favoriteItem.getLng_location_tourism();
 
-            float jarakKM = (float) HaversineHandler.calculateDistance(lat, lng, lattitude_a, longitude_a);
+            float jarakKM = (float) Utils.calculateDistance(lat, lng, lattitude_a, longitude_a);
             nameFavTourism.setText(favoriteItem.getName_tourism());
             locationFavTourism.setText(favoriteItem.getLocation_tourism());
             @SuppressLint("DefaultLocale") String distanceFormat = String.format("%.2f", jarakKM);

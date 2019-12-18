@@ -50,7 +50,7 @@ import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseConstant;
 import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.model.Tourism;
-import co.id.roningrum.dolanapptugasakhir.util.HaversineHandler;
+import co.id.roningrum.dolanapptugasakhir.util.Utils;
 
 public class FavoriteDetailTourism extends AppCompatActivity implements OnMapReadyCallback {
     public static final String EXTRA_TOURISM = "Tourism";
@@ -153,7 +153,7 @@ public class FavoriteDetailTourism extends AppCompatActivity implements OnMapRea
                     assert tourism != null;
                     endlat = tourism.getLat_location_tourism();
                     endLng = tourism.getLng_location_tourism();
-                    distance = HaversineHandler.calculateDistance(startLat, startlng, endlat, endLng);
+                    distance = Utils.calculateDistance(startLat, startlng, endlat, endLng);
 
                     @SuppressLint("DefaultLocale") String distanceFormat = String.format("%.2f", distance);
                     tvDistanceTourism.setText("" + distanceFormat + " km");

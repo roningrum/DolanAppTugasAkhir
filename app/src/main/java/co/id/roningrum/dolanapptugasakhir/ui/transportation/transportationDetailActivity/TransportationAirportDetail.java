@@ -46,7 +46,7 @@ import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseConstant;
 import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.model.Transportation;
-import co.id.roningrum.dolanapptugasakhir.util.Util;
+import co.id.roningrum.dolanapptugasakhir.util.Utils;
 
 public class TransportationAirportDetail extends AppCompatActivity implements OnMapReadyCallback {
 
@@ -116,7 +116,7 @@ public class TransportationAirportDetail extends AppCompatActivity implements On
                     assert transportation != null;
                     double endlat = transportation.getLat_transportation();
                     double endLng = transportation.getLng_transportation();
-                    double distance = Util.calculateDistance(startLat, startlng, endlat, endLng);
+                    double distance = Utils.calculateDistance(startLat, startlng, endlat, endLng);
 
                     @SuppressLint("DefaultLocale") String distanceFormat = String.format("%.2f", distance);
                     tvDistanceAirport.setText("" + distanceFormat + " km");

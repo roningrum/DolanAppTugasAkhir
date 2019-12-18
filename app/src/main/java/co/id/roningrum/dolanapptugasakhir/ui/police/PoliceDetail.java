@@ -46,7 +46,7 @@ import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseConstant;
 import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.model.Police;
-import co.id.roningrum.dolanapptugasakhir.util.HaversineHandler;
+import co.id.roningrum.dolanapptugasakhir.util.Utils;
 
 public class PoliceDetail extends AppCompatActivity implements OnMapReadyCallback {
     public static final String EXTRA_POLICE_KEY = "policeKey";
@@ -121,7 +121,7 @@ public class PoliceDetail extends AppCompatActivity implements OnMapReadyCallbac
                     assert police != null;
                     endlat = police.getLat_police();
                     endLng = police.getLng_police();
-                    distance = HaversineHandler.calculateDistance(startLat, startlng, endlat, endLng);
+                    distance = Utils.calculateDistance(startLat, startlng, endlat, endLng);
 
 
                     @SuppressLint("DefaultLocale") String distanceFormat = String.format("%.2f", distance);

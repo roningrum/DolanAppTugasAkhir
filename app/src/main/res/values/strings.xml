@@ -136,4 +136,6 @@
     <string name="save">Simpan</string>
     <string name="upload">Ubah Foto</string>
     <string name="masuk_dengan_google">Masuk dengan Google</string>
+    <string name="daftarkan_akun_mu_disini">Daftarkan Akun mu disini</string>
+    <string name="silakan_masukkan_akun_kamu">Silakan masukkan akun kamu</string>
 </resources>

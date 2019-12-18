@@ -39,7 +39,6 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import org.jetbrains.annotations.NotNull;
@@ -50,7 +49,9 @@ import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseConstant;
 import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.model.Tourism;
-import co.id.roningrum.dolanapptugasakhir.util.HaversineHandler;
+import co.id.roningrum.dolanapptugasakhir.util.Utils;
+
+import static co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseConstant.favoriteRef;
 
 public class TourismSejarahDetail extends AppCompatActivity implements OnMapReadyCallback {
     public static final String EXTRA_WISATA_KEY = "history_key";
@@ -77,10 +78,11 @@ public class TourismSejarahDetail extends AppCompatActivity implements OnMapRead
     private double endLng;
     private double distance;
 
-    String historyKey;
+    private String historyKey;
     boolean isFavorite;
     private FirebaseUser user;
-    private DatabaseReference favoritedb;
+    private Menu menuItem;
+    private Tourism tourism;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,8 +116,6 @@ public class TourismSejarahDetail extends AppCompatActivity implements OnMapRead
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         user = firebaseAuth.getCurrentUser();
 
-        favoritedb = FirebaseDatabase.getInstance().getReference("Favorite");
-
         historyKey = getIntent().getStringExtra(EXTRA_WISATA_KEY);
         if (historyKey == null) {
             throw new IllegalArgumentException("Must pass Extra");
@@ -124,7 +124,28 @@ public class TourismSejarahDetail extends AppCompatActivity implements OnMapRead
 //        Query historyQuery = historyDetailRef.orderByChild("category_tourism").equalTo("sejarah");
         gpsHandler = new GPSHandler(this);
 
+        tourism = new Tourism();
+
         LoadHistoryDetail();
+        favoriteState();
+    }
+
+    private void favoriteState() {
+        final String uid = user.getUid();
+        favoriteRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.child(uid).child(historyKey).exists()) {
+                    isFavorite = true;
+                    menuItem.getItem(0).setIcon(R.drawable.ic_bookmarkadded_24dp);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
     private void LoadHistoryDetail() {
@@ -133,13 +154,13 @@ public class TourismSejarahDetail extends AppCompatActivity implements OnMapRead
                 @SuppressLint("SetTextI18n")
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    final Tourism tourism = dataSnapshot.getValue(Tourism.class);
+                    tourism = dataSnapshot.getValue(Tourism.class);
                     startLat = gpsHandler.getLatitude();
                     startlng = gpsHandler.getLongitude();
                     assert tourism != null;
                     endlat = tourism.getLat_location_tourism();
                     endLng = tourism.getLng_location_tourism();
-                    distance = HaversineHandler.calculateDistance(startLat, startlng, endlat, endLng);
+                    distance = Utils.calculateDistance(startLat, startlng, endlat, endLng);
 
                     @SuppressLint("DefaultLocale") String distanceFormat = String.format("%.2f", distance);
                     tvDistanceHistoryDetail.setText("" + distanceFormat + " KM");
@@ -201,7 +222,7 @@ public class TourismSejarahDetail extends AppCompatActivity implements OnMapRead
         ValueEventListener eventListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                Tourism tourism = dataSnapshot.getValue(Tourism.class);
+                tourism = dataSnapshot.getValue(Tourism.class);
                 assert tourism != null;
                 double lattitude = tourism.getLat_location_tourism();
                 double longitude = tourism.getLng_location_tourism();
@@ -224,25 +245,9 @@ public class TourismSejarahDetail extends AppCompatActivity implements OnMapRead
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.favorite_menu, menu);
-
-        final MenuItem item = menu.findItem(R.id.add_to_favorite);
-        final String uid = user.getUid();
-        favoritedb.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.child(uid).child(historyKey).exists()) {
-                    item.setIcon(R.drawable.ic_bookmarkadded_24dp);
-                } else {
-                    item.setIcon(R.drawable.ic_unbookmarked_24dp);
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-        return super.onCreateOptionsMenu(menu);
+        menuItem = menu;
+        setFavorite();
+        return true;
     }
 
     @Override
@@ -251,36 +256,60 @@ public class TourismSejarahDetail extends AppCompatActivity implements OnMapRead
         if (item.getItemId() == android.R.id.home) {
             onBackPressed();
             return true;
-        }
-        if (item.getItemId() == R.id.add_to_favorite) {
-
-            final String uid = user.getUid();
-            favoritedb.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                    DataSnapshot favorit = dataSnapshot.child(uid);
-                    if (isFavorite) {
-                        item.setIcon(R.drawable.ic_unbookmarked_24dp);
-                        favoritedb.getRef().child(uid).child(historyKey).removeValue();
-                        isFavorite = false;
-
-                    } else {
-                        item.setIcon(R.drawable.ic_bookmarkadded_24dp);
-                        favoritedb.getRef().child(uid).child(historyKey).setValue(true);
-                        isFavorite = true;
-                    }
-
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                }
-            });
+        } else if (item.getItemId() == R.id.add_to_favorite) {
+            if (isFavorite) {
+                removeFavorite();
+            } else {
+                addToFavorite();
+            }
+            isFavorite = !isFavorite;
+            setFavorite();
             return true;
 
+        } else {
+            return super.onOptionsItemSelected(item);
         }
-        return super.onOptionsItemSelected(item);
+
+    }
+
+    private void addToFavorite() {
+        final String uid = user.getUid();
+        favoriteRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                favoriteRef.getRef().child(uid).child(historyKey).setValue(true);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
+    }
+
+    private void removeFavorite() {
+        final String uid = user.getUid();
+        favoriteRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                favoriteRef.getRef().child(uid).child(historyKey).removeValue();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    private void setFavorite() {
+        if (isFavorite) {
+            menuItem.getItem(0).setIcon(R.drawable.ic_bookmarkadded_24dp);
+        } else {
+            menuItem.getItem(0).setIcon(R.drawable.ic_unbookmarked_24dp);
+        }
     }
 
     @Override

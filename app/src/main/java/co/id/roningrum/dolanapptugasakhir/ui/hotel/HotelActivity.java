@@ -44,7 +44,7 @@ import co.id.roningrum.dolanapptugasakhir.adapter.hotel.HotelClickCallback;
 import co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseConstant;
 import co.id.roningrum.dolanapptugasakhir.handler.LocationPermissionHandler;
 import co.id.roningrum.dolanapptugasakhir.model.Hotel;
-import co.id.roningrum.dolanapptugasakhir.util.Util;
+import co.id.roningrum.dolanapptugasakhir.util.Utils;
 
 public class HotelActivity extends AppCompatActivity {
     private ShimmerFrameLayout shimmerFrameLayout;
@@ -69,7 +69,7 @@ public class HotelActivity extends AppCompatActivity {
     }
 
     private void checkConnection() {
-        if (Util.isConnectedToNetwork(getApplicationContext())) {
+        if (Utils.isConnectedToNetwork(getApplicationContext())) {
             showLoading(false);
             showHotelData();
         } else {

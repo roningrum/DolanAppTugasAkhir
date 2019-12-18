@@ -15,6 +15,7 @@ package co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismDetailActivity;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -32,6 +33,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -45,13 +48,14 @@ import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseConstant;
 import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.model.Tourism;
-import co.id.roningrum.dolanapptugasakhir.util.HaversineHandler;
+import co.id.roningrum.dolanapptugasakhir.util.Utils;
+
+import static co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseConstant.favoriteRef;
 
 public class TourismDesaDetail extends AppCompatActivity implements OnMapReadyCallback {
     public static final String EXTRA_WISATA_KEY = "wisata_key";
     private static final String MAP_VIEW_KEY = "mapViewBundle";
 
-    private final static String TAG = "Pesan";
 
     private GoogleMap villageLocationMap;
     private MapView villageMapView;
@@ -72,6 +76,12 @@ public class TourismDesaDetail extends AppCompatActivity implements OnMapReadyCa
     private double endLat;
     private double endLng;
     private double distance;
+
+    boolean isFavorite = false;
+    private Menu menuItem;
+    private Tourism tourism;
+    private String villageKey;
+    private FirebaseUser user;
     
     
     @Override
@@ -101,16 +111,38 @@ public class TourismDesaDetail extends AppCompatActivity implements OnMapReadyCa
         villageMapView.onCreate(mapViewBundle);
         villageMapView.getMapAsync(this);
 
-        String villageKey = getIntent().getStringExtra(EXTRA_WISATA_KEY);
+        villageKey = getIntent().getStringExtra(EXTRA_WISATA_KEY);
         if(villageKey == null){
             throw new IllegalArgumentException("Must pass Extra");
         }
 
         villageDetailRef = FirebaseConstant.getTourismRef(villageKey);
         gpsHandler = new GPSHandler(this);
-        
-        LoadDetailDesa();
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        user = firebaseAuth.getCurrentUser();
+        tourism = new Tourism();
 
+        LoadDetailDesa();
+        favoriteState();
+
+    }
+
+    private void favoriteState() {
+        final String uid = user.getUid();
+        favoriteRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.child(uid).child(villageKey).exists()) {
+                    isFavorite = true;
+                    menuItem.getItem(0).setIcon(R.drawable.ic_bookmarkadded_24dp);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
     private void LoadDetailDesa() {
@@ -119,13 +151,13 @@ public class TourismDesaDetail extends AppCompatActivity implements OnMapReadyCa
                 @SuppressLint("SetTextI18n")
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    final Tourism tourism = dataSnapshot.getValue(Tourism.class);
+                    tourism = dataSnapshot.getValue(Tourism.class);
                     startLat = gpsHandler.getLatitude();
                     startLng = gpsHandler.getLongitude();
                     assert tourism != null;
                     endLat = tourism.getLat_location_tourism();
                     endLng = tourism.getLng_location_tourism();
-                    distance = HaversineHandler.calculateDistance(startLat, startLng, endLat, endLng);
+                    distance = Utils.calculateDistance(startLat, startLng, endLat, endLng);
 
                     @SuppressLint("DefaultLocale") String distanceFormat = String.format("%.2f", distance);
                     tvDistanceVillageDetail.setText("" + distanceFormat + " KM");
@@ -172,7 +204,7 @@ public class TourismDesaDetail extends AppCompatActivity implements OnMapReadyCa
             ValueEventListener eventListener = new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    Tourism tourism = dataSnapshot.getValue(Tourism.class);
+                    tourism = dataSnapshot.getValue(Tourism.class);
                     assert tourism != null;
                     double lattitude = tourism.getLat_location_tourism();
                     double longitude = tourism.getLng_location_tourism();
@@ -192,23 +224,6 @@ public class TourismDesaDetail extends AppCompatActivity implements OnMapReadyCa
 
         }
 
-//        private double calculateDistance ( double startLat, double startLng, double endLat,
-//        double endLng){
-//
-//            double earthRadius = 6371;
-//            double latDiff = Math.toRadians(startLat-endLat);
-//            double lngDiff = Math.toRadians(startLng-endLng);
-//            double a = Math.sin(latDiff /2) * Math.sin(latDiff /2) +
-//                    Math.cos(Math.toRadians(startLat)) * Math.cos(Math.toRadians(endLat)) *
-//                            Math.sin(lngDiff /2) * Math.sin(lngDiff /2);
-//            double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-//            double distance = earthRadius * c;
-//
-//            int meterConversion = 1609;
-//
-//            return (distance*meterConversion/1000);
-//        }
-
     @Override
     protected void onSaveInstanceState(@NotNull Bundle outState) {
         super.onSaveInstanceState(outState);
@@ -222,15 +237,74 @@ public class TourismDesaDetail extends AppCompatActivity implements OnMapReadyCa
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Respond to the action bar's Up/Home button
-        if (item.getItemId() == android.R.id.home) {
-            finish();
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.favorite_menu, menu);
+        menuItem = menu;
+        setFavorite();
+        return true;
     }
 
+    @Override
+    public boolean onOptionsItemSelected(final MenuItem item) {
+        // Respond to the action bar's Up/Home button
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
+            return true;
+        } else if (item.getItemId() == R.id.add_to_favorite) {
+            if (isFavorite) {
+                removeFavorite();
+            } else {
+                addToFavorite();
+            }
+            isFavorite = !isFavorite;
+            setFavorite();
+            return true;
+
+        } else {
+            return super.onOptionsItemSelected(item);
+        }
+
+    }
+
+    private void addToFavorite() {
+        final String uid = user.getUid();
+        favoriteRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                favoriteRef.getRef().child(uid).child(villageKey).setValue(true);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
+    }
+
+    private void removeFavorite() {
+        final String uid = user.getUid();
+        favoriteRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                favoriteRef.getRef().child(uid).child(villageKey).removeValue();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    private void setFavorite() {
+        if (isFavorite) {
+            menuItem.getItem(0).setIcon(R.drawable.ic_bookmarkadded_24dp);
+        } else {
+            menuItem.getItem(0).setIcon(R.drawable.ic_unbookmarked_24dp);
+        }
+    }
     @Override
     protected void onResume() {
         super.onResume();

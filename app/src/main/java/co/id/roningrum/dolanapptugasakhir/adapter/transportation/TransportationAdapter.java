@@ -32,7 +32,7 @@ import java.util.List;
 import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.model.Transportation;
-import co.id.roningrum.dolanapptugasakhir.util.Util;
+import co.id.roningrum.dolanapptugasakhir.util.Utils;
 
 public class TransportationAdapter extends RecyclerView.Adapter<TransportationAdapter.AirportViewHolder> {
     private List<Transportation> transportations = new ArrayList<>();
@@ -86,7 +86,7 @@ public class TransportationAdapter extends RecyclerView.Adapter<TransportationAd
             double lattitude_a = transportation.getLat_transportation();
             double longitude_a = transportation.getLng_transportation();
 
-            float jarakKM = (float) Util.calculateDistance(latitude, longitude, lattitude_a, longitude_a);
+            float jarakKM = (float) Utils.calculateDistance(latitude, longitude, lattitude_a, longitude_a);
             String distanceFormat = String.format("%.2f", jarakKM);
 
             nameTransport.setText(transportation.getName_transportation());

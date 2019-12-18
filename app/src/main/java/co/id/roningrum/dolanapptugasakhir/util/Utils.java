@@ -26,7 +26,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 
 import co.id.roningrum.dolanapptugasakhir.R;
 
-public class Util {
+public class Utils {
     //    Hitung Jarak
     public static double calculateDistance(double startLat, double startlng, double endlat, double endLng) {
 

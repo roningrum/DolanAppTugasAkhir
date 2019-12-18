@@ -48,7 +48,7 @@ import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseConstant;
 import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.model.Transportation;
-import co.id.roningrum.dolanapptugasakhir.util.HaversineHandler;
+import co.id.roningrum.dolanapptugasakhir.util.Utils;
 
 public class TransportationBusDetail extends AppCompatActivity implements OnMapReadyCallback {
     public static final String EXTRA_BUS_KEY = "busKey";
@@ -127,7 +127,7 @@ public class TransportationBusDetail extends AppCompatActivity implements OnMapR
                     assert transportation != null;
                     endlat = transportation.getLat_transportation();
                     endLng = transportation.getLng_transportation();
-                    distance = HaversineHandler.calculateDistance(startLat, startlng, endlat, endLng);
+                    distance = Utils.calculateDistance(startLat, startlng, endlat, endLng);
 
 //                    Log.i("Haversine", "The Result : " +calculateDistance(gpsHandler.getLatitude(),gpsHandler.getLongitude(),endlat,endLng));
 
