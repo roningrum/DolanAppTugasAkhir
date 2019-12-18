@@ -24,6 +24,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -37,6 +38,8 @@ import co.id.roningrum.dolanapptugasakhir.ui.homefragment.ProfileFragment;
 
 public class MainMenuActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
     private LocationPermissionHandler locationPermissionHandler;
+    private static final String SELECTED_MENU = "selected_menu";
+    private BottomNavigationView bottomNavigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,8 +48,14 @@ public class MainMenuActivity extends AppCompatActivity implements BottomNavigat
         loadFragment(new HomeFragment());
         havePermission();
 
-        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
+        bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
+
+        if (savedInstanceState != null) {
+            savedInstanceState.getInt(SELECTED_MENU);
+        } else {
+            bottomNavigationView.setSelectedItemId(R.id.homeMenu);
+        }
     }
 
     private boolean havePermission() {
@@ -67,6 +76,7 @@ public class MainMenuActivity extends AppCompatActivity implements BottomNavigat
     private boolean loadFragment(Fragment fragment) {
         if (fragment != null) {
             getSupportFragmentManager().beginTransaction()
+                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                     .replace(R.id.frame_layout_container, fragment)
                     .commit();
             return true;
@@ -104,4 +114,9 @@ public class MainMenuActivity extends AppCompatActivity implements BottomNavigat
         }
     }
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt(SELECTED_MENU, bottomNavigationView.getSelectedItemId());
+    }
 }

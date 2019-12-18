@@ -85,7 +85,6 @@ public class ChangePhotoProfileActivity extends AppCompatActivity implements Vie
         profileReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                isGoogleSignIn = getIntent().getBooleanExtra("isGoogle", true);
                 if (changePhotoUser != null) {
                     Glide.with(getApplicationContext()).load(Objects.requireNonNull(dataSnapshot.child("photo_user").getValue()).toString()).into(photo_profile);
                 }
@@ -138,8 +137,8 @@ public class ChangePhotoProfileActivity extends AppCompatActivity implements Vie
                                                     @Override
                                                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                                         profileDb.child("photo_user").setValue(uri_photo);
-                                                        Glide.with(ChangePhotoProfileActivity.this).load(photo_location).into(photo_profile);
                                                         pbLoading.setVisibility(View.GONE);
+                                                        Glide.with(ChangePhotoProfileActivity.this).load(photo_location).into(photo_profile);
                                                         Log.d(TAG, "Profile Data sukses ke Daftar");
                                                     }
 

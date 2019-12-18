@@ -89,7 +89,8 @@ public class ChangeNameProfileActivity extends AppCompatActivity implements View
                 public void onComplete(@NonNull Task<Void> task) {
                     if (task.isSuccessful()) {
                         UserRef.child(uid).child("nama_user").setValue(edtChangeName.getText().toString().trim());
-                        startActivity(new Intent(ChangeNameProfileActivity.this, EditProfileActivity.class));
+                        Intent intent = new Intent(ChangeNameProfileActivity.this, EditProfileActivity.class);
+                        startActivity(intent);
                         finish();
                     }
                 }

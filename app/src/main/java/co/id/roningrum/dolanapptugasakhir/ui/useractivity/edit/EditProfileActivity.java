@@ -34,7 +34,6 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.Objects;
 
 import co.id.roningrum.dolanapptugasakhir.R;
-import co.id.roningrum.dolanapptugasakhir.ui.homeactivity.MainMenuActivity;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 import static co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseConstant.UserRef;
@@ -159,12 +158,12 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
         startActivity(changeNameIntent);
     }
 
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        Intent i = new Intent(this, MainMenuActivity.class);
-        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        finish();
-    }
+//    @Override
+//    public void onBackPressed() {
+//        super.onBackPressed();
+//        Intent i = new Intent(this, MainMenuActivity.class);
+//        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//        finish();
+//    }
 }
