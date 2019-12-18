@@ -81,7 +81,7 @@ public class TourismRekreasiMaps extends FragmentActivity implements OnMapReadyC
                     double latNature = tourism.getLat_location_tourism();
                     double lngNature = tourism.getLng_location_tourism();
                     LatLng naturePlaceLoc = new LatLng(latNature, lngNature);
-                    recreationMap.moveCamera(CameraUpdateFactory.newLatLngZoom(naturePlaceLoc, 14.0f));
+                    recreationMap.moveCamera(CameraUpdateFactory.newLatLngZoom(naturePlaceLoc, 10.0f));
                     recreationMap.addMarker(new MarkerOptions().position(naturePlaceLoc).title(tourism.getName_tourism()).
                             icon(Utils.getBitmapDescriptor(getApplicationContext())).snippet(tourism.getLocation_tourism()));
                 }
