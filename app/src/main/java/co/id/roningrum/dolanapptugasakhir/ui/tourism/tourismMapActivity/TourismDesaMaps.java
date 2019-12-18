@@ -35,7 +35,7 @@ import com.google.firebase.database.ValueEventListener;
 import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseConstant;
 import co.id.roningrum.dolanapptugasakhir.model.Tourism;
-import co.id.roningrum.dolanapptugasakhir.util.BitmapDescriptorHandler;
+import co.id.roningrum.dolanapptugasakhir.util.Utils;
 
 public class TourismDesaMaps extends FragmentActivity implements OnMapReadyCallback {
 
@@ -80,7 +80,7 @@ public class TourismDesaMaps extends FragmentActivity implements OnMapReadyCallb
                     double lngNature = tourism.getLng_location_tourism();
                     LatLng villagePlaceLoc = new LatLng(latNature, lngNature);
                     villageMap.moveCamera(CameraUpdateFactory.newLatLngZoom(villagePlaceLoc, 10.0f));
-                    villageMap.addMarker(new MarkerOptions().position(villagePlaceLoc).icon(BitmapDescriptorHandler.getBitmapDescriptor(getApplicationContext())).title(tourism.getName_tourism()).snippet(tourism.getLocation_tourism()));
+                    villageMap.addMarker(new MarkerOptions().position(villagePlaceLoc).icon(Utils.getBitmapDescriptor(getApplicationContext())).title(tourism.getName_tourism()).snippet(tourism.getLocation_tourism()));
                 }
             }
 

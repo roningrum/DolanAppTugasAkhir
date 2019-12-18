@@ -35,6 +35,7 @@ import com.google.firebase.database.ValueEventListener;
 import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseConstant;
 import co.id.roningrum.dolanapptugasakhir.model.Tourism;
+import co.id.roningrum.dolanapptugasakhir.util.Utils;
 
 public class TourismAirMaps extends FragmentActivity implements OnMapReadyCallback {
 
@@ -79,7 +80,8 @@ public class TourismAirMaps extends FragmentActivity implements OnMapReadyCallba
                     double lngNature = tourism.getLng_location_tourism();
                     LatLng naturePlaceLoc = new LatLng(latNature, lngNature);
                     waterMap.moveCamera(CameraUpdateFactory.newLatLngZoom(naturePlaceLoc, 10.0f));
-                    waterMap.addMarker(new MarkerOptions().position(naturePlaceLoc).title(tourism.getName_tourism()).snippet(tourism.getLocation_tourism()));
+                    waterMap.addMarker(new MarkerOptions().position(naturePlaceLoc).title(tourism.getName_tourism()).
+                            icon(Utils.getBitmapDescriptor(getApplicationContext())).snippet(tourism.getLocation_tourism()));
                 }
             }
 

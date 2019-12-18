@@ -42,6 +42,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.model.Tourism;
+import co.id.roningrum.dolanapptugasakhir.util.Utils;
 
 public class TourismKulinerMaps extends FragmentActivity implements OnMapReadyCallback {
 
@@ -89,7 +90,7 @@ public class TourismKulinerMaps extends FragmentActivity implements OnMapReadyCa
                     LatLng naturePlaceLoc = new LatLng(latNature, lngNature);
                     foodMap.moveCamera(CameraUpdateFactory.newLatLngZoom(naturePlaceLoc, 10.0f));
                     foodMap.addMarker(new MarkerOptions().position(naturePlaceLoc).title(tourism.getName_tourism())
-                            .icon(getBitmapDescriptor())
+                            .icon(Utils.getBitmapDescriptor(getApplicationContext()))
                             .snippet(tourism.getLocation_tourism()));
                 }
             }
