@@ -41,6 +41,7 @@ import com.google.firebase.database.ValueEventListener;
 import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseConstant;
 import co.id.roningrum.dolanapptugasakhir.model.Transportation;
+import co.id.roningrum.dolanapptugasakhir.util.Utils;
 
 public class TransportationShipMaps extends FragmentActivity implements OnMapReadyCallback {
 
@@ -86,7 +87,10 @@ public class TransportationShipMaps extends FragmentActivity implements OnMapRea
                     double lngBus = transportation.getLng_transportation();
                     LatLng shipPlaceLoc = new LatLng(latBus, lngBus);
                     shipMap.moveCamera(CameraUpdateFactory.newLatLngZoom(shipPlaceLoc, 12.2f));
-                    shipMap.addMarker(new MarkerOptions().position(shipPlaceLoc).icon(getBitmapDescriptor()).title(transportation.getName_transportation()).snippet(transportation.getLocation_transportation()));
+                    shipMap.addMarker(new MarkerOptions().position(shipPlaceLoc)
+                            .icon(Utils.getBitmapDescriptor(getApplicationContext()))
+                            .title(transportation.getName_transportation())
+                            .snippet(transportation.getLocation_transportation()));
 
                 }
             }

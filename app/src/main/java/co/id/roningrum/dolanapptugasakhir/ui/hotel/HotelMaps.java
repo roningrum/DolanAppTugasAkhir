@@ -14,10 +14,6 @@
 package co.id.roningrum.dolanapptugasakhir.ui.hotel;
 
 import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.drawable.VectorDrawable;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -28,8 +24,6 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptor;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -42,6 +36,7 @@ import com.google.maps.android.clustering.ClusterManager;
 import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseConstant;
 import co.id.roningrum.dolanapptugasakhir.model.Hotel;
+import co.id.roningrum.dolanapptugasakhir.util.Utils;
 
 public class HotelMaps extends FragmentActivity implements OnMapReadyCallback {
 
@@ -91,7 +86,9 @@ public class HotelMaps extends FragmentActivity implements OnMapReadyCallback {
                     double lngHotel = hotel.getLng_location_hotel();
                     LatLng naturePlaceLoc = new LatLng(latHotel, lngHotel);
                     hotelMap.moveCamera(CameraUpdateFactory.newLatLngZoom(naturePlaceLoc, 8.0f));
-                    hotelMap.addMarker(new MarkerOptions().position(naturePlaceLoc).title(hotel.getName_hotel()).snippet(hotel.getLocation_hotel()));
+                    hotelMap.addMarker(new MarkerOptions().position(naturePlaceLoc).title(hotel.getName_hotel())
+                            .icon(Utils.getBitmapDescriptor(getApplicationContext()))
+                            .snippet(hotel.getLocation_hotel()));
                     hotelMap.setOnCameraIdleListener(hotelclusterManager);
                     hotelMap.setOnInfoWindowClickListener(hotelclusterManager);
                     hotelclusterManager.addItem(hotel);
@@ -120,24 +117,4 @@ public class HotelMaps extends FragmentActivity implements OnMapReadyCallback {
         }
     }
 
-    private BitmapDescriptor getBitmapDescriptor() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            VectorDrawable vectorDrawable = (VectorDrawable) getDrawable(R.drawable.ic_marker);
-
-            assert vectorDrawable != null;
-            int h = vectorDrawable.getIntrinsicHeight();
-            int w = vectorDrawable.getIntrinsicWidth();
-
-            vectorDrawable.setBounds(0, 0, w, h);
-
-            Bitmap bm = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
-            Canvas canvas = new Canvas(bm);
-            vectorDrawable.draw(canvas);
-
-            return BitmapDescriptorFactory.fromBitmap(bm);
-
-        } else {
-            return BitmapDescriptorFactory.fromResource(R.drawable.ic_marker);
-        }
-    }
 }

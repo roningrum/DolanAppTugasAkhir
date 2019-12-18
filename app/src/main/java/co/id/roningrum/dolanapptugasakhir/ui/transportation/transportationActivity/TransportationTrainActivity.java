@@ -21,6 +21,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -160,6 +161,7 @@ public class TransportationTrainActivity extends AppCompatActivity {
             shimmerFrameLayout.startShimmer();
         } else {
             shimmerFrameLayout.stopShimmer();
+            shimmerFrameLayout.setVisibility(View.GONE);
         }
     }
 }

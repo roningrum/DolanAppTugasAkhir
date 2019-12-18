@@ -19,10 +19,12 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -46,6 +48,7 @@ import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.adapter.tourism.TourismClickCallback;
 import co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseConstant;
 import co.id.roningrum.dolanapptugasakhir.handler.LocationPermissionHandler;
+import co.id.roningrum.dolanapptugasakhir.handler.NetworkHelper;
 import co.id.roningrum.dolanapptugasakhir.model.Tourism;
 
 
@@ -60,6 +63,7 @@ public class FavoriteFragment extends Fragment {
     private FavoritAdapter favoritAdapter;
     private LocationPermissionHandler locationPermissionHandler;
     private DatabaseReference databaseReference;
+    private ProgressBar pbLoading;
 
 
     public FavoriteFragment() {
@@ -80,10 +84,21 @@ public class FavoriteFragment extends Fragment {
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         user = firebaseAuth.getCurrentUser();
         rvFavoritList = view.findViewById(R.id.rv_bookmark);
+        pbLoading = view.findViewById(R.id.pb_loading);
         rvFavoritList.setHasFixedSize(true);
         rvFavoritList.setLayoutManager(new LinearLayoutManager(getContext()));
         databaseReference = FirebaseConstant.TourismRef;
-        checkUser();
+        checkConnection();
+
+    }
+
+    private void checkConnection() {
+        if (NetworkHelper.isConnectedToNetwork(getContext())) {
+            checkUser();
+        } else {
+            pbLoading.setVisibility(View.GONE);
+            Toast.makeText(getContext(), "Check your connection", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void showFavorite() {
@@ -133,24 +148,33 @@ public class FavoriteFragment extends Fragment {
     }
 
     private void checkUser() {
-        final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Favorite").child(user.getUid());
-        databaseReference.addValueEventListener(new ValueEventListener() {
+        pbLoading.setVisibility(View.VISIBLE);
+        new Handler().postDelayed(new Runnable() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                checkUserList = new ArrayList<>();
-                checkUserList.clear();
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    checkUserList.add(snapshot.getKey());
-                    Log.d("check id user", "" + checkUserList);
-                }
-                showFavorite();
-            }
+            public void run() {
+                final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Favorite").child(user.getUid());
+                databaseReference.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        checkUserList = new ArrayList<>();
+                        checkUserList.clear();
+                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                            checkUserList.add(snapshot.getKey());
+                            Log.d("check id user", "" + checkUserList);
+                        }
+                        showFavorite();
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
+                    }
 
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+                pbLoading.setVisibility(View.GONE);
             }
-        });
+        }, 2000);
+
     }
 
     private boolean havePermission() {

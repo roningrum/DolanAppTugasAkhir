@@ -14,8 +14,6 @@
 package co.id.roningrum.dolanapptugasakhir.ui.transportation.transportationDetailActivity;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -197,14 +195,14 @@ public class TransportationBusDetail extends AppCompatActivity implements OnMapR
                     LatLng location = new LatLng(endlat, endLng);
                     busGoogleMap.addMarker(new MarkerOptions().position(location));
                     busGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 16.0f));
-                    busGoogleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
-                        @Override
-                        public void onMapClick(LatLng latLng) {
-                            String uri = "http://maps.google.com/maps?saddr=" + startLat + "," + startlng + "&daddr=" + endlat + "," + endLng + "&mode=driving";
-                            Intent intent = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(uri));
-                            startActivity(Intent.createChooser(intent, "Select an application"));
-                        }
-                    });
+//                    busGoogleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+//                        @Override
+//                        public void onMapClick(LatLng latLng) {
+//                            String uri = "http://maps.google.com/maps?saddr=" + startLat + "," + startlng + "&daddr=" + endlat + "," + endLng + "&mode=driving";
+//                            Intent intent = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(uri));
+//                            startActivity(Intent.createChooser(intent, "Select an application"));
+//                        }
+//                    });
                 }
 
                 @Override
