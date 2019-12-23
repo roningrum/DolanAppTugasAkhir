@@ -158,12 +158,4 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
         startActivity(changeNameIntent);
     }
 
-//    @Override
-//    public void onBackPressed() {
-//        super.onBackPressed();
-//        Intent i = new Intent(this, MainMenuActivity.class);
-//        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//        finish();
-//    }
 }

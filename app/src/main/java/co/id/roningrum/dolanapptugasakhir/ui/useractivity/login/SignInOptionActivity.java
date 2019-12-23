@@ -57,7 +57,6 @@ public class SignInOptionActivity extends AppCompatActivity implements View.OnCl
     @Override
     protected void onStart() {
         super.onStart();
-//        pbLoading.setVisibility(View.VISIBLE);
         FirebaseUser currentUser = fbAuth.getCurrentUser();
         updateUI(currentUser);
     }

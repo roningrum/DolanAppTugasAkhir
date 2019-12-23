@@ -29,7 +29,6 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.Query;
@@ -49,7 +48,6 @@ import co.id.roningrum.dolanapptugasakhir.model.Police;
 public class PoliceCategory extends AppCompatActivity {
 
     private RecyclerView rvPoliceList;
-    private ShimmerFrameLayout shimmerFrameLayout;
     private PoliceAdapter policeAdapter;
     private ArrayList<Police> polices = new ArrayList<>();
     private LocationPermissionHandler locationPermissionHandler;
@@ -59,7 +57,6 @@ public class PoliceCategory extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_category_police);
         rvPoliceList = findViewById(R.id.rv_police_list);
-        shimmerFrameLayout = findViewById(R.id.shimmer_view_container);
         Toolbar toolbarPolice = findViewById(R.id.toolbar_top_police);
         rvPoliceList.setLayoutManager(new LinearLayoutManager(this));
         setSupportActionBar(toolbarPolice);
@@ -90,7 +87,10 @@ public class PoliceCategory extends AppCompatActivity {
                     policeAdapter.setPoliceClickCallback(new PoliceClickCallback() {
                         @Override
                         public void onItemCallback(Police police) {
-
+                            String policeKey = police.getId();
+                            Intent intent = new Intent(PoliceCategory.this, PoliceDetail.class);
+                            intent.putExtra(PoliceDetail.EXTRA_POLICE_KEY, policeKey);
+                            startActivity(intent);
                         }
                     });
                 }

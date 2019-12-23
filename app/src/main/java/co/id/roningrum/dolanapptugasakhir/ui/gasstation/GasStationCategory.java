@@ -60,6 +60,10 @@ public class GasStationCategory extends AppCompatActivity {
         setContentView(R.layout.activity_category_gas_station);
         rvSpbuList = findViewById(R.id.rv_spbu_list);
         Toolbar toolbarGas = findViewById(R.id.toolbar_top_gas);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setHomeButtonEnabled(true);
+        }
         shimmerFrameLayout = findViewById(R.id.shimmer_view_container);
         rvSpbuList.setLayoutManager(new LinearLayoutManager(this));
         setSupportActionBar(toolbarGas);
@@ -146,12 +150,18 @@ public class GasStationCategory extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == R.id.petaMenu) {
-            startActivity(new Intent(GasStationCategory.this, GasStationMap.class));
-            return true;
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+            case R.id.petaMenu:
+                startActivity(new Intent(GasStationCategory.this, GasStationMap.class));
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+
         }
-        return super.onOptionsItemSelected(item);
+
     }
 
     private void showLoading(boolean state) {

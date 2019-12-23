@@ -132,7 +132,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 if (getActivity() == null) {
                     return;
                 }
-                String nama = Objects.requireNonNull(dataSnapshot.child("nama_user").getValue()).toString().trim();
+                String nama = dataSnapshot.child("nama_user").getValue().toString().trim();
                 greetText(nama);
                 Glide.with(getActivity()).load(Objects.requireNonNull(dataSnapshot.child("photo_user").getValue()).toString()).into(userPhotoHome);
             }
