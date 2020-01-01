@@ -58,7 +58,10 @@ public class SignInOptionActivity extends AppCompatActivity implements View.OnCl
     protected void onStart() {
         super.onStart();
         FirebaseUser currentUser = fbAuth.getCurrentUser();
-        updateUI(currentUser);
+        if (currentUser != null) {
+            updateUI(currentUser);
+        }
+
     }
 
     private void updateUI(FirebaseUser user) {
