@@ -27,6 +27,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar_edit"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="@android:color/white"
@@ -43,76 +44,49 @@
         android:src="@drawable/icon_nopic"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/appBarLayout" />
+        app:layout_constraintTop_toBottomOf="@+id/textView8" />
 
     <ProgressBar
         android:id="@+id/pb_loading_upload"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="gone"
-        app:layout_constraintBottom_toTopOf="@+id/btn_upload_image_from_device"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/appBarLayout" />
+        app:layout_constraintTop_toBottomOf="@+id/appBarLayout"
+        app:layout_constraintVertical_bias="0.405" />
 
-    <Button
+    <ImageButton
         android:id="@+id/btn_upload_image_from_device"
-        android:layout_width="match_parent"
-        android:layout_height="56dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="64dp"
         android:layout_marginEnd="16dp"
-        android:background="@color/orangePrimaryDark"
+        android:background="@drawable/bg_button_circle"
         android:fontFamily="@font/monsterrat_sembold"
         android:text="@string/txt_btn_upload_photo"
         android:textColor="#FFFF"
+        android:src="@drawable/ic_photo_camera_24dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.638"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/photo_akun_beranda" />
+        app:layout_constraintTop_toTopOf="@+id/photo_akun_beranda" />
 
-    <!--    <Button-->
-    <!--        android:id="@+id/btn_save_upload_image_from_device"-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="56dp"-->
-    <!--        android:layout_marginStart="16dp"-->
-    <!--        android:layout_marginTop="16dp"-->
-    <!--        android:layout_marginEnd="16dp"-->
-    <!--        android:background="@color/orangePrimaryDark"-->
-    <!--        android:fontFamily="@font/monsterrat_sembold"-->
-    <!--        android:text="@string/txt_btn_save_change"-->
-    <!--        android:textColor="#FFFF"-->
-    <!--        app:layout_constraintEnd_toEndOf="parent"-->
-    <!--        app:layout_constraintStart_toStartOf="parent"-->
-    <!--        app:layout_constraintTop_toBottomOf="@+id/btn_upload_image_from_device" />-->
 
-    <!--    <Button-->
-    <!--        android:id="@+id/btn_remove_image_upload"-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="56dp"-->
-    <!--        android:layout_marginStart="16dp"-->
-    <!--        android:layout_marginTop="8dp"-->
-    <!--        android:layout_marginEnd="16dp"-->
-    <!--        android:background="#FFFFFF"-->
-    <!--        android:fontFamily="@font/monsterrat_sembold"-->
-    <!--        android:text="@string/txt_btn_remove_photo"-->
-    <!--        android:textColor="@color/orangePrimaryDark"-->
-    <!--        app:layout_constraintEnd_toEndOf="parent"-->
-    <!--        app:layout_constraintStart_toStartOf="parent"-->
-    <!--        app:layout_constraintTop_toBottomOf="@+id/btn_save_upload_image_from_device" />-->
-
-    <Button
-        android:id="@+id/btn_cancel_upload"
-        android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:layout_marginStart="16dp"
+    <TextView
+        android:id="@+id/textView8"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:background="#FFFFFF"
-        android:fontFamily="@font/monsterrat_sembold"
-        android:text="@string/txt_btn_cancel"
-        android:textColor="@color/orangePrimaryDark"
+        android:layout_marginEnd="24dp"
+        android:fontFamily="@font/montserrat"
+        android:text="@string/upload_clue"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_upload_image_from_device" />
+        app:layout_constraintTop_toBottomOf="@+id/appBarLayout" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -19,6 +19,7 @@ import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -66,6 +67,7 @@ public class SignInEmailActivity extends AppCompatActivity implements View.OnCli
         setContentView(R.layout.activity_signin_account_email);
         edtEmailSignIn = findViewById(R.id.edt_email_login_layout);
         edtPasswordSignIn = findViewById(R.id.edt_password_login_layout);
+        ImageButton btnBack = findViewById(R.id.button_back);
         Button btnSignInAccount = findViewById(R.id.btn_login);
         TextView tvResetPage = findViewById(R.id.tv_reset_pass);
         TextView tvRegisterPage = findViewById(R.id.tv_register_link);
@@ -75,6 +77,7 @@ public class SignInEmailActivity extends AppCompatActivity implements View.OnCli
         tvRegisterPage.setOnClickListener(this);
         btnSignInAccount.setOnClickListener(this);
         tvResetPage.setOnClickListener(this);
+        btnBack.setOnClickListener(this);
 
     }
 
@@ -90,9 +93,17 @@ public class SignInEmailActivity extends AppCompatActivity implements View.OnCli
             case R.id.tv_reset_pass:
                 goToResetPage();
                 break;
+            case R.id.button_back:
+                backToSignInOption();
+                break;
         }
 
 
+    }
+
+    private void backToSignInOption() {
+        Intent goToSignInOpt = new Intent(this, SignInOptionActivity.class);
+        startActivity(goToSignInOpt);
     }
 
     private void goToResetPage() {

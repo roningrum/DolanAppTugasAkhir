@@ -13,6 +13,7 @@
 
 package co.id.roningrum.dolanapptugasakhir.ui.useractivity.edit;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -21,7 +22,9 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -40,17 +43,31 @@ public class ChangePasswordProfileActivity extends AppCompatActivity implements 
     private FirebaseAuth changePasswordAuth;
     private FirebaseUser changePasswordUser;
 
+    private Toolbar toolbarEdit;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_change_password_profile);
         Button btnSaveChangePassword = findViewById(R.id.btn_save_change_password);
         edtChangePassword = findViewById(R.id.edt_change_password);
+        toolbarEdit = findViewById(R.id.toolbar_edit);
 
         changePasswordAuth = FirebaseAuth.getInstance();
         changePasswordUser = changePasswordAuth.getCurrentUser();
         btnSaveChangePassword.setOnClickListener(this);
 
+        setToolbar();
+    }
+
+    private void setToolbar() {
+        setSupportActionBar(toolbarEdit);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setHomeButtonEnabled(true);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back_24dp);
+        }
     }
 
     @Override
@@ -62,20 +79,44 @@ public class ChangePasswordProfileActivity extends AppCompatActivity implements 
 
     private void saveChangePassword() {
         if (changePasswordUser != null) {
-            final String uid = changePasswordUser.getUid();
-            changePasswordUser.updatePassword(edtChangePassword.getText().toString().trim()).addOnCompleteListener(new OnCompleteListener<Void>() {
-                @Override
-                public void onComplete(@NonNull Task<Void> task) {
-                    if (task.isSuccessful()) {
-                        UserRef.child(uid).child("password").setValue(edtChangePassword.getText().toString().trim());
-                        changePasswordAuth.signOut();
-                        startActivity(new Intent(ChangePasswordProfileActivity.this, SignInOptionActivity.class));
-                        finish();
-                    } else {
-                        Log.e(TAG, "" + task.getException());
-                    }
-                }
-            });
+            String uid = changePasswordUser.getUid();
+            String password = edtChangePassword.getText().toString().trim();
+            changePasswordConfirm(uid, password);
+
         }
     }
+
+    private void changePasswordConfirm(final String password, final String uid) {
+        AlertDialog.Builder uploadAlert = new AlertDialog.Builder(ChangePasswordProfileActivity.this);
+        uploadAlert.setTitle("Konfirmasi perubahan email");
+        uploadAlert.setMessage("Apakah kamu yakin mengubah password?");
+
+        uploadAlert.setPositiveButton("Ya", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                changePasswordUser.updatePassword(password).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            UserRef.child(uid).child("password").setValue(edtChangePassword.getText().toString().trim());
+                            changePasswordAuth.signOut();
+                            startActivity(new Intent(ChangePasswordProfileActivity.this, SignInOptionActivity.class));
+                            finish();
+                        } else {
+                            Log.e(TAG, "" + task.getException());
+                        }
+                    }
+                });
+            }
+        });
+        uploadAlert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                finish();
+            }
+        });
+        uploadAlert.show();
+    }
+
+
 }

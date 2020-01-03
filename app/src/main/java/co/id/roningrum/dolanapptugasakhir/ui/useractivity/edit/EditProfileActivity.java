@@ -20,9 +20,11 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
@@ -41,11 +43,12 @@ import static co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseConstant.
 public class EditProfileActivity extends AppCompatActivity implements View.OnClickListener {
     private TextView nameProfile, emailProfile;
     private CircleImageView imageEditprofile;
+    private Toolbar toolbarEdit;
 
     private FirebaseUser editUser;
     private String TAG = "PROFILE_STATUS";
 
-    private LinearLayout changeEmailMenu;
+    private LinearLayout changeEmailMenu, changePasswordmenu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,10 +57,12 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
         ImageButton btnStartUploadImage = findViewById(R.id.btn_edit_profile_image);
         LinearLayout changeNameMenu = findViewById(R.id.ln_change_name_menu);
         changeEmailMenu = findViewById(R.id.ln_change_email_menu);
-        LinearLayout changePasswordmenu = findViewById(R.id.ln_change_password_menu);
+        changePasswordmenu = findViewById(R.id.ln_change_password_menu);
         nameProfile = findViewById(R.id.tv_name_edit_profile);
         emailProfile = findViewById(R.id.tv_email_edit_profile);
         imageEditprofile = findViewById(R.id.image_profile_edit);
+        toolbarEdit = findViewById(R.id.toolbar_edit);
+
 
         btnStartUploadImage.setOnClickListener(this);
         nameProfile.setOnClickListener(this);
@@ -69,6 +74,22 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
         FirebaseAuth editProfileAuth = FirebaseAuth.getInstance();
         editUser = editProfileAuth.getCurrentUser();
         showProfileData();
+
+        setToolbar();
+    }
+
+    private void setToolbar() {
+        setSupportActionBar(toolbarEdit);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back_24dp);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            toolbarEdit.setNavigationOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    getSupportFragmentManager().popBackStack();
+                }
+            });
+        }
     }
 
     private void showProfileData() {
@@ -117,7 +138,8 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.child("login").getValue().equals("Google")) {
-                    changeEmailMenu.setEnabled(false);
+                    changePasswordmenu.setEnabled(false);
+                    Toast.makeText(getApplicationContext(), "Tidak dapat melakukan perubahan password", Toast.LENGTH_SHORT).show();
                 }
                 if (dataSnapshot.child("login").getValue().equals("email")) {
                     Intent changePasswordIntent = new Intent(EditProfileActivity.this, ChangePasswordProfileActivity.class);
@@ -138,6 +160,7 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.child("login").getValue().equals("Google")) {
                     changeEmailMenu.setEnabled(false);
+                    Toast.makeText(getApplicationContext(), "Tidak dapat melakukan perubahan email", Toast.LENGTH_SHORT).show();
                 }
                 if (dataSnapshot.child("login").getValue().equals("email")) {
                     Intent changeEmailIntent = new Intent(EditProfileActivity.this, ChangeEmailProfileActivity.class);
@@ -157,5 +180,4 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
         Intent changeNameIntent = new Intent(EditProfileActivity.this, ChangeNameProfileActivity.class);
         startActivity(changeNameIntent);
     }
-
 }

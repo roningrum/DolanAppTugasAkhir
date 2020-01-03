@@ -27,10 +27,35 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".favorite.FavoriteDetailTourism" />
-        <activity android:name=".ui.useractivity.edit.ChangePhotoProfileActivity" />
-        <activity android:name=".ui.useractivity.edit.ChangeEmailProfileActivity" />
-        <activity android:name=".ui.useractivity.edit.ChangePasswordProfileActivity" />
-        <activity android:name=".ui.useractivity.edit.ChangeNameProfileActivity" />
+        <activity
+            android:name=".ui.useractivity.edit.ChangePhotoProfileActivity"
+            android:parentActivityName=".ui.useractivity.edit.EditProfileActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.useractivity.edit.EditProfileActivity" />
+        </activity>
+        <activity
+            android:name=".ui.useractivity.edit.ChangeEmailProfileActivity"
+            android:parentActivityName=".ui.useractivity.edit.EditProfileActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.useractivity.edit.EditProfileActivity" />
+        </activity>
+        <activity
+            android:name=".ui.useractivity.edit.ChangePasswordProfileActivity"
+            android:parentActivityName=".ui.useractivity.edit.EditProfileActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.useractivity.edit.EditProfileActivity" />
+
+        </activity>
+        <activity
+            android:name=".ui.useractivity.edit.ChangeNameProfileActivity"
+            android:parentActivityName=".ui.useractivity.edit.EditProfileActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.useractivity.edit.EditProfileActivity" />
+        </activity>
         <activity android:name=".ui.useractivity.edit.EditProfileActivity" />
         <activity android:name=".WelcomingScreenActivity" />
 

@@ -28,6 +28,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar_edit"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="@android:color/white"
@@ -136,7 +137,7 @@
 
         <TextView
             android:id="@+id/tv_email_edit_profile"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/montserrat_medium"
             tools:text="@string/string_email_dummy"
@@ -157,7 +158,7 @@
         app:layout_constraintTop_toBottomOf="@+id/ln_change_email_menu">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/monsterrat_sembold"
             android:text="@string/txt_change_password"

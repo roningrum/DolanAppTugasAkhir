@@ -19,13 +19,14 @@
     tools:context=".ui.useractivity.login.SignInOptionActivity">
 
     <View
+        android:id="@+id/view5"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/imagedolanbg"
+        android:contentDescription="@null"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:contentDescription="@null"
         app:layout_constraintTop_toTopOf="parent" />
 
     <View
@@ -61,7 +62,7 @@
         android:layout_marginTop="103dp"
         android:layout_marginEnd="32dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/img_logo_app">
 
@@ -71,10 +72,10 @@
             android:layout_height="wrap_content"
             android:visibility="gone" />
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_sign_in_google"
             android:layout_width="match_parent"
-            android:layout_height="55dp"
+            android:layout_height="56dp"
             android:background="@drawable/bg_btn_google_custom"
             android:drawableStart="@drawable/ic_google"
             android:fontFamily="@font/montserrat_medium"
@@ -84,19 +85,20 @@
             android:textColor="#8A000000" />
     </FrameLayout>
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_login_email"
         android:layout_width="0dp"
-        android:layout_height="55dp"
+        android:layout_height="56dp"
         android:layout_marginStart="32dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="32dp"
-        android:background="@drawable/bg_button_orange"
+        android:background="@drawable/state_button_orange"
+        android:padding="8dp"
         android:fontFamily="@font/montserrat"
         android:text="@string/txt_btn_login"
         android:textAllCaps="false"
         android:textColor="@color/txtWhitePrimary"
-        android:textSize="16sp"
+        android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -105,16 +107,19 @@
 
     <TextView
         android:id="@+id/textView2"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="113dp"
         android:layout_marginTop="56dp"
         android:fontFamily="@font/montserrat"
         android:text="@string/txt_tanya_akun"
-        android:textColor="#2A2727"
+        android:textColor="@color/blackTextPrimary"
         android:textSize="12sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_login_email" />
+        app:layout_constraintBottom_toBottomOf="@+id/view5"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.368"
+        app:layout_constraintStart_toStartOf="@+id/view"
+        app:layout_constraintTop_toBottomOf="@+id/btn_login_email"
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/register_link"
@@ -122,13 +127,16 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="56dp"
-        android:fontFamily="@font/montserrat"
+        android:fontFamily="@font/montserrat_medium"
         android:text="@string/txt_link_register"
-        android:textColor="@color/colorAccent"
+        android:textColor="@color/colorPrimaryDark"
         android:textSize="12sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/textView2"
-        app:layout_constraintTop_toBottomOf="@+id/btn_login_email" />
+        app:layout_constraintTop_toBottomOf="@+id/btn_login_email"
+        app:layout_constraintVertical_bias="0.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

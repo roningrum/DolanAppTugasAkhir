@@ -14,6 +14,7 @@
 package co.id.roningrum.dolanapptugasakhir.ui.homeactivity;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -118,5 +119,15 @@ public class MainMenuActivity extends AppCompatActivity implements BottomNavigat
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putInt(SELECTED_MENU, bottomNavigationView.getSelectedItemId());
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent startMain = new Intent(Intent.ACTION_MAIN);
+        startMain.addCategory(Intent.CATEGORY_HOME);
+        startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(startMain);
+        finish();
     }
 }

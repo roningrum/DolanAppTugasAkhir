@@ -62,7 +62,7 @@
         android:lineSpacingExtra="4sp"
         android:text="@string/judul_ta"
         android:textAlignment="center"
-        android:textColor="#202020"
+        android:textColor="@color/blackTextPrimary"
         android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -76,7 +76,7 @@
         android:layout_marginTop="24dp"
         android:fontFamily="@font/montserrat"
         android:text="@string/nama_ta"
-        android:textColor="#1D1D1D"
+        android:textColor="#0D0D0D"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_judul_ta" />
@@ -88,27 +88,28 @@
         android:layout_marginTop="24dp"
         android:fontFamily="@font/montserrat"
         android:text="@string/nim_ta"
-        android:textColor="@color/blackTextPrimary"
+        android:textColor="#0D0D0D"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_nama_ta" />
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_welcome_screen"
         android:layout_width="match_parent"
         android:layout_height="56dp"
         android:layout_marginStart="24dp"
         android:layout_marginEnd="24dp"
         android:layout_marginBottom="16dp"
-        android:background="@drawable/bg_button_orange"
+        android:background="@drawable/state_button_orange"
         android:fontFamily="@font/montserrat"
         android:text="@string/button_ta"
+        android:textAllCaps="false"
         android:textColor="@color/txtWhitePrimary"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_nim_ta"
-        app:layout_constraintVertical_bias="0.492" />
+        app:layout_constraintVertical_bias="0.303" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

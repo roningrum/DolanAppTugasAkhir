@@ -15,6 +15,7 @@ package co.id.roningrum.dolanapptugasakhir.ui.useractivity.reset;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 
@@ -25,7 +26,6 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DatabaseReference;
 
 import java.util.Objects;
 
@@ -33,16 +33,14 @@ import co.id.roningrum.dolanapptugasakhir.R;
 
 public class ResetPasswordActivity extends AppCompatActivity implements View.OnClickListener {
     private TextInputLayout edtEmailResetPass;
-    private Button btnResetEmail;
     private FirebaseAuth emailAuthReset;
-    private DatabaseReference dbRegisterRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signin_forget_password);
         edtEmailResetPass = findViewById(R.id.edt_email_reset_pass_layout);
-        btnResetEmail = findViewById(R.id.btn_reset_page);
+        Button btnResetEmail = findViewById(R.id.btn_reset_page);
         emailAuthReset = FirebaseAuth.getInstance();
         btnResetEmail.setOnClickListener(this);
 
@@ -57,15 +55,24 @@ public class ResetPasswordActivity extends AppCompatActivity implements View.OnC
 
     private void doResetPass() {
         String emailReset = Objects.requireNonNull(edtEmailResetPass.getEditText()).getText().toString();
-        emailAuthReset.sendPasswordResetEmail(emailReset).addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                if (task.isSuccessful()) {
-                    startActivity(new Intent(ResetPasswordActivity.this, ResetSendEmailSuccessActivity.class));
-                    finish();
+        if (emailReset.isEmpty()) {
+            edtEmailResetPass.setError("Masukkan Email");
+        } else if (!isValidEmail(emailReset)) {
+            edtEmailResetPass.setError("Email tidak valid");
+        } else {
+            emailAuthReset.sendPasswordResetEmail(emailReset).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    if (task.isSuccessful()) {
+                        startActivity(new Intent(ResetPasswordActivity.this, ResetSendEmailSuccessActivity.class));
+                        finish();
+                    }
                 }
-            }
-        });
+            });
+        }
+    }
 
+    private boolean isValidEmail(String emailReset) {
+        return Patterns.EMAIL_ADDRESS.matcher(emailReset).matches();
     }
 }

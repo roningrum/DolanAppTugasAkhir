@@ -21,6 +21,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,6 +31,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.RequestManager;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.ConnectionResult;
@@ -80,6 +82,10 @@ public class ProfileFragment extends Fragment implements View.OnClickListener, G
     }
 
 
+    static void loadImage(RequestManager glide, String url, ImageView view) {
+        glide.load(url).into(view);
+    }
+
     @Override
     public void onViewCreated(@NonNull final View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -106,22 +112,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener, G
                 .build();
         signOut.setOnClickListener(this);
 
-        DatabaseReference profileReference = FirebaseDatabase.getInstance().getReference().child("Users").child(user.getUid());
-        profileReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                tvNameProfile.setText(Objects.requireNonNull(dataSnapshot.child("nama_user").getValue()).toString().trim());
-                tvEmailProfile.setText(Objects.requireNonNull(dataSnapshot.child("email").getValue()).toString().trim());
-                Glide.with(view).load(Objects.requireNonNull(dataSnapshot.child("photo_user").getValue()).toString()).into(photo_profile);
 
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                Log.e(TAG, "Gagal Load" + databaseError.getMessage());
-
-            }
-        });
     }
 
     @Override
@@ -200,4 +191,29 @@ public class ProfileFragment extends Fragment implements View.OnClickListener, G
 
     }
 
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        DatabaseReference profileReference = FirebaseDatabase.getInstance().getReference().child("Users").child(user.getUid());
+        profileReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                tvNameProfile.setText(Objects.requireNonNull(dataSnapshot.child("nama_user").getValue()).toString().trim());
+                tvEmailProfile.setText(Objects.requireNonNull(dataSnapshot.child("email").getValue()).toString().trim());
+                String photo_url = dataSnapshot.child("photo_user").getValue().toString();
+                loadImage(Glide.with(getActivity()), photo_url, photo_profile);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Log.e(TAG, "Gagal Load" + databaseError.getMessage());
+
+            }
+        });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
 }

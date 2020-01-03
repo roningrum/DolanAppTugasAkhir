@@ -13,15 +13,19 @@
 
 package co.id.roningrum.dolanapptugasakhir.ui.useractivity.edit;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -34,7 +38,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.Objects;
 
 import co.id.roningrum.dolanapptugasakhir.R;
-import co.id.roningrum.dolanapptugasakhir.ui.useractivity.login.SignInOptionActivity;
+import co.id.roningrum.dolanapptugasakhir.ui.useractivity.login.SignInEmailActivity;
 
 import static co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseConstant.UserRef;
 
@@ -44,12 +48,14 @@ public class ChangeEmailProfileActivity extends AppCompatActivity implements Vie
 
     private FirebaseUser changeEmailUser;
     private FirebaseAuth changeEmailAuth;
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_change_email_profile);
         edtChangeEmail = findViewById(R.id.edt_change_email);
+        toolbar = findViewById(R.id.toolbar_edit);
         Button btnSaveChangeEmail = findViewById(R.id.btn_save_change_email);
 
         changeEmailAuth = FirebaseAuth.getInstance();
@@ -57,7 +63,17 @@ public class ChangeEmailProfileActivity extends AppCompatActivity implements Vie
 
         btnSaveChangeEmail.setOnClickListener(this);
         showEmailBeforeChange();
+        setToolbar();
 
+    }
+
+    private void setToolbar() {
+        setSupportActionBar(toolbar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setHomeButtonEnabled(true);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back_24dp);
+        }
     }
 
     private void showEmailBeforeChange() {
@@ -87,21 +103,45 @@ public class ChangeEmailProfileActivity extends AppCompatActivity implements Vie
 
     private void saveEmailChange() {
         if (changeEmailUser != null) {
-            final String uid = changeEmailUser.getUid();
-            final String email = edtChangeEmail.getText().toString().trim();
-            changeEmailUser.updateEmail(email).addOnCompleteListener(new OnCompleteListener<Void>() {
-                @Override
-                public void onComplete(@NonNull Task<Void> task) {
-                    if (task.isSuccessful()) {
-                        UserRef.child(uid).child("email").setValue(email);
-                        changeEmailAuth.signOut();
-                        startActivity(new Intent(ChangeEmailProfileActivity.this, SignInOptionActivity.class));
-                        finish();
-                    } else {
-                        Log.e(TAG, "" + task.getException());
-                    }
-                }
-            });
+            String uid = changeEmailUser.getUid();
+            String email = edtChangeEmail.getText().toString().trim();
+            changeEmailConfirm(uid, email);
+
         }
     }
+
+    private void changeEmailConfirm(final String uid, final String email) {
+        AlertDialog.Builder uploadAlert = new AlertDialog.Builder(ChangeEmailProfileActivity.this);
+        uploadAlert.setTitle("Konfirmasi perubahan email");
+        uploadAlert.setMessage("Apakah kamu yakin mengubah email?");
+
+        uploadAlert.setPositiveButton("Ya", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                changeEmailUser.updateEmail(email).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            UserRef.child(uid).child("email").setValue(email);
+                            changeEmailAuth.signOut();
+                            startActivity(new Intent(ChangeEmailProfileActivity.this, SignInEmailActivity.class));
+                            Toast.makeText(getApplicationContext(), "Silakan ke halaman Login untuk proses masuk", Toast.LENGTH_SHORT).show();
+                            finish();
+                        } else {
+                            Log.e(TAG, "" + task.getException());
+                        }
+                    }
+                });
+            }
+        });
+        uploadAlert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                finish();
+            }
+        });
+        uploadAlert.show();
+    }
+
+
 }

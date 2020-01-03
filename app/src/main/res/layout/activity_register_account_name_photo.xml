@@ -21,7 +21,7 @@
 
     <TextView
         android:id="@+id/tv_heading_register2_page"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:layout_marginTop="32dp"
@@ -55,7 +55,9 @@
         layout="@layout/layout_register_form_step_2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="24dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_sub_register2_page" />
@@ -63,19 +65,21 @@
     <Button
         android:id="@+id/btn_registerfinal_page"
         android:layout_width="0dp"
-        android:layout_height="55dp"
+        android:layout_height="56dp"
         android:layout_marginStart="24dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="24dp"
-        android:background="@drawable/bg_button_orange"
+        android:background="@drawable/state_button_orange"
         android:fontFamily="@font/montserrat"
         android:text="@string/txt_btn_daftar_register"
         android:textAllCaps="false"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         android:textColor="@color/txtWhitePrimary"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.49"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/layout_register_name_photo" />
+        app:layout_constraintTop_toBottomOf="@+id/layout_register_name_photo"
+        app:layout_constraintVertical_bias="0.082" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

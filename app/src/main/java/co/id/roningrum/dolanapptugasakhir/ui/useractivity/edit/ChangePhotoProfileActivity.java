@@ -14,18 +14,22 @@
 package co.id.roningrum.dolanapptugasakhir.ui.useractivity.edit;
 
 import android.content.ContentResolver;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.webkit.MimeTypeMap;
-import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -54,9 +58,9 @@ public class ChangePhotoProfileActivity extends AppCompatActivity implements Vie
     private StorageReference storagePhoto;
     private FirebaseUser changePhotoUser;
     private ProgressBar pbLoading;
+    private Toolbar toolbar;
 
     private CircleImageView photo_profile;
-//    boolean isGoogleSignIn;
 
 
     private Uri photo_location;
@@ -68,13 +72,12 @@ public class ChangePhotoProfileActivity extends AppCompatActivity implements Vie
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chang_photo_profile);
-        Button btnUploadPhoto = findViewById(R.id.btn_upload_image_from_device);
+        ImageButton btnUploadPhoto = findViewById(R.id.btn_upload_image_from_device);
         pbLoading = findViewById(R.id.pb_loading_upload);
-        Button btnCancelChange = findViewById(R.id.btn_cancel_upload);
         photo_profile = findViewById(R.id.photo_akun_beranda);
+        toolbar = findViewById(R.id.toolbar_edit);
 
         btnUploadPhoto.setOnClickListener(this);
-        btnCancelChange.setOnClickListener(this);
 
         FirebaseAuth changePhotoAuth = FirebaseAuth.getInstance();
         changePhotoUser = changePhotoAuth.getCurrentUser();
@@ -92,28 +95,78 @@ public class ChangePhotoProfileActivity extends AppCompatActivity implements Vie
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                Log.e(TAG, " " + databaseError.getMessage());
             }
         });
+
+        setToolbar();
+    }
+
+    private void setToolbar() {
+        setSupportActionBar(toolbar);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setHomeButtonEnabled(true);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back_24dp);
+        }
     }
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.btn_upload_image_from_device:
-                uploadPhotoFromFile();
-                break;
-            case R.id.btn_cancel_upload:
-                cancelProcess();
-                break;
+        if (v.getId() == R.id.btn_upload_image_from_device) {
+            uploadPhotoFromFile();
         }
     }
 
-    private void cancelProcess() {
-        finish();
+    String getFileExtension(Uri uri) {
+        ContentResolver contentResolver = getContentResolver();
+        MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
+        return mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(uri));
+    }
+
+    private void uploadPhotoFromFile() {
+        Intent photoIntent = new Intent();
+        photoIntent.setType("image/*");
+        photoIntent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(photoIntent, photo_max);
+
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == photo_max && resultCode == RESULT_OK && data != null && data.getData() != null) {
+            photo_location = data.getData();
+            pbLoading.setVisibility(View.VISIBLE);
+            uploadConfirm();
+        }
+    }
+
+
+    private void uploadConfirm() {
+        AlertDialog.Builder uploadAlert = new AlertDialog.Builder(ChangePhotoProfileActivity.this);
+        uploadAlert.setTitle("Proses Unggah Foto");
+        uploadAlert.setMessage("Apakah kamu yakin akan memproses unggahan?");
+
+        uploadAlert.setPositiveButton("Ya", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                pbLoading.setVisibility(View.VISIBLE);
+                uploadPhotoProcess();
+            }
+        });
+        uploadAlert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                finish();
+                Toast.makeText(getApplicationContext(), "Pressed Cancel", Toast.LENGTH_SHORT).show();
+            }
+        });
+        uploadAlert.show();
     }
 
     private void uploadPhotoProcess() {
+
         if (photo_location != null) {
             StorageReference storageReference = storagePhoto.child(System.currentTimeMillis() + "." + getFileExtension(photo_location));
             storageReference.putFile(photo_location).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
@@ -139,12 +192,14 @@ public class ChangePhotoProfileActivity extends AppCompatActivity implements Vie
                                                         profileDb.child("photo_user").setValue(uri_photo);
                                                         pbLoading.setVisibility(View.GONE);
                                                         Glide.with(ChangePhotoProfileActivity.this).load(photo_location).into(photo_profile);
+                                                        Toast.makeText(getApplicationContext(), "Sukses Terubah", Toast.LENGTH_SHORT).show();
                                                         Log.d(TAG, "Profile Data sukses ke Daftar");
                                                     }
 
                                                     @Override
                                                     public void onCancelled(@NonNull DatabaseError databaseError) {
                                                         pbLoading.setVisibility(View.VISIBLE);
+                                                        Toast.makeText(getApplicationContext(), "Gagal", Toast.LENGTH_SHORT).show();
                                                         Log.e(TAG, "" + databaseError.getMessage());
                                                     }
                                                 });
@@ -161,27 +216,5 @@ public class ChangePhotoProfileActivity extends AppCompatActivity implements Vie
         }
     }
 
-    String getFileExtension(Uri uri) {
-        ContentResolver contentResolver = getContentResolver();
-        MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
-        return mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(uri));
-    }
 
-    private void uploadPhotoFromFile() {
-        Intent photoIntent = new Intent();
-        photoIntent.setType("image/*");
-        photoIntent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(photoIntent, photo_max);
-
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == photo_max && resultCode == RESULT_OK && data != null && data.getData() != null) {
-            photo_location = data.getData();
-            pbLoading.setVisibility(View.VISIBLE);
-            uploadPhotoProcess();
-        }
-    }
 }
