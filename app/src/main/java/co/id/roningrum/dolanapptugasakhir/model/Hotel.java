@@ -13,10 +13,7 @@
 
 package co.id.roningrum.dolanapptugasakhir.model;
 
-import com.google.android.gms.maps.model.LatLng;
-import com.google.maps.android.clustering.ClusterItem;
-
-public class Hotel implements ClusterItem {
+public class Hotel {
     private String id;
     private String name_hotel;
     private String location_hotel;
@@ -104,21 +101,6 @@ public class Hotel implements ClusterItem {
 
     public void setLng_location_hotel(double lng_location_hotel) {
         this.lng_location_hotel = lng_location_hotel;
-    }
-
-    @Override
-    public LatLng getPosition() {
-        return new LatLng(getLat_location_hotel(), getLng_location_hotel());
-    }
-
-    @Override
-    public String getTitle() {
-        return getName_hotel();
-    }
-
-    @Override
-    public String getSnippet() {
-        return getLocation_hotel();
     }
 
     public String getId() {

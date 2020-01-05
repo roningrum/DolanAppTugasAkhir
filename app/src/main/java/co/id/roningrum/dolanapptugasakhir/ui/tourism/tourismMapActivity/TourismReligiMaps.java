@@ -24,6 +24,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -34,6 +35,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseConstant;
+import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.model.Tourism;
 import co.id.roningrum.dolanapptugasakhir.util.Utils;
 
@@ -78,11 +80,22 @@ public class TourismReligiMaps extends FragmentActivity implements OnMapReadyCal
                 for (DataSnapshot dsNature : dataSnapshot.getChildren()) {
                     Tourism tourism = dsNature.getValue(Tourism.class);
                     assert tourism != null;
-                    double latNature = tourism.getLat_location_tourism();
-                    double lngNature = tourism.getLng_location_tourism();
-                    LatLng naturePlaceLoc = new LatLng(latNature, lngNature);
-                    religiPlaceMap.moveCamera(CameraUpdateFactory.newLatLngZoom(naturePlaceLoc, 10.0f));
-                    religiPlaceMap.addMarker(new MarkerOptions().position(naturePlaceLoc).icon(Utils.getBitmapDescriptor(getApplicationContext()))
+                    double latTourism = tourism.getLat_location_tourism();
+                    double lngTourism = tourism.getLng_location_tourism();
+                    LatLng religiPlaceLoc = new LatLng(latTourism, lngTourism);
+
+                    GPSHandler gpsHandler = new GPSHandler(getApplicationContext());
+                    double lat = gpsHandler.getLatitude();
+                    double lng = gpsHandler.getLongitude();
+                    LatLng userLoc = new LatLng(lat, lng);
+
+                    CameraPosition cameraPosition = new CameraPosition.Builder()
+                            .target(userLoc)
+                            .zoom(12.17f)
+                            .build();
+                    religiPlaceMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+                    religiPlaceMap.setMyLocationEnabled(true);
+                    religiPlaceMap.addMarker(new MarkerOptions().position(religiPlaceLoc).icon(Utils.getBitmapDescriptor(getApplicationContext()))
                             .title(tourism.getName_tourism()).snippet(tourism.getLocation_tourism()));
                 }
             }

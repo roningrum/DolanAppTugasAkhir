@@ -24,6 +24,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -31,10 +32,10 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
-import com.google.maps.android.clustering.ClusterManager;
 
 import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseConstant;
+import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.model.Hotel;
 import co.id.roningrum.dolanapptugasakhir.util.Utils;
 
@@ -42,7 +43,6 @@ public class HotelMaps extends FragmentActivity implements OnMapReadyCallback {
 
     private DatabaseReference hotelRefMap;
     private GoogleMap hotelMap;
-    private ClusterManager<Hotel> hotelclusterManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,7 +74,6 @@ public class HotelMaps extends FragmentActivity implements OnMapReadyCallback {
 
     private void showHotelMap(GoogleMap googleMap) {
         hotelMap = googleMap;
-        hotelclusterManager = new ClusterManager<>(getApplicationContext(), hotelMap);
         hotelRefMap.addListenerForSingleValueEvent(new ValueEventListener() {
 
             @Override
@@ -84,16 +83,23 @@ public class HotelMaps extends FragmentActivity implements OnMapReadyCallback {
                     assert hotel != null;
                     double latHotel = hotel.getLat_location_hotel();
                     double lngHotel = hotel.getLng_location_hotel();
+
+                    GPSHandler gpsHandler = new GPSHandler(getApplicationContext());
+                    double lat = gpsHandler.getLatitude();
+                    double lng = gpsHandler.getLongitude();
+                    LatLng userLoc = new LatLng(lat, lng);
+
+                    CameraPosition cameraPosition = new CameraPosition.Builder()
+                            .target(userLoc)
+                            .zoom(14.07f)
+                            .build();
+                    hotelMap.setMyLocationEnabled(true);
+                    hotelMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
                     LatLng naturePlaceLoc = new LatLng(latHotel, lngHotel);
-                    hotelMap.moveCamera(CameraUpdateFactory.newLatLngZoom(naturePlaceLoc, 8.0f));
                     hotelMap.addMarker(new MarkerOptions().position(naturePlaceLoc).title(hotel.getName_hotel())
                             .icon(Utils.getBitmapDescriptor(getApplicationContext()))
                             .snippet(hotel.getLocation_hotel()));
-                    hotelMap.setOnCameraIdleListener(hotelclusterManager);
-                    hotelMap.setOnInfoWindowClickListener(hotelclusterManager);
-                    hotelclusterManager.addItem(hotel);
                 }
-                hotelclusterManager.cluster();
             }
 
             @Override

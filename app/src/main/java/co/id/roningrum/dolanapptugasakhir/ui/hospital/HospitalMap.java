@@ -24,6 +24,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -34,6 +35,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseConstant;
+import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.model.Hospital;
 
 public class HospitalMap extends FragmentActivity implements OnMapReadyCallback {
@@ -78,8 +80,20 @@ public class HospitalMap extends FragmentActivity implements OnMapReadyCallback 
                     assert hospital != null;
                     double latHospital = hospital.getLat_hospital();
                     double lngHospital = hospital.getLng_hospital();
+
+                    //getUserKoordinat
+                    GPSHandler gpsHandler = new GPSHandler(getApplicationContext());
+                    double lat = gpsHandler.getLatitude();
+                    double lng = gpsHandler.getLongitude();
+                    LatLng userLoc = new LatLng(lat, lng);
+
+                    CameraPosition cameraPosition = new CameraPosition.Builder()
+                            .target(userLoc)
+                            .zoom(14.07f)
+                            .build();
                     LatLng hospitalPlaceLoc = new LatLng(latHospital, lngHospital);
-                    hospitalGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(hospitalPlaceLoc, 10.2f));
+                    hospitalGoogleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+                    hospitalGoogleMap.setMyLocationEnabled(true);
                     hospitalGoogleMap.addMarker(new MarkerOptions().position(hospitalPlaceLoc).title(hospital.getName_hospital()).snippet(hospital.getLocation_hospital()));
                 }
             }

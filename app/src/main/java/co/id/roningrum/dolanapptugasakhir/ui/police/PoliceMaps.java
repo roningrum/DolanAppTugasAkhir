@@ -24,6 +24,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -34,6 +35,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseConstant;
+import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.model.Police;
 import co.id.roningrum.dolanapptugasakhir.util.Utils;
 
@@ -80,7 +82,18 @@ public class PoliceMaps extends FragmentActivity implements OnMapReadyCallback {
                     double latPolice = police.getLat_police();
                     double lngPolice = police.getLng_police();
                     LatLng policePlaceLoc = new LatLng(latPolice, lngPolice);
-                    policeMap.moveCamera(CameraUpdateFactory.newLatLngZoom(policePlaceLoc, 10.2f));
+
+                    GPSHandler gpsHandler = new GPSHandler(getApplicationContext());
+                    double lat = gpsHandler.getLatitude();
+                    double lng = gpsHandler.getLongitude();
+                    LatLng userLoc = new LatLng(lat, lng);
+
+                    CameraPosition cameraPosition = new CameraPosition.Builder()
+                            .target(userLoc)
+                            .zoom(14.07f)
+                            .build();
+
+                    policeMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
                     policeMap.addMarker(new MarkerOptions().position(policePlaceLoc).icon(Utils.getBitmapDescriptor(getApplicationContext())).title(police.getName_police()).snippet(police.getLocation_police()));
 
                 }

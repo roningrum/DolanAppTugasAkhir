@@ -23,6 +23,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.database.DataSnapshot;
@@ -32,6 +33,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseConstant;
+import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.model.GasStation;
 
 public class GasStationMap extends FragmentActivity implements OnMapReadyCallback {
@@ -68,7 +70,7 @@ public class GasStationMap extends FragmentActivity implements OnMapReadyCallbac
 
     }
 
-    private void showGasMap(GoogleMap googleMap) {
+    private void showGasMap(final GoogleMap googleMap) {
         gasGoogleMap = googleMap;
         gasMapRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -78,8 +80,21 @@ public class GasStationMap extends FragmentActivity implements OnMapReadyCallbac
                     assert gasStation != null;
                     double latGas = gasStation.getLat_gasstation();
                     double lngGas = gasStation.getLng_gasstation();
+
+                    //getUserKoordinat
+                    GPSHandler gpsHandler = new GPSHandler(getApplicationContext());
+                    double lat = gpsHandler.getLatitude();
+                    double lng = gpsHandler.getLongitude();
+
                     LatLng busPlaceLoc = new LatLng(latGas, lngGas);
-                    gasGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(busPlaceLoc, 10.2f));
+                    LatLng userLoc = new LatLng(lat, lng);
+
+                    CameraPosition cameraPosition = new CameraPosition.Builder()
+                            .target(userLoc)
+                            .zoom(14.07f)
+                            .build();
+                    gasGoogleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+                    gasGoogleMap.setMyLocationEnabled(true);
                     gasGoogleMap.addMarker(new MarkerOptions().position(busPlaceLoc).title(gasStation.getName_gasstation()).snippet(gasStation.getLocation_gasstation()));
 
                 }

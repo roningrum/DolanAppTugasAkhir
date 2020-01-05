@@ -24,6 +24,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -34,13 +35,13 @@ import com.google.firebase.database.ValueEventListener;
 
 import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseConstant;
+import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.model.Tourism;
 import co.id.roningrum.dolanapptugasakhir.util.Utils;
 
 public class TourismEdukasiMaps extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap educationPlaceMap;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,9 +83,20 @@ public class TourismEdukasiMaps extends FragmentActivity implements OnMapReadyCa
                     assert tourism != null;
                     double latNature = tourism.getLat_location_tourism();
                     double lngNature = tourism.getLng_location_tourism();
-                    LatLng naturePlaceLoc = new LatLng(latNature, lngNature);
-                    educationPlaceMap.moveCamera(CameraUpdateFactory.newLatLngZoom(naturePlaceLoc, 10.0f));
-                    educationPlaceMap.addMarker(new MarkerOptions().position(naturePlaceLoc).icon(Utils.getBitmapDescriptor(getApplicationContext())).title(tourism.getName_tourism()).snippet(tourism.getLocation_tourism()));
+                    LatLng educationPlaceLoc = new LatLng(latNature, lngNature);
+
+                    GPSHandler gpsHandler = new GPSHandler(getApplicationContext());
+                    double lat = gpsHandler.getLatitude();
+                    double lng = gpsHandler.getLongitude();
+                    LatLng userLoc = new LatLng(lat, lng);
+
+                    CameraPosition cameraPosition = new CameraPosition.Builder()
+                            .target(userLoc)
+                            .zoom(12.17f)
+                            .build();
+                    educationPlaceMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+                    educationPlaceMap.setMyLocationEnabled(true);
+                    educationPlaceMap.addMarker(new MarkerOptions().position(educationPlaceLoc).icon(Utils.getBitmapDescriptor(getApplicationContext())).title(tourism.getName_tourism()).snippet(tourism.getLocation_tourism()));
                 }
             }
 
