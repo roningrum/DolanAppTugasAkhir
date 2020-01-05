@@ -76,6 +76,7 @@ public class ChangeNameProfileActivity extends AppCompatActivity implements View
     private void showNameBeforeChanges() {
         if (changeNameUser != null) {
             final String uid = changeNameUser.getUid();
+            Log.e("Check Status UID", " The UID : " + uid);
             UserRef.getRef().child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

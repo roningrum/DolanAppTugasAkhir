@@ -80,6 +80,8 @@ public class TransportationAirportMaps extends FragmentActivity implements OnMap
                     assert transportation != null;
                     double latAirport = transportation.getLat_transportation();
                     double lngAirport = transportation.getLng_transportation();
+
+
                     LatLng airportPlaceLoc = new LatLng(latAirport, lngAirport);
                     airportMaps.moveCamera(CameraUpdateFactory.newLatLngZoom(airportPlaceLoc, 14.6f));
 

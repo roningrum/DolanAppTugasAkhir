@@ -15,11 +15,11 @@
       },
       "oauth_client": [
         {
-          "client_id": "423356581298-tdrnameoo7lcvliqjolppkf8f4jvfql4.apps.googleusercontent.com",
+          "client_id": "423356581298-eljq05eseur1rvbmgl40ui7a9cso8sf8.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "co.id.roningrum.dolanapptugasakhir",
-            "certificate_hash": "d56b6449c6d5351541c31e378e120972f317d7a4"
+            "certificate_hash": "59df6ba2b1ecb20a9341d1addc5958e2721e964b"
           }
         },
         {
@@ -29,7 +29,7 @@
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBPd26f7RHffYMBhsvAoKeSDbXLMAB2Ens"
+          "current_key": "AIzaSyCoxfbGPBehQvUos6301FZAqZSYa9biQLc"
         }
       ],
       "services": {
