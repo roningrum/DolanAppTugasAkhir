@@ -76,7 +76,7 @@
             android:id="@+id/btn_sign_in_google"
             android:layout_width="match_parent"
             android:layout_height="56dp"
-            android:background="@drawable/bg_btn_google_custom"
+            android:background="@drawable/state_button_google_white"
             android:drawableStart="@drawable/ic_google"
             android:fontFamily="@font/montserrat_medium"
             android:padding="8dp"

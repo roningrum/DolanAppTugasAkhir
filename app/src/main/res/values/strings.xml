@@ -14,7 +14,7 @@
 <resources>
     <string name="app_name">Dolan App Tugas Akhir</string>
     <string name="txt_nama_app">DOLAN</string>
-    <string name="txt_btn_login">Masuk</string>
+    <string name="txt_btn_login">Masuk dengan Email</string>
     <string name="txt_tanya_akun">Tidak Memiliki Akun?</string>
     <string name="txt_link_register">Daftar</string>
 
