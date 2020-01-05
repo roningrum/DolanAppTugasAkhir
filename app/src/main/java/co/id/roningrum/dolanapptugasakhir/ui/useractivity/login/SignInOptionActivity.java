@@ -182,8 +182,8 @@ public class SignInOptionActivity extends AppCompatActivity implements View.OnCl
 //
 //                                        pbLoading.setVisibility(View.GONE);
                                         Intent googleRegistered = new Intent(SignInOptionActivity.this, MainMenuActivity.class);
-//                                        googleRegistered.putExtra("isGoogle", isGoogleSignIn);
                                         startActivity(googleRegistered);
+                                        finish();
                                     }
                                 }
 

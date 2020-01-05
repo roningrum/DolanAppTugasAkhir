@@ -201,7 +201,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener, G
                 tvNameProfile.setText(Objects.requireNonNull(dataSnapshot.child("nama_user").getValue()).toString().trim());
                 tvEmailProfile.setText(Objects.requireNonNull(dataSnapshot.child("email").getValue()).toString().trim());
                 String photo_url = dataSnapshot.child("photo_user").getValue().toString();
-                loadImage(Glide.with(getActivity().getApplicationContext()), photo_url, photo_profile);
+                loadImage(Glide.with(getActivity()), photo_url, photo_profile);
             }
 
             @Override

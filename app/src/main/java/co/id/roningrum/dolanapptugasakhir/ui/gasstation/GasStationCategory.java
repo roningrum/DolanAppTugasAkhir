@@ -60,13 +60,14 @@ public class GasStationCategory extends AppCompatActivity {
         setContentView(R.layout.activity_category_gas_station);
         rvSpbuList = findViewById(R.id.rv_spbu_list);
         Toolbar toolbarGas = findViewById(R.id.toolbar_top_gas);
+        setSupportActionBar(toolbarGas);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setHomeButtonEnabled(true);
+            getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back_24dp);
         }
         shimmerFrameLayout = findViewById(R.id.shimmer_view_container);
         rvSpbuList.setLayoutManager(new LinearLayoutManager(this));
-        setSupportActionBar(toolbarGas);
         checkConnection();
     }
 

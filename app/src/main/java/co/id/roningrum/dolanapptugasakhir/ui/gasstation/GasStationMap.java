@@ -17,6 +17,7 @@ import android.os.Bundle;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentActivity;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -51,6 +52,17 @@ public class GasStationMap extends FragmentActivity implements OnMapReadyCallbac
         assert mapFragment != null;
         mapFragment.getMapAsync(this);
         gasMapRef = FirebaseConstant.GasRef;
+
+        Toolbar toolbarGas = findViewById(R.id.toolbar_gas_map);
+//        setSupportActionBar(toolbarGas);
+//        if (getSupportActionBar() != null) {
+//            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//            getSupportActionBar().setHomeButtonEnabled(true);
+//            getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back_24dp);
+//        }
+
+
+
     }
 
 

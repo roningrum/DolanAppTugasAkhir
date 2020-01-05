@@ -86,7 +86,7 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
             toolbarEdit.setNavigationOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    getSupportFragmentManager().popBackStack();
+                    onBackPressed();
                 }
             });
         }
@@ -100,7 +100,8 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 nameProfile.setText(Objects.requireNonNull(dataSnapshot.child("nama_user").getValue()).toString().trim());
                 emailProfile.setText(Objects.requireNonNull(dataSnapshot.child("email").getValue()).toString().trim());
-                Glide.with(EditProfileActivity.this).load(Objects.requireNonNull(dataSnapshot.child("photo_user").getValue()).toString()).into(imageEditprofile);
+                Log.w(TAG, "Photo_URL : " + dataSnapshot.child("photo_user").getValue());
+                Glide.with(getApplicationContext()).load(Objects.requireNonNull(dataSnapshot.child("photo_user").getValue()).toString()).into(imageEditprofile);
             }
 
             @Override

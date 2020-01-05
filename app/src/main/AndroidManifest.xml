@@ -84,9 +84,20 @@
         <activity android:name=".ui.police.PoliceCategory" />
         <activity
             android:name=".ui.gasstation.GasStationMap"
-            android:label="@string/title_activity_gas_station_maps" />
+            android:label="@string/title_activity_gas_station_maps"
+            android:parentActivityName=".ui.gasstation.GasStationCategory">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.gasstation.GasStationCategory" />
+        </activity>
         <activity android:name=".ui.gasstation.GasStationDetail" />
-        <activity android:name=".ui.gasstation.GasStationCategory" />
+        <activity
+            android:name=".ui.gasstation.GasStationCategory"
+            android:parentActivityName=".ui.homeactivity.AllCategoryActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.homeactivity.AllCategoryActivity" />
+        </activity>
         <activity
             android:name=".ui.transportation.transportationMapActivity.TransportationShipMaps"
             android:label="@string/title_activity_ship_map" />
