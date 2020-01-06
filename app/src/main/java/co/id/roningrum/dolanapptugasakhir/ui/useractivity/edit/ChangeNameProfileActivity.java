@@ -33,6 +33,8 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.Objects;
+
 import co.id.roningrum.dolanapptugasakhir.R;
 
 import static co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseConstant.UserRef;
@@ -75,10 +77,10 @@ public class ChangeNameProfileActivity extends AppCompatActivity implements View
         if (changeNameUser != null) {
             final String uid = changeNameUser.getUid();
             Log.e("Check Status UID", " The UID : " + uid);
-            UserRef.getRef().child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
+            UserRef.getRef().child(uid).addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    edtChangeName.setText(changeNameUser.getDisplayName());
+                    edtChangeName.setText(Objects.requireNonNull(dataSnapshot.child("nama_user").getValue()).toString().trim());
                 }
 
                 @Override
@@ -99,8 +101,19 @@ public class ChangeNameProfileActivity extends AppCompatActivity implements View
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
                     if (task.isSuccessful()) {
-                        UserRef.child(uid).child("nama_user").setValue(edtChangeName.getText().toString().trim());
-                        Toast.makeText(getApplicationContext(), "Nama Berhasi di ubah", Toast.LENGTH_SHORT).show();
+                        UserRef.child(uid).addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                UserRef.child(uid).getRef().child("nama_user").setValue(edtChangeName.getText().toString().trim());
+                                Toast.makeText(getApplicationContext(), "Nama Berhasi di ubah", Toast.LENGTH_SHORT).show();
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                            }
+                        });
+
                     } else {
                         Toast.makeText(getApplicationContext(), "Gagal diubah", Toast.LENGTH_SHORT).show();
                     }
