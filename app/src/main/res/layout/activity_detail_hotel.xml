@@ -88,7 +88,7 @@
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="24dp"
-                android:background="@drawable/bg_button_orange"
+                android:background="@drawable/state_button_orange"
                 android:fontFamily="@font/montserrat"
                 android:padding="8dp"
                 android:text="@string/order_hotel_button"

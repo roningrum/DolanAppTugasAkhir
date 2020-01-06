@@ -400,8 +400,11 @@
         </activity>
         <activity
             android:name=".ui.tourism.tourismMapActivity.TourismAirMaps"
-            android:label="@string/title_activity_water_maps">
-
+            android:label="@string/title_activity_water_maps"
+            android:parentActivityName=".ui.tourism.tourismActivity.TourismAirActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.tourism.tourismActivity.TourismAirActivity" />
         </activity>
         <activity
             android:name=".ui.tourism.tourismMapActivity.TourismAlamMaps"
