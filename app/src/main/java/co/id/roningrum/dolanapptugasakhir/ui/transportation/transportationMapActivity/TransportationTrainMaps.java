@@ -21,7 +21,8 @@ import android.os.Bundle;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.FragmentActivity;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -29,6 +30,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.database.DataSnapshot;
@@ -38,10 +40,11 @@ import com.google.firebase.database.ValueEventListener;
 
 import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseConstant;
+import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.model.Transportation;
 import co.id.roningrum.dolanapptugasakhir.util.Utils;
 
-public class TransportationTrainMaps extends FragmentActivity implements OnMapReadyCallback {
+public class TransportationTrainMaps extends AppCompatActivity implements OnMapReadyCallback {
 
     private GoogleMap trainMap;
 
@@ -54,6 +57,8 @@ public class TransportationTrainMaps extends FragmentActivity implements OnMapRe
                 .findFragmentById(R.id.train_map);
         assert mapFragment != null;
         mapFragment.getMapAsync(this);
+        Toolbar toolbarTrain = findViewById(R.id.toolbar_train_map);
+        setSupportActionBar(toolbarTrain);
     }
 
 
@@ -80,11 +85,23 @@ public class TransportationTrainMaps extends FragmentActivity implements OnMapRe
                 for (DataSnapshot dsAirport : dataSnapshot.getChildren()) {
                     Transportation transportation = dsAirport.getValue(Transportation.class);
                     assert transportation != null;
-                    double latBus = transportation.getLat_transportation();
-                    double lngBus = transportation.getLng_transportation();
-                    LatLng airportPlaceLoc = new LatLng(latBus, lngBus);
-                    trainMap.moveCamera(CameraUpdateFactory.newLatLngZoom(airportPlaceLoc, 11.2f));
-                    trainMap.addMarker(new MarkerOptions().position(airportPlaceLoc).icon(Utils.getBitmapDescriptor(getApplicationContext())).
+                    double latTrain = transportation.getLat_transportation();
+                    double lngTrain = transportation.getLng_transportation();
+
+                    GPSHandler gpsHandler = new GPSHandler(getApplicationContext());
+                    double lat = gpsHandler.getLatitude();
+                    double lng = gpsHandler.getLongitude();
+                    LatLng userLoc = new LatLng(lat, lng);
+
+                    CameraPosition cameraPosition = new CameraPosition.Builder()
+                            .target(userLoc)
+                            .zoom(12.27f)
+                            .build();
+
+                    trainMap.setMyLocationEnabled(true);
+                    trainMap.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+                    LatLng trainPlaceLoc = new LatLng(latTrain, lngTrain);
+                    trainMap.addMarker(new MarkerOptions().position(trainPlaceLoc).icon(Utils.getBitmapDescriptor(getApplicationContext())).
                             title(transportation.getName_transportation()).snippet(transportation.getLocation_transportation()));
 
                 }

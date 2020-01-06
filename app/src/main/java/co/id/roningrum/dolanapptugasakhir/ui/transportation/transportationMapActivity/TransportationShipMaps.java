@@ -22,7 +22,8 @@ import android.os.Bundle;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.FragmentActivity;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -30,6 +31,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -40,10 +42,11 @@ import com.google.firebase.database.ValueEventListener;
 
 import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseConstant;
+import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.model.Transportation;
 import co.id.roningrum.dolanapptugasakhir.util.Utils;
 
-public class TransportationShipMaps extends FragmentActivity implements OnMapReadyCallback {
+public class TransportationShipMaps extends AppCompatActivity implements OnMapReadyCallback {
 
     private GoogleMap shipMap;
 
@@ -56,6 +59,8 @@ public class TransportationShipMaps extends FragmentActivity implements OnMapRea
                 .findFragmentById(R.id.ship_map);
         assert mapFragment != null;
         mapFragment.getMapAsync(this);
+        Toolbar toolbarShipMap = findViewById(R.id.toolbar_ship_map);
+        setSupportActionBar(toolbarShipMap);
 
     }
 
@@ -76,7 +81,7 @@ public class TransportationShipMaps extends FragmentActivity implements OnMapRea
 
     private void showShipMap(GoogleMap googleMap) {
         shipMap = googleMap;
-        Query shipMapQuery = FirebaseConstant.getTransportShip();
+        final Query shipMapQuery = FirebaseConstant.getTransportShip();
         shipMapQuery.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -85,8 +90,21 @@ public class TransportationShipMaps extends FragmentActivity implements OnMapRea
                     assert transportation != null;
                     double latBus = transportation.getLat_transportation();
                     double lngBus = transportation.getLng_transportation();
+
+
+                    GPSHandler gpsHandler = new GPSHandler(getApplicationContext());
+                    double lat = gpsHandler.getLatitude();
+                    double lng = gpsHandler.getLongitude();
+                    LatLng userLoc = new LatLng(lat, lng);
+
+                    CameraPosition cameraPosition = new CameraPosition.Builder()
+                            .target(userLoc)
+                            .zoom(12.27f)
+                            .build();
+
+                    shipMap.setMyLocationEnabled(true);
+                    shipMap.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
                     LatLng shipPlaceLoc = new LatLng(latBus, lngBus);
-                    shipMap.moveCamera(CameraUpdateFactory.newLatLngZoom(shipPlaceLoc, 12.2f));
                     shipMap.addMarker(new MarkerOptions().position(shipPlaceLoc)
                             .icon(Utils.getBitmapDescriptor(getApplicationContext()))
                             .title(transportation.getName_transportation())

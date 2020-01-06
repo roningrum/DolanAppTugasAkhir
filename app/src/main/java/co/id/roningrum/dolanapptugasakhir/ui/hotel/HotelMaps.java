@@ -95,7 +95,7 @@ public class HotelMaps extends AppCompatActivity implements OnMapReadyCallback {
 
                     CameraPosition cameraPosition = new CameraPosition.Builder()
                             .target(userLoc)
-                            .zoom(14.07f)
+                            .zoom(13.27f)
                             .build();
                     hotelMap.setMyLocationEnabled(true);
                     hotelMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));

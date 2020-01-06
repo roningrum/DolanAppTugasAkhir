@@ -178,9 +178,18 @@
         </activity>
         <activity
             android:name=".ui.transportation.transportationMapActivity.TransportationBusMaps"
-            android:label="@string/title_activity_bus_maps" />
-        <activity android:name=".ui.transportation.transportationDetailActivity.TransportationBusDetail">
-
+            android:label="@string/title_activity_bus_maps"
+            android:parentActivityName=".ui.transportation.transportationActivity.TransportationBusActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.transportation.transportationActivity.TransportationBusActivity" />
+        </activity>
+        <activity
+            android:name=".ui.transportation.transportationDetailActivity.TransportationBusDetail"
+            android:parentActivityName=".ui.transportation.transportationActivity.TransportationBusActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.transportation.transportationActivity.TransportationBusActivity" />
         </activity>
         <activity
             android:name=".ui.transportation.transportationActivity.TransportationBusActivity"
@@ -191,9 +200,27 @@
         </activity>
         <activity
             android:name=".ui.transportation.transportationMapActivity.TransportationAirportMaps"
-            android:label="@string/title_activity_airport_maps" />
-        <activity android:name=".ui.transportation.transportationDetailActivity.TransportationAirportDetail" />
-        <activity android:name=".ui.transportation.transportationActivity.TransportationAirportActivity" />
+            android:label="@string/title_activity_airport_maps"
+            android:parentActivityName=".ui.transportation.transportationActivity.TransportationAirportActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.transportation.transportationActivity.TransportationAirportActivity" />
+        </activity>
+        <activity
+            android:name=".ui.transportation.transportationDetailActivity.TransportationAirportDetail"
+            android:parentActivityName=".ui.transportation.transportationActivity.TransportationAirportActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.transportation.transportationActivity.TransportationAirportActivity" />
+        </activity>
+        <activity
+            android:name=".ui.transportation.transportationActivity.TransportationAirportActivity"
+            android:parentActivityName=".ui.homeactivity.AllCategoryActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.homeactivity.AllCategoryActivity" />
+
+        </activity>
         <activity
             android:name=".ui.hotel.HotelMaps"
             android:label="@string/title_activity_hotel_maps"

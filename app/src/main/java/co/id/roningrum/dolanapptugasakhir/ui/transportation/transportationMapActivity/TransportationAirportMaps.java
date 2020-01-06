@@ -25,6 +25,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -35,6 +36,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseConstant;
+import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.model.Transportation;
 import co.id.roningrum.dolanapptugasakhir.util.Utils;
 
@@ -84,10 +86,19 @@ public class TransportationAirportMaps extends AppCompatActivity implements OnMa
                     double latAirport = transportation.getLat_transportation();
                     double lngAirport = transportation.getLng_transportation();
 
+                    GPSHandler gpsHandler = new GPSHandler(getApplicationContext());
+                    double lat = gpsHandler.getLatitude();
+                    double lng = gpsHandler.getLongitude();
+                    LatLng userLoc = new LatLng(lat, lng);
 
+
+                    CameraPosition cameraPosition = new CameraPosition.Builder()
+                            .target(userLoc)
+                            .zoom(12.27f)
+                            .build();
+                    airportMaps.setMyLocationEnabled(true);
                     LatLng airportPlaceLoc = new LatLng(latAirport, lngAirport);
-                    airportMaps.moveCamera(CameraUpdateFactory.newLatLngZoom(airportPlaceLoc, 14.6f));
-
+                    airportMaps.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
                     airportMaps.addMarker(new MarkerOptions().position(airportPlaceLoc).icon(Utils.getBitmapDescriptor(getApplicationContext())).
                             title(transportation.getName_transportation()).snippet(transportation.getLocation_transportation()));
 

@@ -19,15 +19,16 @@
     tools:context=".ui.transportation.transportationMapActivity.TransportationShipMaps">
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar_bus_map"
+        android:id="@+id/toolbar_ship_map"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
+        app:navigationIcon="@drawable/ic_arrow_back_24dp"
         app:title="@string/title_activity_ship_map" />
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/toolbar_bus_map">
+        android:layout_below="@+id/toolbar_ship_map">
 
         <fragment
             android:id="@+id/ship_map"
