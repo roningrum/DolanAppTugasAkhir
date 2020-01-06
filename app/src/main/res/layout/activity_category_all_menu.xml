@@ -25,11 +25,13 @@
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
         <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar_all_menu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/txtWhitePrimary"
             android:minHeight="?attr/actionBarSize"
             app:layout_collapseMode="pin"
+            app:navigationIcon="@drawable/ic_arrow_back_24dp"
             app:title="Semua Kategori"
             app:titleTextColor="@android:color/black" />
     </com.google.android.material.appbar.AppBarLayout>

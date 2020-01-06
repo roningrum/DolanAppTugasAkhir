@@ -19,6 +19,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.ui.gasstation.GasStationCategory;
@@ -45,6 +46,10 @@ public class AllCategoryActivity extends AppCompatActivity implements View.OnCli
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_category_all_menu);
+
+        Toolbar toolbarAllMenu = findViewById(R.id.toolbar_all_menu);
+        setSupportActionBar(toolbarAllMenu);
+
         LinearLayout natureMenu = findViewById(R.id.ln_nature_tour);
         LinearLayout entertaintMenu = findViewById(R.id.ln_entertain_tour);
         LinearLayout shoppingMenu = findViewById(R.id.ln_belanja_tour);
