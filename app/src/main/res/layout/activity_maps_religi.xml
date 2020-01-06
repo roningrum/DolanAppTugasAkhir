@@ -22,7 +22,8 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:fitsSystemWindows="true"
-        app:title="Peta Wisata Air"
+        app:navigationIcon="@drawable/ic_arrow_back_24dp"
+        app:title="Peta Wisata Religi"
         app:titleTextColor="@color/blackTextPrimary" />
 
     <FrameLayout

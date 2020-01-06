@@ -19,17 +19,18 @@
     tools:context=".ui.tourism.tourismMapActivity.TourismAirMaps">
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar_nature_map"
+        android:id="@+id/toolbar_water_map"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:fitsSystemWindows="true"
         app:title="Peta Wisata Air"
+        app:navigationIcon="@drawable/ic_arrow_back_24dp"
         app:titleTextColor="@color/blackTextPrimary" />
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/toolbar_nature_map">
+        android:layout_below="@+id/toolbar_water_map">
 
         <fragment
             android:id="@+id/water_tourism_map"

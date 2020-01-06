@@ -19,17 +19,18 @@
     tools:context=".ui.tourism.tourismMapActivity.TourismSejarahMaps">
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar_nature_map"
+        android:id="@+id/toolbar_history_map"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:fitsSystemWindows="true"
+        app:navigationIcon="@drawable/ic_arrow_back_24dp"
         app:title="@string/title_activity_history_category_map"
         app:titleTextColor="@color/blackTextPrimary" />
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/toolbar_nature_map">
+        android:layout_below="@+id/toolbar_history_map">
 
         <fragment
             android:id="@+id/history_map"

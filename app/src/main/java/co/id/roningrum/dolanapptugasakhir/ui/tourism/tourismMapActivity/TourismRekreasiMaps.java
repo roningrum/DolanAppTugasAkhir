@@ -18,7 +18,8 @@ import android.os.Bundle;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.FragmentActivity;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -39,7 +40,7 @@ import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.model.Tourism;
 import co.id.roningrum.dolanapptugasakhir.util.Utils;
 
-public class TourismRekreasiMaps extends FragmentActivity implements OnMapReadyCallback {
+public class TourismRekreasiMaps extends AppCompatActivity implements OnMapReadyCallback {
 
     private GoogleMap recreationMap;
 
@@ -52,6 +53,8 @@ public class TourismRekreasiMaps extends FragmentActivity implements OnMapReadyC
                 .findFragmentById(R.id.tourist_recreation_map);
         assert mapFragment != null;
         mapFragment.getMapAsync(this);
+        Toolbar toolbarRekreasiMap = findViewById(R.id.toolbar_recreation_map);
+        setSupportActionBar(toolbarRekreasiMap);
 
     }
 

@@ -93,8 +93,8 @@ public class TourismReligiMaps extends FragmentActivity implements OnMapReadyCal
                             .target(userLoc)
                             .zoom(12.17f)
                             .build();
-                    religiPlaceMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
                     religiPlaceMap.setMyLocationEnabled(true);
+                    religiPlaceMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
                     religiPlaceMap.addMarker(new MarkerOptions().position(religiPlaceLoc).icon(Utils.getBitmapDescriptor(getApplicationContext()))
                             .title(tourism.getName_tourism()).snippet(tourism.getLocation_tourism()));
                 }

@@ -19,15 +19,16 @@
     tools:context=".ui.hotel.HotelMaps">
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar_map"
+        android:id="@+id/toolbar_hotel_map"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
+        app:navigationIcon="@drawable/ic_arrow_back_24dp"
         app:title="@string/title_activity_hotel_maps" />
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/toolbar_map">
+        android:layout_below="@+id/toolbar_hotel_map">
 
         <fragment
             android:id="@+id/map"

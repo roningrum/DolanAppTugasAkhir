@@ -32,6 +32,7 @@
             app:layout_collapseMode="pin"
             app:popupTheme="@style/ActionBarThemeOverlay"
             app:title="Wisata Alam"
+            app:navigationIcon="@drawable/ic_arrow_back_24dp"
             app:titleTextColor="@android:color/black" />
     </com.google.android.material.appbar.AppBarLayout>
 

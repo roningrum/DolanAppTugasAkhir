@@ -30,6 +30,7 @@
             android:layout_height="?attr/actionBarSize"
             android:background="@color/txtWhitePrimary"
             app:layout_collapseMode="pin"
+            app:navigationIcon="@drawable/ic_arrow_back_24dp"
             app:popupTheme="@style/ActionBarThemeOverlay"
             app:title="Wisata Air"
             app:titleTextColor="@android:color/black" />

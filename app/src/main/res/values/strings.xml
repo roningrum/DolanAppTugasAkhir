@@ -40,8 +40,8 @@
     <string name="permission_message">Please, Accept the permisiion</string>
     <string name="title_activity_water_maps">Peta Wisata Air</string>
     <string name="title_activity_shopping_category_map">Peta Belanja</string>
-    <string name="title_activity_village_maps">Map</string>
-    <string name="title_activity_education_maps">Map</string>
+    <string name="title_activity_village_maps">Peta Desa Wisata</string>
+    <string name="title_activity_education_maps">Peta Wisata Edukasi</string>
     <string name="title_activity_recreation_category_maps">Peta Wisata Rekreasi</string>
     <string name="title_activity_religi_category_maps">Peta Wisata Religi</string>
     <string name="title_activity_history_category_map">Peta Wisata Sejarah</string>

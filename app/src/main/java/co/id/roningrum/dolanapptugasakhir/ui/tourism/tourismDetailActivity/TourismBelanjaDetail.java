@@ -42,8 +42,6 @@ import com.google.firebase.database.ValueEventListener;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Objects;
-
 import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseConstant;
 import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
@@ -98,9 +96,6 @@ public class TourismBelanjaDetail extends AppCompatActivity implements OnMapRead
 
         Toolbar toolbarShopping = findViewById(R.id.toolbar_shopping_detail_top);
         setSupportActionBar(toolbarShopping);
-        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         Bundle mapViewBundle = null;
         if (savedInstanceState != null) {

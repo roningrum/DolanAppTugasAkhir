@@ -33,8 +33,6 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.Objects;
-
 import co.id.roningrum.dolanapptugasakhir.R;
 
 import static co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseConstant.UserRef;
@@ -80,7 +78,7 @@ public class ChangeNameProfileActivity extends AppCompatActivity implements View
             UserRef.getRef().child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    edtChangeName.setText(Objects.requireNonNull(dataSnapshot.child("nama_user").getValue()).toString().trim());
+                    edtChangeName.setText(changeNameUser.getDisplayName());
                 }
 
                 @Override

@@ -24,6 +24,7 @@
         android:layout_height="?attr/actionBarSize"
         android:fitsSystemWindows="true"
         app:title="Peta Wisata Alam"
+        app:navigationIcon="@drawable/ic_arrow_back_24dp"
         app:titleTextColor="@color/blackTextPrimary" />
 
     <FrameLayout

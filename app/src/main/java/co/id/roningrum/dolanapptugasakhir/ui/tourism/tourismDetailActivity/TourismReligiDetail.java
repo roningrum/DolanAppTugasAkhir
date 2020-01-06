@@ -43,8 +43,6 @@ import com.google.firebase.database.ValueEventListener;
 
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Objects;
-
 import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseConstant;
 import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
@@ -99,10 +97,6 @@ public class TourismReligiDetail extends AppCompatActivity implements OnMapReady
 
         Toolbar toolbarReligi = findViewById(R.id.toolbar_religi_detail);
         setSupportActionBar(toolbarReligi);
-        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back_24dp);
 
         Bundle mapViewBundle = null;
         if (savedInstanceState != null) {

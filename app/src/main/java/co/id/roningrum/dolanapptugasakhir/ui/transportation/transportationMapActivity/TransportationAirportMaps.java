@@ -18,7 +18,8 @@ import android.os.Bundle;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.FragmentActivity;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -37,7 +38,7 @@ import co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseConstant;
 import co.id.roningrum.dolanapptugasakhir.model.Transportation;
 import co.id.roningrum.dolanapptugasakhir.util.Utils;
 
-public class TransportationAirportMaps extends FragmentActivity implements OnMapReadyCallback {
+public class TransportationAirportMaps extends AppCompatActivity implements OnMapReadyCallback {
 
     private GoogleMap airportMaps;
 
@@ -50,6 +51,10 @@ public class TransportationAirportMaps extends FragmentActivity implements OnMap
                 .findFragmentById(R.id.airport_map);
         assert mapFragment != null;
         mapFragment.getMapAsync(this);
+
+        Toolbar toolbarAirport = findViewById(R.id.toolbar_bandara_map);
+        setSupportActionBar(toolbarAirport);
+
     }
 
 
@@ -65,8 +70,6 @@ public class TransportationAirportMaps extends FragmentActivity implements OnMap
     @Override
     public void onMapReady(GoogleMap googleMap) {
         showAirportMap(googleMap);
-
-
     }
 
     private void showAirportMap(GoogleMap googleMap) {

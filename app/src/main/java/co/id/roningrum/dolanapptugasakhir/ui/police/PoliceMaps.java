@@ -18,7 +18,8 @@ import android.os.Bundle;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.FragmentActivity;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -39,7 +40,7 @@ import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.model.Police;
 import co.id.roningrum.dolanapptugasakhir.util.Utils;
 
-public class PoliceMaps extends FragmentActivity implements OnMapReadyCallback {
+public class PoliceMaps extends AppCompatActivity implements OnMapReadyCallback {
     private DatabaseReference policeMapRef;
     private GoogleMap policeMap;
 
@@ -53,6 +54,10 @@ public class PoliceMaps extends FragmentActivity implements OnMapReadyCallback {
         assert mapFragment != null;
         mapFragment.getMapAsync(this);
         policeMapRef = FirebaseConstant.PoliceRef;
+
+        Toolbar toolbarPoliceMap = findViewById(R.id.toolbar_police_map);
+        setSupportActionBar(toolbarPoliceMap);
+
     }
 
 
@@ -92,7 +97,7 @@ public class PoliceMaps extends FragmentActivity implements OnMapReadyCallback {
                             .target(userLoc)
                             .zoom(14.07f)
                             .build();
-
+                    policeMap.setMyLocationEnabled(true);
                     policeMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
                     policeMap.addMarker(new MarkerOptions().position(policePlaceLoc).icon(Utils.getBitmapDescriptor(getApplicationContext())).title(police.getName_police()).snippet(police.getLocation_police()));
 

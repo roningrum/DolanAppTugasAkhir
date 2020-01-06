@@ -33,6 +33,7 @@
             app:layout_collapseMode="pin"
             app:popupTheme="@style/ActionBarThemeOverlay"
             app:title="Bandara"
+            app:navigationIcon="@drawable/ic_arrow_back_24dp"
             app:titleTextColor="@android:color/black" />
     </com.google.android.material.appbar.AppBarLayout>
 

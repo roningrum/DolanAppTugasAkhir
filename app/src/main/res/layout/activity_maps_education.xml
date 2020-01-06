@@ -20,11 +20,12 @@
     tools:context=".ui.tourism.tourismMapActivity.TourismEdukasiMaps">
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar_nature_map"
+        android:id="@+id/toolbar_education_map"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:fitsSystemWindows="true"
         app:title="Peta Wisata Edukasi"
+        app:navigationIcon="@drawable/ic_arrow_back_24dp"
         app:titleTextColor="@color/blackTextPrimary" />
 
     <FrameLayout

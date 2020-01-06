@@ -18,7 +18,8 @@ import android.os.Bundle;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.FragmentActivity;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -39,7 +40,7 @@ import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.model.Tourism;
 import co.id.roningrum.dolanapptugasakhir.util.Utils;
 
-public class TourismAirMaps extends FragmentActivity implements OnMapReadyCallback {
+public class TourismAirMaps extends AppCompatActivity implements OnMapReadyCallback {
 
     private GoogleMap waterMap;
     @Override
@@ -51,6 +52,10 @@ public class TourismAirMaps extends FragmentActivity implements OnMapReadyCallba
                 .findFragmentById(R.id.water_tourism_map);
         assert mapFragment != null;
         mapFragment.getMapAsync(this);
+
+        Toolbar toolbarWaterMaps = findViewById(R.id.toolbar_water_map);
+        setSupportActionBar(toolbarWaterMaps);
+
     }
 
 

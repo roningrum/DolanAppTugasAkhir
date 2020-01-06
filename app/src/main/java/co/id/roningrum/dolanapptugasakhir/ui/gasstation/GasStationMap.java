@@ -17,8 +17,8 @@ import android.os.Bundle;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.FragmentActivity;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -37,7 +37,7 @@ import co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseConstant;
 import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.model.GasStation;
 
-public class GasStationMap extends FragmentActivity implements OnMapReadyCallback {
+public class GasStationMap extends AppCompatActivity implements OnMapReadyCallback {
 
     private DatabaseReference gasMapRef;
     private GoogleMap gasGoogleMap;
@@ -54,15 +54,7 @@ public class GasStationMap extends FragmentActivity implements OnMapReadyCallbac
         gasMapRef = FirebaseConstant.GasRef;
 
         Toolbar toolbarGas = findViewById(R.id.toolbar_gas_map);
-//        setSupportActionBar(toolbarGas);
-//        if (getSupportActionBar() != null) {
-//            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-//            getSupportActionBar().setHomeButtonEnabled(true);
-//            getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back_24dp);
-//        }
-
-
-
+        setSupportActionBar(toolbarGas);
     }
 
 

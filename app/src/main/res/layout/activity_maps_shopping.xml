@@ -25,6 +25,7 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:fitsSystemWindows="true"
+        app:navigationIcon="@drawable/ic_arrow_back_24dp"
         app:title="Peta Wisata Belanja"
         app:titleTextColor="@color/blackTextPrimary" />
 

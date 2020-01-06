@@ -40,8 +40,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.Objects;
-
 import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseConstant;
 import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
@@ -86,11 +84,6 @@ public class PoliceDetail extends AppCompatActivity implements OnMapReadyCallbac
 
         Toolbar toolbarPolice = findViewById(R.id.toolbar_police_detail);
         setSupportActionBar(toolbarPolice);
-        Objects.requireNonNull(getSupportActionBar()).setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back_24dp);
-
 
         Bundle mapViewBundle = null;
         if (savedInstanceState != null) {
