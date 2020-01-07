@@ -19,7 +19,7 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/edt_email_login_layout"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:hint="@string/txt_edit_text_email_register"
         app:errorEnabled="true"
@@ -36,7 +36,7 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/edt_password_login_layout"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:hint="@string/txt_edit_text_kata_sandi_register"
