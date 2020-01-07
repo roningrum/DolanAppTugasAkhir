@@ -28,15 +28,15 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="88dp"
-        android:layout_marginTop="291dp"
-        android:layout_marginEnd="88dp"
-        android:layout_marginBottom="291dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
         android:fontFamily="@font/montserrat_bold"
+        android:gravity="center"
         android:lineSpacingExtra="5sp"
         android:text="@string/txt_nama_app"
+        android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textColor="@color/txtWhitePrimary"
         android:textSize="42sp"
