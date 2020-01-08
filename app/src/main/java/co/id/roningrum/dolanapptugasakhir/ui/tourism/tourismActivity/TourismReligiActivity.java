@@ -44,7 +44,7 @@ import co.id.roningrum.dolanapptugasakhir.adapter.tourism.TourismClickCallback;
 import co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseConstant;
 import co.id.roningrum.dolanapptugasakhir.handler.LocationPermissionHandler;
 import co.id.roningrum.dolanapptugasakhir.model.Tourism;
-import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismDetailActivity.TourismReligiDetail;
+import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismDetailActivity.TourismDetailActivity;
 import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismMapActivity.TourismReligiMaps;
 import co.id.roningrum.dolanapptugasakhir.util.Utils;
 
@@ -95,8 +95,8 @@ public class TourismReligiActivity extends AppCompatActivity {
                         @Override
                         public void onItemClicked(Tourism tourism) {
                             String tourismKey = tourism.getId();
-                            Intent intent = new Intent(TourismReligiActivity.this, TourismReligiDetail.class);
-                            intent.putExtra(TourismReligiDetail.EXTRA_WISATA_KEY, tourismKey);
+                            Intent intent = new Intent(TourismReligiActivity.this, TourismDetailActivity.class);
+                            intent.putExtra(TourismDetailActivity.EXTRA_WISATA_KEY, tourismKey);
                             Log.d("Check id", "id :" + tourismKey);
                             startActivity(intent);
                         }

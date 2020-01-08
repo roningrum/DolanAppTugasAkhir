@@ -26,6 +26,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".ui.tourism.tourismDetailActivity.TourismDetailActivity"></activity>
         <activity android:name=".favorite.FavoriteDetailTourism" />
         <activity
             android:name=".ui.useractivity.edit.ChangePhotoProfileActivity"
@@ -47,7 +48,6 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.useractivity.edit.EditProfileActivity" />
-
         </activity>
         <activity
             android:name=".ui.useractivity.edit.ChangeNameProfileActivity"
@@ -58,7 +58,6 @@
         </activity>
         <activity android:name=".ui.useractivity.edit.EditProfileActivity" />
         <activity android:name=".WelcomingScreenActivity" />
-
         <activity android:name=".ui.useractivity.register.RegisterAccountProfileActivity" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
@@ -219,7 +218,6 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.homeactivity.AllCategoryActivity" />
-
         </activity>
         <activity
             android:name=".ui.hotel.HotelMaps"

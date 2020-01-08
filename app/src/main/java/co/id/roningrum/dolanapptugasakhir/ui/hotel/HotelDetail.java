@@ -16,6 +16,7 @@ package co.id.roningrum.dolanapptugasakhir.ui.hotel;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -36,6 +37,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -49,6 +52,8 @@ import co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseConstant;
 import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.model.Hotel;
 import co.id.roningrum.dolanapptugasakhir.util.Utils;
+
+import static co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseConstant.favoriteRef;
 
 public class HotelDetail extends AppCompatActivity implements OnMapReadyCallback, View.OnClickListener {
     public static final String EXTRA_HOTEL_KEY = "hotel_key";
@@ -76,7 +81,10 @@ public class HotelDetail extends AppCompatActivity implements OnMapReadyCallback
     private double endLng;
     private double distance;
 
+    boolean isFavorite = false;
+    Menu menuItem;
     String hotelKey;
+    private FirebaseUser user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,8 +116,30 @@ public class HotelDetail extends AppCompatActivity implements OnMapReadyCallback
         hotelDetailRef = FirebaseConstant.getHotelKey(hotelKey);
         gpsHandler = new GPSHandler(this);
 
+        user = FirebaseAuth.getInstance().getCurrentUser();
+
         btnOrdeHotel.setOnClickListener(this);
         LoadHotelDetail();
+        favoriteState();
+
+    }
+
+    private void favoriteState() {
+        final String uid = user.getUid();
+        favoriteRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.child(uid).child(hotelKey).exists()) {
+                    isFavorite = true;
+                    menuItem.getItem(0).setIcon(R.drawable.ic_bookmarkadded_24dp);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
 
     }
 
@@ -220,6 +250,21 @@ public class HotelDetail extends AppCompatActivity implements OnMapReadyCallback
     }
 
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.favorite_menu, menu);
+        menuItem = menu;
+        setFavoriteHotel();
+        return true;
+    }
+
+    private void setFavoriteHotel() {
+        if (isFavorite) {
+            menuItem.getItem(0).setIcon(R.drawable.ic_bookmarkadded_24dp);
+        } else {
+            menuItem.getItem(0).setIcon(R.drawable.ic_unbookmarked_24dp);
+        }
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -227,8 +272,50 @@ public class HotelDetail extends AppCompatActivity implements OnMapReadyCallback
         if (item.getItemId() == android.R.id.home) {
             finish();
             return true;
+        } else if (item.getItemId() == R.id.add_to_favorite) {
+            if (isFavorite) {
+                removeFavorite();
+            } else {
+                addToFavorite();
+            }
+            isFavorite = !isFavorite;
+            setFavoriteHotel();
+            return true;
+        } else {
+            return super.onOptionsItemSelected(item);
         }
-        return super.onOptionsItemSelected(item);
+
+    }
+
+    private void addToFavorite() {
+        final String uid = user.getUid();
+        favoriteRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                favoriteRef.getRef().child(uid).child(hotelKey).setValue(true);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    private void removeFavorite() {
+        final String uid = user.getUid();
+        favoriteRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                favoriteRef.getRef().child(uid).child(hotelKey).removeValue();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
     }
 
     @Override

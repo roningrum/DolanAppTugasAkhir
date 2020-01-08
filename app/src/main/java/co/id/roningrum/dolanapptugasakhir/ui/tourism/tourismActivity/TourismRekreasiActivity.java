@@ -45,7 +45,7 @@ import co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseConstant;
 import co.id.roningrum.dolanapptugasakhir.handler.LocationPermissionHandler;
 import co.id.roningrum.dolanapptugasakhir.handler.NetworkHelper;
 import co.id.roningrum.dolanapptugasakhir.model.Tourism;
-import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismDetailActivity.TourismRekreasiDetail;
+import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismDetailActivity.TourismDetailActivity;
 import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismMapActivity.TourismRekreasiMaps;
 
 public class TourismRekreasiActivity extends AppCompatActivity {
@@ -91,8 +91,8 @@ public class TourismRekreasiActivity extends AppCompatActivity {
                         @Override
                         public void onItemClicked(Tourism tourism) {
                             String tourismKey = tourism.getId();
-                            Intent intent = new Intent(TourismRekreasiActivity.this, TourismRekreasiDetail.class);
-                            intent.putExtra(TourismRekreasiDetail.EXTRA_WISATA_KEY, tourismKey);
+                            Intent intent = new Intent(TourismRekreasiActivity.this, TourismDetailActivity.class);
+                            intent.putExtra(TourismDetailActivity.EXTRA_WISATA_KEY, tourismKey);
                             Log.d("Check id", "id :" + tourismKey);
                             startActivity(intent);
                         }

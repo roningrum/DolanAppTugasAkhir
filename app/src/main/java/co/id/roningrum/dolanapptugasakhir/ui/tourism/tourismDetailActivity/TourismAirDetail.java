@@ -121,10 +121,10 @@ public class TourismAirDetail extends AppCompatActivity implements OnMapReadyCal
         LoadDetail();
     }
 
+    @SuppressLint({"SetTextI18n", "DefaultLocale"})
     private void LoadDetail() {
         if(gpsHandler.isCanGetLocation()){
             ValueEventListener eventListener = new ValueEventListener() {
-                @SuppressLint("SetTextI18n")
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     tourism = dataSnapshot.getValue(Tourism.class);
@@ -135,7 +135,7 @@ public class TourismAirDetail extends AppCompatActivity implements OnMapReadyCal
                     endLng = tourism.getLng_location_tourism();
                     distance = Utils.calculateDistance(startLat, startLng, endLat, endLng);
 
-                    @SuppressLint("DefaultLocale") String distanceFormat = String.format("%.2f",distance);
+                    String distanceFormat = String.format("%.2f", distance);
                     tvDistanceWaterDetail.setText(""+distanceFormat+" KM");
                     tvNameWaterDetail.setText(tourism.getName_tourism());
                     tvAddressWaterDetail.setText(tourism.getLocation_tourism());
