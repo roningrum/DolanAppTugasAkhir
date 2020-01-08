@@ -81,7 +81,7 @@ public class TourismAirMaps extends AppCompatActivity implements OnMapReadyCallb
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for(DataSnapshot dsNature : dataSnapshot.getChildren()){
-                    Tourism tourism = dsNature.getValue(Tourism.class);
+                    final Tourism tourism = dsNature.getValue(Tourism.class);
                     assert tourism != null;
                     double latTourism = tourism.getLat_location_tourism();
                     double lngTourism = tourism.getLng_location_tourism();
@@ -97,7 +97,7 @@ public class TourismAirMaps extends AppCompatActivity implements OnMapReadyCallb
                             .build();
                     waterMap.setMyLocationEnabled(true);
                     waterMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
-                    LatLng waterPlaceLoc = new LatLng(latTourism, lngTourism);
+                    final LatLng waterPlaceLoc = new LatLng(latTourism, lngTourism);
                     waterMap.addMarker(new MarkerOptions().position(waterPlaceLoc).title(tourism.getName_tourism()).
                             icon(Utils.getBitmapDescriptor(getApplicationContext())).snippet(tourism.getLocation_tourism()));
                 }

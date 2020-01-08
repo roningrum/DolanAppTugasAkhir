@@ -75,7 +75,6 @@ public class FavoritAdapter extends RecyclerView.Adapter<FavoritAdapter.FavoritV
         return tourisms.size();
     }
 
-
     class FavoritViewHolder extends RecyclerView.ViewHolder {
         private TextView nameFavTourism;
         private TextView locationFavTourism;

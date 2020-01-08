@@ -51,7 +51,6 @@ import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismActivity.TourismBela
 import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismActivity.TourismDesaActivity;
 import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismActivity.TourismRekreasiActivity;
 import co.id.roningrum.dolanapptugasakhir.ui.transportation.transportationActivity.TransportationAirportActivity;
-import co.id.roningrum.dolanapptugasakhir.ui.transportation.transportationActivity.TransportationBusActivity;
 import co.id.roningrum.dolanapptugasakhir.ui.transportation.transportationActivity.TransportationTrainActivity;
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -83,7 +82,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        TextView tvAllCategory = view.findViewById(R.id.tv_subtitle_category_main_menu);
         tvGreetApp = view.findViewById(R.id.tv_greeting_app);
         userPhotoHome = view.findViewById(R.id.img_user_home);
         LinearLayout natureMenu = view.findViewById(R.id.ln_alam_tour_home_menu);
@@ -93,7 +91,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         LinearLayout airportMenu = view.findViewById(R.id.ln_bandara_public_home);
         LinearLayout hotelMenu = view.findViewById(R.id.ln_hotel_public_home);
         LinearLayout trainMenu = view.findViewById(R.id.ln_train_public_home);
-        LinearLayout busMenu = view.findViewById(R.id.ln_bus_public_home);
+        LinearLayout moreMenu = view.findViewById(R.id.ln_more_home);
 
         SliderView sliderView = view.findViewById(R.id.sliderView);
         SlideAdapterExample adapterExample = new SlideAdapterExample();
@@ -107,7 +105,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         sliderView.setScrollTimeInSec(5);
         sliderView.startAutoCycle();
 
-        tvAllCategory.setOnClickListener(this);
         natureMenu.setOnClickListener(this);
         entertainMenu.setOnClickListener(this);
         shoppingMenu.setOnClickListener(this);
@@ -115,10 +112,12 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         airportMenu.setOnClickListener(this);
         hotelMenu.setOnClickListener(this);
         trainMenu.setOnClickListener(this);
-        busMenu.setOnClickListener(this);
+        moreMenu.setOnClickListener(this);
 
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         homeUser = firebaseAuth.getCurrentUser();
+
+        userPhotoHome.setOnClickListener(this);
 
         showProfileToHome();
 
@@ -162,9 +161,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.tv_subtitle_category_main_menu:
-                startActivity(new Intent(getContext(), AllCategoryActivity.class));
-                break;
             case R.id.ln_alam_tour_home_menu:
                 startActivity(new Intent(getContext(), TourismAlamActivity.class));
                 break;
@@ -183,8 +179,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             case R.id.ln_bandara_public_home:
                 startActivity(new Intent(getContext(), TransportationAirportActivity.class));
                 break;
-            case R.id.ln_bus_public_home:
-                startActivity(new Intent(getContext(), TransportationBusActivity.class));
+            case R.id.ln_more_home:
+                startActivity(new Intent(getContext(), AllCategoryActivity.class));
                 break;
             case R.id.ln_train_public_home:
                 startActivity(new Intent(getContext(), TransportationTrainActivity.class));
