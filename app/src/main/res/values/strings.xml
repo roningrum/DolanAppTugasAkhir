@@ -46,9 +46,6 @@
     <string name="title_activity_religi_category_maps">Peta Wisata Religi</string>
     <string name="title_activity_history_category_map">Peta Wisata Sejarah</string>
     <string name="title_activity_food_category_map">Peta Wisata Kuliner</string>
-    <string name="string_informasi_detail">Informasi</string>
-    <string name="string_lokasi_detail">Lokasi</string>
-    <string name="string_foto_detail">Foto</string>
     <string name="string_category_wisata_menu">Wisata</string>
     <string name="string_alam_wisata_category">Alam</string>
     <string name="string_hiburan_wisata_menu">Hiburan</string>
@@ -68,11 +65,9 @@
     <string name="string_spbu">SPBU</string>
     <string name="string_kantor_polisi">Kantor Polisi</string>
     <string name="string_rumah_sakit">Rumah/nSakit</string>
-    <string name="string_photo_detail_info">Foto</string>
     <string name="string_lokasi_detail_menu">Lokasi</string>
     <string name="string_info_desc_detail">Informasi</string>
     <string name="title_activity_hotel_maps">Peta Hotel</string>
-    <string name="title_hotel_order_available">Pesan Kamar Tersedia</string>
     <string name="order_link_hotel_traveloka">Traveloka</string>
     <string name="order_link_hotel_tiket">Tiket</string>
     <string name="title_activity_airport_maps">Peta Bandara</string>
@@ -92,12 +87,9 @@
     <string name="string_confirm_email">Terima kasih sudah mendaftar, Klik Lanjutkan agar dapat masuk</string>
     <string name="string_continoue_login">Lanjutkan</string>
     <string name="string_all_home">semua</string>
-    <string name="string_recommendation">Rekomendasi tempat wisata</string>
-    <string name="string_must_try_food">Makanan yang wajib dicoba</string>
     <string name="string_dummy_profname">Hailey Bieber</string>
     <string name="string_email_dummy">haileyb1245@gmail.com</string>
     <string name="title_activity_hospital_maps">Peta Rumah Sakit</string>
-    <string name="string_festival_culture_home">Festival dan Budaya</string>
     <string name="register_email_2">Tambahkan foto dan nama</string>
     <string name="sub_register_email2">untuk melengkapi data akun kamu tambahkan foto dan nama</string>
     <string name="btn_reset_email_process">Reset</string>
@@ -120,7 +112,6 @@
     <string name="txt_change_email">Email</string>
     <string name="txt_change_name">Nama</string>
     <string name="txt_info_profile">Informasi Profil</string>
-    <string name="txt_btn_cancel">Cancel</string>
     <string name="txt_btn_upload_photo">Unggah Foto</string>
     <string name="txt_btn_save_change">Simpan Perubahan</string>
 
@@ -128,13 +119,9 @@
     <string name="km">km</string>
 
 
-    <string name="search">Search</string>
     <string name="option_order">Pilih Layanan Hotel</string>
     <string name="order_hotel_button">Pesan Kamar</string>
     <string name="image">image</string>
-    <string name="remove">Hapus</string>
-    <string name="save">Simpan</string>
-    <string name="upload">Ubah Foto</string>
     <string name="masuk_dengan_google">Masuk dengan Google</string>
     <string name="daftarkan_akun_mu_disini">Daftarkan Akun mu disini</string>
     <string name="silakan_masukkan_akun_kamu">Silakan masukkan akun kamu</string>

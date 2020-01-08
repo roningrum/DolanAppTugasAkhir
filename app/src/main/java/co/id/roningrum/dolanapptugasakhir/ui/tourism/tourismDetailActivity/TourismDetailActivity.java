@@ -79,7 +79,7 @@ public class TourismDetailActivity extends AppCompatActivity implements OnMapRea
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_tourism_detail);
+        setContentView(R.layout.activity_detail_tourism);
         tvNameTourismDetail = findViewById(R.id.name_place_tourism_detail);
         tvAddressTourismDetail = findViewById(R.id.location_tourism_detail);
         tvDescTourismDetail = findViewById(R.id.info_place_tourism_detail);

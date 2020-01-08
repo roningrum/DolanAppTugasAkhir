@@ -50,7 +50,7 @@ import co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseConstant;
 import co.id.roningrum.dolanapptugasakhir.handler.LocationPermissionHandler;
 import co.id.roningrum.dolanapptugasakhir.handler.NetworkHelper;
 import co.id.roningrum.dolanapptugasakhir.model.Tourism;
-import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismDetailActivity.TourismAirDetail;
+import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismDetailActivity.TourismDetailActivity;
 
 
 /**
@@ -94,6 +94,7 @@ public class FavoriteFragment extends Fragment {
     }
 
     private void checkConnection() {
+        assert getContext() != null;
         if (NetworkHelper.isConnectedToNetwork(getContext())) {
             checkUser();
         } else {
@@ -129,8 +130,8 @@ public class FavoriteFragment extends Fragment {
                     favoritAdapter.setTourismClickCallback(new TourismClickCallback() {
                         @Override
                         public void onItemClicked(Tourism tourism) {
-                            Intent intent = new Intent(getActivity(), TourismAirDetail.class);
-                            intent.putExtra(TourismAirDetail.EXTRA_WISATA_KEY, tourism.getId());
+                            Intent intent = new Intent(getActivity(), TourismDetailActivity.class);
+                            intent.putExtra(TourismDetailActivity.EXTRA_WISATA_KEY, tourism.getId());
                             startActivity(intent);
                         }
                     });

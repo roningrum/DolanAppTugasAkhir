@@ -67,7 +67,6 @@
         app:layout_constraintTop_toBottomOf="@+id/img_logo_app">
 
         <com.google.android.gms.common.SignInButton
-            android:id="@+id/btn_google"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="gone" />

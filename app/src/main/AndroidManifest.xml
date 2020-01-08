@@ -250,13 +250,6 @@
                 android:value=".ui.tourism.tourismActivity.TourismKulinerActivity" />
         </activity>
         <activity
-            android:name=".ui.tourism.tourismDetailActivity.TourismKulinerDetail"
-            android:parentActivityName=".ui.tourism.tourismActivity.TourismKulinerActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.tourism.tourismActivity.TourismKulinerActivity" />
-        </activity>
-        <activity
             android:name=".ui.tourism.tourismActivity.TourismKulinerActivity"
             android:parentActivityName=".ui.homeactivity.AllCategoryActivity">
             <meta-data
@@ -266,13 +259,6 @@
         <activity
             android:name=".ui.tourism.tourismMapActivity.TourismSejarahMaps"
             android:label="@string/title_activity_history_category_map"
-            android:parentActivityName=".ui.tourism.tourismActivity.TourismSejarahActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.tourism.tourismActivity.TourismSejarahActivity" />
-        </activity>
-        <activity
-            android:name=".ui.tourism.tourismDetailActivity.TourismSejarahDetail"
             android:parentActivityName=".ui.tourism.tourismActivity.TourismSejarahActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -294,13 +280,6 @@
                 android:value=".ui.tourism.tourismActivity.TourismReligiActivity" />
         </activity>
         <activity
-            android:name=".ui.tourism.tourismDetailActivity.TourismReligiDetail"
-            android:parentActivityName=".ui.homeactivity.AllCategoryActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.homeactivity.AllCategoryActivity" />
-        </activity>
-        <activity
             android:name=".ui.tourism.tourismActivity.TourismReligiActivity"
             android:parentActivityName=".ui.homeactivity.AllCategoryActivity">
             <meta-data
@@ -310,13 +289,6 @@
         <activity
             android:name=".ui.tourism.tourismMapActivity.TourismRekreasiMaps"
             android:label="@string/title_activity_recreation_category_maps"
-            android:parentActivityName=".ui.tourism.tourismActivity.TourismRekreasiActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.tourism.tourismActivity.TourismRekreasiActivity" />
-        </activity>
-        <activity
-            android:name=".ui.tourism.tourismDetailActivity.TourismRekreasiDetail"
             android:parentActivityName=".ui.tourism.tourismActivity.TourismRekreasiActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -345,22 +317,8 @@
                 android:value=".ui.homeactivity.AllCategoryActivity" />
         </activity>
         <activity
-            android:name=".ui.tourism.tourismDetailActivity.TourismEdukasiDetail"
-            android:parentActivityName=".ui.tourism.tourismActivity.TourismEdukasiActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.tourism.tourismActivity.TourismEdukasiActivity" />
-        </activity>
-        <activity
             android:name=".ui.tourism.tourismMapActivity.TourismDesaMaps"
             android:label="@string/title_activity_village_maps"
-            android:parentActivityName=".ui.tourism.tourismActivity.TourismDesaActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.tourism.tourismActivity.TourismDesaActivity" />
-        </activity>
-        <activity
-            android:name=".ui.tourism.tourismDetailActivity.TourismDesaDetail"
             android:parentActivityName=".ui.tourism.tourismActivity.TourismDesaActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -375,14 +333,6 @@
         </activity>
         <activity
             android:name=".ui.tourism.tourismMapActivity.TourismBelanjaMaps"
-            android:label="@string/title_activity_shopping_category_map"
-            android:parentActivityName=".ui.tourism.tourismActivity.TourismBelanjaActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.tourism.tourismActivity.TourismBelanjaActivity" />
-        </activity>
-        <activity
-            android:name=".ui.tourism.tourismDetailActivity.TourismBelanjaDetail"
             android:label="@string/title_activity_shopping_category_map"
             android:parentActivityName=".ui.tourism.tourismActivity.TourismBelanjaActivity">
             <meta-data
@@ -412,25 +362,11 @@
                 android:value=".ui.tourism.tourismActivity.TourismAlamActivity" />
         </activity>
         <activity
-            android:name=".ui.tourism.tourismDetailActivity.TourismAirDetail"
-            android:parentActivityName=".ui.tourism.tourismActivity.TourismAirActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.tourism.tourismActivity.TourismAirActivity" />
-        </activity>
-        <activity
             android:name=".ui.tourism.tourismActivity.TourismAirActivity"
             android:parentActivityName=".ui.homeactivity.AllCategoryActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.homeactivity.AllCategoryActivity" />
-        </activity>
-        <activity
-            android:name=".ui.tourism.tourismDetailActivity.TourismAlamDetail"
-            android:parentActivityName=".ui.tourism.tourismActivity.TourismAlamActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.tourism.tourismActivity.TourismAlamActivity" />
         </activity>
         <activity
             android:name=".ui.tourism.tourismActivity.TourismAlamActivity"
