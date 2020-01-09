@@ -26,8 +26,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.tourism.tourismDetailActivity.TourismDetailActivity"></activity>
-        <activity android:name=".favorite.FavoriteDetailTourism" />
+        <activity android:name=".ui.transportation.transportationDetailActivity.TransportationDetailActivity" />
+        <activity android:name=".ui.tourism.tourismDetailActivity.TourismDetailActivity" />
         <activity
             android:name=".ui.useractivity.edit.ChangePhotoProfileActivity"
             android:parentActivityName=".ui.useractivity.edit.EditProfileActivity">
@@ -140,13 +140,6 @@
                 android:value=".ui.transportation.transportationActivity.TransportationShipActivity" />
         </activity>
         <activity
-            android:name=".ui.transportation.transportationDetailActivity.TransportationShipDetail"
-            android:parentActivityName=".ui.transportation.transportationActivity.TransportationShipActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.transportation.transportationActivity.TransportationShipActivity" />
-        </activity>
-        <activity
             android:name=".ui.transportation.transportationActivity.TransportationShipActivity"
             android:parentActivityName=".ui.homeactivity.AllCategoryActivity">
             <meta-data
@@ -160,13 +153,6 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.transportation.transportationActivity.TransportationShipActivity" />
-        </activity>
-        <activity
-            android:name=".ui.transportation.transportationDetailActivity.TransportationTrainDetail"
-            android:parentActivityName=".ui.transportation.transportationActivity.TransportationTrainActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.transportation.transportationActivity.TransportationTrainActivity" />
         </activity>
         <activity
             android:name=".ui.transportation.transportationActivity.TransportationTrainActivity"
@@ -184,13 +170,6 @@
                 android:value=".ui.transportation.transportationActivity.TransportationBusActivity" />
         </activity>
         <activity
-            android:name=".ui.transportation.transportationDetailActivity.TransportationBusDetail"
-            android:parentActivityName=".ui.transportation.transportationActivity.TransportationBusActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.transportation.transportationActivity.TransportationBusActivity" />
-        </activity>
-        <activity
             android:name=".ui.transportation.transportationActivity.TransportationBusActivity"
             android:parentActivityName=".ui.homeactivity.AllCategoryActivity">
             <meta-data
@@ -200,13 +179,6 @@
         <activity
             android:name=".ui.transportation.transportationMapActivity.TransportationAirportMaps"
             android:label="@string/title_activity_airport_maps"
-            android:parentActivityName=".ui.transportation.transportationActivity.TransportationAirportActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.transportation.transportationActivity.TransportationAirportActivity" />
-        </activity>
-        <activity
-            android:name=".ui.transportation.transportationDetailActivity.TransportationAirportDetail"
             android:parentActivityName=".ui.transportation.transportationActivity.TransportationAirportActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

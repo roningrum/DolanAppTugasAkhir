@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 RONINGRUM. All rights reserved.
+ * Copyright 2020 RONINGRUM. All rights reserved.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -46,62 +46,65 @@ import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.model.Transportation;
 import co.id.roningrum.dolanapptugasakhir.util.Utils;
 
-public class TransportationAirportDetail extends AppCompatActivity implements OnMapReadyCallback {
+public class TransportationDetailActivity extends AppCompatActivity implements OnMapReadyCallback {
 
-    public static final String EXTRA_AIRPORT_KEY = "airportKey";
+    public static final String EXTRA_TRANSPORT_KEY = "trasnsportKey";
 
     private static final String MAP_VIEW_KEY = "mapViewBundle";
 
     private final static String TAG = "Pesan";
 
-    private GoogleMap airportGoogleMap;
-    private MapView airportMapView;
+    private GoogleMap transportGoogleMap;
+    private MapView transportMapView;
 
-    private DatabaseReference airportDetailRef;
+    private DatabaseReference transportDetailRef;
 
     private GPSHandler gpsHandler;
-    private ValueEventListener valueEventListener;
 
-    private TextView tvNameAirportDetail, tvAddressAiportDetail, tvDistanceAirport;
+    private TextView tvNameTransDetail, tvAddressTransDetail, tvDistanceTrans;
 
-    private ImageView imgAirportDetail;
-    private CollapsingToolbarLayout collapsingToolbarAiport;
+    private ImageView imgTransportDetail;
+    private CollapsingToolbarLayout collapsingToolbarTransport;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_detail_transportation_airport);
-        tvNameAirportDetail = findViewById(R.id.name_place_transport_detail);
-        tvAddressAiportDetail = findViewById(R.id.location_transport_detail);
-        tvDistanceAirport = findViewById(R.id.distance_location_trans);
-        imgAirportDetail = findViewById(R.id.img_airport_detail);
-        collapsingToolbarAiport = findViewById(R.id.collapseToolbar_airport);
-        airportMapView = findViewById(R.id.location_trans_map_detail);
+        setContentView(R.layout.activity_detail_transportation);
 
-        Toolbar toolbarAirport = findViewById(R.id.toolbar_aiport_detail);
-        setSupportActionBar(toolbarAirport);
+        tvNameTransDetail = findViewById(R.id.name_place_transport_detail);
+        tvAddressTransDetail = findViewById(R.id.location_transport_detail);
+        tvDistanceTrans = findViewById(R.id.distance_location_trans);
+        imgTransportDetail = findViewById(R.id.img_transport_detail);
+        collapsingToolbarTransport = findViewById(R.id.collapseToolbar_transport);
+        transportMapView = findViewById(R.id.location_trans_map_detail);
+
+        Toolbar toolbarTransportation = findViewById(R.id.toolbar_transport_detail);
+        setSupportActionBar(toolbarTransportation);
 
         Bundle mapViewBundle = null;
         if (savedInstanceState != null) {
             mapViewBundle = savedInstanceState.getBundle(MAP_VIEW_KEY);
         }
-        airportMapView.onCreate(mapViewBundle);
-        airportMapView.getMapAsync(this);
 
-        String airportKey = getIntent().getStringExtra(EXTRA_AIRPORT_KEY);
-        if (airportKey == null) {
+        transportMapView.onCreate(mapViewBundle);
+        transportMapView.getMapAsync(this);
+
+        String transportKey = getIntent().getStringExtra(EXTRA_TRANSPORT_KEY);
+        if (transportKey == null) {
             throw new IllegalArgumentException("Must pass Extra");
         }
-        airportDetailRef = FirebaseConstant.getTransportByKey(airportKey);
+
+        transportDetailRef = FirebaseConstant.getTransportByKey(transportKey);
         gpsHandler = new GPSHandler(this);
 
-        LoadAirportDetail();
+        LoadTransportDetail();
     }
 
-    private void LoadAirportDetail() {
+    @SuppressLint({"SetTextI18n", "DefaultLocale"})
+    private void LoadTransportDetail() {
         if (gpsHandler.isCanGetLocation()) {
-            ValueEventListener eventListener = new ValueEventListener() {
-                @SuppressLint("SetTextI18n")
+            transportDetailRef.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     final Transportation transportation = dataSnapshot.getValue(Transportation.class);
@@ -112,12 +115,12 @@ public class TransportationAirportDetail extends AppCompatActivity implements On
                     double endLng = transportation.getLng_transportation();
                     double distance = Utils.calculateDistance(startLat, startlng, endlat, endLng);
 
-                    @SuppressLint("DefaultLocale") String distanceFormat = String.format("%.2f", distance);
-                    tvDistanceAirport.setText("" + distanceFormat + " km");
-                    tvNameAirportDetail.setText(transportation.getName_transportation());
-                    tvAddressAiportDetail.setText(transportation.getLocation_transportation());
-                    Glide.with(getApplicationContext()).load(transportation.getUrl_photo_transport()).into(imgAirportDetail);
-                    AppBarLayout appBarLayout = findViewById(R.id.app_bar_airport);
+                    String distanceFormat = String.format("%.2f", distance);
+                    tvDistanceTrans.setText("" + distanceFormat + " km");
+                    tvNameTransDetail.setText(transportation.getName_transportation());
+                    tvAddressTransDetail.setText(transportation.getLocation_transportation());
+                    Glide.with(getApplicationContext()).load(transportation.getUrl_photo_transport()).into(imgTransportDetail);
+                    AppBarLayout appBarLayout = findViewById(R.id.app_bar_transport);
                     appBarLayout.addOnOffsetChangedListener(new AppBarLayout.BaseOnOffsetChangedListener() {
                         boolean isShow = true;
                         int scrollRange = -1;
@@ -128,28 +131,24 @@ public class TransportationAirportDetail extends AppCompatActivity implements On
                                 scrollRange = appBarLayout.getTotalScrollRange();
                             }
                             if (scrollRange + verticalOffset == 0) {
-                                collapsingToolbarAiport.setTitle(transportation.getName_transportation());
+                                collapsingToolbarTransport.setTitle(transportation.getName_transportation());
                                 isShow = true;
                             } else {
-                                collapsingToolbarAiport.setTitle(" ");
+                                collapsingToolbarTransport.setTitle(" ");
                                 isShow = false;
                             }
 
                         }
                     });
-
                 }
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError databaseError) {
-                    Log.e(TAG, "Firebase Database Error" + databaseError.getMessage());
+
                 }
-            };
-            airportDetailRef.addValueEventListener(eventListener);
-            valueEventListener = eventListener;
+            });
         }
     }
-
 
     @Override
     protected void onSaveInstanceState(@NotNull Bundle outState) {
@@ -158,21 +157,15 @@ public class TransportationAirportDetail extends AppCompatActivity implements On
         if (mapViewBundle == null) {
             mapViewBundle = new Bundle();
             outState.putBundle(MAP_VIEW_KEY, mapViewBundle);
-            airportMapView.onSaveInstanceState(mapViewBundle);
+            transportMapView.onSaveInstanceState(mapViewBundle);
         }
 
     }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        airportGoogleMap = googleMap;
-        showTransportMapDetail();
-
-
-    }
-
-    private void showTransportMapDetail() {
-        ValueEventListener eventListener = new ValueEventListener() {
+        transportGoogleMap = googleMap;
+        transportDetailRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 final Transportation transportation = dataSnapshot.getValue(Transportation.class);
@@ -181,17 +174,17 @@ public class TransportationAirportDetail extends AppCompatActivity implements On
                 final double endLng = transportation.getLng_transportation();
 
                 LatLng location = new LatLng(endlat, endLng);
-                airportGoogleMap.addMarker(new MarkerOptions().position(location));
-                airportGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 16.0f));
+                transportGoogleMap.addMarker(new MarkerOptions().position(location));
+                transportGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 15.0f));
+
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 Log.e(TAG, "Firebase Database Error" + databaseError.getMessage());
             }
-        };
-        airportDetailRef.addValueEventListener(eventListener);
-        valueEventListener = eventListener;
+        });
+
     }
 
     @Override
@@ -203,33 +196,4 @@ public class TransportationAirportDetail extends AppCompatActivity implements On
         }
         return super.onOptionsItemSelected(item);
     }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        airportMapView.onResume();
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        LoadAirportDetail();
-        airportMapView.onStart();
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        airportMapView.onStop();
-        airportDetailRef.removeEventListener(valueEventListener);
-
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        airportMapView.onPause();
-    }
-
-
 }

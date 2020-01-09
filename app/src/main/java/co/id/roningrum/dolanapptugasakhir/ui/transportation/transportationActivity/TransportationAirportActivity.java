@@ -45,7 +45,7 @@ import co.id.roningrum.dolanapptugasakhir.adapter.transportation.TransportationC
 import co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseConstant;
 import co.id.roningrum.dolanapptugasakhir.handler.LocationPermissionHandler;
 import co.id.roningrum.dolanapptugasakhir.model.Transportation;
-import co.id.roningrum.dolanapptugasakhir.ui.transportation.transportationDetailActivity.TransportationAirportDetail;
+import co.id.roningrum.dolanapptugasakhir.ui.transportation.transportationDetailActivity.TransportationDetailActivity;
 import co.id.roningrum.dolanapptugasakhir.ui.transportation.transportationMapActivity.TransportationAirportMaps;
 import co.id.roningrum.dolanapptugasakhir.util.Utils;
 
@@ -97,8 +97,8 @@ public class TransportationAirportActivity extends AppCompatActivity {
                         @Override
                         public void onItemCallback(Transportation transportation) {
                             String transportKey = transportation.getId();
-                            Intent intent = new Intent(TransportationAirportActivity.this, TransportationAirportDetail.class);
-                            intent.putExtra(TransportationAirportDetail.EXTRA_AIRPORT_KEY, transportKey);
+                            Intent intent = new Intent(TransportationAirportActivity.this, TransportationDetailActivity.class);
+                            intent.putExtra(TransportationDetailActivity.EXTRA_TRANSPORT_KEY, transportKey);
                             startActivity(intent);
                         }
                     });

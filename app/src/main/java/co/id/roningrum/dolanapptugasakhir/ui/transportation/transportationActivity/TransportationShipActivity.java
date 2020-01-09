@@ -45,7 +45,7 @@ import co.id.roningrum.dolanapptugasakhir.adapter.transportation.TransportationC
 import co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseConstant;
 import co.id.roningrum.dolanapptugasakhir.handler.LocationPermissionHandler;
 import co.id.roningrum.dolanapptugasakhir.model.Transportation;
-import co.id.roningrum.dolanapptugasakhir.ui.transportation.transportationDetailActivity.TransportationShipDetail;
+import co.id.roningrum.dolanapptugasakhir.ui.transportation.transportationDetailActivity.TransportationDetailActivity;
 import co.id.roningrum.dolanapptugasakhir.ui.transportation.transportationMapActivity.TransportationShipMaps;
 import co.id.roningrum.dolanapptugasakhir.util.Utils;
 
@@ -95,8 +95,8 @@ public class TransportationShipActivity extends AppCompatActivity {
                         @Override
                         public void onItemCallback(Transportation transportation) {
                             String transportKey = transportation.getId();
-                            Intent intent = new Intent(TransportationShipActivity.this, TransportationShipDetail.class);
-                            intent.putExtra(TransportationShipDetail.EXTRA_SHIP_KEY, transportKey);
+                            Intent intent = new Intent(TransportationShipActivity.this, TransportationDetailActivity.class);
+                            intent.putExtra(TransportationDetailActivity.EXTRA_TRANSPORT_KEY, transportKey);
                             startActivity(intent);
                         }
                     });

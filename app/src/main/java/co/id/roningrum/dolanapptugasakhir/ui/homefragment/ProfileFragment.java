@@ -21,7 +21,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -31,7 +30,6 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.RequestManager;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.ConnectionResult;
@@ -83,9 +81,6 @@ public class ProfileFragment extends Fragment implements View.OnClickListener, G
     }
 
 
-    static void loadImage(RequestManager glide, String url, ImageView view) {
-        glide.load(url).into(view);
-    }
 
     @Override
     public void onViewCreated(@NonNull final View view, @Nullable Bundle savedInstanceState) {
@@ -203,22 +198,15 @@ public class ProfileFragment extends Fragment implements View.OnClickListener, G
                 if (isAdded()) {
                     tvNameProfile.setText(Objects.requireNonNull(dataSnapshot.child("nama_user").getValue()).toString().trim());
                     tvEmailProfile.setText(Objects.requireNonNull(dataSnapshot.child("email").getValue()).toString().trim());
-                    String photo_url = dataSnapshot.child("photo_user").getValue().toString();
-
-                    if (user.getPhotoUrl().equals("default")) {
-                        photo_profile.setImageResource(R.drawable.icon_nopic);
-                    } else {
-                        loadImage(Glide.with(getActivity()), photo_url, photo_profile);
-                    }
+                    String photo_url = Objects.requireNonNull(dataSnapshot.child("photo_user").getValue()).toString();
+                    assert getActivity() != null;
+                    Glide.with(getActivity()).load(photo_url).into(photo_profile);
                 }
-
-
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 Log.e(TAG, "Gagal Load" + databaseError.getMessage());
-
             }
         });
     }
