@@ -57,7 +57,7 @@
                 android:value=".ui.useractivity.edit.EditProfileActivity" />
         </activity>
         <activity android:name=".ui.useractivity.edit.EditProfileActivity" />
-        <activity android:name=".WelcomingScreenActivity" />
+        <activity android:name=".ui.homeactivity.WelcomingScreenActivity" />
         <activity android:name=".ui.useractivity.register.RegisterAccountProfileActivity" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
@@ -360,7 +360,7 @@
         <activity android:name=".ui.useractivity.register.RegisterAccountEmailActivity" />
         <activity android:name=".ui.useractivity.login.SignInEmailActivity" />
         <activity android:name=".ui.useractivity.login.SignInOptionActivity" />
-        <activity android:name=".SplashScreenActivity">
+        <activity android:name=".ui.homeactivity.SplashScreenActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <action android:name="android.intent.action.MAIN" />

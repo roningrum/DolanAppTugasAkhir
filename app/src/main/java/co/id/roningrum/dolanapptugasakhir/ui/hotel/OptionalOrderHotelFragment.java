@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 RONINGRUM. All rights reserved.
+ * Copyright 2020 RONINGRUM. All rights reserved.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -11,7 +11,7 @@
  * limitations under the License.
  */
 
-package co.id.roningrum.dolanapptugasakhir;
+package co.id.roningrum.dolanapptugasakhir.ui.hotel;
 
 
 import android.content.Intent;
@@ -35,9 +35,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseConstant;
 import co.id.roningrum.dolanapptugasakhir.model.Hotel;
-import co.id.roningrum.dolanapptugasakhir.ui.hotel.HotelDetail;
 
 
 /**

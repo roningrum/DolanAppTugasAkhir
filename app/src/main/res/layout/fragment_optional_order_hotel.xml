@@ -18,7 +18,7 @@
     android:layout_height="match_parent"
     android:layout_margin="16dp"
     android:padding="10dp"
-    tools:context=".OptionalOrderHotelFragment">
+    tools:context=".ui.hotel.OptionalOrderHotelFragment">
 
 
     <TextView
@@ -70,7 +70,8 @@
         android:layout_below="@id/btn_order_link_hotel"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_order_link_hotel">
+        app:layout_constraintTop_toBottomOf="@+id/btn_order_link_hotel"
+        tools:ignore="UseCompoundDrawables">
 
         <ImageView
             android:layout_width="40dp"

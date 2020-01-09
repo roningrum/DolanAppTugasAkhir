@@ -32,8 +32,8 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import java.util.Arrays;
 
 import co.id.roningrum.dolanapptugasakhir.R;
-import co.id.roningrum.dolanapptugasakhir.favorite.FavoriteFragment;
 import co.id.roningrum.dolanapptugasakhir.handler.LocationPermissionHandler;
+import co.id.roningrum.dolanapptugasakhir.ui.favorite.FavoriteFragment;
 import co.id.roningrum.dolanapptugasakhir.ui.homefragment.HomeFragment;
 import co.id.roningrum.dolanapptugasakhir.ui.homefragment.ProfileFragment;
 
@@ -116,7 +116,7 @@ public class MainMenuActivity extends AppCompatActivity implements BottomNavigat
     }
 
     @Override
-    protected void onSaveInstanceState(Bundle outState) {
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putInt(SELECTED_MENU, bottomNavigationView.getSelectedItemId());
     }
