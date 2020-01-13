@@ -152,7 +152,8 @@ public class TourismDetailActivity extends AppCompatActivity implements OnMapRea
                     tvDistanceTourismDetail.setText("" + distanceFormat + " KM");
                     tvAddressTourismDetail.setText(tourism.getLocation_tourism());
                     tvDescTourismDetail.setText(tourism.getInfo_tourism());
-                    Glide.with(getApplicationContext()).load(tourism.getUrl_photo()).into(imgTourismObject);
+                    Glide.with(getApplicationContext()).load(tourism.getUrl_photo_tourism()).into(imgTourismObject);
+                    Log.d(TAG, "Url_Photo_Tourism " + tourism.getUrl_photo_tourism());
                     AppBarLayout appBarLayout = findViewById(R.id.app_bar_tourism);
                     appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
 

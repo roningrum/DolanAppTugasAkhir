@@ -19,7 +19,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,6 +29,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -52,6 +52,8 @@ import co.id.roningrum.dolanapptugasakhir.handler.NetworkHelper;
 import co.id.roningrum.dolanapptugasakhir.model.Tourism;
 import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismDetailActivity.TourismDetailActivity;
 
+import static co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseConstant.favoriteRef;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -72,6 +74,7 @@ public class FavoriteFragment extends Fragment {
     }
 
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -89,8 +92,36 @@ public class FavoriteFragment extends Fragment {
         rvFavoritList.setHasFixedSize(true);
         rvFavoritList.setLayoutManager(new LinearLayoutManager(getContext()));
         databaseReference = FirebaseConstant.TourismRef;
-        checkConnection();
 
+
+        checkConnection();
+        enableSwipeToDelete();
+
+    }
+
+    private void enableSwipeToDelete() {
+        SwipeToDeleteCallback swipeToDeleteCallback = new SwipeToDeleteCallback(getContext()) {
+            @Override
+            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                final int position = viewHolder.getAdapterPosition();
+                favoriteRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot userSnapshot) {
+                        favoriteRef.getRef().child(user.getUid()).child(tourismList.get(position).getId()).removeValue();
+                        favoritAdapter.removeItem(position);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+
+
+            }
+        };
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(swipeToDeleteCallback);
+        itemTouchHelper.attachToRecyclerView(rvFavoritList);
     }
 
     private void checkConnection() {
@@ -151,32 +182,26 @@ public class FavoriteFragment extends Fragment {
 
     private void checkUser() {
         pbLoading.setVisibility(View.VISIBLE);
-        new Handler().postDelayed(new Runnable() {
+        final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Favorite").child(user.getUid());
+        databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
-            public void run() {
-                final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Favorite").child(user.getUid());
-                databaseReference.addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        checkUserList = new ArrayList<>();
-                        checkUserList.clear();
-                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                            checkUserList.add(snapshot.getKey());
-                            Log.d("check id user", "" + checkUserList);
-                        }
-                        showFavorite();
-
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                    }
-                });
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                checkUserList = new ArrayList<>();
+                checkUserList.clear();
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    checkUserList.add(snapshot.getKey());
+                    Log.d("check id user", "" + checkUserList);
+                }
+                showFavorite();
                 pbLoading.setVisibility(View.GONE);
-            }
-        }, 2000);
 
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
     private boolean havePermission() {

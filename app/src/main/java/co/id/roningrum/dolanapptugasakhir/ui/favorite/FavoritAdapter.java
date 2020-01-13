@@ -75,6 +75,20 @@ public class FavoritAdapter extends RecyclerView.Adapter<FavoritAdapter.FavoritV
         return tourisms.size();
     }
 
+    public void restoreItem(Tourism tourism, int position) {
+        tourisms.add(position, tourism);
+        notifyItemInserted(position);
+    }
+
+    public ArrayList<Tourism> getTourisms() {
+        return tourisms;
+    }
+
+    void removeItem(int position) {
+        tourisms.remove(position);
+        notifyItemRemoved(position);
+    }
+
     class FavoritViewHolder extends RecyclerView.ViewHolder {
         private TextView nameFavTourism;
         private TextView locationFavTourism;
@@ -100,7 +114,7 @@ public class FavoritAdapter extends RecyclerView.Adapter<FavoritAdapter.FavoritV
             locationFavTourism.setText(favoriteItem.getLocation_tourism());
             @SuppressLint("DefaultLocale") String distanceFormat = String.format("%.2f", jarakKM);
             distanceFavTourism.setText(distanceFormat + " km");
-            Glide.with(itemView.getContext()).load(favoriteItem.getUrl_photo())
+            Glide.with(itemView.getContext()).load(favoriteItem.getUrl_photo_tourism())
                     .apply(RequestOptions.placeholderOf(R.drawable.ic_loading).error(R.drawable.ic_loading))
                     .into(favTourismPic);
             itemView.setOnClickListener(new View.OnClickListener() {

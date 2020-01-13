@@ -90,7 +90,7 @@ public class TourismAdapter extends RecyclerView.Adapter<TourismAdapter.TourismV
             tourismName.setText(tourism.getName_tourism());
             tourismLocation.setText(tourism.getLocation_tourism());
             tourismDistance.setText(distanceFormat + " " + itemView.getContext().getString(R.string.km));
-            Glide.with(itemView.getContext()).load(tourism.getUrl_photo())
+            Glide.with(itemView.getContext()).load(tourism.getUrl_photo_tourism())
                     .apply(RequestOptions.placeholderOf(R.drawable.ic_loading).error(R.drawable.ic_loading))
                     .into(tourismPic);
 
