@@ -90,11 +90,6 @@ public class GasStationDetail extends AppCompatActivity implements OnMapReadyCal
 
         Toolbar toolbarSPBU = findViewById(R.id.toolbar_spbu_detail);
         setSupportActionBar(toolbarSPBU);
-//        Objects.requireNonNull(getSupportActionBar()).setDisplayShowHomeEnabled(true);
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-//        getSupportActionBar().setDisplayShowTitleEnabled(false);
-//        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back_24dp);
-
         Bundle mapViewBundle = null;
         if (savedInstanceState != null) {
             mapViewBundle = savedInstanceState.getBundle(MAP_VIEW_KEY);
