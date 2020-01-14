@@ -33,18 +33,17 @@ import co.id.roningrum.dolanapptugasakhir.R;
 abstract public class SwipeToDeleteCallback extends ItemTouchHelper.Callback {
 
     private final ColorDrawable background;
-    private Context mContext;
     private Paint mClearPaint;
     private Drawable iconDelete;
     private int intrinsicWidth;
     private int intrinsicHeight;
 
     SwipeToDeleteCallback(Context context) {
-        mContext = context;
-        iconDelete = ContextCompat.getDrawable(mContext, R.drawable.ic_delete_white);
+        iconDelete = ContextCompat.getDrawable(context, R.drawable.ic_delete_white);
         background = new ColorDrawable(Color.RED);
         mClearPaint = new Paint();
         mClearPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
+        assert iconDelete != null;
         intrinsicWidth = iconDelete.getIntrinsicWidth();
         intrinsicHeight = iconDelete.getIntrinsicHeight();
     }
