@@ -290,4 +290,28 @@ public class TourismDetailActivity extends AppCompatActivity implements OnMapRea
         });
 
     }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        tourismMapView.onStart();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        tourismMapView.onStop();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        tourismMapView.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        tourismMapView.onPause();
+    }
 }
