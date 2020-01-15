@@ -67,7 +67,6 @@ public class HotelDetail extends AppCompatActivity implements OnMapReadyCallback
     private DatabaseReference hotelDetailRef;
 
     private GPSHandler gpsHandler;
-    private ValueEventListener valueEventListener;
 
     private TextView tvNameHotelDetail, tvAddressHotelDetail, tvDistanceHotelEducation;
 
@@ -142,21 +141,22 @@ public class HotelDetail extends AppCompatActivity implements OnMapReadyCallback
 
     }
 
+    @SuppressLint({"DefaultLocale", "SetTextI18n"})
     private void LoadHotelDetail() {
         if (gpsHandler.isCanGetLocation()) {
-            ValueEventListener eventListener = new ValueEventListener() {
-                @SuppressLint("SetTextI18n")
+            hotelDetailRef.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     final Hotel hotel = dataSnapshot.getValue(Hotel.class);
                     startLat = gpsHandler.getLatitude();
                     startlng = gpsHandler.getLongitude();
+
                     assert hotel != null;
                     endlat = hotel.getLat_location_hotel();
                     endLng = hotel.getLng_location_hotel();
                     distance = Utils.calculateDistance(startLat, startlng, endlat, endLng);
 
-                    @SuppressLint("DefaultLocale") String distanceFormat = String.format("%.2f", distance);
+                    String distanceFormat = String.format("%.2f", distance);
                     tvDistanceHotelEducation.setText("" + distanceFormat + " km");
                     tvNameHotelDetail.setText(hotel.getName_hotel());
                     tvAddressHotelDetail.setText(hotel.getLocation_hotel());
@@ -188,9 +188,7 @@ public class HotelDetail extends AppCompatActivity implements OnMapReadyCallback
                 public void onCancelled(@NonNull DatabaseError databaseError) {
                     Log.e(TAG, "Firebase Database Error" + databaseError.getMessage());
                 }
-            };
-            hotelDetailRef.addValueEventListener(eventListener);
-            valueEventListener = eventListener;
+            });
         }
     }
 
@@ -213,7 +211,7 @@ public class HotelDetail extends AppCompatActivity implements OnMapReadyCallback
     }
 
     private void showHotelMapDetail() {
-        ValueEventListener eventListener = new ValueEventListener() {
+        hotelDetailRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 Hotel hotel = dataSnapshot.getValue(Hotel.class);
@@ -230,9 +228,7 @@ public class HotelDetail extends AppCompatActivity implements OnMapReadyCallback
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 Log.e(TAG, "Firebase Database Error" + databaseError.getMessage());
             }
-        };
-        hotelDetailRef.addValueEventListener(eventListener);
-        valueEventListener = eventListener;
+        });
     }
 
     @Override
@@ -334,8 +330,6 @@ public class HotelDetail extends AppCompatActivity implements OnMapReadyCallback
     protected void onStop() {
         super.onStop();
         hotelMapView.onStop();
-        hotelDetailRef.removeEventListener(valueEventListener);
-
     }
 
     @Override

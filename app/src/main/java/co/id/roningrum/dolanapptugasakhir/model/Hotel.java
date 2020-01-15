@@ -26,7 +26,6 @@ public class Hotel {
 
     public Hotel() {
     }
-
     public Hotel(String id, String name_hotel, String location_hotel, String telepon, String url_photo_hotel, String order_link_hotel, String order_link_hotel1, double lat_location_hotel, double lng_location_hotel) {
         this.id = id;
         this.name_hotel = name_hotel;
