@@ -127,7 +127,7 @@ public class HotelDetail extends AppCompatActivity implements OnMapReadyCallback
         favoriteRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.child(uid).child(hotelKey).exists()) {
+                if (dataSnapshot.child(uid).child("Hotel").child(hotelKey).exists()) {
                     isFavorite = true;
                     menuItem.getItem(0).setIcon(R.drawable.ic_bookmarkadded_24dp);
                 }
@@ -287,7 +287,7 @@ public class HotelDetail extends AppCompatActivity implements OnMapReadyCallback
         favoriteRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                favoriteRef.getRef().child(uid).child(hotelKey).setValue(true);
+                favoriteRef.getRef().child(uid).child("Hotel").child(hotelKey).setValue(true);
             }
 
             @Override
@@ -302,7 +302,7 @@ public class HotelDetail extends AppCompatActivity implements OnMapReadyCallback
         favoriteRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                favoriteRef.getRef().child(uid).child(hotelKey).removeValue();
+                favoriteRef.getRef().child(uid).child("Hotel").child(hotelKey).removeValue();
             }
 
             @Override

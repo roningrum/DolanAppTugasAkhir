@@ -61,7 +61,6 @@ public class SignInOptionActivity extends AppCompatActivity implements View.OnCl
         if (currentUser != null) {
             updateUI(currentUser);
         }
-
     }
 
     private void updateUI(FirebaseUser user) {
@@ -85,7 +84,6 @@ public class SignInOptionActivity extends AppCompatActivity implements View.OnCl
         tvRegisterLinkPage.setOnClickListener(this);
 
         fbAuth = FirebaseAuth.getInstance();
-        userRef = FirebaseDatabase.getInstance().getReference("Users");
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
@@ -166,7 +164,8 @@ public class SignInOptionActivity extends AppCompatActivity implements View.OnCl
 
                             //the problem code is here! How I can detect the google user account has stored and registered
 //                            pbLoading.setVisibility(View.VISIBLE);
-                            userRef.child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
+                            userRef = FirebaseDatabase.getInstance().getReference().child("Users").child(uid);
+                            userRef.addListenerForSingleValueEvent(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                     if (dataSnapshot.exists() && isGoogleSignIn) {
@@ -174,11 +173,12 @@ public class SignInOptionActivity extends AppCompatActivity implements View.OnCl
                                         googleRegistered.putExtra("isGoogle", isGoogleSignIn);
                                         startActivity(googleRegistered);
                                     } else if (!dataSnapshot.exists()) {
-                                        userRef.child(uid).child("nama_user").setValue(user.getDisplayName());
-                                        userRef.child(uid).child("password").setValue("");
-                                        userRef.child(uid).child("email").setValue(user.getEmail());
-                                        userRef.child(uid).child("photo_user").setValue(String.valueOf(user.getPhotoUrl()));
-                                        userRef.child(uid).child("login").setValue("Google");
+                                        userRef.child("uid").setValue(uid);
+                                        userRef.child("nama_user").setValue(user.getDisplayName());
+                                        userRef.child("password").setValue("");
+                                        userRef.child("email").setValue(user.getEmail());
+                                        userRef.child("photo_user").setValue(String.valueOf(user.getPhotoUrl()));
+                                        userRef.child("login").setValue("Google");
 //
 //                                        pbLoading.setVisibility(View.GONE);
                                         Intent googleRegistered = new Intent(SignInOptionActivity.this, MainMenuActivity.class);

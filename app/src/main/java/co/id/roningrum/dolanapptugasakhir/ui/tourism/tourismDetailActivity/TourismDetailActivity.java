@@ -265,7 +265,7 @@ public class TourismDetailActivity extends AppCompatActivity implements OnMapRea
         favoriteRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                favoriteRef.getRef().child(uid).child(tourismKey).setValue(true);
+                favoriteRef.getRef().child(uid).child("Tourism").child(tourismKey).setValue(true);
             }
 
             @Override
@@ -280,7 +280,7 @@ public class TourismDetailActivity extends AppCompatActivity implements OnMapRea
         favoriteRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                favoriteRef.getRef().child(uid).child(tourismKey).removeValue();
+                favoriteRef.getRef().child(uid).child("Tourism").child(tourismKey).removeValue();
             }
 
             @Override

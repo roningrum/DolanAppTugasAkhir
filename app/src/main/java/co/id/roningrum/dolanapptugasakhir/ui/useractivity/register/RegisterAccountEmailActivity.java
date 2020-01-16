@@ -122,13 +122,14 @@ public class RegisterAccountEmailActivity extends AppCompatActivity implements V
                         Log.d(TAG, "Register Account: " + task.getResult());
                         final FirebaseUser userRegister = authRegister.getCurrentUser();
                         if (userRegister != null) {
-                            String uid = userRegister.getUid();
+                            final String uid = userRegister.getUid();
 
                             final DatabaseReference userRegisterStoreDB = dbRegisterRef.child("Users").child(uid);
                             userRegisterStoreDB.addListenerForSingleValueEvent(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                     if (!dataSnapshot.exists()) {
+                                        userRegisterStoreDB.child("uid").setValue(uid);
                                         userRegisterStoreDB.child("email").setValue(emailRegister);
                                         userRegisterStoreDB.child("password").setValue(passwordRegister);
                                         userRegisterStoreDB.child("login").setValue("email");

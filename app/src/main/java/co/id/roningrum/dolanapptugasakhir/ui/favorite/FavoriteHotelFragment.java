@@ -29,7 +29,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -45,41 +44,36 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import co.id.roningrum.dolanapptugasakhir.R;
-import co.id.roningrum.dolanapptugasakhir.adapter.tourism.TourismClickCallback;
+import co.id.roningrum.dolanapptugasakhir.adapter.hotel.HotelClickCallback;
 import co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseConstant;
 import co.id.roningrum.dolanapptugasakhir.handler.LocationPermissionHandler;
 import co.id.roningrum.dolanapptugasakhir.handler.NetworkHelper;
-import co.id.roningrum.dolanapptugasakhir.model.Tourism;
-import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismDetailActivity.TourismDetailActivity;
-
-import static co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseConstant.favoriteRef;
-
+import co.id.roningrum.dolanapptugasakhir.model.Hotel;
+import co.id.roningrum.dolanapptugasakhir.ui.hotel.HotelDetail;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class FavoriteFragment extends Fragment {
-    private ArrayList<Tourism> tourismList;
+public class FavoriteHotelFragment extends Fragment {
+    private ArrayList<Hotel> hotels;
     private ArrayList<String> checkUserList;
-    private RecyclerView rvFavoritList;
+    private RecyclerView rvFavoritHotelList;
     private FirebaseUser user;
-    private FavoritAdapter favoritAdapter;
+    private FavoritHotelAdapter favoritAdapter;
     private LocationPermissionHandler locationPermissionHandler;
     private DatabaseReference databaseReference;
     private ProgressBar pbLoading;
 
-
-    public FavoriteFragment() {
+    public FavoriteHotelFragment() {
         // Required empty public constructor
     }
-
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_favorite_tourism, container, false);
+        return inflater.inflate(R.layout.fragment_favorite_hotel, container, false);
     }
 
     @Override
@@ -87,45 +81,20 @@ public class FavoriteFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         user = firebaseAuth.getCurrentUser();
-        rvFavoritList = view.findViewById(R.id.rv_bookmark);
+        rvFavoritHotelList = view.findViewById(R.id.rv_bookmark_hotel);
         pbLoading = view.findViewById(R.id.pb_loading);
-        rvFavoritList.setHasFixedSize(true);
-        rvFavoritList.setLayoutManager(new LinearLayoutManager(getContext()));
-        databaseReference = FirebaseConstant.TourismRef;
-
-
+        rvFavoritHotelList.setHasFixedSize(true);
+        rvFavoritHotelList.setLayoutManager(new LinearLayoutManager(getContext()));
+        databaseReference = FirebaseConstant.HotelRef;
         checkConnection();
         enableSwipeToDelete();
-
     }
 
     private void enableSwipeToDelete() {
-        SwipeToDeleteCallback swipeToDeleteCallback = new SwipeToDeleteCallback(getContext()) {
-            @Override
-            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-                final int position = viewHolder.getAdapterPosition();
-                favoriteRef.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot userSnapshot) {
-                        favoriteRef.getRef().child(user.getUid()).child("Tourism").child(tourismList.get(position).getId()).removeValue();
-                        favoritAdapter.removeItem(position);
-                    }
 
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                    }
-                });
-
-
-            }
-        };
-        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(swipeToDeleteCallback);
-        itemTouchHelper.attachToRecyclerView(rvFavoritList);
     }
 
     private void checkConnection() {
-        assert getContext() != null;
         if (NetworkHelper.isConnectedToNetwork(getContext())) {
             checkUser();
         } else {
@@ -134,55 +103,9 @@ public class FavoriteFragment extends Fragment {
         }
     }
 
-    private void showFavorite() {
-        if (havePermission()) {
-            tourismList = new ArrayList<>();
-            databaseReference.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    tourismList.clear();
-
-                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                        Tourism tourism = snapshot.getValue(Tourism.class);
-                        if (tourism != null) {
-                            final String idTourism = tourism.getId();
-                            Log.d("check id user", "" + idTourism);
-                            for (String id : checkUserList) {
-                                assert idTourism != null;
-                                if (idTourism.equals(id)) {
-                                    tourismList.add(tourism);
-
-                                }
-                            }
-                        }
-
-                    }
-                    favoritAdapter = new FavoritAdapter(tourismList, getContext());
-                    favoritAdapter.setTourismClickCallback(new TourismClickCallback() {
-                        @Override
-                        public void onItemClicked(Tourism tourism) {
-                            Intent intent = new Intent(getActivity(), TourismDetailActivity.class);
-                            intent.putExtra(TourismDetailActivity.EXTRA_WISATA_KEY, tourism.getId());
-                            startActivity(intent);
-                        }
-                    });
-                    rvFavoritList.setAdapter(favoritAdapter);
-                    favoritAdapter.notifyDataSetChanged();
-
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                }
-            });
-        }
-
-    }
-
     private void checkUser() {
         pbLoading.setVisibility(View.VISIBLE);
-        final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Favorite").child(user.getUid()).child("Tourism");
+        final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Favorite").child(user.getUid()).child("Hotel");
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -202,6 +125,45 @@ public class FavoriteFragment extends Fragment {
 
             }
         });
+    }
+
+    private void showFavorite() {
+        if (havePermission()) {
+            hotels = new ArrayList<>();
+            databaseReference.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    hotels.clear();
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                        Hotel hotel = snapshot.getValue(Hotel.class);
+                        if (hotel != null) {
+                            final String idHotel = hotel.getId();
+                            for (String id : checkUserList) {
+                                if (idHotel.equals(id)) {
+                                    hotels.add(hotel);
+                                }
+                            }
+                        }
+                    }
+                    favoritAdapter = new FavoritHotelAdapter(hotels, getContext());
+                    favoritAdapter.setTourismClickCallback(new HotelClickCallback() {
+                        @Override
+                        public void onItemClicked(Hotel hotel) {
+                            Intent intent = new Intent(getActivity(), HotelDetail.class);
+                            intent.putExtra(HotelDetail.EXTRA_HOTEL_KEY, hotel.getId());
+                            startActivity(intent);
+                        }
+                    });
+                    rvFavoritHotelList.setAdapter(favoritAdapter);
+                    favoritAdapter.notifyDataSetChanged();
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+        }
     }
 
     private boolean havePermission() {
