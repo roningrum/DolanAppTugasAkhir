@@ -14,8 +14,6 @@
 package co.id.roningrum.dolanapptugasakhir.ui.police;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -177,15 +175,7 @@ public class PoliceDetail extends AppCompatActivity implements OnMapReadyCallbac
 
                     LatLng location = new LatLng(endlat, endLng);
                     policeGoogleMap.addMarker(new MarkerOptions().position(location));
-                    policeGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 16.0f));
-                    policeGoogleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
-                        @Override
-                        public void onMapClick(LatLng latLng) {
-                            String uri = "http://maps.google.com/maps?saddr=" + gpsHandler.getLatitude() + "," + gpsHandler.getLongitude() + "&daddr=" + endlat + "," + endLng + "&mode=driving";
-                            Intent intent = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(uri));
-                            startActivity(Intent.createChooser(intent, "Select an application"));
-                        }
-                    });
+                    policeGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 15.0f));
                 }
 
                 @Override
