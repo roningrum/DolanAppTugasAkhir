@@ -84,8 +84,8 @@ public class PoliceMaps extends AppCompatActivity implements OnMapReadyCallback 
                 for (DataSnapshot dsPolice : dataSnapshot.getChildren()) {
                     Police police = dsPolice.getValue(Police.class);
                     assert police != null;
-                    double latPolice = police.getLat_police();
-                    double lngPolice = police.getLng_police();
+                    double latPolice = police.getLat_location_police();
+                    double lngPolice = police.getLng_location_police();
                     LatLng policePlaceLoc = new LatLng(latPolice, lngPolice);
 
                     GPSHandler gpsHandler = new GPSHandler(getApplicationContext());

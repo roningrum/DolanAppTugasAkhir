@@ -81,8 +81,8 @@ public class PoliceAdapter extends RecyclerView.Adapter<PoliceAdapter.PoliceView
 
         @SuppressLint({"DefaultLocale", "SetTextI18n"})
         void showPoliceData(Police police, double latitude, double longitude) {
-            double lattitude_a = police.getLat_police();
-            double longitude_a = police.getLng_police();
+            double lattitude_a = police.getLat_location_police();
+            double longitude_a = police.getLng_location_police();
 
             float jarakKM = (float) Utils.calculateDistance(latitude, longitude, lattitude_a, longitude_a);
 

@@ -112,8 +112,8 @@ public class PoliceDetail extends AppCompatActivity implements OnMapReadyCallbac
                     startLat = gpsHandler.getLatitude();
                     startlng = gpsHandler.getLongitude();
                     assert police != null;
-                    endlat = police.getLat_police();
-                    endLng = police.getLng_police();
+                    endlat = police.getLat_location_police();
+                    endLng = police.getLng_location_police();
                     distance = Utils.calculateDistance(startLat, startlng, endlat, endLng);
 
 
@@ -172,8 +172,8 @@ public class PoliceDetail extends AppCompatActivity implements OnMapReadyCallbac
                     startlng = gpsHandler.getLongitude();
 
                     assert police != null;
-                    endlat = police.getLat_police();
-                    endLng = police.getLng_police();
+                    endlat = police.getLat_location_police();
+                    endLng = police.getLng_location_police();
 
                     LatLng location = new LatLng(endlat, endLng);
                     policeGoogleMap.addMarker(new MarkerOptions().position(location));
