@@ -83,14 +83,14 @@ public class TransportationAdapter extends RecyclerView.Adapter<TransportationAd
         @SuppressLint({"DefaultLocale", "SetTextI18n"})
         void bindAirportData(final Transportation transportation, double latitude, double longitude) {
 
-            double lattitude_a = transportation.getLat_transportation();
-            double longitude_a = transportation.getLng_transportation();
+            double lattitude_a = transportation.getLat_location_transport();
+            double longitude_a = transportation.getLng_location_transport();
 
             float jarakKM = (float) Utils.calculateDistance(latitude, longitude, lattitude_a, longitude_a);
             String distanceFormat = String.format("%.2f", jarakKM);
 
-            nameTransport.setText(transportation.getName_transportation());
-            locationTransport.setText(transportation.getLocation_transportation());
+            nameTransport.setText(transportation.getName_transport());
+            locationTransport.setText(transportation.getLocation_transport());
             distanceTransport.setText(distanceFormat + " km");
             Glide.with(itemView.getContext()).load(transportation.getUrl_photo_transport())
                     .apply(RequestOptions.placeholderOf(R.drawable.ic_loading).error(R.drawable.ic_loading))

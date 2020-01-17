@@ -17,21 +17,29 @@ public class Police {
     private String id;
     private String name_police;
     private String location_police;
-    private double lat_police;
-    private double lng_police;
+    private double lat_location_police;
+    private double lng_location_police;
     private String url_photo_police;
 
 
     public Police() {
     }
 
-    public Police(String id, String name_police, String location_police, double lat_police, double lng_police, String url_photo_police) {
+    public Police(String id, String name_police, String location_police, double lat_location_police, double lng_location_police, String url_photo_police) {
         this.id = id;
         this.name_police = name_police;
         this.location_police = location_police;
-        this.lat_police = lat_police;
-        this.lng_police = lng_police;
+        this.lat_location_police = lat_location_police;
+        this.lng_location_police = lng_location_police;
         this.url_photo_police = url_photo_police;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getName_police() {
@@ -50,20 +58,20 @@ public class Police {
         this.location_police = location_police;
     }
 
-    public double getLat_police() {
-        return lat_police;
+    public double getLat_location_police() {
+        return lat_location_police;
     }
 
-    public void setLat_police(double lat_police) {
-        this.lat_police = lat_police;
+    public void setLat_location_police(double lat_location_police) {
+        this.lat_location_police = lat_location_police;
     }
 
-    public double getLng_police() {
-        return lng_police;
+    public double getLng_location_police() {
+        return lng_location_police;
     }
 
-    public void setLng_police(double lng_police) {
-        this.lng_police = lng_police;
+    public void setLng_location_police(double lng_location_police) {
+        this.lng_location_police = lng_location_police;
     }
 
     public String getUrl_photo_police() {
@@ -72,13 +80,5 @@ public class Police {
 
     public void setUrl_photo_police(String url_photo_police) {
         this.url_photo_police = url_photo_police;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 }

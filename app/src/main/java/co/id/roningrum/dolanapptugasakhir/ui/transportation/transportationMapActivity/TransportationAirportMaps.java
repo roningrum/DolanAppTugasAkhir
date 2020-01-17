@@ -83,8 +83,8 @@ public class TransportationAirportMaps extends AppCompatActivity implements OnMa
                 for (DataSnapshot dsAirport : dataSnapshot.getChildren()) {
                     Transportation transportation = dsAirport.getValue(Transportation.class);
                     assert transportation != null;
-                    double latAirport = transportation.getLat_transportation();
-                    double lngAirport = transportation.getLng_transportation();
+                    double latAirport = transportation.getLat_location_transport();
+                    double lngAirport = transportation.getLng_location_transport();
 
                     GPSHandler gpsHandler = new GPSHandler(getApplicationContext());
                     double lat = gpsHandler.getLatitude();
@@ -100,7 +100,7 @@ public class TransportationAirportMaps extends AppCompatActivity implements OnMa
                     LatLng airportPlaceLoc = new LatLng(latAirport, lngAirport);
                     airportMaps.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
                     airportMaps.addMarker(new MarkerOptions().position(airportPlaceLoc).icon(Utils.getBitmapDescriptor(getApplicationContext())).
-                            title(transportation.getName_transportation()).snippet(transportation.getLocation_transportation()));
+                            title(transportation.getName_transport()).snippet(transportation.getLocation_transport()));
 
                 }
             }

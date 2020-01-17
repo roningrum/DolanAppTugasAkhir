@@ -111,14 +111,14 @@ public class TransportationDetailActivity extends AppCompatActivity implements O
                     double startLat = gpsHandler.getLatitude();
                     double startlng = gpsHandler.getLongitude();
                     assert transportation != null;
-                    double endlat = transportation.getLat_transportation();
-                    double endLng = transportation.getLng_transportation();
+                    double endlat = transportation.getLat_location_transport();
+                    double endLng = transportation.getLng_location_transport();
                     double distance = Utils.calculateDistance(startLat, startlng, endlat, endLng);
 
                     String distanceFormat = String.format("%.2f", distance);
                     tvDistanceTrans.setText("" + distanceFormat + " km");
-                    tvNameTransDetail.setText(transportation.getName_transportation());
-                    tvAddressTransDetail.setText(transportation.getLocation_transportation());
+                    tvNameTransDetail.setText(transportation.getName_transport());
+                    tvAddressTransDetail.setText(transportation.getLocation_transport());
                     Glide.with(getApplicationContext()).load(transportation.getUrl_photo_transport()).into(imgTransportDetail);
                     AppBarLayout appBarLayout = findViewById(R.id.app_bar_transport);
                     appBarLayout.addOnOffsetChangedListener(new AppBarLayout.BaseOnOffsetChangedListener() {
@@ -131,7 +131,7 @@ public class TransportationDetailActivity extends AppCompatActivity implements O
                                 scrollRange = appBarLayout.getTotalScrollRange();
                             }
                             if (scrollRange + verticalOffset == 0) {
-                                collapsingToolbarTransport.setTitle(transportation.getName_transportation());
+                                collapsingToolbarTransport.setTitle(transportation.getName_transport());
                                 isShow = true;
                             } else {
                                 collapsingToolbarTransport.setTitle(" ");
@@ -170,8 +170,8 @@ public class TransportationDetailActivity extends AppCompatActivity implements O
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 final Transportation transportation = dataSnapshot.getValue(Transportation.class);
                 assert transportation != null;
-                final double endlat = transportation.getLat_transportation();
-                final double endLng = transportation.getLng_transportation();
+                final double endlat = transportation.getLat_location_transport();
+                final double endLng = transportation.getLng_location_transport();
 
                 LatLng location = new LatLng(endlat, endLng);
                 transportGoogleMap.addMarker(new MarkerOptions().position(location));

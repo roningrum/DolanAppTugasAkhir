@@ -88,8 +88,8 @@ public class TransportationShipMaps extends AppCompatActivity implements OnMapRe
                 for (DataSnapshot dsAirport : dataSnapshot.getChildren()) {
                     Transportation transportation = dsAirport.getValue(Transportation.class);
                     assert transportation != null;
-                    double latBus = transportation.getLat_transportation();
-                    double lngBus = transportation.getLng_transportation();
+                    double latBus = transportation.getLat_location_transport();
+                    double lngBus = transportation.getLng_location_transport();
 
 
                     GPSHandler gpsHandler = new GPSHandler(getApplicationContext());
@@ -107,8 +107,8 @@ public class TransportationShipMaps extends AppCompatActivity implements OnMapRe
                     LatLng shipPlaceLoc = new LatLng(latBus, lngBus);
                     shipMap.addMarker(new MarkerOptions().position(shipPlaceLoc)
                             .icon(Utils.getBitmapDescriptor(getApplicationContext()))
-                            .title(transportation.getName_transportation())
-                            .snippet(transportation.getLocation_transportation()));
+                            .title(transportation.getName_transport())
+                            .snippet(transportation.getLocation_transport()));
 
                 }
             }

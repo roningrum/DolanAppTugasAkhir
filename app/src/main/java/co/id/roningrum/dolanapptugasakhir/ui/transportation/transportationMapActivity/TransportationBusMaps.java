@@ -80,8 +80,8 @@ public class TransportationBusMaps extends FragmentActivity implements OnMapRead
                 for (DataSnapshot dsAirport : dataSnapshot.getChildren()) {
                     Transportation transportation = dsAirport.getValue(Transportation.class);
                     assert transportation != null;
-                    double latBus = transportation.getLat_transportation();
-                    double lngBus = transportation.getLng_transportation();
+                    double latBus = transportation.getLat_location_transport();
+                    double lngBus = transportation.getLng_location_transport();
 
                     GPSHandler gpsHandler = new GPSHandler(getApplicationContext());
                     double lat = gpsHandler.getLatitude();
@@ -97,7 +97,8 @@ public class TransportationBusMaps extends FragmentActivity implements OnMapRead
                     busMap.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
                     LatLng busPlaceLoc = new LatLng(latBus, lngBus);
                     busMap.addMarker(new MarkerOptions().position(busPlaceLoc).
-                            icon(Utils.getBitmapDescriptor(getApplicationContext())).title(transportation.getName_transportation()).snippet(transportation.getLocation_transportation()));
+                            icon(Utils.getBitmapDescriptor(getApplicationContext())).title(transportation.getName_transport())
+                            .snippet(transportation.getLocation_transport()));
 
                 }
             }

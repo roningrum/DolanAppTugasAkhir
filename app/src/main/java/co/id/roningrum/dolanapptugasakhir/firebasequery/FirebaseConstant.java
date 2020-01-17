@@ -133,22 +133,22 @@ public class FirebaseConstant {
     //kumpulan Query utuk memanggil data transportasi berdasarkan kategori transportasi
 
     public static Query getTransportBus() {
-        query = TransportRef.orderByChild("category_transportation").equalTo("bus");
+        query = TransportRef.orderByChild("category_transport").equalTo("terminal");
         return query;
     }
 
     public static Query getTransportPesawat() {
-        query = TransportRef.orderByChild("category_transportation").equalTo("airport");
+        query = TransportRef.orderByChild("category_transport").equalTo("bandara");
         return query;
     }
 
     public static Query getTransportKereta() {
-        query = TransportRef.orderByChild("category_transportation").equalTo("train");
+        query = TransportRef.orderByChild("category_transport").equalTo("stasiun");
         return query;
     }
 
     public static Query getTransportShip() {
-        query = TransportRef.orderByChild("category_transportation").equalTo("harbor");
+        query = TransportRef.orderByChild("category_transport").equalTo("pelabuhan");
         return query;
     }
 }

@@ -85,8 +85,8 @@ public class TransportationTrainMaps extends AppCompatActivity implements OnMapR
                 for (DataSnapshot dsAirport : dataSnapshot.getChildren()) {
                     Transportation transportation = dsAirport.getValue(Transportation.class);
                     assert transportation != null;
-                    double latTrain = transportation.getLat_transportation();
-                    double lngTrain = transportation.getLng_transportation();
+                    double latTrain = transportation.getLat_location_transport();
+                    double lngTrain = transportation.getLng_location_transport();
 
                     GPSHandler gpsHandler = new GPSHandler(getApplicationContext());
                     double lat = gpsHandler.getLatitude();
@@ -102,7 +102,7 @@ public class TransportationTrainMaps extends AppCompatActivity implements OnMapR
                     trainMap.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
                     LatLng trainPlaceLoc = new LatLng(latTrain, lngTrain);
                     trainMap.addMarker(new MarkerOptions().position(trainPlaceLoc).icon(Utils.getBitmapDescriptor(getApplicationContext())).
-                            title(transportation.getName_transportation()).snippet(transportation.getLocation_transportation()));
+                            title(transportation.getName_transport()).snippet(transportation.getLocation_transport()));
 
                 }
             }
