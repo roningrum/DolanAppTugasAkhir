@@ -112,8 +112,8 @@ public class HospitalDetail extends AppCompatActivity implements OnMapReadyCallb
                     startLat = gpsHandler.getLatitude();
                     startlng = gpsHandler.getLongitude();
                     assert hospital != null;
-                    endlat = hospital.getLat_hospital();
-                    endLng = hospital.getLng_hospital();
+                    endlat = hospital.getLat_location_hospital();
+                    endLng = hospital.getLng_location_hospital();
                     distance = Utils.calculateDistance(startLat, startlng, endlat, endLng);
 
 
@@ -171,8 +171,8 @@ public class HospitalDetail extends AppCompatActivity implements OnMapReadyCallb
                     startlng = gpsHandler.getLongitude();
 
                     assert hospital != null;
-                    endlat = hospital.getLat_hospital();
-                    endLng = hospital.getLng_hospital();
+                    endlat = hospital.getLat_location_hospital();
+                    endLng = hospital.getLng_location_hospital();
 
                     LatLng location = new LatLng(endlat, endLng);
                     hospitalGoogleMap.addMarker(new MarkerOptions().position(location));

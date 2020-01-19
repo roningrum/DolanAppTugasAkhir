@@ -81,8 +81,8 @@ public class HospitalAdapter extends RecyclerView.Adapter<HospitalAdapter.Hospit
 
         @SuppressLint({"DefaultLocale", "SetTextI18n"})
         void bindToHospital(Hospital hospital, double latitude, double longitude) {
-            double latitude_a = hospital.getLat_hospital();
-            double longitude_a = hospital.getLng_hospital();
+            double latitude_a = hospital.getLat_location_hospital();
+            double longitude_a = hospital.getLng_location_hospital();
 
             float jarakKM = (float) Utils.calculateDistance(latitude, longitude, latitude_a, longitude_a);
             nameHospital.setText(hospital.getName_hospital());

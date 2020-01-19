@@ -17,19 +17,19 @@ public class Hospital {
     private String id;
     private String name_hospital;
     private String location_hospital;
-    private double lat_hospital;
-    private double lng_hospital;
+    private double lat_location_hospital;
+    private double lng_location_hospital;
     private String url_photo_hospital;
 
     public Hospital() {
     }
 
-    public Hospital(String id, String name_hospital, String location_hospital, double lat_hospital, double lng_hospital, String url_photo_hospital) {
+    public Hospital(String id, String name_hospital, String location_hospital, double lat_location_hospital, double lng_location_hospital, String url_photo_hospital) {
         this.id = id;
         this.name_hospital = name_hospital;
         this.location_hospital = location_hospital;
-        this.lat_hospital = lat_hospital;
-        this.lng_hospital = lng_hospital;
+        this.lat_location_hospital = lat_location_hospital;
+        this.lng_location_hospital = lng_location_hospital;
         this.url_photo_hospital = url_photo_hospital;
     }
 
@@ -37,47 +37,23 @@ public class Hospital {
         return id;
     }
 
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getUrl_photo_hospital() {
-        return url_photo_hospital;
-    }
-
-    public void setUrl_photo_hospital(String url_photo_hospital) {
-        this.url_photo_hospital = url_photo_hospital;
-    }
-
     public String getName_hospital() {
         return name_hospital;
-    }
-
-    public void setName_hospital(String name_hospital) {
-        this.name_hospital = name_hospital;
     }
 
     public String getLocation_hospital() {
         return location_hospital;
     }
 
-    public void setLocation_hospital(String location_hospital) {
-        this.location_hospital = location_hospital;
+    public double getLat_location_hospital() {
+        return lat_location_hospital;
     }
 
-    public double getLat_hospital() {
-        return lat_hospital;
+    public double getLng_location_hospital() {
+        return lng_location_hospital;
     }
 
-    public void setLat_hospital(double lat_hospital) {
-        this.lat_hospital = lat_hospital;
-    }
-
-    public double getLng_hospital() {
-        return lng_hospital;
-    }
-
-    public void setLng_hospital(double lng_hospital) {
-        this.lng_hospital = lng_hospital;
+    public String getUrl_photo_hospital() {
+        return url_photo_hospital;
     }
 }
