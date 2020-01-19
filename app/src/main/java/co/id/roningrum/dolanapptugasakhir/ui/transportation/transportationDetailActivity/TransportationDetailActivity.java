@@ -196,4 +196,29 @@ public class TransportationDetailActivity extends AppCompatActivity implements O
         }
         return super.onOptionsItemSelected(item);
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        transportMapView.onResume();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        LoadTransportDetail();
+        transportMapView.onStart();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        transportMapView.onStop();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        transportMapView.onPause();
+    }
 }
