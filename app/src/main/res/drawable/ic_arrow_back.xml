@@ -19,7 +19,7 @@
 
     <path
         android:name="circle"
-        android:fillColor="#A4FFFFFF"
+        android:fillColor="#5C555353"
         android:pathData="M16,16m-16,0a16,16 0,1 1,32 0a16,16 0,1 1,-32 0" />
 
     <path

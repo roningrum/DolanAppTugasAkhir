@@ -100,6 +100,7 @@ public class HotelDetail extends AppCompatActivity implements OnMapReadyCallback
         Toolbar toolbarHotel = findViewById(R.id.toolbar_hotel_detail);
         setSupportActionBar(toolbarHotel);
 
+
         Bundle mapViewBundle = null;
         if (savedInstanceState != null) {
             mapViewBundle = savedInstanceState.getBundle(MAP_VIEW_KEY);
@@ -173,6 +174,8 @@ public class HotelDetail extends AppCompatActivity implements OnMapReadyCallback
                             }
                             if (scrollRange + verticalOffset == 0) {
                                 collapsingToolbarHotel.setTitle(hotel.getName_hotel());
+                                collapsingToolbarHotel.setCollapsedTitleTextColor(getResources().getColor(android.R.color.white));
+                                collapsingToolbarHotel.setContentScrim(getResources().getDrawable(R.drawable.bg_image_blur));
                                 isShow = true;
                             } else {
                                 collapsingToolbarHotel.setTitle(" ");
