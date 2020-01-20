@@ -11,10 +11,10 @@
  * limitations under the License.
  */
 
-package co.id.roningrum.dolanapptugasakhir.adapter.hospital;
+package co.id.roningrum.dolanapptugasakhir.ui.adapter.hotel;
 
-import co.id.roningrum.dolanapptugasakhir.model.Hospital;
+import co.id.roningrum.dolanapptugasakhir.model.Hotel;
 
-public interface HospitalClickCallback {
-    void onItemCallback(Hospital hospital);
+public interface HotelClickCallback {
+    void onItemClicked(Hotel hotel);
 }

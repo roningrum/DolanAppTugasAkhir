@@ -11,7 +11,7 @@
  * limitations under the License.
  */
 
-package co.id.roningrum.dolanapptugasakhir.adapter.gasstation;
+package co.id.roningrum.dolanapptugasakhir.ui.adapter.gasstation;
 
 import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
@@ -82,8 +82,8 @@ public class GasAdapter extends RecyclerView.Adapter<GasAdapter.GasViewHolder> {
 
         @SuppressLint({"DefaultLocale", "SetTextI18n"})
         void showGasData(GasStation gasStation, double latitude, double longitude) {
-            double lattitude_a = gasStation.getLat_gasstation();
-            double longitude_a = gasStation.getLng_gasstation();
+            double lattitude_a = gasStation.getLat_location_gasstation();
+            double longitude_a = gasStation.getLng_location_gasstation();
 
             float jarakKM = (float) Utils.calculateDistance(latitude, longitude, lattitude_a, longitude_a);
 

@@ -11,10 +11,10 @@
  * limitations under the License.
  */
 
-package co.id.roningrum.dolanapptugasakhir.adapter.tourism;
+package co.id.roningrum.dolanapptugasakhir.ui.adapter.transportation;
 
-import co.id.roningrum.dolanapptugasakhir.model.Tourism;
+import co.id.roningrum.dolanapptugasakhir.model.Transportation;
 
-public interface TourismClickCallback {
-    void onItemClicked(Tourism tourism);
+public interface TransportationClickCallback {
+    void onItemCallback(Transportation transportation);
 }

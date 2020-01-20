@@ -11,7 +11,7 @@
  * limitations under the License.
  */
 
-package co.id.roningrum.dolanapptugasakhir.adapter.hotel;
+package co.id.roningrum.dolanapptugasakhir.ui.adapter.hotel;
 
 import android.annotation.SuppressLint;
 import android.view.LayoutInflater;

@@ -38,8 +38,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import co.id.roningrum.dolanapptugasakhir.R;
-import co.id.roningrum.dolanapptugasakhir.adapter.police.PoliceAdapter;
-import co.id.roningrum.dolanapptugasakhir.adapter.police.PoliceClickCallback;
+import co.id.roningrum.dolanapptugasakhir.ui.adapter.police.PoliceAdapter;
+import co.id.roningrum.dolanapptugasakhir.ui.adapter.police.PoliceClickCallback;
 import co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseConstant;
 import co.id.roningrum.dolanapptugasakhir.handler.LocationPermissionHandler;
 import co.id.roningrum.dolanapptugasakhir.handler.NetworkHelper;

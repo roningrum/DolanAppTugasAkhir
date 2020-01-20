@@ -119,8 +119,8 @@ public class GasStationDetail extends AppCompatActivity implements OnMapReadyCal
                     startLat = gpsHandler.getLatitude();
                     startlng = gpsHandler.getLongitude();
                     assert gasStation != null;
-                    endlat = gasStation.getLat_gasstation();
-                    endLng = gasStation.getLng_gasstation();
+                    endlat = gasStation.getLat_location_gasstation();
+                    endLng = gasStation.getLng_location_gasstation();
                     distance = Utils.calculateDistance(startLat, startlng, endlat, endLng);
 
 
@@ -191,8 +191,8 @@ public class GasStationDetail extends AppCompatActivity implements OnMapReadyCal
                     startlng = gpsHandler.getLongitude();
 
                     assert gasStation != null;
-                    endlat = gasStation.getLat_gasstation();
-                    endLng = gasStation.getLng_gasstation();
+                    endlat = gasStation.getLat_location_gasstation();
+                    endLng = gasStation.getLng_location_gasstation();
 
                     LatLng location = new LatLng(endlat, endLng);
                     gasGoogleMap.addMarker(new MarkerOptions().position(location));

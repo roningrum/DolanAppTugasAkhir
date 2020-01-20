@@ -11,10 +11,10 @@
  * limitations under the License.
  */
 
-package co.id.roningrum.dolanapptugasakhir.adapter.gasstation;
+package co.id.roningrum.dolanapptugasakhir.ui.adapter.police;
 
-import co.id.roningrum.dolanapptugasakhir.model.GasStation;
+import co.id.roningrum.dolanapptugasakhir.model.Police;
 
-public interface GasClickCallback {
-    void onItemClicked(GasStation gasStation);
+public interface PoliceClickCallback {
+    void onItemCallback(Police police);
 }

@@ -11,10 +11,10 @@
  * limitations under the License.
  */
 
-package co.id.roningrum.dolanapptugasakhir.adapter.police;
+package co.id.roningrum.dolanapptugasakhir.ui.adapter.hospital;
 
-import co.id.roningrum.dolanapptugasakhir.model.Police;
+import co.id.roningrum.dolanapptugasakhir.model.Hospital;
 
-public interface PoliceClickCallback {
-    void onItemCallback(Police police);
+public interface HospitalClickCallback {
+    void onItemCallback(Hospital hospital);
 }

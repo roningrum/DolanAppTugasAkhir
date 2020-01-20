@@ -30,7 +30,7 @@ import com.bumptech.glide.request.RequestOptions;
 import java.util.ArrayList;
 
 import co.id.roningrum.dolanapptugasakhir.R;
-import co.id.roningrum.dolanapptugasakhir.adapter.hotel.HotelClickCallback;
+import co.id.roningrum.dolanapptugasakhir.ui.adapter.hotel.HotelClickCallback;
 import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.model.Hotel;
 import co.id.roningrum.dolanapptugasakhir.util.Utils;

@@ -82,8 +82,8 @@ public class GasStationMap extends AppCompatActivity implements OnMapReadyCallba
                 for (DataSnapshot dsGasStation : dataSnapshot.getChildren()) {
                     GasStation gasStation = dsGasStation.getValue(GasStation.class);
                     assert gasStation != null;
-                    double latGas = gasStation.getLat_gasstation();
-                    double lngGas = gasStation.getLng_gasstation();
+                    double latGas = gasStation.getLat_location_gasstation();
+                    double lngGas = gasStation.getLng_location_gasstation();
 
                     //getUserKoordinat
                     GPSHandler gpsHandler = new GPSHandler(getApplicationContext());

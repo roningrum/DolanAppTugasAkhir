@@ -11,10 +11,10 @@
  * limitations under the License.
  */
 
-package co.id.roningrum.dolanapptugasakhir.adapter.hotel;
+package co.id.roningrum.dolanapptugasakhir.ui.adapter.gasstation;
 
-import co.id.roningrum.dolanapptugasakhir.model.Hotel;
+import co.id.roningrum.dolanapptugasakhir.model.GasStation;
 
-public interface HotelClickCallback {
-    void onItemClicked(Hotel hotel);
+public interface GasClickCallback {
+    void onItemClicked(GasStation gasStation);
 }

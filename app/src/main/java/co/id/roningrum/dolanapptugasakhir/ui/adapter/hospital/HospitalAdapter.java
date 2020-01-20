@@ -11,7 +11,7 @@
  * limitations under the License.
  */
 
-package co.id.roningrum.dolanapptugasakhir.adapter.hospital;
+package co.id.roningrum.dolanapptugasakhir.ui.adapter.hospital;
 
 import android.annotation.SuppressLint;
 import android.view.LayoutInflater;

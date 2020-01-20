@@ -43,7 +43,7 @@ import java.util.Calendar;
 import java.util.Objects;
 
 import co.id.roningrum.dolanapptugasakhir.R;
-import co.id.roningrum.dolanapptugasakhir.adapter.SlideAdapterExample;
+import co.id.roningrum.dolanapptugasakhir.ui.adapter.SlideAdapterExample;
 import co.id.roningrum.dolanapptugasakhir.ui.homeactivity.AllCategoryActivity;
 import co.id.roningrum.dolanapptugasakhir.ui.hotel.HotelActivity;
 import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismActivity.TourismAlamActivity;
