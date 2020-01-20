@@ -82,8 +82,8 @@ public class HospitalMap extends AppCompatActivity implements OnMapReadyCallback
                 for (DataSnapshot dsHospital : dataSnapshot.getChildren()) {
                     Hospital hospital = dsHospital.getValue(Hospital.class);
                     assert hospital != null;
-                    double latHospital = hospital.getLat_hospital();
-                    double lngHospital = hospital.getLng_hospital();
+                    double latHospital = hospital.getLat_location_hospital();
+                    double lngHospital = hospital.getLng_location_hospital();
 
                     //getUserKoordinat
                     GPSHandler gpsHandler = new GPSHandler(getApplicationContext());
