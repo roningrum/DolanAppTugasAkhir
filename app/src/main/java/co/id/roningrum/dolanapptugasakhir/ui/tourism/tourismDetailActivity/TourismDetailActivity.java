@@ -54,7 +54,6 @@ import co.id.roningrum.dolanapptugasakhir.util.Utils;
 
 import static co.id.roningrum.dolanapptugasakhir.R.drawable;
 import static co.id.roningrum.dolanapptugasakhir.R.id;
-import static co.id.roningrum.dolanapptugasakhir.R.layout;
 import static co.id.roningrum.dolanapptugasakhir.R.string;
 import static co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseConstant.favoriteRef;
 
@@ -91,7 +90,7 @@ public class TourismDetailActivity extends AppCompatActivity implements OnMapRea
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(layout.activity_detail_tourism);
+        setContentView(R.layout.activity_detail_tourism);
         tvNameTourismDetail = findViewById(id.name_place_tourism_detail);
         tvAddressTourismDetail = findViewById(id.location_tourism_detail);
         tvDescTourismDetail = findViewById(id.info_place_tourism_detail);
@@ -201,12 +200,12 @@ public class TourismDetailActivity extends AppCompatActivity implements OnMapRea
                                 collapsingToolbarLayoutTourism.setCollapsedTitleTextColor(getResources().getColor(android.R.color.white));
                                 collapsingToolbarLayoutTourism.setContentScrim(getResources().getDrawable(R.drawable.bg_image_blur));
                                 tvDistanceTourismDetail.setVisibility(View.INVISIBLE);
-                                findViewById(R.id.location_icon_gas_pic).setVisibility(View.INVISIBLE);
+                                findViewById(R.id.location_icon_pic).setVisibility(View.INVISIBLE);
                                 isShow = true;
                             } else {
                                 collapsingToolbarLayoutTourism.setTitle(" ");
                                 tvDistanceTourismDetail.setVisibility(View.VISIBLE);
-                                findViewById(R.id.location_icon_gas_pic).setVisibility(View.VISIBLE);
+                                findViewById(R.id.location_icon_pic).setVisibility(View.VISIBLE);
                                 isShow = false;
                             }
                         }

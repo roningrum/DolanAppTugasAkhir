@@ -195,12 +195,12 @@ public class HotelDetail extends AppCompatActivity implements OnMapReadyCallback
                                 collapsingToolbarHotel.setCollapsedTitleTextColor(getResources().getColor(android.R.color.white));
                                 collapsingToolbarHotel.setContentScrim(getResources().getDrawable(R.drawable.bg_image_blur));
                                 tvDistanceHotelEducation.setVisibility(View.INVISIBLE);
-                                findViewById(R.id.location_icon_gas_pic).setVisibility(View.INVISIBLE);
+                                findViewById(R.id.location_icon_pic).setVisibility(View.INVISIBLE);
                                 isShow = true;
                             } else {
                                 collapsingToolbarHotel.setTitle(" ");
                                 tvDistanceHotelEducation.setVisibility(View.VISIBLE);
-                                findViewById(R.id.location_icon_gas_pic).setVisibility(View.VISIBLE);
+                                findViewById(R.id.location_icon_pic).setVisibility(View.VISIBLE);
                                 isShow = false;
                             }
 

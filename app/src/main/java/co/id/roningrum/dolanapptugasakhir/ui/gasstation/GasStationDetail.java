@@ -19,8 +19,11 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -75,6 +78,7 @@ public class GasStationDetail extends AppCompatActivity implements OnMapReadyCal
     private double distance;
 
     private GasStation gasStation;
+    private ImageButton btnCall, btnRouteToMap;
 
 
     @Override
@@ -87,6 +91,8 @@ public class GasStationDetail extends AppCompatActivity implements OnMapReadyCal
         collapsingToolbarGas = findViewById(R.id.collapseToolbar_spbu);
         gasMapView = findViewById(R.id.location_gas_map_detail);
         imgGasDetail = findViewById(R.id.img_spbu_detail);
+        btnCall = findViewById(R.id.btn_call);
+        btnRouteToMap = findViewById(R.id.btn_route_map);
 
         Toolbar toolbarSPBU = findViewById(R.id.toolbar_spbu_detail);
         setSupportActionBar(toolbarSPBU);
@@ -129,6 +135,7 @@ public class GasStationDetail extends AppCompatActivity implements OnMapReadyCal
                     tvNameGasDetail.setText(gasStation.getName_gasstation());
                     tvAddressGasDetail.setText(gasStation.getLocation_gasstation());
                     Glide.with(getApplicationContext()).load(gasStation.getUrl_photo_gasstation()).into(imgGasDetail);
+
                     AppBarLayout appBarLayout = findViewById(R.id.app_bar_spbu);
                     appBarLayout.addOnOffsetChangedListener(new AppBarLayout.BaseOnOffsetChangedListener() {
                         boolean isShow = true;
@@ -141,12 +148,39 @@ public class GasStationDetail extends AppCompatActivity implements OnMapReadyCal
                             }
                             if (scrollRange + verticalOffset == 0) {
                                 collapsingToolbarGas.setTitle(gasStation.getName_gasstation());
+                                collapsingToolbarGas.setCollapsedTitleTextColor(getResources().getColor(android.R.color.white));
+                                collapsingToolbarGas.setContentScrim(getResources().getDrawable(R.drawable.bg_image_blur));
+                                tvDistanceGasDetail.setVisibility(View.INVISIBLE);
+                                findViewById(R.id.location_icon_pic).setVisibility(View.INVISIBLE);
                                 isShow = true;
                             } else {
                                 collapsingToolbarGas.setTitle(" ");
+                                tvDistanceGasDetail.setVisibility(View.VISIBLE);
+                                findViewById(R.id.location_icon_pic).setVisibility(View.VISIBLE);
                                 isShow = false;
                             }
 
+                        }
+                    });
+                    btnCall.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent callIntent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", gasStation.getTelepon(), null));
+                            if (!gasStation.getTelepon().equals("Tidak tersedia")) {
+                                startActivity(callIntent);
+                            } else {
+                                Toast.makeText(getApplicationContext(), "Mohon Maaf belum tersedia untuk saat ini", Toast.LENGTH_SHORT).show();
+                            }
+
+                        }
+                    });
+
+                    btnRouteToMap.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
+                                    Uri.parse("http://maps.google.com/maps?saddr=" + startLat + "," + startlng + "&daddr=" + endlat + "," + endLng));
+                            startActivity(intent);
                         }
                     });
 
@@ -186,7 +220,7 @@ public class GasStationDetail extends AppCompatActivity implements OnMapReadyCal
                 @SuppressLint("SetTextI18n")
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    final GasStation gasStation = dataSnapshot.getValue(GasStation.class);
+                    gasStation = dataSnapshot.getValue(GasStation.class);
                     startLat = gpsHandler.getLatitude();
                     startlng = gpsHandler.getLongitude();
 
@@ -197,14 +231,7 @@ public class GasStationDetail extends AppCompatActivity implements OnMapReadyCal
                     LatLng location = new LatLng(endlat, endLng);
                     gasGoogleMap.addMarker(new MarkerOptions().position(location));
                     gasGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 16.0f));
-                    gasGoogleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
-                        @Override
-                        public void onMapClick(LatLng latLng) {
-                            String uri = "http://maps.google.com/maps?saddr=" + gpsHandler.getLatitude() + "," + gpsHandler.getLongitude() + "&daddr=" + endlat + "," + endLng + "&mode=driving";
-                            Intent intent = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(uri));
-                            startActivity(Intent.createChooser(intent, "Select an application"));
-                        }
-                    });
+                    gasGoogleMap.getUiSettings().setMapToolbarEnabled(false);
                 }
 
                 @Override
