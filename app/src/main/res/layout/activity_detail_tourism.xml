@@ -43,12 +43,23 @@
                 android:src="@drawable/nopic"
                 app:layout_collapseMode="parallax" />
 
+            <View
+                android:id="@+id/view_backdrop_detail"
+                android:layout_width="match_parent"
+                android:layout_height="256dp"
+                android:background="@drawable/bg_banner_detail" />
+
+            <include
+                layout="@layout/layout_content_tourism_info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar_tourism_detail"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 app:layout_collapseMode="pin"
-                app:navigationIcon="@drawable/ic_arrow_back" />
+                app:navigationIcon="@drawable/ic_back_detail" />
         </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -64,22 +75,14 @@
             android:orientation="vertical">
 
             <include
-                layout="@layout/layout_content_tourism_info"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="8dp"
-                android:background="#DEDEDE" />
-
-            <include
                 layout="@layout/layout_content_tourism_desc"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
-
+            <include
+                layout="@layout/layout_content_tourism_route"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp" />
             <include
                 layout="@layout/layout_content_tourism_map"
                 android:layout_width="match_parent"

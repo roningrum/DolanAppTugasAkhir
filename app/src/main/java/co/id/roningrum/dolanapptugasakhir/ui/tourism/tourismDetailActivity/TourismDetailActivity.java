@@ -14,12 +14,17 @@
 package co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismDetailActivity;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -47,6 +52,10 @@ import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.model.Tourism;
 import co.id.roningrum.dolanapptugasakhir.util.Utils;
 
+import static co.id.roningrum.dolanapptugasakhir.R.drawable;
+import static co.id.roningrum.dolanapptugasakhir.R.id;
+import static co.id.roningrum.dolanapptugasakhir.R.layout;
+import static co.id.roningrum.dolanapptugasakhir.R.string;
 import static co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseConstant.favoriteRef;
 
 public class TourismDetailActivity extends AppCompatActivity implements OnMapReadyCallback {
@@ -60,13 +69,15 @@ public class TourismDetailActivity extends AppCompatActivity implements OnMapRea
     Menu menuItem;
     Tourism tourism = new Tourism();
     private GoogleMap tourismLocationMap;
-    //    private ValueEventListener valueEventListener;
+
+
     private MapView tourismMapView;
     private DatabaseReference tourismDetailRef;
     private GPSHandler gpsHandler;
     private TextView tvNameTourismDetail, tvAddressTourismDetail, tvDescTourismDetail,
-            tvDistanceTourismDetail;
+            tvDistanceTourismDetail, tvDescMore;
     private ImageView imgTourismObject;
+    private ImageButton btnRouteToMap, btnCall;
     private CollapsingToolbarLayout collapsingToolbarLayoutTourism;
     private double startLat;
     private double startLng;
@@ -76,19 +87,23 @@ public class TourismDetailActivity extends AppCompatActivity implements OnMapRea
     private String tourismKey;
     private FirebaseUser user;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_detail_tourism);
-        tvNameTourismDetail = findViewById(R.id.name_place_tourism_detail);
-        tvAddressTourismDetail = findViewById(R.id.location_tourism_detail);
-        tvDescTourismDetail = findViewById(R.id.info_place_tourism_detail);
-        tvDistanceTourismDetail = findViewById(R.id.distance_location_tourism);
-        imgTourismObject = findViewById(R.id.img_tourism_detail);
-        tourismMapView = findViewById(R.id.location_tourism_map_detail);
+        setContentView(layout.activity_detail_tourism);
+        tvNameTourismDetail = findViewById(id.name_place_tourism_detail);
+        tvAddressTourismDetail = findViewById(id.location_tourism_detail);
+        tvDescTourismDetail = findViewById(id.info_place_tourism_detail);
+        tvDistanceTourismDetail = findViewById(id.distance_location_tourism);
+        imgTourismObject = findViewById(id.img_tourism_detail);
+        tourismMapView = findViewById(id.location_tourism_map_detail);
+        tvDescMore = findViewById(id.info_place_tourism_more);
+        btnCall = findViewById(id.btn_call);
+        btnRouteToMap = findViewById(id.btn_route_map);
 
-        collapsingToolbarLayoutTourism = findViewById(R.id.collapseToolbar_tourism_detail);
-        Toolbar toolbarTourismDetail = findViewById(R.id.toolbar_tourism_detail);
+        collapsingToolbarLayoutTourism = findViewById(id.collapseToolbar_tourism_detail);
+        Toolbar toolbarTourismDetail = findViewById(id.toolbar_tourism_detail);
         setSupportActionBar(toolbarTourismDetail);
 
         Bundle mapViewBundle = null;
@@ -112,6 +127,20 @@ public class TourismDetailActivity extends AppCompatActivity implements OnMapRea
 
         loadTourismDetail();
         favoriteState();
+
+        tvDescMore.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (tvDescMore.getText().toString().equalsIgnoreCase("Lebih Lengkap")) {
+                    tvDescTourismDetail.setMaxLines(Integer.MAX_VALUE);
+                    tvDescMore.setText(getResources().getString(string.showless_text));
+                } else {
+                    tvDescTourismDetail.setMaxLines(4);
+                    tvDescMore.setText(getResources().getString(string.showmore_text));
+                }
+            }
+        });
+
     }
 
     private void favoriteState() {
@@ -121,7 +150,7 @@ public class TourismDetailActivity extends AppCompatActivity implements OnMapRea
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.child(uid).child(tourismKey).exists()) {
                     isFavorite = true;
-                    menuItem.getItem(0).setIcon(R.drawable.ic_bookmarkadded_24dp);
+                    menuItem.getItem(0).setIcon(drawable.ic_bookmarkadded_24dp);
                 }
             }
 
@@ -149,12 +178,14 @@ public class TourismDetailActivity extends AppCompatActivity implements OnMapRea
 
                     String distanceFormat = String.format("%.2f", distance);
                     tvNameTourismDetail.setText(tourism.getName_tourism());
-                    tvDistanceTourismDetail.setText("" + distanceFormat + " KM");
+                    tvDistanceTourismDetail.setText("" + distanceFormat + " km");
                     tvAddressTourismDetail.setText(tourism.getLocation_tourism());
                     tvDescTourismDetail.setText(tourism.getInfo_tourism());
+                    tvDescTourismDetail.setMaxLines(4);
+
                     Glide.with(getApplicationContext()).load(tourism.getUrl_photo_tourism()).into(imgTourismObject);
                     Log.d(TAG, "Url_Photo_Tourism " + tourism.getUrl_photo_tourism());
-                    AppBarLayout appBarLayout = findViewById(R.id.app_bar_tourism);
+                    AppBarLayout appBarLayout = findViewById(id.app_bar_tourism);
                     appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
 
                         boolean isShow = true;
@@ -167,11 +198,39 @@ public class TourismDetailActivity extends AppCompatActivity implements OnMapRea
                             }
                             if (scrollRange + verticalOffset == 0) {
                                 collapsingToolbarLayoutTourism.setTitle(tourism.getName_tourism());
+                                collapsingToolbarLayoutTourism.setCollapsedTitleTextColor(getResources().getColor(android.R.color.white));
+                                collapsingToolbarLayoutTourism.setContentScrim(getResources().getDrawable(R.drawable.bg_image_blur));
+                                tvDistanceTourismDetail.setVisibility(View.INVISIBLE);
+                                findViewById(R.id.location_icon_gas_pic).setVisibility(View.INVISIBLE);
                                 isShow = true;
                             } else {
                                 collapsingToolbarLayoutTourism.setTitle(" ");
+                                tvDistanceTourismDetail.setVisibility(View.VISIBLE);
+                                findViewById(R.id.location_icon_gas_pic).setVisibility(View.VISIBLE);
                                 isShow = false;
                             }
+                        }
+                    });
+
+                    btnCall.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent callIntent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", tourism.getTelepon(), null));
+                            if (!tourism.getTelepon().equals("Tidak Tersedia")) {
+                                startActivity(callIntent);
+                            } else {
+                                Toast.makeText(getApplicationContext(), "Mohon Maaf belum tersedia untuk saat ini", Toast.LENGTH_SHORT).show();
+                            }
+
+                        }
+                    });
+
+                    btnRouteToMap.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
+                                    Uri.parse("http://maps.google.com/maps?saddr=" + startLat + "," + startLng + "&daddr=" + endLat + "," + endLng));
+                            startActivity(intent);
                         }
                     });
 
@@ -211,7 +270,8 @@ public class TourismDetailActivity extends AppCompatActivity implements OnMapRea
                 double longitude = tourism.getLng_location_tourism();
 
                 LatLng location = new LatLng(lattitude, longitude);
-                tourismLocationMap.addMarker(new MarkerOptions().position(location));
+                tourismLocationMap.addMarker(new MarkerOptions().position(location).title(tourism.getName_tourism()));
+                tourismLocationMap.getUiSettings().setMapToolbarEnabled(false);
                 tourismLocationMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 15.10f));
 
             }
@@ -233,9 +293,9 @@ public class TourismDetailActivity extends AppCompatActivity implements OnMapRea
 
     private void setFavorite() {
         if (isFavorite) {
-            menuItem.getItem(0).setIcon(R.drawable.ic_bookmarkadded_24dp);
+            menuItem.getItem(0).setIcon(drawable.ic_bookmarkadded_24dp);
         } else {
-            menuItem.getItem(0).setIcon(R.drawable.ic_unbookmarked_24dp);
+            menuItem.getItem(0).setIcon(drawable.ic_unbookmarked_24dp);
         }
 
     }
@@ -245,7 +305,7 @@ public class TourismDetailActivity extends AppCompatActivity implements OnMapRea
         if (item.getItemId() == android.R.id.home) {
             onBackPressed();
             return true;
-        } else if (item.getItemId() == R.id.add_to_favorite) {
+        } else if (item.getItemId() == id.add_to_favorite) {
             if (isFavorite) {
                 removeFavorite();
             } else {

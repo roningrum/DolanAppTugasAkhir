@@ -24,6 +24,15 @@ public class GasStation {
     public GasStation() {
     }
 
+    public GasStation(String id, String name_gasstation, String location_gasstation, double lat_location_gasstation, double lng_location_gasstation, String url_photo_gasstation) {
+        this.id = id;
+        this.name_gasstation = name_gasstation;
+        this.location_gasstation = location_gasstation;
+        this.lat_location_gasstation = lat_location_gasstation;
+        this.lng_location_gasstation = lng_location_gasstation;
+        this.url_photo_gasstation = url_photo_gasstation;
+    }
+
     public String getId() {
         return id;
     }

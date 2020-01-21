@@ -38,47 +38,23 @@ public class Police {
         return id;
     }
 
-    public void setId(String id) {
-        this.id = id;
-    }
-
     public String getName_police() {
         return name_police;
-    }
-
-    public void setName_police(String name_police) {
-        this.name_police = name_police;
     }
 
     public String getLocation_police() {
         return location_police;
     }
 
-    public void setLocation_police(String location_police) {
-        this.location_police = location_police;
-    }
-
     public double getLat_location_police() {
         return lat_location_police;
-    }
-
-    public void setLat_location_police(double lat_location_police) {
-        this.lat_location_police = lat_location_police;
     }
 
     public double getLng_location_police() {
         return lng_location_police;
     }
 
-    public void setLng_location_police(double lng_location_police) {
-        this.lng_location_police = lng_location_police;
-    }
-
     public String getUrl_photo_police() {
         return url_photo_police;
-    }
-
-    public void setUrl_photo_police(String url_photo_police) {
-        this.url_photo_police = url_photo_police;
     }
 }

@@ -38,75 +38,39 @@ public class Hotel {
         this.lng_location_hotel = lng_location_hotel;
     }
 
-    public String getName_hotel() {
-        return name_hotel;
+    public String getId() {
+        return id;
     }
 
-    public void setName_hotel(String name_hotel) {
-        this.name_hotel = name_hotel;
+    public String getName_hotel() {
+        return name_hotel;
     }
 
     public String getLocation_hotel() {
         return location_hotel;
     }
 
-    public void setLocation_hotel(String location_hotel) {
-        this.location_hotel = location_hotel;
-    }
-
     public String getTelepon() {
         return telepon;
-    }
-
-    public void setTelepon(String telepon) {
-        this.telepon = telepon;
     }
 
     public String getUrl_photo_hotel() {
         return url_photo_hotel;
     }
 
-    public void setUrl_photo_hotel(String url_photo_hotel) {
-        this.url_photo_hotel = url_photo_hotel;
-    }
-
     public String getOrder_link_hotel() {
         return order_link_hotel;
-    }
-
-    public void setOrder_link_hotel(String order_link_hotel) {
-        this.order_link_hotel = order_link_hotel;
     }
 
     public String getOrder_link_hotel1() {
         return order_link_hotel1;
     }
 
-    public void setOrder_link_hotel1(String order_link_hotel1) {
-        this.order_link_hotel1 = order_link_hotel1;
-    }
-
     public double getLat_location_hotel() {
         return lat_location_hotel;
     }
 
-    public void setLat_location_hotel(double lat_location_hotel) {
-        this.lat_location_hotel = lat_location_hotel;
-    }
-
     public double getLng_location_hotel() {
         return lng_location_hotel;
-    }
-
-    public void setLng_location_hotel(double lng_location_hotel) {
-        this.lng_location_hotel = lng_location_hotel;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 }
