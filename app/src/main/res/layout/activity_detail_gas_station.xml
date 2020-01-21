@@ -75,10 +75,16 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
             <include
-                layout="@layout/layout_content_route_call"
+                layout="@layout/layout_content_other_desc"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp" />
+
+            <include
+                layout="@layout/layout_content_route_call"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp" />
 
             <include
                 layout="@layout/layout_content_gas_map"

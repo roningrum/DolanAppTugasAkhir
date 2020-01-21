@@ -66,7 +66,7 @@ public class GasStationDetail extends AppCompatActivity implements OnMapReadyCal
     private GPSHandler gpsHandler;
     private ValueEventListener valueEventListener;
 
-    private TextView tvNameGasDetail, tvAddressGasDetail, tvDistanceGasDetail;
+    private TextView tvNameGasDetail, tvAddressGasDetail, tvDistanceGasDetail, tvDetailGas;
 
     private ImageView imgGasDetail;
     private CollapsingToolbarLayout collapsingToolbarGas;
@@ -93,6 +93,7 @@ public class GasStationDetail extends AppCompatActivity implements OnMapReadyCal
         imgGasDetail = findViewById(R.id.img_spbu_detail);
         btnCall = findViewById(R.id.btn_call);
         btnRouteToMap = findViewById(R.id.btn_route_map);
+        tvDetailGas = findViewById(R.id.info_place_detail);
 
         Toolbar toolbarSPBU = findViewById(R.id.toolbar_spbu_detail);
         setSupportActionBar(toolbarSPBU);
@@ -135,6 +136,7 @@ public class GasStationDetail extends AppCompatActivity implements OnMapReadyCal
                     tvNameGasDetail.setText(gasStation.getName_gasstation());
                     tvAddressGasDetail.setText(gasStation.getLocation_gasstation());
                     Glide.with(getApplicationContext()).load(gasStation.getUrl_photo_gasstation()).into(imgGasDetail);
+                    tvDetailGas.setText("Tidak Tersedia untuk saat ini");
 
                     AppBarLayout appBarLayout = findViewById(R.id.app_bar_spbu);
                     appBarLayout.addOnOffsetChangedListener(new AppBarLayout.BaseOnOffsetChangedListener() {
