@@ -43,6 +43,7 @@
         android:drawablePadding="4dp"
         android:fontFamily="@font/roboto_regular"
         android:textColor="#949494"
+        android:lineSpacingExtra="5sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_map_location_tourism"

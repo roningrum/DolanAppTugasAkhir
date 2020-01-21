@@ -43,6 +43,17 @@
                 android:src="@drawable/nopic"
                 app:layout_collapseMode="parallax" />
 
+            <View
+                android:id="@+id/view_backdrop_detail"
+                android:layout_width="match_parent"
+                android:layout_height="256dp"
+                android:background="@drawable/bg_banner_detail" />
+
+            <include
+                layout="@layout/layout_content_hotel_info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar_hotel_detail"
                 android:layout_width="match_parent"
@@ -58,22 +69,22 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical">
 
             <include
-                layout="@layout/layout_content_hotel_info"
+                layout="@layout/layout_content_hotel_desc"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
-            <View
+            <include
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="8dp"
-                android:background="#DEDEDE" />
+                layout="@layout/layout_content_route_call"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp" />
 
             <include
                 layout="@layout/layout_content_hotel_map"
@@ -87,9 +98,9 @@
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="24dp"
+                android:layout_marginBottom="16dp"
                 android:background="@drawable/state_button_orange"
                 android:fontFamily="@font/montserrat"
-                android:padding="8dp"
                 android:text="@string/order_hotel_button"
                 android:textAlignment="center"
                 android:textColor="#FFF" />

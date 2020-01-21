@@ -16,6 +16,7 @@ package co.id.roningrum.dolanapptugasakhir.model;
 public class Hotel {
     private String id;
     private String name_hotel;
+    private String info_hotel;
     private String location_hotel;
     private String telepon;
     private String url_photo_hotel;
@@ -26,9 +27,11 @@ public class Hotel {
 
     public Hotel() {
     }
-    public Hotel(String id, String name_hotel, String location_hotel, String telepon, String url_photo_hotel, String order_link_hotel, String order_link_hotel1, double lat_location_hotel, double lng_location_hotel) {
+
+    public Hotel(String id, String name_hotel, String info_hotel, String location_hotel, String telepon, String url_photo_hotel, String order_link_hotel, String order_link_hotel1, double lat_location_hotel, double lng_location_hotel) {
         this.id = id;
         this.name_hotel = name_hotel;
+        this.info_hotel = info_hotel;
         this.location_hotel = location_hotel;
         this.telepon = telepon;
         this.url_photo_hotel = url_photo_hotel;
@@ -52,6 +55,10 @@ public class Hotel {
 
     public String getTelepon() {
         return telepon;
+    }
+
+    public String getInfo_hotel() {
+        return info_hotel;
     }
 
     public String getUrl_photo_hotel() {

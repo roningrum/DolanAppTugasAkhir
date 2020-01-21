@@ -14,14 +14,18 @@
 package co.id.roningrum.dolanapptugasakhir.ui.hotel;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -67,8 +71,12 @@ public class HotelDetail extends AppCompatActivity implements OnMapReadyCallback
     private DatabaseReference hotelDetailRef;
 
     private GPSHandler gpsHandler;
-
-    private TextView tvNameHotelDetail, tvAddressHotelDetail, tvDistanceHotelEducation;
+    Hotel hotel = new Hotel();
+    private ImageButton btnRouteToMap, btnCall;
+    private TextView tvNameHotelDetail;
+    private TextView tvAddressHotelDetail;
+    private TextView tvDistanceHotelEducation;
+    private TextView tvDetailHotel;
 
     private ImageView imgHotelDetail;
     private CollapsingToolbarLayout collapsingToolbarHotel;
@@ -78,6 +86,7 @@ public class HotelDetail extends AppCompatActivity implements OnMapReadyCallback
     private double endlat;
     private double endLng;
     private double distance;
+    private TextView tvHotelMoreDesc;
 
     boolean isFavorite = false;
     Menu menuItem;
@@ -94,6 +103,10 @@ public class HotelDetail extends AppCompatActivity implements OnMapReadyCallback
         imgHotelDetail = findViewById(R.id.img_hotel_detail);
         hotelMapView = findViewById(R.id.location_hotel_map_detail);
         collapsingToolbarHotel = findViewById(R.id.collapseToolbar_hotel);
+        tvDetailHotel = findViewById(R.id.info_place_hotel_detail);
+        btnCall = findViewById(R.id.btn_call);
+        btnRouteToMap = findViewById(R.id.btn_route_map);
+        tvHotelMoreDesc = findViewById(R.id.info_place_hotel_more);
 
         Button btnOrdeHotel = findViewById(R.id.btn_order_hotel);
 
@@ -118,6 +131,7 @@ public class HotelDetail extends AppCompatActivity implements OnMapReadyCallback
         user = FirebaseAuth.getInstance().getCurrentUser();
 
         btnOrdeHotel.setOnClickListener(this);
+        tvHotelMoreDesc.setOnClickListener(this);
         LoadHotelDetail();
         favoriteState();
 
@@ -148,7 +162,7 @@ public class HotelDetail extends AppCompatActivity implements OnMapReadyCallback
             hotelDetailRef.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    final Hotel hotel = dataSnapshot.getValue(Hotel.class);
+                    hotel = dataSnapshot.getValue(Hotel.class);
                     startLat = gpsHandler.getLatitude();
                     startlng = gpsHandler.getLongitude();
 
@@ -161,6 +175,10 @@ public class HotelDetail extends AppCompatActivity implements OnMapReadyCallback
                     tvDistanceHotelEducation.setText("" + distanceFormat + " km");
                     tvNameHotelDetail.setText(hotel.getName_hotel());
                     tvAddressHotelDetail.setText(hotel.getLocation_hotel());
+
+                    tvDetailHotel.setText(hotel.getInfo_hotel());
+                    tvDetailHotel.setMaxLines(4);
+
                     Glide.with(getApplicationContext()).load(hotel.getUrl_photo_hotel()).into(imgHotelDetail);
                     AppBarLayout appBarLayout = findViewById(R.id.app_bar_hotel);
                     appBarLayout.addOnOffsetChangedListener(new AppBarLayout.BaseOnOffsetChangedListener() {
@@ -176,12 +194,37 @@ public class HotelDetail extends AppCompatActivity implements OnMapReadyCallback
                                 collapsingToolbarHotel.setTitle(hotel.getName_hotel());
                                 collapsingToolbarHotel.setCollapsedTitleTextColor(getResources().getColor(android.R.color.white));
                                 collapsingToolbarHotel.setContentScrim(getResources().getDrawable(R.drawable.bg_image_blur));
+                                tvDistanceHotelEducation.setVisibility(View.INVISIBLE);
+                                findViewById(R.id.location_icon_gas_pic).setVisibility(View.INVISIBLE);
                                 isShow = true;
                             } else {
                                 collapsingToolbarHotel.setTitle(" ");
+                                tvDistanceHotelEducation.setVisibility(View.VISIBLE);
+                                findViewById(R.id.location_icon_gas_pic).setVisibility(View.VISIBLE);
                                 isShow = false;
                             }
 
+                        }
+                    });
+                    btnCall.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent callIntent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", hotel.getTelepon(), null));
+                            if (!hotel.getTelepon().equals("Tidak tersedia")) {
+                                startActivity(callIntent);
+                            } else {
+                                Toast.makeText(getApplicationContext(), "Mohon Maaf belum tersedia untuk saat ini", Toast.LENGTH_SHORT).show();
+                            }
+
+                        }
+                    });
+
+                    btnRouteToMap.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
+                                    Uri.parse("http://maps.google.com/maps?saddr=" + startLat + "," + startlng + "&daddr=" + endlat + "," + endLng));
+                            startActivity(intent);
                         }
                     });
 
@@ -217,14 +260,15 @@ public class HotelDetail extends AppCompatActivity implements OnMapReadyCallback
         hotelDetailRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                Hotel hotel = dataSnapshot.getValue(Hotel.class);
+                hotel = dataSnapshot.getValue(Hotel.class);
                 assert hotel != null;
                 endlat = hotel.getLat_location_hotel();
                 endLng = hotel.getLng_location_hotel();
 
                 LatLng location = new LatLng(endlat, endLng);
-                hotelGoogleMap.addMarker(new MarkerOptions().position(location));
-                hotelGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 16.0f));
+                hotelGoogleMap.addMarker(new MarkerOptions().position(location).title(hotel.getName_hotel()));
+                hotelGoogleMap.getUiSettings().setMapToolbarEnabled(false);
+                hotelGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 15.10f));
             }
 
             @Override
@@ -236,13 +280,23 @@ public class HotelDetail extends AppCompatActivity implements OnMapReadyCallback
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.btn_order_hotel) {
-            OptionalOrderHotelFragment optionalOrderHotelFragment = new OptionalOrderHotelFragment();
-            FragmentManager fm = getSupportFragmentManager();
-            Bundle data = new Bundle();
-            data.putString(EXTRA_HOTEL_KEY, hotelKey);
-            optionalOrderHotelFragment.setArguments(data);
-            optionalOrderHotelFragment.show(fm, OptionalOrderHotelFragment.class.getSimpleName());
+        switch (v.getId()) {
+            case R.id.btn_order_hotel:
+                OptionalOrderHotelFragment optionalOrderHotelFragment = new OptionalOrderHotelFragment();
+                FragmentManager fm = getSupportFragmentManager();
+                Bundle data = new Bundle();
+                data.putString(EXTRA_HOTEL_KEY, hotelKey);
+                optionalOrderHotelFragment.setArguments(data);
+                optionalOrderHotelFragment.show(fm, OptionalOrderHotelFragment.class.getSimpleName());
+                break;
+            case R.id.info_place_hotel_more:
+                if (tvHotelMoreDesc.getText().toString().equalsIgnoreCase("Lebih Lengkap")) {
+                    tvDetailHotel.setMaxLines(Integer.MAX_VALUE);
+                    tvHotelMoreDesc.setText(getResources().getString(R.string.showless_text));
+                } else {
+                    tvDetailHotel.setMaxLines(4);
+                    tvHotelMoreDesc.setText(getResources().getString(R.string.showmore_text));
+                }
         }
 
     }
