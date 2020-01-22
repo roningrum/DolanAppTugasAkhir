@@ -35,7 +35,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -122,8 +122,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     }
 
     private void showPopularTourism() {
-        DatabaseReference popularTourism = FirebaseConstant.TourismRef;
-        popularTourism.limitToFirst(6).addValueEventListener(new ValueEventListener() {
+        Query popularTourism = FirebaseConstant.getTourismRekreasi();
+        popularTourism.limitToFirst(5).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
@@ -161,7 +161,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 if (getActivity() == null) {
                     return;
                 }
-                String nama = dataSnapshot.child("nama_user").getValue().toString().trim();
+                String nama = Objects.requireNonNull(dataSnapshot.child("nama_user").getValue()).toString().trim();
                 greetText(nama);
                 Glide.with(getActivity()).load(Objects.requireNonNull(dataSnapshot.child("photo_user").getValue()).toString()).into(userPhotoHome);
             }

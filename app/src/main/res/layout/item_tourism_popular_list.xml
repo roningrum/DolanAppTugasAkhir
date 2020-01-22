@@ -16,15 +16,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:padding="6dp"
     android:orientation="vertical"
-    android:paddingBottom="16dp"
     app:cardElevation="0dp">
 
     <com.jcminarro.roundkornerlayout.RoundKornerFrameLayout
         android:id="@+id/roundKornerFrameLayout2"
         android:layout_width="300dp"
         android:layout_height="150dp"
-        android:layout_marginTop="16dp"
+        android:layout_margin="16dp"
         app:corner_radius="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -43,6 +43,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/bg_banner_detail" />
+
     </com.jcminarro.roundkornerlayout.RoundKornerFrameLayout>
 
     <TextView
@@ -51,15 +52,13 @@
         android:layout_height="wrap_content"
         android:ellipsize="end"
         android:fontFamily="@font/montserrat_bold"
-        android:maxLines="1"
+        android:textAlignment="center"
         android:textColor="@color/txtWhitePrimary"
         android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.26"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.74"
         tools:text="Lawang Sewu" />
 
 
