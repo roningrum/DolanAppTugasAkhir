@@ -14,11 +14,16 @@
 package co.id.roningrum.dolanapptugasakhir.ui.police;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -58,7 +63,7 @@ public class PoliceDetail extends AppCompatActivity implements OnMapReadyCallbac
     private GPSHandler gpsHandler;
     private ValueEventListener valueEventListener;
 
-    private TextView tvNamePoliceDetail, tvAddressPoliceDetail, tvDistancePoliceDetail;
+    private TextView tvNamePoliceDetail, tvAddressPoliceDetail, tvDistancePoliceDetail, tvDetailPolice;
 
     private ImageView imgPoliceDetail;
     private CollapsingToolbarLayout collapsingToolbarPolice;
@@ -68,6 +73,8 @@ public class PoliceDetail extends AppCompatActivity implements OnMapReadyCallbac
     private double endlat;
     private double endLng;
     private double distance;
+
+    private ImageButton btnCall, btnRouteToMap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +86,10 @@ public class PoliceDetail extends AppCompatActivity implements OnMapReadyCallbac
         collapsingToolbarPolice = findViewById(R.id.collapseToolbar_police);
         policeMapView = findViewById(R.id.location_police_map_detail);
         imgPoliceDetail = findViewById(R.id.img_police_detail);
+        btnCall = findViewById(R.id.btn_call);
+        btnRouteToMap = findViewById(R.id.btn_route_map);
+        tvDetailPolice = findViewById(R.id.info_place_detail);
+
 
         Toolbar toolbarPolice = findViewById(R.id.toolbar_police_detail);
         setSupportActionBar(toolbarPolice);
@@ -119,6 +130,7 @@ public class PoliceDetail extends AppCompatActivity implements OnMapReadyCallbac
                     tvDistancePoliceDetail.setText("" + distanceFormat + " km");
                     tvNamePoliceDetail.setText(police.getName_police());
                     tvAddressPoliceDetail.setText(police.getLocation_police());
+                    tvDetailPolice.setText("Tidak tersedia untuk saat ini");
                     Glide.with(getApplicationContext()).load(police.getUrl_photo_police()).into(imgPoliceDetail);
                     AppBarLayout appBarLayout = findViewById(R.id.app_bar_police);
                     appBarLayout.addOnOffsetChangedListener(new AppBarLayout.BaseOnOffsetChangedListener() {
@@ -132,12 +144,42 @@ public class PoliceDetail extends AppCompatActivity implements OnMapReadyCallbac
                             }
                             if (scrollRange + verticalOffset == 0) {
                                 collapsingToolbarPolice.setTitle(police.getName_police());
+                                collapsingToolbarPolice.setCollapsedTitleTextColor(getResources().getColor(android.R.color.white));
+                                collapsingToolbarPolice.setContentScrim(getResources().getDrawable(R.drawable.bg_image_blur));
+                                tvDistancePoliceDetail.setVisibility(View.INVISIBLE);
+                                tvNamePoliceDetail.setVisibility(View.INVISIBLE);
+                                findViewById(R.id.location_icon_pic).setVisibility(View.INVISIBLE);
                                 isShow = true;
                             } else {
                                 collapsingToolbarPolice.setTitle(" ");
+                                tvDistancePoliceDetail.setVisibility(View.VISIBLE);
+                                tvNamePoliceDetail.setVisibility(View.VISIBLE);
+                                findViewById(R.id.location_icon_pic).setVisibility(View.VISIBLE);
                                 isShow = false;
                             }
 
+                        }
+                    });
+
+                    btnCall.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent callIntent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", police.getTelepon(), null));
+                            if (!police.getTelepon().equals("Tidak tersedia")) {
+                                startActivity(callIntent);
+                            } else {
+                                Toast.makeText(getApplicationContext(), "Mohon Maaf belum tersedia untuk saat ini", Toast.LENGTH_SHORT).show();
+                            }
+
+                        }
+                    });
+
+                    btnRouteToMap.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
+                                    Uri.parse("http://maps.google.com/maps?saddr=" + startLat + "," + startlng + "&daddr=" + endlat + "," + endLng));
+                            startActivity(intent);
                         }
                     });
 
@@ -174,7 +216,8 @@ public class PoliceDetail extends AppCompatActivity implements OnMapReadyCallbac
                     endLng = police.getLng_location_police();
 
                     LatLng location = new LatLng(endlat, endLng);
-                    policeGoogleMap.addMarker(new MarkerOptions().position(location));
+                    policeGoogleMap.addMarker(new MarkerOptions().position(location).title(police.getName_police()));
+                    policeGoogleMap.getUiSettings().setMapToolbarEnabled(false);
                     policeGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 15.0f));
                 }
 

@@ -19,8 +19,11 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -60,7 +63,8 @@ public class HospitalDetail extends AppCompatActivity implements OnMapReadyCallb
     private GPSHandler gpsHandler;
     private ValueEventListener valueEventListener;
 
-    private TextView tvNameHospitalDetail, tvAddressHospitalDetail, tvDistanceHospitalDetail;
+    private TextView tvNameHospitalDetail,
+            tvAddressHospitalDetail, tvDistanceHospitalDetail, tvDetailHospital;
 
     private ImageView imgHospitalDetail;
     private CollapsingToolbarLayout collapsingToolbarHospital;
@@ -70,6 +74,9 @@ public class HospitalDetail extends AppCompatActivity implements OnMapReadyCallb
     private double endlat;
     private double endLng;
     private double distance;
+
+    private ImageButton btnCall, btnRouteToMap;
+    private Hospital hospital;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,6 +88,9 @@ public class HospitalDetail extends AppCompatActivity implements OnMapReadyCallb
         collapsingToolbarHospital = findViewById(R.id.collapseToolbar_hospital);
         hospitalMapView = findViewById(R.id.location_hospital_map_detail);
         imgHospitalDetail = findViewById(R.id.img_hospital_detail);
+        btnCall = findViewById(R.id.btn_call);
+        btnRouteToMap = findViewById(R.id.btn_route_map);
+        tvDetailHospital = findViewById(R.id.info_place_detail);
 
         Toolbar toolbarHospital = findViewById(R.id.toolbar_hospital_detail);
         setSupportActionBar(toolbarHospital);
@@ -98,6 +108,7 @@ public class HospitalDetail extends AppCompatActivity implements OnMapReadyCallb
         }
         hospitalDetailRef = FirebaseConstant.getHospitalByKey(hospitalKey);
         gpsHandler = new GPSHandler(this);
+        hospital = new Hospital();
 
         LoadHospitaDetail();
     }
@@ -108,7 +119,7 @@ public class HospitalDetail extends AppCompatActivity implements OnMapReadyCallb
                 @SuppressLint("SetTextI18n")
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    final Hospital hospital = dataSnapshot.getValue(Hospital.class);
+                    hospital = dataSnapshot.getValue(Hospital.class);
                     startLat = gpsHandler.getLatitude();
                     startlng = gpsHandler.getLongitude();
                     assert hospital != null;
@@ -122,6 +133,7 @@ public class HospitalDetail extends AppCompatActivity implements OnMapReadyCallb
                     tvNameHospitalDetail.setText(hospital.getName_hospital());
                     tvAddressHospitalDetail.setText(hospital.getLocation_hospital());
                     Glide.with(getApplicationContext()).load(hospital.getUrl_photo_hospital()).into(imgHospitalDetail);
+                    tvDetailHospital.setText("Tidak Tersedia untuk saat ini");
                     AppBarLayout appBarLayout = findViewById(R.id.app_bar_hospital);
                     appBarLayout.addOnOffsetChangedListener(new AppBarLayout.BaseOnOffsetChangedListener() {
                         boolean isShow = true;
@@ -134,12 +146,42 @@ public class HospitalDetail extends AppCompatActivity implements OnMapReadyCallb
                             }
                             if (scrollRange + verticalOffset == 0) {
                                 collapsingToolbarHospital.setTitle(hospital.getName_hospital());
+                                collapsingToolbarHospital.setCollapsedTitleTextColor(getResources().getColor(android.R.color.white));
+                                collapsingToolbarHospital.setContentScrim(getResources().getDrawable(R.drawable.bg_image_blur));
+                                tvDistanceHospitalDetail.setVisibility(View.INVISIBLE);
+                                tvNameHospitalDetail.setVisibility(View.INVISIBLE);
+                                findViewById(R.id.location_icon_pic).setVisibility(View.INVISIBLE);
                                 isShow = true;
                             } else {
                                 collapsingToolbarHospital.setTitle(" ");
+                                tvDistanceHospitalDetail.setVisibility(View.VISIBLE);
+                                tvNameHospitalDetail.setVisibility(View.VISIBLE);
+                                findViewById(R.id.location_icon_pic).setVisibility(View.VISIBLE);
                                 isShow = false;
                             }
 
+                        }
+                    });
+
+                    btnCall.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent callIntent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", hospital.getTelepon(), null));
+                            if (!hospital.getTelepon().equals("Tidak tersedia")) {
+                                startActivity(callIntent);
+                            } else {
+                                Toast.makeText(getApplicationContext(), "Mohon Maaf belum tersedia untuk saat ini", Toast.LENGTH_SHORT).show();
+                            }
+
+                        }
+                    });
+
+                    btnRouteToMap.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
+                                    Uri.parse("http://maps.google.com/maps?saddr=" + startLat + "," + startlng + "&daddr=" + endlat + "," + endLng));
+                            startActivity(intent);
                         }
                     });
 
@@ -166,7 +208,7 @@ public class HospitalDetail extends AppCompatActivity implements OnMapReadyCallb
                 @SuppressLint("SetTextI18n")
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    final Hospital hospital = dataSnapshot.getValue(Hospital.class);
+                    hospital = dataSnapshot.getValue(Hospital.class);
                     startLat = gpsHandler.getLatitude();
                     startlng = gpsHandler.getLongitude();
 
@@ -175,16 +217,9 @@ public class HospitalDetail extends AppCompatActivity implements OnMapReadyCallb
                     endLng = hospital.getLng_location_hospital();
 
                     LatLng location = new LatLng(endlat, endLng);
-                    hospitalGoogleMap.addMarker(new MarkerOptions().position(location));
+                    hospitalGoogleMap.addMarker(new MarkerOptions().position(location).title(hospital.getName_hospital()));
+                    hospitalGoogleMap.getUiSettings().setMapToolbarEnabled(false);
                     hospitalGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 16.0f));
-                    hospitalGoogleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
-                        @Override
-                        public void onMapClick(LatLng latLng) {
-                            String uri = "http://maps.google.com/maps?saddr=" + gpsHandler.getLatitude() + "," + gpsHandler.getLongitude() + "&daddr=" + endlat + "," + endLng + "&mode=driving";
-                            Intent intent = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(uri));
-                            startActivity(Intent.createChooser(intent, "Select an application"));
-                        }
-                    });
                 }
 
                 @Override

@@ -14,11 +14,16 @@
 package co.id.roningrum.dolanapptugasakhir.ui.transportation.transportationDetailActivity;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -61,10 +66,16 @@ public class TransportationDetailActivity extends AppCompatActivity implements O
 
     private GPSHandler gpsHandler;
 
-    private TextView tvNameTransDetail, tvAddressTransDetail, tvDistanceTrans;
+    private TextView tvNameTransDetail, tvAddressTransDetail, tvDistanceTrans, tvDetailTransport;
 
     private ImageView imgTransportDetail;
     private CollapsingToolbarLayout collapsingToolbarTransport;
+    private Transportation transportation;
+    private ImageButton btnCall, btnRouteToMap;
+    private double startLat;
+    private double startLng;
+    private double endLat;
+    private double endLng;
 
 
     @Override
@@ -78,6 +89,9 @@ public class TransportationDetailActivity extends AppCompatActivity implements O
         imgTransportDetail = findViewById(R.id.img_transport_detail);
         collapsingToolbarTransport = findViewById(R.id.collapseToolbar_transport);
         transportMapView = findViewById(R.id.location_trans_map_detail);
+        btnCall = findViewById(R.id.btn_call);
+        btnRouteToMap = findViewById(R.id.btn_route_map);
+        tvDetailTransport = findViewById(R.id.info_place_detail);
 
         Toolbar toolbarTransportation = findViewById(R.id.toolbar_transport_detail);
         setSupportActionBar(toolbarTransportation);
@@ -97,6 +111,7 @@ public class TransportationDetailActivity extends AppCompatActivity implements O
 
         transportDetailRef = FirebaseConstant.getTransportByKey(transportKey);
         gpsHandler = new GPSHandler(this);
+        transportation = new Transportation();
 
         LoadTransportDetail();
     }
@@ -107,18 +122,19 @@ public class TransportationDetailActivity extends AppCompatActivity implements O
             transportDetailRef.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    final Transportation transportation = dataSnapshot.getValue(Transportation.class);
-                    double startLat = gpsHandler.getLatitude();
-                    double startlng = gpsHandler.getLongitude();
+                    transportation = dataSnapshot.getValue(Transportation.class);
+                    startLat = gpsHandler.getLatitude();
+                    startLng = gpsHandler.getLongitude();
                     assert transportation != null;
-                    double endlat = transportation.getLat_location_transport();
-                    double endLng = transportation.getLng_location_transport();
-                    double distance = Utils.calculateDistance(startLat, startlng, endlat, endLng);
+                    endLat = transportation.getLat_location_transport();
+                    endLng = transportation.getLng_location_transport();
+                    double distance = Utils.calculateDistance(startLat, startLng, endLat, endLng);
 
                     String distanceFormat = String.format("%.2f", distance);
                     tvDistanceTrans.setText("" + distanceFormat + " km");
                     tvNameTransDetail.setText(transportation.getName_transport());
                     tvAddressTransDetail.setText(transportation.getLocation_transport());
+                    tvDetailTransport.setText("Tidak tersedia untuk saat ini");
                     Glide.with(getApplicationContext()).load(transportation.getUrl_photo_transport()).into(imgTransportDetail);
                     AppBarLayout appBarLayout = findViewById(R.id.app_bar_transport);
                     appBarLayout.addOnOffsetChangedListener(new AppBarLayout.BaseOnOffsetChangedListener() {
@@ -132,12 +148,42 @@ public class TransportationDetailActivity extends AppCompatActivity implements O
                             }
                             if (scrollRange + verticalOffset == 0) {
                                 collapsingToolbarTransport.setTitle(transportation.getName_transport());
+                                collapsingToolbarTransport.setCollapsedTitleTextColor(getResources().getColor(android.R.color.white));
+                                collapsingToolbarTransport.setContentScrim(getResources().getDrawable(R.drawable.bg_image_blur));
+                                tvDistanceTrans.setVisibility(View.INVISIBLE);
+                                tvNameTransDetail.setVisibility(View.INVISIBLE);
+                                findViewById(R.id.location_icon_trans_pic).setVisibility(View.INVISIBLE);
                                 isShow = true;
                             } else {
                                 collapsingToolbarTransport.setTitle(" ");
+                                tvDistanceTrans.setVisibility(View.VISIBLE);
+                                tvNameTransDetail.setVisibility(View.VISIBLE);
+                                findViewById(R.id.location_icon_trans_pic).setVisibility(View.VISIBLE);
                                 isShow = false;
                             }
 
+                        }
+                    });
+
+                    btnCall.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent callIntent = new Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", transportation.getTelepon(), null));
+                            if (!transportation.getTelepon().equals("Tidak tersedia")) {
+                                startActivity(callIntent);
+                            } else {
+                                Toast.makeText(getApplicationContext(), "Mohon Maaf belum tersedia untuk saat ini", Toast.LENGTH_SHORT).show();
+                            }
+
+                        }
+                    });
+
+                    btnRouteToMap.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = new Intent(android.content.Intent.ACTION_VIEW,
+                                    Uri.parse("http://maps.google.com/maps?saddr=" + startLat + "," + startLng + "&daddr=" + endLat + "," + endLng));
+                            startActivity(intent);
                         }
                     });
                 }
@@ -170,11 +216,12 @@ public class TransportationDetailActivity extends AppCompatActivity implements O
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 final Transportation transportation = dataSnapshot.getValue(Transportation.class);
                 assert transportation != null;
-                final double endlat = transportation.getLat_location_transport();
-                final double endLng = transportation.getLng_location_transport();
+                endLat = transportation.getLat_location_transport();
+                endLng = transportation.getLng_location_transport();
 
-                LatLng location = new LatLng(endlat, endLng);
-                transportGoogleMap.addMarker(new MarkerOptions().position(location));
+                LatLng location = new LatLng(endLat, endLng);
+                transportGoogleMap.addMarker(new MarkerOptions().position(location).title(transportation.getName_transport()));
+                transportGoogleMap.getUiSettings().setMapToolbarEnabled(false);
                 transportGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 15.0f));
 
             }

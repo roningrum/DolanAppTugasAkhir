@@ -231,7 +231,7 @@ public class GasStationDetail extends AppCompatActivity implements OnMapReadyCal
                     endLng = gasStation.getLng_location_gasstation();
 
                     LatLng location = new LatLng(endlat, endLng);
-                    gasGoogleMap.addMarker(new MarkerOptions().position(location));
+                    gasGoogleMap.addMarker(new MarkerOptions().position(location).title(gasStation.getName_gasstation()));
                     gasGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 16.0f));
                     gasGoogleMap.getUiSettings().setMapToolbarEnabled(false);
                 }

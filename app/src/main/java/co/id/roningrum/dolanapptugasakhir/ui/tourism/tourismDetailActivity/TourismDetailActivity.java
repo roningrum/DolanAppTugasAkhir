@@ -200,11 +200,13 @@ public class TourismDetailActivity extends AppCompatActivity implements OnMapRea
                                 collapsingToolbarLayoutTourism.setCollapsedTitleTextColor(getResources().getColor(android.R.color.white));
                                 collapsingToolbarLayoutTourism.setContentScrim(getResources().getDrawable(R.drawable.bg_image_blur));
                                 tvDistanceTourismDetail.setVisibility(View.INVISIBLE);
+                                tvNameTourismDetail.setVisibility(View.INVISIBLE);
                                 findViewById(R.id.location_icon_pic).setVisibility(View.INVISIBLE);
                                 isShow = true;
                             } else {
                                 collapsingToolbarLayoutTourism.setTitle(" ");
                                 tvDistanceTourismDetail.setVisibility(View.VISIBLE);
+                                tvNameTourismDetail.setVisibility(View.VISIBLE);
                                 findViewById(R.id.location_icon_pic).setVisibility(View.VISIBLE);
                                 isShow = false;
                             }

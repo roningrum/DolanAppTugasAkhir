@@ -27,27 +27,12 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:fontFamily="@font/montserrat_bold"
-        android:textColor="@color/blackTextPrimary"
+        android:textColor="@color/txtWhitePrimary"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Spbu Akpol" />
-
-    <TextView
-        android:id="@+id/location_transport_detail"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:fontFamily="@font/montserrat"
-        android:lineSpacingExtra="4sp"
-        android:textSize="14sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/location_icon_trans_pic"
-        app:layout_constraintTop_toBottomOf="@+id/name_place_transport_detail"
-        tools:text="Jalan Sisingamaharaja" />
 
     <ImageView
         android:id="@+id/location_icon_trans_pic"
@@ -56,7 +41,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:contentDescription="@null"
-        android:src="@drawable/ic_location_orange"
+        android:src="@drawable/ic_distance"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/name_place_transport_detail" />
 
@@ -64,15 +49,14 @@
         android:id="@+id/distance_location_trans"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
-        android:layout_marginBottom="16dp"
         android:fontFamily="@font/montserrat_medium"
-        android:textColor="@color/blackTextPrimary"
+        android:textColor="@color/txtWhitePrimary"
         android:textSize="16sp"
         android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/location_transport_detail"
+        app:layout_constraintStart_toEndOf="@+id/location_icon_trans_pic"
+        app:layout_constraintTop_toBottomOf="@+id/name_place_transport_detail"
         tools:text="3.6km" />
 
 

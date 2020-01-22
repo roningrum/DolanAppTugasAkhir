@@ -16,6 +16,7 @@ package co.id.roningrum.dolanapptugasakhir.model;
 public class Hospital {
     private String id;
     private String name_hospital;
+    private String telepon;
     private String location_hospital;
     private double lat_location_hospital;
     private double lng_location_hospital;
@@ -24,9 +25,10 @@ public class Hospital {
     public Hospital() {
     }
 
-    public Hospital(String id, String name_hospital, String location_hospital, double lat_location_hospital, double lng_location_hospital, String url_photo_hospital) {
+    public Hospital(String id, String name_hospital, String telepon, String location_hospital, double lat_location_hospital, double lng_location_hospital, String url_photo_hospital) {
         this.id = id;
         this.name_hospital = name_hospital;
+        this.telepon = telepon;
         this.location_hospital = location_hospital;
         this.lat_location_hospital = lat_location_hospital;
         this.lng_location_hospital = lng_location_hospital;
@@ -55,5 +57,9 @@ public class Hospital {
 
     public String getUrl_photo_hospital() {
         return url_photo_hospital;
+    }
+
+    public String getTelepon() {
+        return telepon;
     }
 }

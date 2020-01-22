@@ -16,6 +16,7 @@ package co.id.roningrum.dolanapptugasakhir.model;
 public class Transportation {
     private String id;
     private String name_transport;
+    private String telepon;
     private String location_transport;
     private String url_photo_transport;
     private double lat_location_transport;
@@ -24,9 +25,10 @@ public class Transportation {
     public Transportation() {
     }
 
-    public Transportation(String id, String name_transport, String location_transport, String url_photo_transport, double lat_location_transport, double lng_location_transport) {
+    public Transportation(String id, String name_transport, String telepon, String location_transport, String url_photo_transport, double lat_location_transport, double lng_location_transport) {
         this.id = id;
         this.name_transport = name_transport;
+        this.telepon = telepon;
         this.location_transport = location_transport;
         this.url_photo_transport = url_photo_transport;
         this.lat_location_transport = lat_location_transport;
@@ -55,5 +57,9 @@ public class Transportation {
 
     public double getLng_location_transport() {
         return lng_location_transport;
+    }
+
+    public String getTelepon() {
+        return telepon;
     }
 }

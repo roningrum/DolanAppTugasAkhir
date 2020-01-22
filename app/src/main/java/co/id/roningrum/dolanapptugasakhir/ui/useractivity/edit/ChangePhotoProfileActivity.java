@@ -71,7 +71,7 @@ public class ChangePhotoProfileActivity extends AppCompatActivity implements Vie
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_chang_photo_profile);
+        setContentView(R.layout.activity_change_photo_profile);
         ImageButton btnUploadPhoto = findViewById(R.id.btn_upload_image_from_device);
         pbLoading = findViewById(R.id.pb_loading_upload);
         photo_profile = findViewById(R.id.photo_akun_beranda);
