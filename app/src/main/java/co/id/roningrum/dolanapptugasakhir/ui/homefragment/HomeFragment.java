@@ -16,7 +16,6 @@ package co.id.roningrum.dolanapptugasakhir.ui.homefragment;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -28,28 +27,33 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
-import com.smarteist.autoimageslider.IndicatorAnimations;
-import com.smarteist.autoimageslider.SliderAnimations;
-import com.smarteist.autoimageslider.SliderView;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Objects;
 
 import co.id.roningrum.dolanapptugasakhir.R;
-import co.id.roningrum.dolanapptugasakhir.ui.adapter.SlideAdapterExample;
+import co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseConstant;
+import co.id.roningrum.dolanapptugasakhir.model.Tourism;
+import co.id.roningrum.dolanapptugasakhir.ui.adapter.tourism.TourismClickCallback;
+import co.id.roningrum.dolanapptugasakhir.ui.adapter.tourism.TourismPopularAdapter;
 import co.id.roningrum.dolanapptugasakhir.ui.homeactivity.AllCategoryActivity;
 import co.id.roningrum.dolanapptugasakhir.ui.hotel.HotelActivity;
 import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismActivity.TourismAlamActivity;
 import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismActivity.TourismBelanjaActivity;
 import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismActivity.TourismDesaActivity;
 import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismActivity.TourismRekreasiActivity;
+import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismDetailActivity.TourismDetailActivity;
 import co.id.roningrum.dolanapptugasakhir.ui.transportation.transportationActivity.TransportationAirportActivity;
 import co.id.roningrum.dolanapptugasakhir.ui.transportation.transportationActivity.TransportationTrainActivity;
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -65,6 +69,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     private TextView tvGreetApp;
     private CircleImageView userPhotoHome;
     private FirebaseUser homeUser;
+    private RecyclerView rvTourismPopuler;
+    private TourismPopularAdapter tourismAdapter;
+    private ArrayList<Tourism> tourisms = new ArrayList<>();
 
     public HomeFragment() {
         // Required empty public constructor
@@ -92,18 +99,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         LinearLayout hotelMenu = view.findViewById(R.id.ln_hotel_public_home);
         LinearLayout trainMenu = view.findViewById(R.id.ln_train_public_home);
         LinearLayout moreMenu = view.findViewById(R.id.ln_more_home);
-
-        SliderView sliderView = view.findViewById(R.id.sliderView);
-        SlideAdapterExample adapterExample = new SlideAdapterExample();
-
-        sliderView.setSliderAdapter(adapterExample);
-        sliderView.setSliderTransformAnimation(SliderAnimations.SIMPLETRANSFORMATION);
-        sliderView.setIndicatorAnimation(IndicatorAnimations.WORM);
-        sliderView.setAutoCycleDirection(SliderView.AUTO_CYCLE_DIRECTION_BACK_AND_FORTH);
-        sliderView.setIndicatorSelectedColor(Color.WHITE);
-        sliderView.setIndicatorUnselectedColor(Color.GRAY);
-        sliderView.setScrollTimeInSec(5);
-        sliderView.startAutoCycle();
+        rvTourismPopuler = view.findViewById(R.id.rv_tourism_popular);
 
         natureMenu.setOnClickListener(this);
         entertainMenu.setOnClickListener(this);
@@ -118,9 +114,43 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         homeUser = firebaseAuth.getCurrentUser();
 
         userPhotoHome.setOnClickListener(this);
+        rvTourismPopuler.setLayoutManager(new LinearLayoutManager(getActivity(), RecyclerView.HORIZONTAL, false));
 
         showProfileToHome();
+        showPopularTourism();
 
+    }
+
+    private void showPopularTourism() {
+        DatabaseReference popularTourism = FirebaseConstant.TourismRef;
+        popularTourism.limitToFirst(6).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    Tourism tourism = snapshot.getValue(Tourism.class);
+                    tourisms.add(tourism);
+                }
+                tourismAdapter = new TourismPopularAdapter();
+                tourismAdapter.setTourismList(tourisms);
+                tourismAdapter.setOnItemClickCallback(new TourismClickCallback() {
+                    @Override
+                    public void onItemClicked(Tourism tourism) {
+                        String tourismKey = tourism.getId();
+                        Intent intent = new Intent(getActivity(), TourismDetailActivity.class);
+                        intent.putExtra(TourismDetailActivity.EXTRA_WISATA_KEY, tourismKey);
+                        Log.d("Check id", "id :" + tourismKey);
+                        startActivity(intent);
+                    }
+                });
+                rvTourismPopuler.setAdapter(tourismAdapter);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
     private void showProfileToHome() {
