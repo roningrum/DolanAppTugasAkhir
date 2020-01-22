@@ -48,6 +48,7 @@ import java.util.Objects;
 
 import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseConstant;
+import co.id.roningrum.dolanapptugasakhir.ui.AboutAppActivity;
 import co.id.roningrum.dolanapptugasakhir.ui.useractivity.edit.EditProfileActivity;
 import co.id.roningrum.dolanapptugasakhir.ui.useractivity.login.SignInOptionActivity;
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -130,6 +131,8 @@ public class ProfileFragment extends Fragment implements View.OnClickListener, G
     }
 
     private void goToAboutPage() {
+        Intent goToAboutIntent = new Intent(getContext(), AboutAppActivity.class);
+        startActivity(goToAboutIntent);
     }
 
     private void goToEditProfile() {

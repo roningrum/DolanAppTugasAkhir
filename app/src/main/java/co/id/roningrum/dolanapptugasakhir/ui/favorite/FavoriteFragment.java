@@ -45,11 +45,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import co.id.roningrum.dolanapptugasakhir.R;
-import co.id.roningrum.dolanapptugasakhir.ui.adapter.tourism.TourismClickCallback;
 import co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseConstant;
 import co.id.roningrum.dolanapptugasakhir.handler.LocationPermissionHandler;
 import co.id.roningrum.dolanapptugasakhir.handler.NetworkHelper;
 import co.id.roningrum.dolanapptugasakhir.model.Tourism;
+import co.id.roningrum.dolanapptugasakhir.ui.adapter.tourism.TourismClickCallback;
 import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismDetailActivity.TourismDetailActivity;
 
 import static co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseConstant.favoriteRef;
@@ -129,8 +129,8 @@ public class FavoriteFragment extends Fragment {
         if (NetworkHelper.isConnectedToNetwork(getContext())) {
             checkUser();
         } else {
-            pbLoading.setVisibility(View.GONE);
-            Toast.makeText(getContext(), "Check your connection", Toast.LENGTH_SHORT).show();
+            pbLoading.setVisibility(View.VISIBLE);
+            Toast.makeText(getContext(), "Periksa Koneksi", Toast.LENGTH_SHORT).show();
         }
     }
 

@@ -201,6 +201,7 @@ public class GPSHandler extends Service implements LocationListener {
     public void onLocationChanged(Location location) {
         latitude = location.getLatitude();
         longitude = location.getLongitude();
+
         Log.d("this", "RLOC: Location USER" + latitude + "" + longitude);
     }
 
