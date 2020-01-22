@@ -26,11 +26,13 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.google.android.material.appbar.AppBarLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -71,6 +73,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     private FirebaseUser homeUser;
     private RecyclerView rvTourismPopuler;
     private TourismPopularAdapter tourismAdapter;
+    private Toolbar toolbarHome;
+    private AppBarLayout appBarHome;
     private ArrayList<Tourism> tourisms = new ArrayList<>();
 
     public HomeFragment() {
@@ -100,6 +104,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         LinearLayout trainMenu = view.findViewById(R.id.ln_train_public_home);
         LinearLayout moreMenu = view.findViewById(R.id.ln_more_home);
         rvTourismPopuler = view.findViewById(R.id.rv_tourism_popular);
+        toolbarHome = view.findViewById(R.id.toolbar_home);
+        appBarHome = view.findViewById(R.id.appbar_home);
 
         natureMenu.setOnClickListener(this);
         entertainMenu.setOnClickListener(this);
@@ -118,6 +124,11 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
         showProfileToHome();
         showPopularTourism();
+        showHideToolbarHome();
+
+    }
+
+    private void showHideToolbarHome() {
 
     }
 
