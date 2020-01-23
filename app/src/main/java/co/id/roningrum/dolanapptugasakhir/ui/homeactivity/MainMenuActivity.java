@@ -33,7 +33,7 @@ import java.util.Arrays;
 
 import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.handler.LocationPermissionHandler;
-import co.id.roningrum.dolanapptugasakhir.ui.favorite.FavoriteHotelFragment;
+import co.id.roningrum.dolanapptugasakhir.ui.homefragment.BookmarkFragment;
 import co.id.roningrum.dolanapptugasakhir.ui.homefragment.HomeFragment;
 import co.id.roningrum.dolanapptugasakhir.ui.homefragment.ProfileFragment;
 
@@ -93,7 +93,7 @@ public class MainMenuActivity extends AppCompatActivity implements BottomNavigat
                 fragment = new HomeFragment();
                 break;
             case R.id.bookmarkMenu:
-                fragment = new FavoriteHotelFragment();
+                fragment = new BookmarkFragment();
                 break;
             case R.id.profileMenu:
                 fragment = new ProfileFragment();

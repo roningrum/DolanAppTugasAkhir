@@ -18,20 +18,6 @@
     android:layout_height="match_parent"
     tools:context=".ui.favorite.FavoriteTouristFragment">
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
-
-        <androidx.appcompat.widget.Toolbar
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="@color/txtWhitePrimary"
-            app:layout_collapseMode="pin"
-            app:title="@string/txt_bookmark_main_menu"
-            app:titleTextColor="@android:color/black" />
-    </com.google.android.material.appbar.AppBarLayout>
-
     <ProgressBar
         android:id="@+id/pb_loading"
         style="?android:attr/progressBarStyle"

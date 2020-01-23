@@ -11,7 +11,7 @@
  * limitations under the License.
  */
 
-package co.id.roningrum.dolanapptugasakhir.ui.favorite;
+package co.id.roningrum.dolanapptugasakhir.ui.homefragment;
 
 
 import android.os.Bundle;
@@ -19,9 +19,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.viewpager.widget.ViewPager;
+
+import com.google.android.material.tabs.TabLayout;
 
 import co.id.roningrum.dolanapptugasakhir.R;
+import co.id.roningrum.dolanapptugasakhir.ui.adapter.ViewPagerAdapter;
+import co.id.roningrum.dolanapptugasakhir.ui.favorite.FavoriteHotelFragment;
+import co.id.roningrum.dolanapptugasakhir.ui.favorite.FavoriteTouristFragment;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -41,4 +49,19 @@ public class BookmarkFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_bookmark, container, false);
     }
 
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        TabLayout tabBookmark = view.findViewById(R.id.tab_layout);
+        ViewPager viewPager = view.findViewById(R.id.view_pager);
+
+        ViewPagerAdapter favPagerAdapter = new ViewPagerAdapter(getChildFragmentManager());
+        favPagerAdapter.addFragment(new FavoriteTouristFragment(), "Wisata");
+        favPagerAdapter.addFragment(new FavoriteHotelFragment(), "Hotel");
+
+        viewPager.setAdapter(favPagerAdapter);
+        tabBookmark.setupWithViewPager(viewPager);
+
+    }
 }

@@ -79,7 +79,7 @@ public class FavoriteTourismAdapter extends RecyclerView.Adapter<FavoriteTourism
         return tourisms;
     }
 
-    void removeItem(int position) {
+    public void removeItem(int position) {
         tourisms.remove(position);
         notifyItemRemoved(position);
     }
