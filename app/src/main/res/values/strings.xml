@@ -133,5 +133,6 @@
     <string name="informasi_hotel">Informasi Hotel</string>
     <string name="informasi">Informasi</string>
     <string name="populer_tourism">Tempat Populer</string>
+    <string name="about_app">Aplikasi ini dibangun utuk memenuhi tugas akhir S1 berjudul   Pengembangan Aplikasi Pariwisara Semarang berbasis Android dengan Impelementasi Firebase</string>
 
 </resources>

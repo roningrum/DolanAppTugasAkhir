@@ -27,7 +27,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.AboutAppActivity"></activity>
+        <activity android:name=".ui.AboutAppActivity" />
         <activity android:name=".ui.transportation.transportationDetailActivity.TransportationDetailActivity" />
         <activity android:name=".ui.tourism.tourismDetailActivity.TourismDetailActivity" />
         <activity

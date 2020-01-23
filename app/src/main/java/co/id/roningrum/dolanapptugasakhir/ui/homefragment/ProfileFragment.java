@@ -153,8 +153,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener, G
                 }
             });
             Toast.makeText(getContext(), "Thanks for visiting", Toast.LENGTH_LONG).show();
-        } else {
-            Log.e("Status", "Gagal Keluar");
+
         }
     }
 

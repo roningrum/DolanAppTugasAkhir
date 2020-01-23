@@ -14,8 +14,10 @@
 package co.id.roningrum.dolanapptugasakhir.ui;
 
 import android.os.Bundle;
+import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import co.id.roningrum.dolanapptugasakhir.R;
 
@@ -25,5 +27,17 @@ public class AboutAppActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about_app);
+        Toolbar toolbarAbout = findViewById(R.id.toolbar_about);
+        setSupportActionBar(toolbarAbout);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back_24dp);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            toolbarAbout.setNavigationOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onBackPressed();
+                }
+            });
+        }
     }
 }
