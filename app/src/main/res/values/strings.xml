@@ -135,4 +135,7 @@
     <string name="populer_tourism">Tempat Populer</string>
     <string name="about_app">Aplikasi ini dibangun utuk memenuhi tugas akhir S1 berjudul   Pengembangan Aplikasi Pariwisara Semarang berbasis Android dengan Impelementasi Firebase</string>
 
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
 </resources>

@@ -30,17 +30,17 @@ import com.bumptech.glide.request.RequestOptions;
 import java.util.ArrayList;
 
 import co.id.roningrum.dolanapptugasakhir.R;
-import co.id.roningrum.dolanapptugasakhir.ui.adapter.tourism.TourismClickCallback;
 import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.model.Tourism;
+import co.id.roningrum.dolanapptugasakhir.ui.adapter.tourism.TourismClickCallback;
 import co.id.roningrum.dolanapptugasakhir.util.Utils;
 
-public class FavoritAdapter extends RecyclerView.Adapter<FavoritAdapter.FavoritViewHolder> {
+public class FavoriteTourismAdapter extends RecyclerView.Adapter<FavoriteTourismAdapter.FavoritViewHolder> {
     private ArrayList<Tourism> tourisms;
     private Context context;
     private TourismClickCallback tourismClickCallback;
 
-    FavoritAdapter(ArrayList<Tourism> tourisms, Context context) {
+    FavoriteTourismAdapter(ArrayList<Tourism> tourisms, Context context) {
         this.tourisms = tourisms;
         this.context = context;
     }
@@ -73,11 +73,6 @@ public class FavoritAdapter extends RecyclerView.Adapter<FavoritAdapter.FavoritV
     @Override
     public int getItemCount() {
         return tourisms.size();
-    }
-
-    public void restoreItem(Tourism tourism, int position) {
-        tourisms.add(position, tourism);
-        notifyItemInserted(position);
     }
 
     public ArrayList<Tourism> getTourisms() {

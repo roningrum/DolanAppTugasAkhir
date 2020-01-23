@@ -58,18 +58,18 @@ import static co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseConstant.
 /**
  * A simple {@link Fragment} subclass.
  */
-public class FavoriteFragment extends Fragment {
+public class FavoriteTouristFragment extends Fragment {
     private ArrayList<Tourism> tourismList;
     private ArrayList<String> checkUserList;
     private RecyclerView rvFavoritList;
     private FirebaseUser user;
-    private FavoritAdapter favoritAdapter;
+    private FavoriteTourismAdapter favoriteTourismAdapter;
     private LocationPermissionHandler locationPermissionHandler;
     private DatabaseReference databaseReference;
     private ProgressBar pbLoading;
 
 
-    public FavoriteFragment() {
+    public FavoriteTouristFragment() {
         // Required empty public constructor
     }
 
@@ -108,7 +108,7 @@ public class FavoriteFragment extends Fragment {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot userSnapshot) {
                         favoriteRef.getRef().child(user.getUid()).child("Tourism").child(tourismList.get(position).getId()).removeValue();
-                        favoritAdapter.removeItem(position);
+                        favoriteTourismAdapter.removeItem(position);
                     }
 
                     @Override
@@ -157,8 +157,8 @@ public class FavoriteFragment extends Fragment {
                         }
 
                     }
-                    favoritAdapter = new FavoritAdapter(tourismList, getContext());
-                    favoritAdapter.setTourismClickCallback(new TourismClickCallback() {
+                    favoriteTourismAdapter = new FavoriteTourismAdapter(tourismList, getContext());
+                    favoriteTourismAdapter.setTourismClickCallback(new TourismClickCallback() {
                         @Override
                         public void onItemClicked(Tourism tourism) {
                             Intent intent = new Intent(getActivity(), TourismDetailActivity.class);
@@ -166,8 +166,8 @@ public class FavoriteFragment extends Fragment {
                             startActivity(intent);
                         }
                     });
-                    rvFavoritList.setAdapter(favoritAdapter);
-                    favoritAdapter.notifyDataSetChanged();
+                    rvFavoritList.setAdapter(favoriteTourismAdapter);
+                    favoriteTourismAdapter.notifyDataSetChanged();
 
                 }
 
