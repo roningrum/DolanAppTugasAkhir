@@ -36,6 +36,12 @@
         <item name="android:textColorHint">@color/hint_color</item>
     </style>
 
+    <style name="TabTextAppearance" parent="TextAppearance.Design.Tab">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
     <color name="prim_color">#0f0f0f</color>
     <color name="normal_color">#ababab</color>
     <color name="high_color">#DEDEDE</color>
