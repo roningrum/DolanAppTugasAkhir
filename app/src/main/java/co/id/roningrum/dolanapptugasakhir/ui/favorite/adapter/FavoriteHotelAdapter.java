@@ -11,7 +11,7 @@
  * limitations under the License.
  */
 
-package co.id.roningrum.dolanapptugasakhir.ui.favorite;
+package co.id.roningrum.dolanapptugasakhir.ui.favorite.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -30,17 +30,17 @@ import com.bumptech.glide.request.RequestOptions;
 import java.util.ArrayList;
 
 import co.id.roningrum.dolanapptugasakhir.R;
-import co.id.roningrum.dolanapptugasakhir.ui.adapter.hotel.HotelClickCallback;
 import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.model.Hotel;
+import co.id.roningrum.dolanapptugasakhir.ui.adapter.hotel.HotelClickCallback;
 import co.id.roningrum.dolanapptugasakhir.util.Utils;
 
-public class FavoritHotelAdapter extends RecyclerView.Adapter<FavoritHotelAdapter.FavoritViewHolder> {
+public class FavoriteHotelAdapter extends RecyclerView.Adapter<FavoriteHotelAdapter.FavoritViewHolder> {
     private ArrayList<Hotel> hotels;
     private Context context;
     private HotelClickCallback tourismClickCallback;
 
-    FavoritHotelAdapter(ArrayList<Hotel> hotels, Context context) {
+    public FavoriteHotelAdapter(ArrayList<Hotel> hotels, Context context) {
         this.hotels = hotels;
         this.context = context;
     }
@@ -81,7 +81,7 @@ public class FavoritHotelAdapter extends RecyclerView.Adapter<FavoritHotelAdapte
         return hotels;
     }
 
-    void removeItem(int position) {
+    public void removeItem(int position) {
         hotels.remove(position);
         notifyItemRemoved(position);
     }

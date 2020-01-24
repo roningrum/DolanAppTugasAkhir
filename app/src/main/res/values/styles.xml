@@ -38,8 +38,9 @@
 
     <style name="TabTextAppearance" parent="TextAppearance.Design.Tab">
         <item name="android:textSize">14sp</item>
-        <item name="android:textColor">@color/colorPrimary</item>
-        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">#8CF26716</item>
+        <item name="android:fontFamily">@font/montserrat_bold</item>
+        <item name="textAllCaps">false</item>
     </style>
 
     <color name="prim_color">#0f0f0f</color>

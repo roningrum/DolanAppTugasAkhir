@@ -11,7 +11,7 @@
  * limitations under the License.
  */
 
-package co.id.roningrum.dolanapptugasakhir.ui.favorite;
+package co.id.roningrum.dolanapptugasakhir.ui.favorite.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -40,12 +40,12 @@ public class FavoriteTourismAdapter extends RecyclerView.Adapter<FavoriteTourism
     private Context context;
     private TourismClickCallback tourismClickCallback;
 
-    FavoriteTourismAdapter(ArrayList<Tourism> tourisms, Context context) {
+    public FavoriteTourismAdapter(ArrayList<Tourism> tourisms, Context context) {
         this.tourisms = tourisms;
         this.context = context;
     }
 
-    void setTourismClickCallback(TourismClickCallback tourismClickCallback) {
+    public void setTourismClickCallback(TourismClickCallback tourismClickCallback) {
         this.tourismClickCallback = tourismClickCallback;
     }
 

@@ -23,11 +23,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -50,6 +52,8 @@ import co.id.roningrum.dolanapptugasakhir.handler.LocationPermissionHandler;
 import co.id.roningrum.dolanapptugasakhir.handler.NetworkHelper;
 import co.id.roningrum.dolanapptugasakhir.model.Tourism;
 import co.id.roningrum.dolanapptugasakhir.ui.adapter.tourism.TourismClickCallback;
+import co.id.roningrum.dolanapptugasakhir.ui.favorite.adapter.FavoriteTourismAdapter;
+import co.id.roningrum.dolanapptugasakhir.ui.homeactivity.AllCategoryActivity;
 import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismDetailActivity.TourismDetailActivity;
 
 import static co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseConstant.favoriteRef;
@@ -67,6 +71,8 @@ public class FavoriteTouristFragment extends Fragment {
     private LocationPermissionHandler locationPermissionHandler;
     private DatabaseReference databaseReference;
     private ProgressBar pbLoading;
+    private ConstraintLayout emptyLayout;
+    private Button btnGoToMenu;
 
 
     public FavoriteTouristFragment() {
@@ -89,8 +95,12 @@ public class FavoriteTouristFragment extends Fragment {
         user = firebaseAuth.getCurrentUser();
         rvFavoritList = view.findViewById(R.id.rv_bookmark);
         pbLoading = view.findViewById(R.id.pb_loading);
+        emptyLayout = view.findViewById(R.id.layout_empty);
+        btnGoToMenu = view.findViewById(R.id.btn_choose_menu);
         rvFavoritList.setHasFixedSize(true);
         rvFavoritList.setLayoutManager(new LinearLayoutManager(getContext()));
+
+
         databaseReference = FirebaseConstant.TourismRef;
 
 
@@ -141,7 +151,6 @@ public class FavoriteTouristFragment extends Fragment {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     tourismList.clear();
-
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                         Tourism tourism = snapshot.getValue(Tourism.class);
                         if (tourism != null) {
@@ -151,12 +160,12 @@ public class FavoriteTouristFragment extends Fragment {
                                 assert idTourism != null;
                                 if (idTourism.equals(id)) {
                                     tourismList.add(tourism);
-
                                 }
                             }
                         }
 
                     }
+
                     favoriteTourismAdapter = new FavoriteTourismAdapter(tourismList, getContext());
                     favoriteTourismAdapter.setTourismClickCallback(new TourismClickCallback() {
                         @Override
@@ -188,12 +197,24 @@ public class FavoriteTouristFragment extends Fragment {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 checkUserList = new ArrayList<>();
                 checkUserList.clear();
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    checkUserList.add(snapshot.getKey());
-                    Log.d("check id user", "" + checkUserList);
+                if (dataSnapshot.exists()) {
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                        checkUserList.add(snapshot.getKey());
+                        Log.d("check id user", "" + checkUserList);
+                    }
+                    showFavorite();
+                    pbLoading.setVisibility(View.GONE);
+                } else {
+                    emptyLayout.setVisibility(View.VISIBLE);
+                    btnGoToMenu.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            startActivity(new Intent(getActivity(), AllCategoryActivity.class));
+                        }
+                    });
+                    pbLoading.setVisibility(View.GONE);
                 }
-                showFavorite();
-                pbLoading.setVisibility(View.GONE);
+
 
             }
 

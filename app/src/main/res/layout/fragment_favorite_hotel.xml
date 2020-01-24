@@ -33,4 +33,11 @@
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
         tools:listitem="@layout/item_tourism_list" />
 
+    <include
+        android:id="@+id/layout_empty"
+        layout="@layout/layout_empty_bookmark"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone" />
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

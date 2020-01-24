@@ -16,6 +16,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#EBEBEB"
     tools:context=".ui.homefragment.BookmarkFragment">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -28,7 +29,7 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="@color/txtWhitePrimary"
-            app:layout_collapseMode="pin"
+            app:layout_collapseMode="parallax"
             app:title="@string/txt_bookmark_main_menu"
             app:titleTextColor="@android:color/black" />
     </com.google.android.material.appbar.AppBarLayout>
@@ -37,15 +38,9 @@
         android:id="@+id/tab_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:tabTextColor="@color/blackTextPrimary"
+        android:background="@color/txtWhitePrimary"
         android:layout_below="@+id/appbar_layout"
-        app:tabBackground="@drawable/state_tab_selected"
-        app:tabIndicatorHeight="0dp"
-        app:tabMode="scrollable"
-        app:tabPaddingEnd="16dp"
-        app:tabPaddingStart="16dp"
-        app:tabRippleColor="@null"
-        app:tabSelectedTextColor="@color/txtWhitePrimary"
+        app:tabSelectedTextColor="@color/colorPrimary"
         app:tabTextAppearance="@style/TabTextAppearance" />
 
     <androidx.viewpager.widget.ViewPager
