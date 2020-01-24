@@ -31,17 +31,17 @@ import java.util.ArrayList;
 
 import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
-import co.id.roningrum.dolanapptugasakhir.model.Hotel;
-import co.id.roningrum.dolanapptugasakhir.ui.adapter.hotel.HotelClickCallback;
+import co.id.roningrum.dolanapptugasakhir.model.Hospital;
+import co.id.roningrum.dolanapptugasakhir.ui.adapter.hospital.HospitalClickCallback;
 import co.id.roningrum.dolanapptugasakhir.util.Utils;
 
 public class FavoriteHospitalAdapter extends RecyclerView.Adapter<FavoriteHospitalAdapter.FavoritViewHolder> {
-    private ArrayList<Hotel> hotels;
+    private ArrayList<Hospital> hospitals;
     private Context context;
-    private HotelClickCallback tourismClickCallback;
+    private HospitalClickCallback hospitalClickCallback;
 
-    public FavoriteHospitalAdapter(ArrayList<Hotel> hotels, Context context) {
-        this.hotels = hotels;
+    public FavoriteHospitalAdapter(ArrayList<Hospital> hospitals, Context context) {
+        this.hospitals = hospitals;
         this.context = context;
     }
 
@@ -59,7 +59,7 @@ public class FavoriteHospitalAdapter extends RecyclerView.Adapter<FavoriteHospit
             double latitude = gpsHandler.getLatitude();
             double longitude = gpsHandler.getLongitude();
 
-            holder.bindName(hotels.get(position), latitude, longitude);
+            holder.bindName(hospitals.get(position), latitude, longitude);
         } else {
             gpsHandler.stopUsingGPS();
             gpsHandler.showSettingsAlert();
@@ -69,25 +69,18 @@ public class FavoriteHospitalAdapter extends RecyclerView.Adapter<FavoriteHospit
 
     @Override
     public int getItemCount() {
-        return hotels.size();
+        return hospitals.size();
     }
 
-    public void restoreItem(Hotel hotel, int position) {
-        hotels.add(position, hotel);
-        notifyItemInserted(position);
-    }
 
-    public ArrayList<Hotel> getTourisms() {
-        return hotels;
-    }
 
     public void removeItem(int position) {
-        hotels.remove(position);
+        hospitals.remove(position);
         notifyItemRemoved(position);
     }
 
-    public void setTourismClickCallback(HotelClickCallback tourismClickCallback) {
-        this.tourismClickCallback = tourismClickCallback;
+    public void setHospitalClickCallback(HospitalClickCallback hospitalClickCallback) {
+        this.hospitalClickCallback = hospitalClickCallback;
     }
 
     class FavoritViewHolder extends RecyclerView.ViewHolder {
@@ -105,23 +98,23 @@ public class FavoriteHospitalAdapter extends RecyclerView.Adapter<FavoriteHospit
         }
 
         @SuppressLint("SetTextI18n")
-        void bindName(final Hotel favoriteItem, double lat, double lng) {
+        void bindName(final Hospital favoriteItem, double lat, double lng) {
 
-            double lattitude_a = favoriteItem.getLat_location_hotel();
-            double longitude_a = favoriteItem.getLng_location_hotel();
+            double lattitude_a = favoriteItem.getLat_location_hospital();
+            double longitude_a = favoriteItem.getLng_location_hospital();
 
             float jarakKM = (float) Utils.calculateDistance(lat, lng, lattitude_a, longitude_a);
-            nameFavTourism.setText(favoriteItem.getName_hotel());
-            locationFavTourism.setText(favoriteItem.getLocation_hotel());
+            nameFavTourism.setText(favoriteItem.getName_hospital());
+            locationFavTourism.setText(favoriteItem.getLocation_hospital());
             @SuppressLint("DefaultLocale") String distanceFormat = String.format("%.2f", jarakKM);
             distanceFavTourism.setText(distanceFormat + " km");
-            Glide.with(itemView.getContext()).load(favoriteItem.getUrl_photo_hotel())
+            Glide.with(itemView.getContext()).load(favoriteItem.getUrl_photo_hospital())
                     .apply(RequestOptions.placeholderOf(R.drawable.ic_loading).error(R.drawable.ic_loading))
                     .into(favTourismPic);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    tourismClickCallback.onItemClicked(hotels.get(getAdapterPosition()));
+                    hospitalClickCallback.onItemCallback(hospitals.get(getAdapterPosition()));
                 }
             });
         }

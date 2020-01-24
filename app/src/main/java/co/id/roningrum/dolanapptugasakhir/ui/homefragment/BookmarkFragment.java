@@ -28,8 +28,12 @@ import com.google.android.material.tabs.TabLayout;
 
 import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.ui.adapter.ViewPagerAdapter;
+import co.id.roningrum.dolanapptugasakhir.ui.favorite.FavoriteGasFragment;
+import co.id.roningrum.dolanapptugasakhir.ui.favorite.FavoriteHospitalFragment;
 import co.id.roningrum.dolanapptugasakhir.ui.favorite.FavoriteHotelFragment;
+import co.id.roningrum.dolanapptugasakhir.ui.favorite.FavoritePoliceFragment;
 import co.id.roningrum.dolanapptugasakhir.ui.favorite.FavoriteTouristFragment;
+import co.id.roningrum.dolanapptugasakhir.ui.favorite.FavoriteTransFragment;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -59,6 +63,10 @@ public class BookmarkFragment extends Fragment {
         ViewPagerAdapter favPagerAdapter = new ViewPagerAdapter(getChildFragmentManager());
         favPagerAdapter.addFragment(new FavoriteTouristFragment(), "Wisata");
         favPagerAdapter.addFragment(new FavoriteHotelFragment(), "Hotel");
+        favPagerAdapter.addFragment(new FavoriteTransFragment(), "Transportasi");
+        favPagerAdapter.addFragment(new FavoriteGasFragment(), "Pom Bensin");
+        favPagerAdapter.addFragment(new FavoriteHospitalFragment(), "Rumah Sakit");
+        favPagerAdapter.addFragment(new FavoritePoliceFragment(), "Kantor Polisi");
 
         viewPager.setAdapter(favPagerAdapter);
         tabBookmark.setupWithViewPager(viewPager);

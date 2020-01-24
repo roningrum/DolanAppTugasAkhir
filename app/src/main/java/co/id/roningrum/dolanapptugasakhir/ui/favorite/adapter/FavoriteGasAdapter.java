@@ -31,20 +31,19 @@ import java.util.ArrayList;
 
 import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
-import co.id.roningrum.dolanapptugasakhir.model.Hotel;
-import co.id.roningrum.dolanapptugasakhir.ui.adapter.hotel.HotelClickCallback;
+import co.id.roningrum.dolanapptugasakhir.model.GasStation;
+import co.id.roningrum.dolanapptugasakhir.ui.adapter.gasstation.GasClickCallback;
 import co.id.roningrum.dolanapptugasakhir.util.Utils;
 
 public class FavoriteGasAdapter extends RecyclerView.Adapter<FavoriteGasAdapter.FavoritViewHolder> {
-    private ArrayList<Hotel> hotels;
+    private ArrayList<GasStation> gasStations;
     private Context context;
-    private HotelClickCallback tourismClickCallback;
+    private GasClickCallback gasStationClickCallback;
 
-    public FavoriteGasAdapter(ArrayList<Hotel> hotels, Context context) {
-        this.hotels = hotels;
+    public FavoriteGasAdapter(ArrayList<GasStation> gasStations, Context context) {
+        this.gasStations = gasStations;
         this.context = context;
     }
-
 
     @NonNull
     @Override
@@ -59,7 +58,7 @@ public class FavoriteGasAdapter extends RecyclerView.Adapter<FavoriteGasAdapter.
             double latitude = gpsHandler.getLatitude();
             double longitude = gpsHandler.getLongitude();
 
-            holder.bindName(hotels.get(position), latitude, longitude);
+            holder.bindName(gasStations.get(position), latitude, longitude);
         } else {
             gpsHandler.stopUsingGPS();
             gpsHandler.showSettingsAlert();
@@ -69,25 +68,16 @@ public class FavoriteGasAdapter extends RecyclerView.Adapter<FavoriteGasAdapter.
 
     @Override
     public int getItemCount() {
-        return hotels.size();
-    }
-
-    public void restoreItem(Hotel hotel, int position) {
-        hotels.add(position, hotel);
-        notifyItemInserted(position);
-    }
-
-    public ArrayList<Hotel> getTourisms() {
-        return hotels;
+        return gasStations.size();
     }
 
     public void removeItem(int position) {
-        hotels.remove(position);
+        gasStations.remove(position);
         notifyItemRemoved(position);
     }
 
-    public void setTourismClickCallback(HotelClickCallback tourismClickCallback) {
-        this.tourismClickCallback = tourismClickCallback;
+    public void setGasStationsClickCallback(GasClickCallback gasClickCallback) {
+        this.gasStationClickCallback = gasClickCallback;
     }
 
     class FavoritViewHolder extends RecyclerView.ViewHolder {
@@ -105,23 +95,23 @@ public class FavoriteGasAdapter extends RecyclerView.Adapter<FavoriteGasAdapter.
         }
 
         @SuppressLint("SetTextI18n")
-        void bindName(final Hotel favoriteItem, double lat, double lng) {
+        void bindName(final GasStation favoriteItem, double lat, double lng) {
 
-            double lattitude_a = favoriteItem.getLat_location_hotel();
-            double longitude_a = favoriteItem.getLng_location_hotel();
+            double lattitude_a = favoriteItem.getLat_location_gasstation();
+            double longitude_a = favoriteItem.getLng_location_gasstation();
 
             float jarakKM = (float) Utils.calculateDistance(lat, lng, lattitude_a, longitude_a);
-            nameFavTourism.setText(favoriteItem.getName_hotel());
-            locationFavTourism.setText(favoriteItem.getLocation_hotel());
+            nameFavTourism.setText(favoriteItem.getName_gasstation());
+            locationFavTourism.setText(favoriteItem.getLocation_gasstation());
             @SuppressLint("DefaultLocale") String distanceFormat = String.format("%.2f", jarakKM);
             distanceFavTourism.setText(distanceFormat + " km");
-            Glide.with(itemView.getContext()).load(favoriteItem.getUrl_photo_hotel())
+            Glide.with(itemView.getContext()).load(favoriteItem.getUrl_photo_gasstation())
                     .apply(RequestOptions.placeholderOf(R.drawable.ic_loading).error(R.drawable.ic_loading))
                     .into(favTourismPic);
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    tourismClickCallback.onItemClicked(hotels.get(getAdapterPosition()));
+                    gasStationClickCallback.onItemClicked(gasStations.get(getAdapterPosition()));
                 }
             });
         }

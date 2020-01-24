@@ -18,6 +18,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
@@ -38,6 +39,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -48,6 +51,8 @@ import co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseConstant;
 import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.model.Hospital;
 import co.id.roningrum.dolanapptugasakhir.util.Utils;
+
+import static co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseConstant.favoriteRef;
 
 public class HospitalDetail extends AppCompatActivity implements OnMapReadyCallback {
     public static final String EXTRA_HOSPITAL_KEY = "hospitalKey";
@@ -74,6 +79,12 @@ public class HospitalDetail extends AppCompatActivity implements OnMapReadyCallb
     private double endlat;
     private double endLng;
     private double distance;
+
+
+    boolean isFavorite = false;
+    Menu menuItem;
+    String hospitalKey;
+    private FirebaseUser user;
 
     private ImageButton btnCall, btnRouteToMap;
     private Hospital hospital;
@@ -102,15 +113,17 @@ public class HospitalDetail extends AppCompatActivity implements OnMapReadyCallb
         hospitalMapView.onCreate(mapViewBundle);
         hospitalMapView.getMapAsync(this);
 
-        String hospitalKey = getIntent().getStringExtra(EXTRA_HOSPITAL_KEY);
+        hospitalKey = getIntent().getStringExtra(EXTRA_HOSPITAL_KEY);
         if (hospitalKey == null) {
             throw new IllegalArgumentException("Must pass Extra");
         }
         hospitalDetailRef = FirebaseConstant.getHospitalByKey(hospitalKey);
         gpsHandler = new GPSHandler(this);
         hospital = new Hospital();
+        user = FirebaseAuth.getInstance().getCurrentUser();
 
         LoadHospitaDetail();
+        favoriteState();
     }
 
     private void LoadHospitaDetail() {
@@ -232,14 +245,91 @@ public class HospitalDetail extends AppCompatActivity implements OnMapReadyCallb
         }
     }
 
+    private void favoriteState() {
+        final String uid = user.getUid();
+        favoriteRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.child(uid).child("Hospital").child(hospitalKey).exists()) {
+                    isFavorite = true;
+                    menuItem.getItem(0).setIcon(R.drawable.ic_bookmarkadded_24dp);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+    }
+
+    private void addToFavorite() {
+        final String uid = user.getUid();
+        favoriteRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                favoriteRef.getRef().child(uid).child("Hospital").child(hospitalKey).setValue(true);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    private void removeFavorite() {
+        final String uid = user.getUid();
+        favoriteRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                favoriteRef.getRef().child(uid).child("Hospital").child(hospitalKey).removeValue();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.favorite_menu, menu);
+        menuItem = menu;
+        setFavoriteHotel();
+        return true;
+    }
+
+    private void setFavoriteHotel() {
+        if (isFavorite) {
+            menuItem.getItem(0).setIcon(R.drawable.ic_bookmarkadded_24dp);
+        } else {
+            menuItem.getItem(0).setIcon(R.drawable.ic_unbookmarked_24dp);
+        }
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Respond to the action bar's Up/Home button
         if (item.getItemId() == android.R.id.home) {
             finish();
             return true;
+        } else if (item.getItemId() == R.id.add_to_favorite) {
+            if (isFavorite) {
+                removeFavorite();
+            } else {
+                addToFavorite();
+            }
+            isFavorite = !isFavorite;
+            setFavoriteHotel();
+            return true;
+        } else {
+            return super.onOptionsItemSelected(item);
         }
-        return super.onOptionsItemSelected(item);
+
     }
 
     @Override

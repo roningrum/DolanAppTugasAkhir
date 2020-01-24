@@ -31,20 +31,19 @@ import java.util.ArrayList;
 
 import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
-import co.id.roningrum.dolanapptugasakhir.model.Hotel;
-import co.id.roningrum.dolanapptugasakhir.ui.adapter.hotel.HotelClickCallback;
+import co.id.roningrum.dolanapptugasakhir.model.Police;
+import co.id.roningrum.dolanapptugasakhir.ui.adapter.police.PoliceClickCallback;
 import co.id.roningrum.dolanapptugasakhir.util.Utils;
 
 public class FavoritePoliceAdapter extends RecyclerView.Adapter<FavoritePoliceAdapter.FavoritViewHolder> {
-    private ArrayList<Hotel> hotels;
+    private ArrayList<Police> police;
     private Context context;
-    private HotelClickCallback tourismClickCallback;
+    private PoliceClickCallback policeClickCallback;
 
-    public FavoritePoliceAdapter(ArrayList<Hotel> hotels, Context context) {
-        this.hotels = hotels;
+    public FavoritePoliceAdapter(ArrayList<Police> police, Context context) {
+        this.police = police;
         this.context = context;
     }
-
 
     @NonNull
     @Override
@@ -59,7 +58,7 @@ public class FavoritePoliceAdapter extends RecyclerView.Adapter<FavoritePoliceAd
             double latitude = gpsHandler.getLatitude();
             double longitude = gpsHandler.getLongitude();
 
-            holder.bindName(hotels.get(position), latitude, longitude);
+            holder.bindName(police.get(position), latitude, longitude);
         } else {
             gpsHandler.stopUsingGPS();
             gpsHandler.showSettingsAlert();
@@ -69,25 +68,16 @@ public class FavoritePoliceAdapter extends RecyclerView.Adapter<FavoritePoliceAd
 
     @Override
     public int getItemCount() {
-        return hotels.size();
-    }
-
-    public void restoreItem(Hotel hotel, int position) {
-        hotels.add(position, hotel);
-        notifyItemInserted(position);
-    }
-
-    public ArrayList<Hotel> getTourisms() {
-        return hotels;
+        return police.size();
     }
 
     public void removeItem(int position) {
-        hotels.remove(position);
+        police.remove(position);
         notifyItemRemoved(position);
     }
 
-    public void setTourismClickCallback(HotelClickCallback tourismClickCallback) {
-        this.tourismClickCallback = tourismClickCallback;
+    public void setPoliceClickCallback(PoliceClickCallback policeClickCallback) {
+        this.policeClickCallback = policeClickCallback;
     }
 
     class FavoritViewHolder extends RecyclerView.ViewHolder {
@@ -105,23 +95,24 @@ public class FavoritePoliceAdapter extends RecyclerView.Adapter<FavoritePoliceAd
         }
 
         @SuppressLint("SetTextI18n")
-        void bindName(final Hotel favoriteItem, double lat, double lng) {
+        void bindName(final Police favoriteItem, double lat, double lng) {
 
-            double lattitude_a = favoriteItem.getLat_location_hotel();
-            double longitude_a = favoriteItem.getLng_location_hotel();
+            double lattitude_a = favoriteItem.getLat_location_police();
+            double longitude_a = favoriteItem.getLng_location_police();
 
             float jarakKM = (float) Utils.calculateDistance(lat, lng, lattitude_a, longitude_a);
-            nameFavTourism.setText(favoriteItem.getName_hotel());
-            locationFavTourism.setText(favoriteItem.getLocation_hotel());
+            nameFavTourism.setText(favoriteItem.getName_police());
+            locationFavTourism.setText(favoriteItem.getLocation_police());
             @SuppressLint("DefaultLocale") String distanceFormat = String.format("%.2f", jarakKM);
             distanceFavTourism.setText(distanceFormat + " km");
-            Glide.with(itemView.getContext()).load(favoriteItem.getUrl_photo_hotel())
+            Glide.with(itemView.getContext()).load(favoriteItem.getUrl_photo_police())
                     .apply(RequestOptions.placeholderOf(R.drawable.ic_loading).error(R.drawable.ic_loading))
                     .into(favTourismPic);
+
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    tourismClickCallback.onItemClicked(hotels.get(getAdapterPosition()));
+                    policeClickCallback.onItemCallback(police.get(getAdapterPosition()));
                 }
             });
         }

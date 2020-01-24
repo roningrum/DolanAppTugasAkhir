@@ -26,7 +26,7 @@ public class FirebaseConstant {
     public static DatabaseReference GasRef = FirebaseDatabase.getInstance().getReference().child("GasStation");
     public static DatabaseReference HospitalRef = FirebaseDatabase.getInstance().getReference().child("Hospital");
     public static DatabaseReference PoliceRef = FirebaseDatabase.getInstance().getReference().child("Police");
-    private static DatabaseReference TransportRef = FirebaseDatabase.getInstance().getReference().child("Transportation");
+    public static DatabaseReference TransportRef = FirebaseDatabase.getInstance().getReference().child("Transportation");
     public static DatabaseReference UserRef = FirebaseDatabase.getInstance().getReference().child("Users");
     public static DatabaseReference favoriteRef = FirebaseDatabase.getInstance().getReference("Favorite");
 

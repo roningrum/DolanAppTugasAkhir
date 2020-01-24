@@ -72,15 +72,6 @@ public class FavoriteHotelAdapter extends RecyclerView.Adapter<FavoriteHotelAdap
         return hotels.size();
     }
 
-    public void restoreItem(Hotel hotel, int position) {
-        hotels.add(position, hotel);
-        notifyItemInserted(position);
-    }
-
-    public ArrayList<Hotel> getTourisms() {
-        return hotels;
-    }
-
     public void removeItem(int position) {
         hotels.remove(position);
         notifyItemRemoved(position);

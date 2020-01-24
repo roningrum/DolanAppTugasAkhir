@@ -40,7 +40,14 @@
         android:layout_height="wrap_content"
         android:background="@color/txtWhitePrimary"
         android:layout_below="@+id/appbar_layout"
-        app:tabSelectedTextColor="@color/colorPrimary"
+        android:clipToPadding="false"
+        app:tabBackground="@drawable/state_tab_selected"
+        app:tabGravity="fill"
+        app:tabIndicatorHeight="0dp"
+        app:tabMode="scrollable"
+        app:tabPadding="8dp"
+        app:tabRippleColor="@android:color/transparent"
+        app:tabSelectedTextColor="@color/txtWhitePrimary"
         app:tabTextAppearance="@style/TabTextAppearance" />
 
     <androidx.viewpager.widget.ViewPager

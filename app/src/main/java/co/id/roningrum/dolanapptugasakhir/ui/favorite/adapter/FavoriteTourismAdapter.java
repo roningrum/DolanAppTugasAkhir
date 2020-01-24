@@ -75,9 +75,6 @@ public class FavoriteTourismAdapter extends RecyclerView.Adapter<FavoriteTourism
         return tourisms.size();
     }
 
-    public ArrayList<Tourism> getTourisms() {
-        return tourisms;
-    }
 
     public void removeItem(int position) {
         tourisms.remove(position);
