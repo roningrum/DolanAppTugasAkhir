@@ -140,7 +140,7 @@ public class FavoriteTransFragment extends Fragment {
     }
 
     private void checkUser() {
-        final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Favorite").child(user.getUid()).child("Trasportation");
+        final DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Favorite").child(user.getUid()).child("Transportation");
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -196,7 +196,7 @@ public class FavoriteTransFragment extends Fragment {
                     favoritAdapter.setTransportationClickCallback(new TransportationClickCallback() {
                         @Override
                         public void onItemCallback(Transportation transportation) {
-                            Intent intent = new Intent(getActivity(), Transportation.class);
+                            Intent intent = new Intent(getActivity(), TransportationDetailActivity.class);
                             intent.putExtra(TransportationDetailActivity.EXTRA_TRANSPORT_KEY, transportation.getId());
                             startActivity(intent);
                         }
