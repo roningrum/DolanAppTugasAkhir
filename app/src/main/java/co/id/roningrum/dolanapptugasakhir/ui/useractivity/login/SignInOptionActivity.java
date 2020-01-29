@@ -41,6 +41,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.HashMap;
+
 import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.ui.homeactivity.MainMenuActivity;
 import co.id.roningrum.dolanapptugasakhir.ui.useractivity.register.RegisterAccountEmailActivity;
@@ -173,12 +175,22 @@ public class SignInOptionActivity extends AppCompatActivity implements View.OnCl
                                         googleRegistered.putExtra("isGoogle", isGoogleSignIn);
                                         startActivity(googleRegistered);
                                     } else if (!dataSnapshot.exists()) {
-                                        userRef.child("uid").setValue(uid);
-                                        userRef.child("nama_user").setValue(user.getDisplayName());
-                                        userRef.child("password").setValue("");
-                                        userRef.child("email").setValue(user.getEmail());
-                                        userRef.child("photo_user").setValue(String.valueOf(user.getPhotoUrl()));
-                                        userRef.child("login").setValue("Google");
+
+                                        HashMap<Object, String> hashMap = new HashMap<>();
+                                        hashMap.put("uid", uid);
+                                        hashMap.put("nama_user", user.getDisplayName());
+                                        hashMap.put("password", "");
+                                        hashMap.put("email", user.getEmail());
+                                        hashMap.put("photo_user", String.valueOf(user.getPhotoUrl()));
+                                        hashMap.put("login", String.valueOf(user.getPhotoUrl()));
+
+                                        dataSnapshot.getRef().setValue(hashMap);
+//                                        userRef.child("uid").setValue(uid);
+//                                        userRef.child("nama_user").setValue(user.getDisplayName());
+//                                        userRef.child("password").setValue("");
+//                                        userRef.child("email").setValue(user.getEmail());
+//                                        userRef.child("photo_user").setValue(String.valueOf(user.getPhotoUrl()));
+//                                        userRef.child("login").setValue("Google");
 //
 //                                        pbLoading.setVisibility(View.GONE);
                                         Intent googleRegistered = new Intent(SignInOptionActivity.this, MainMenuActivity.class);

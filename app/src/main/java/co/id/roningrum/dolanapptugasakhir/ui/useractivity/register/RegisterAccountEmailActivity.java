@@ -39,6 +39,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.HashMap;
 import java.util.Objects;
 
 import co.id.roningrum.dolanapptugasakhir.R;
@@ -129,11 +130,18 @@ public class RegisterAccountEmailActivity extends AppCompatActivity implements V
                                 @Override
                                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                     if (!dataSnapshot.exists()) {
-                                        userRegisterStoreDB.child("uid").setValue(uid);
-                                        userRegisterStoreDB.child("email").setValue(emailRegister);
-                                        userRegisterStoreDB.child("password").setValue(passwordRegister);
-                                        userRegisterStoreDB.child("login").setValue("email");
-                                        userRegisterStoreDB.child("uid").setValue(dataSnapshot.getKey());
+                                        HashMap<Object, String> hashMap = new HashMap<>();
+                                        hashMap.put("uid", uid);
+                                        hashMap.put("nama_user", "");
+                                        hashMap.put("password", passwordRegister);
+                                        hashMap.put("email", emailRegister);
+                                        hashMap.put("photo_user", "");
+                                        hashMap.put("login", "email");
+//                                        userRegisterStoreDB.child("uid").setValue(uid);
+//                                        userRegisterStoreDB.child("email").setValue(emailRegister);
+//                                        userRegisterStoreDB.child("password").setValue(passwordRegister);
+//                                        userRegisterStoreDB.child("login").setValue("email");
+                                        dataSnapshot.getRef().setValue(hashMap);
                                     } else {
                                         Log.d(TAG, "Data sudah ada di Database");
                                     }
