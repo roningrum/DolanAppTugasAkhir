@@ -33,9 +33,8 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.Objects;
-
 import co.id.roningrum.dolanapptugasakhir.R;
+import co.id.roningrum.dolanapptugasakhir.model.Users;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 import static co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseConstant.UserRef;
@@ -98,10 +97,13 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
         UserRef.child(editUser.getUid()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                nameProfile.setText(Objects.requireNonNull(dataSnapshot.child("nama_user").getValue()).toString().trim());
-                emailProfile.setText(Objects.requireNonNull(dataSnapshot.child("email").getValue()).toString().trim());
-                Log.w(TAG, "Photo_URL : " + dataSnapshot.child("photo_user").getValue());
-                Glide.with(getApplicationContext()).load(Objects.requireNonNull(dataSnapshot.child("photo_user").getValue()).toString()).into(imageEditprofile);
+                Users users = dataSnapshot.getValue(Users.class);
+                if (users != null) {
+                    nameProfile.setText(users.getNama_user());
+                    emailProfile.setText(users.getEmail());
+                    Glide.with(getApplicationContext()).load(users.getPhoto_user()).into(imageEditprofile);
+                }
+
             }
 
             @Override
@@ -138,13 +140,16 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
         UserRef.child(editUser.getUid()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.child("login").getValue().equals("Google")) {
-                    changePasswordmenu.setEnabled(false);
-                    Toast.makeText(getApplicationContext(), "Tidak dapat melakukan perubahan password", Toast.LENGTH_SHORT).show();
-                }
-                if (dataSnapshot.child("login").getValue().equals("email")) {
-                    Intent changePasswordIntent = new Intent(EditProfileActivity.this, ChangePasswordProfileActivity.class);
-                    startActivity(changePasswordIntent);
+                Users users = dataSnapshot.getValue(Users.class);
+                if (users != null) {
+                    if (users.getLogin().equals("Google")) {
+                        changePasswordmenu.setEnabled(false);
+                        Toast.makeText(getApplicationContext(), "Tidak dapat melakukan perubahan password", Toast.LENGTH_SHORT).show();
+                    }
+                    if (users.getLogin().equals("email")) {
+                        Intent changePasswordIntent = new Intent(EditProfileActivity.this, ChangePasswordProfileActivity.class);
+                        startActivity(changePasswordIntent);
+                    }
                 }
             }
 
@@ -159,13 +164,16 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
         UserRef.child(editUser.getUid()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.child("login").getValue().equals("Google")) {
-                    changeEmailMenu.setEnabled(false);
-                    Toast.makeText(getApplicationContext(), "Tidak dapat melakukan perubahan email", Toast.LENGTH_SHORT).show();
-                }
-                if (dataSnapshot.child("login").getValue().equals("email")) {
-                    Intent changeEmailIntent = new Intent(EditProfileActivity.this, ChangeEmailProfileActivity.class);
-                    startActivity(changeEmailIntent);
+                Users users = dataSnapshot.getValue(Users.class);
+                if (users != null) {
+                    if (users.getLogin().equals("Google")) {
+                        changeEmailMenu.setEnabled(false);
+                        Toast.makeText(getApplicationContext(), "Tidak dapat melakukan perubahan email", Toast.LENGTH_SHORT).show();
+                    }
+                    if (users.getLogin().equals("email")) {
+                        Intent changeEmailIntent = new Intent(EditProfileActivity.this, ChangeEmailProfileActivity.class);
+                        startActivity(changeEmailIntent);
+                    }
                 }
             }
 

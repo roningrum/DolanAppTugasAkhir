@@ -44,10 +44,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.Objects;
-
 import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseConstant;
+import co.id.roningrum.dolanapptugasakhir.model.Users;
 import co.id.roningrum.dolanapptugasakhir.ui.AboutAppActivity;
 import co.id.roningrum.dolanapptugasakhir.ui.useractivity.edit.EditProfileActivity;
 import co.id.roningrum.dolanapptugasakhir.ui.useractivity.login.SignInOptionActivity;
@@ -198,11 +197,13 @@ public class ProfileFragment extends Fragment implements View.OnClickListener, G
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (isAdded()) {
-                    tvNameProfile.setText(Objects.requireNonNull(dataSnapshot.child("nama_user").getValue()).toString().trim());
-                    tvEmailProfile.setText(Objects.requireNonNull(dataSnapshot.child("email").getValue()).toString().trim());
-                    String photo_url = Objects.requireNonNull(dataSnapshot.child("photo_user").getValue()).toString();
-                    assert getActivity() != null;
-                    Glide.with(getActivity()).load(photo_url).into(photo_profile);
+                    Users users = dataSnapshot.getValue(Users.class);
+                    if (users != null && getActivity() != null) {
+                        tvNameProfile.setText(users.getNama_user());
+                        tvEmailProfile.setText(users.getEmail());
+                        Glide.with(getActivity()).load(users.getPhoto_user()).into(photo_profile);
+                    }
+
                 }
             }
 

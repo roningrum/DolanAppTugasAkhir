@@ -182,7 +182,7 @@ public class SignInOptionActivity extends AppCompatActivity implements View.OnCl
                                         hashMap.put("password", "");
                                         hashMap.put("email", user.getEmail());
                                         hashMap.put("photo_user", String.valueOf(user.getPhotoUrl()));
-                                        hashMap.put("login", String.valueOf(user.getPhotoUrl()));
+                                        hashMap.put("login", "Google");
 
                                         dataSnapshot.getRef().setValue(hashMap);
 //                                        userRef.child("uid").setValue(uid);

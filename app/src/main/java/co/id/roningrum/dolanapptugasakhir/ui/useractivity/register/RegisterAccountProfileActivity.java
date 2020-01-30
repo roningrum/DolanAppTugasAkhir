@@ -174,7 +174,6 @@ public class RegisterAccountProfileActivity extends AppCompatActivity implements
                                                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                                         profileDb.child("nama_user").setValue(nameRegister);
                                                         profileDb.child("photo_user").setValue(uri_photo);
-
                                                         Log.d(TAG, "Profile Data sukses ke Daftar");
                                                     }
 
