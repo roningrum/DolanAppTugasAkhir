@@ -53,7 +53,7 @@ import co.id.roningrum.dolanapptugasakhir.handler.NetworkHelper;
 import co.id.roningrum.dolanapptugasakhir.model.GasStation;
 import co.id.roningrum.dolanapptugasakhir.ui.adapter.gasstation.GasClickCallback;
 import co.id.roningrum.dolanapptugasakhir.ui.favorite.adapter.FavoriteGasAdapter;
-import co.id.roningrum.dolanapptugasakhir.ui.gasstation.GasStationDetail;
+import co.id.roningrum.dolanapptugasakhir.ui.gasstation.GasDetailActivity;
 import co.id.roningrum.dolanapptugasakhir.ui.homeactivity.AllCategoryActivity;
 
 import static co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseQuery.favoriteRef;
@@ -197,8 +197,8 @@ public class FavoriteGasFragment extends Fragment {
                     favoritAdapter.setGasStationsClickCallback(new GasClickCallback() {
                         @Override
                         public void onItemClicked(GasStation gasStation) {
-                            Intent intent = new Intent(getActivity(), GasStationDetail.class);
-                            intent.putExtra(GasStationDetail.EXTRA_GAS_KEY, gasStation.getId());
+                            Intent intent = new Intent(getActivity(), GasDetailActivity.class);
+                            intent.putExtra(GasDetailActivity.EXTRA_GAS_KEY, gasStation.getId());
                             startActivity(intent);
                         }
                     });

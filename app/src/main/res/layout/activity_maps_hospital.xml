@@ -16,7 +16,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.hospital.HospitalMap">
+    tools:context=".ui.hospital.HospitalMapActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar_hospital_map"

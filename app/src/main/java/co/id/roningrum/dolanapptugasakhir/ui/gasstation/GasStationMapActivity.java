@@ -11,9 +11,8 @@
  * limitations under the License.
  */
 
-package co.id.roningrum.dolanapptugasakhir.ui.police;
+package co.id.roningrum.dolanapptugasakhir.ui.gasstation;
 
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -27,37 +26,33 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseQuery;
 import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
-import co.id.roningrum.dolanapptugasakhir.model.Police;
-import co.id.roningrum.dolanapptugasakhir.util.Utils;
+import co.id.roningrum.dolanapptugasakhir.model.GasStation;
 
-public class PoliceMaps extends AppCompatActivity implements OnMapReadyCallback {
-    private DatabaseReference policeMapRef;
-    private GoogleMap policeMap;
+public class GasStationMapActivity extends AppCompatActivity implements OnMapReadyCallback {
+
+    private GoogleMap gasGoogleMap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_maps_police);
+        setContentView(R.layout.activity_maps_gas_station);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.police_map);
+                .findFragmentById(R.id.gas_map);
         assert mapFragment != null;
         mapFragment.getMapAsync(this);
-        policeMapRef = FirebaseQuery.PoliceRef;
 
-        Toolbar toolbarPoliceMap = findViewById(R.id.toolbar_police_map);
-        setSupportActionBar(toolbarPoliceMap);
-
+        Toolbar toolbarGas = findViewById(R.id.toolbar_gas_map);
+        setSupportActionBar(toolbarGas);
     }
 
 
@@ -72,34 +67,37 @@ public class PoliceMaps extends AppCompatActivity implements OnMapReadyCallback 
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
+        showGasMap(googleMap);
 
-        showPoliceMap(googleMap);
     }
 
-    private void showPoliceMap(GoogleMap googleMap) {
-        policeMap = googleMap;
-        policeMapRef.addListenerForSingleValueEvent(new ValueEventListener() {
+    private void showGasMap(final GoogleMap googleMap) {
+        gasGoogleMap = googleMap;
+        Query gasMapQuery = FirebaseQuery.getGas();
+        gasMapQuery.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot dsPolice : dataSnapshot.getChildren()) {
-                    Police police = dsPolice.getValue(Police.class);
-                    assert police != null;
-                    double latPolice = police.getLat_location_police();
-                    double lngPolice = police.getLng_location_police();
-                    LatLng policePlaceLoc = new LatLng(latPolice, lngPolice);
+                for (DataSnapshot dsGasStation : dataSnapshot.getChildren()) {
+                    GasStation gasStation = dsGasStation.getValue(GasStation.class);
+                    assert gasStation != null;
+                    double latGas = gasStation.getLat_location_gasstation();
+                    double lngGas = gasStation.getLng_location_gasstation();
 
+                    //getUserKoordinat
                     GPSHandler gpsHandler = new GPSHandler(getApplicationContext());
                     double lat = gpsHandler.getLatitude();
                     double lng = gpsHandler.getLongitude();
+
+                    LatLng busPlaceLoc = new LatLng(latGas, lngGas);
                     LatLng userLoc = new LatLng(lat, lng);
 
                     CameraPosition cameraPosition = new CameraPosition.Builder()
                             .target(userLoc)
                             .zoom(14.07f)
                             .build();
-                    policeMap.setMyLocationEnabled(true);
-                    policeMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
-                    policeMap.addMarker(new MarkerOptions().position(policePlaceLoc).icon(Utils.getBitmapDescriptor(getApplicationContext())).title(police.getName_police()).snippet(police.getLocation_police()));
+                    gasGoogleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+                    gasGoogleMap.setMyLocationEnabled(true);
+                    gasGoogleMap.addMarker(new MarkerOptions().position(busPlaceLoc).title(gasStation.getName_gasstation()).snippet(gasStation.getLocation_gasstation()));
 
                 }
             }
@@ -110,18 +108,5 @@ public class PoliceMaps extends AppCompatActivity implements OnMapReadyCallback 
 
             }
         });
-        try {
-            // Customise the styling of the base map using a JSON object defined
-            // in a raw resource file.
-            boolean success = policeMap.setMapStyle(
-                    MapStyleOptions.loadRawResourceStyle(
-                            this, R.raw.google_map_style));
-
-            if (!success) {
-                Log.e("MapsActivityRaw", "Style parsing failed.");
-            }
-        } catch (Resources.NotFoundException e) {
-            Log.e("MapsActivityRaw", "Can't find style.", e);
-        }
     }
 }

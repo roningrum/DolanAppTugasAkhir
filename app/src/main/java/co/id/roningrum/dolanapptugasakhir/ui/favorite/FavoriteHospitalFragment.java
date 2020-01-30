@@ -54,7 +54,7 @@ import co.id.roningrum.dolanapptugasakhir.model.Hospital;
 import co.id.roningrum.dolanapptugasakhir.ui.adapter.hospital.HospitalClickCallback;
 import co.id.roningrum.dolanapptugasakhir.ui.favorite.adapter.FavoriteHospitalAdapter;
 import co.id.roningrum.dolanapptugasakhir.ui.homeactivity.AllCategoryActivity;
-import co.id.roningrum.dolanapptugasakhir.ui.hospital.HospitalDetail;
+import co.id.roningrum.dolanapptugasakhir.ui.hospital.HospitalDetailActivity;
 
 import static co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseQuery.favoriteRef;
 
@@ -199,7 +199,7 @@ public class FavoriteHospitalFragment extends Fragment {
                         @Override
                         public void onItemCallback(Hospital hospital) {
                             Intent intent = new Intent(getActivity(), Hospital.class);
-                            intent.putExtra(HospitalDetail.EXTRA_HOSPITAL_KEY, hospital.getId());
+                            intent.putExtra(HospitalDetailActivity.EXTRA_HOSPITAL_KEY, hospital.getId());
                             startActivity(intent);
                         }
                     });

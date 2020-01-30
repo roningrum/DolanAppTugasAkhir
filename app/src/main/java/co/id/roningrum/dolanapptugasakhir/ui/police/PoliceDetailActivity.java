@@ -54,7 +54,7 @@ import co.id.roningrum.dolanapptugasakhir.util.Utils;
 
 import static co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseQuery.favoriteRef;
 
-public class PoliceDetail extends AppCompatActivity implements OnMapReadyCallback {
+public class PoliceDetailActivity extends AppCompatActivity implements OnMapReadyCallback {
     public static final String EXTRA_POLICE_KEY = "policeKey";
 
     private static final String MAP_VIEW_KEY = "mapViewBundle";
@@ -66,7 +66,7 @@ public class PoliceDetail extends AppCompatActivity implements OnMapReadyCallbac
     private DatabaseReference policeDetailRef;
 
     private GPSHandler gpsHandler;
-    private ValueEventListener valueEventListener;
+    private GoogleMap policeMap;
 
     private TextView tvNamePoliceDetail, tvAddressPoliceDetail, tvDistancePoliceDetail, tvDetailPolice;
 
@@ -78,6 +78,7 @@ public class PoliceDetail extends AppCompatActivity implements OnMapReadyCallbac
     private double endlat;
     private double endLng;
     private double distance;
+    private Police police;
 
     boolean isFavorite = false;
     Menu menuItem;
@@ -116,6 +117,7 @@ public class PoliceDetail extends AppCompatActivity implements OnMapReadyCallbac
         policeDetailRef = FirebaseQuery.getPoliceKey(policeKey);
         gpsHandler = new GPSHandler(this);
         user = FirebaseAuth.getInstance().getCurrentUser();
+        police = new Police();
 
         LoadPoliceDetail();
         favoriteState();
@@ -123,13 +125,13 @@ public class PoliceDetail extends AppCompatActivity implements OnMapReadyCallbac
 
     }
 
+    @SuppressLint({"DefaultLocale", "SetTextI18n"})
     private void LoadPoliceDetail() {
         if (gpsHandler.isCanGetLocation()) {
-            ValueEventListener eventListener = new ValueEventListener() {
-                @SuppressLint("SetTextI18n")
+            policeDetailRef.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    final Police police = dataSnapshot.getValue(Police.class);
+                    police = dataSnapshot.getValue(Police.class);
                     startLat = gpsHandler.getLatitude();
                     startlng = gpsHandler.getLongitude();
                     assert police != null;
@@ -138,7 +140,7 @@ public class PoliceDetail extends AppCompatActivity implements OnMapReadyCallbac
                     distance = Utils.calculateDistance(startLat, startlng, endlat, endLng);
 
 
-                    @SuppressLint("DefaultLocale") String distanceFormat = String.format("%.2f", distance);
+                    String distanceFormat = String.format("%.2f", distance);
                     tvDistancePoliceDetail.setText("" + distanceFormat + " km");
                     tvNamePoliceDetail.setText(police.getName_police());
                     tvAddressPoliceDetail.setText(police.getLocation_police());
@@ -201,9 +203,8 @@ public class PoliceDetail extends AppCompatActivity implements OnMapReadyCallbac
                 public void onCancelled(@NonNull DatabaseError databaseError) {
                     Log.e(TAG, "Firebase Database Error" + databaseError.getMessage());
                 }
-            };
-            policeDetailRef.addValueEventListener(eventListener);
-            valueEventListener = eventListener;
+            });
+
         }
     }
 
@@ -213,13 +214,14 @@ public class PoliceDetail extends AppCompatActivity implements OnMapReadyCallbac
 
     }
 
-    private void showPoliceMap(final GoogleMap policeGoogleMap) {
+    @SuppressLint("SetTextI18n")
+    private void showPoliceMap(GoogleMap googleMap) {
+        policeMap = googleMap;
         if (gpsHandler.isCanGetLocation()) {
-            ValueEventListener eventListener = new ValueEventListener() {
-                @SuppressLint("SetTextI18n")
+            policeDetailRef.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    final Police police = dataSnapshot.getValue(Police.class);
+                    police = dataSnapshot.getValue(Police.class);
                     startLat = gpsHandler.getLatitude();
                     startlng = gpsHandler.getLongitude();
 
@@ -228,18 +230,16 @@ public class PoliceDetail extends AppCompatActivity implements OnMapReadyCallbac
                     endLng = police.getLng_location_police();
 
                     LatLng location = new LatLng(endlat, endLng);
-                    policeGoogleMap.addMarker(new MarkerOptions().position(location).title(police.getName_police()));
-                    policeGoogleMap.getUiSettings().setMapToolbarEnabled(false);
-                    policeGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 15.0f));
+                    policeMap.addMarker(new MarkerOptions().position(location).title(police.getName_police()));
+                    policeMap.getUiSettings().setMapToolbarEnabled(false);
+                    policeMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 15.0f));
                 }
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError databaseError) {
-                    Log.e(TAG, "Firebase Database Error" + databaseError.getMessage());
+
                 }
-            };
-            policeDetailRef.addValueEventListener(eventListener);
-            valueEventListener = eventListener;
+            });
         }
     }
 
@@ -348,8 +348,6 @@ public class PoliceDetail extends AppCompatActivity implements OnMapReadyCallbac
     protected void onStop() {
         super.onStop();
         policeMapView.onStop();
-        policeDetailRef.removeEventListener(valueEventListener);
-
     }
 
     @Override

@@ -54,7 +54,7 @@ import co.id.roningrum.dolanapptugasakhir.util.Utils;
 
 import static co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseQuery.favoriteRef;
 
-public class HospitalDetail extends AppCompatActivity implements OnMapReadyCallback {
+public class HospitalDetailActivity extends AppCompatActivity implements OnMapReadyCallback {
     public static final String EXTRA_HOSPITAL_KEY = "hospitalKey";
 
     private static final String MAP_VIEW_KEY = "mapViewBundle";
@@ -66,7 +66,7 @@ public class HospitalDetail extends AppCompatActivity implements OnMapReadyCallb
     private DatabaseReference hospitalDetailRef;
 
     private GPSHandler gpsHandler;
-    private ValueEventListener valueEventListener;
+    private GoogleMap hospitalGoogleMap;
 
     private TextView tvNameHospitalDetail,
             tvAddressHospitalDetail, tvDistanceHospitalDetail, tvDetailHospital;
@@ -126,10 +126,10 @@ public class HospitalDetail extends AppCompatActivity implements OnMapReadyCallb
         favoriteState();
     }
 
+    @SuppressLint({"DefaultLocale", "SetTextI18n"})
     private void LoadHospitaDetail() {
         if (gpsHandler.isCanGetLocation()) {
-            ValueEventListener eventListener = new ValueEventListener() {
-                @SuppressLint("SetTextI18n")
+            hospitalDetailRef.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     hospital = dataSnapshot.getValue(Hospital.class);
@@ -140,8 +140,7 @@ public class HospitalDetail extends AppCompatActivity implements OnMapReadyCallb
                     endLng = hospital.getLng_location_hospital();
                     distance = Utils.calculateDistance(startLat, startlng, endlat, endLng);
 
-
-                    @SuppressLint("DefaultLocale") String distanceFormat = String.format("%.2f", distance);
+                    String distanceFormat = String.format("%.2f", distance);
                     tvDistanceHospitalDetail.setText("" + distanceFormat + " km");
                     tvNameHospitalDetail.setText(hospital.getName_hospital());
                     tvAddressHospitalDetail.setText(hospital.getLocation_hospital());
@@ -197,29 +196,26 @@ public class HospitalDetail extends AppCompatActivity implements OnMapReadyCallb
                             startActivity(intent);
                         }
                     });
-
                 }
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError databaseError) {
-                    Log.e(TAG, "Firebase Database Error" + databaseError.getMessage());
+
                 }
-            };
-            hospitalDetailRef.addValueEventListener(eventListener);
-            valueEventListener = eventListener;
+            });
+
         }
     }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        showMapDetail(googleMap);
+        showHospitalMap(googleMap);
     }
 
-    private void showMapDetail(final GoogleMap hospitalGoogleMap) {
+    private void showHospitalMap(GoogleMap googleMap) {
         if (gpsHandler.isCanGetLocation()) {
-            ValueEventListener eventListener = new ValueEventListener() {
-                @SuppressLint("SetTextI18n")
-                @Override
+
+            hospitalDetailRef.addValueEventListener(new ValueEventListener() {
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     hospital = dataSnapshot.getValue(Hospital.class);
                     startLat = gpsHandler.getLatitude();
@@ -239,9 +235,7 @@ public class HospitalDetail extends AppCompatActivity implements OnMapReadyCallb
                 public void onCancelled(@NonNull DatabaseError databaseError) {
                     Log.e(TAG, "Firebase Database Error" + databaseError.getMessage());
                 }
-            };
-            hospitalDetailRef.addValueEventListener(eventListener);
-            valueEventListener = eventListener;
+            });
         }
     }
 
@@ -349,7 +343,6 @@ public class HospitalDetail extends AppCompatActivity implements OnMapReadyCallb
     protected void onStop() {
         super.onStop();
         hospitalMapView.onStop();
-        hospitalDetailRef.removeEventListener(valueEventListener);
 
     }
 

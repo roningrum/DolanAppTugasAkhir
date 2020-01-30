@@ -259,6 +259,10 @@ public class TourismDetailActivity extends AppCompatActivity implements OnMapRea
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
+        showTourismMap(googleMap);
+    }
+
+    private void showTourismMap(GoogleMap googleMap) {
         tourismLocationMap = googleMap;
 
         tourismDetailRef.addValueEventListener(new ValueEventListener() {

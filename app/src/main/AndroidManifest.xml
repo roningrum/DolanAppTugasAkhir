@@ -74,60 +74,60 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name=".ui.hospital.HospitalMap"
+            android:name=".ui.hospital.HospitalMapActivity"
             android:label="@string/title_activity_hospital_maps"
-            android:parentActivityName=".ui.hospital.HospitalCategory">
+            android:parentActivityName=".ui.hospital.HospitalActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.hospital.HospitalCategory" />
+                android:value=".ui.hospital.HospitalActivity" />
         </activity>
         <activity
-            android:name=".ui.hospital.HospitalDetail"
-            android:parentActivityName=".ui.hospital.HospitalCategory">
+            android:name=".ui.hospital.HospitalDetailActivity"
+            android:parentActivityName=".ui.hospital.HospitalActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.hospital.HospitalCategory" />
+                android:value=".ui.hospital.HospitalActivity" />
         </activity>
         <activity
-            android:name=".ui.hospital.HospitalCategory"
+            android:name=".ui.hospital.HospitalActivity"
             android:parentActivityName=".ui.homeactivity.AllCategoryActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.homeactivity.AllCategoryActivity" />
         </activity>
         <activity
-            android:name=".ui.police.PoliceMaps"
+            android:name=".ui.police.PoliceMapsActivity"
             android:label="@string/title_activity_police_maps"
-            android:parentActivityName=".ui.police.PoliceCategory">
+            android:parentActivityName=".ui.police.PoliceActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.police.PoliceCategory" />
+                android:value=".ui.police.PoliceActivity" />
         </activity>
         <activity
-            android:name=".ui.police.PoliceDetail"
-            android:parentActivityName=".ui.police.PoliceCategory">
+            android:name=".ui.police.PoliceDetailActivity"
+            android:parentActivityName=".ui.police.PoliceActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.police.PoliceCategory" />
+                android:value=".ui.police.PoliceActivity" />
         </activity>
         <activity
-            android:name=".ui.police.PoliceCategory"
+            android:name=".ui.police.PoliceActivity"
             android:parentActivityName=".ui.homeactivity.AllCategoryActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.homeactivity.AllCategoryActivity" />
         </activity>
         <activity
-            android:name=".ui.gasstation.GasStationMap"
+            android:name=".ui.gasstation.GasStationMapActivity"
             android:label="@string/title_activity_gas_station_maps"
-            android:parentActivityName=".ui.gasstation.GasStationCategory">
+            android:parentActivityName=".ui.gasstation.GasStationActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.gasstation.GasStationCategory" />
+                android:value=".ui.gasstation.GasStationActivity" />
         </activity>
-        <activity android:name=".ui.gasstation.GasStationDetail" />
+        <activity android:name=".ui.gasstation.GasDetailActivity" />
         <activity
-            android:name=".ui.gasstation.GasStationCategory"
+            android:name=".ui.gasstation.GasStationActivity"
             android:parentActivityName=".ui.homeactivity.AllCategoryActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

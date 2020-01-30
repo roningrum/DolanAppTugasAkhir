@@ -54,7 +54,7 @@ import co.id.roningrum.dolanapptugasakhir.model.Police;
 import co.id.roningrum.dolanapptugasakhir.ui.adapter.police.PoliceClickCallback;
 import co.id.roningrum.dolanapptugasakhir.ui.favorite.adapter.FavoritePoliceAdapter;
 import co.id.roningrum.dolanapptugasakhir.ui.homeactivity.AllCategoryActivity;
-import co.id.roningrum.dolanapptugasakhir.ui.police.PoliceDetail;
+import co.id.roningrum.dolanapptugasakhir.ui.police.PoliceDetailActivity;
 
 import static co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseQuery.favoriteRef;
 
@@ -197,7 +197,7 @@ public class FavoritePoliceFragment extends Fragment {
                         @Override
                         public void onItemCallback(Police police) {
                             Intent intent = new Intent(getActivity(), Police.class);
-                            intent.putExtra(PoliceDetail.EXTRA_POLICE_KEY, police.getId());
+                            intent.putExtra(PoliceDetailActivity.EXTRA_POLICE_KEY, police.getId());
                             startActivity(intent);
                         }
                     });

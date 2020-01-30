@@ -31,7 +31,7 @@ import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import co.id.roningrum.dolanapptugasakhir.R;
@@ -39,10 +39,9 @@ import co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseQuery;
 import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.model.Hospital;
 
-public class HospitalMap extends AppCompatActivity implements OnMapReadyCallback {
+public class HospitalMapActivity extends AppCompatActivity implements OnMapReadyCallback {
 
-    private DatabaseReference hospitalMapRef;
-
+    private GoogleMap hospitalMap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +52,6 @@ public class HospitalMap extends AppCompatActivity implements OnMapReadyCallback
                 .findFragmentById(R.id.hospital_map);
         assert mapFragment != null;
         mapFragment.getMapAsync(this);
-        hospitalMapRef = FirebaseQuery.HospitalRef;
 
         Toolbar toolbarHospital = findViewById(R.id.toolbar_hospital_map);
         setSupportActionBar(toolbarHospital);
@@ -75,8 +73,10 @@ public class HospitalMap extends AppCompatActivity implements OnMapReadyCallback
 
     }
 
-    private void showHospitalMap(final GoogleMap hospitalGoogleMap) {
-        hospitalMapRef.addListenerForSingleValueEvent(new ValueEventListener() {
+    private void showHospitalMap(GoogleMap googleMap) {
+        Query hospitalMapQuery = FirebaseQuery.getHospital();
+        hospitalMap = googleMap;
+        hospitalMapQuery.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot dsHospital : dataSnapshot.getChildren()) {
@@ -96,9 +96,9 @@ public class HospitalMap extends AppCompatActivity implements OnMapReadyCallback
                             .zoom(14.07f)
                             .build();
                     LatLng hospitalPlaceLoc = new LatLng(latHospital, lngHospital);
-                    hospitalGoogleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
-                    hospitalGoogleMap.setMyLocationEnabled(true);
-                    hospitalGoogleMap.addMarker(new MarkerOptions().position(hospitalPlaceLoc).title(hospital.getName_hospital()).snippet(hospital.getLocation_hospital()));
+                    hospitalMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+                    hospitalMap.setMyLocationEnabled(true);
+                    hospitalMap.addMarker(new MarkerOptions().position(hospitalPlaceLoc).title(hospital.getName_hospital()).snippet(hospital.getLocation_hospital()));
                 }
             }
 
@@ -111,7 +111,7 @@ public class HospitalMap extends AppCompatActivity implements OnMapReadyCallback
         try {
             // Customise the styling of the base map using a JSON object defined
             // in a raw resource file.
-            boolean success = hospitalGoogleMap.setMapStyle(
+            boolean success = hospitalMap.setMapStyle(
                     MapStyleOptions.loadRawResourceStyle(
                             this, R.raw.google_map_style));
 

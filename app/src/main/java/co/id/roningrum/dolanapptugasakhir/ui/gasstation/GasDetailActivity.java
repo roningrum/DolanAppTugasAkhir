@@ -56,7 +56,7 @@ import co.id.roningrum.dolanapptugasakhir.util.Utils;
 
 import static co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseQuery.favoriteRef;
 
-public class GasStationDetail extends AppCompatActivity implements OnMapReadyCallback {
+public class GasDetailActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     public static final String EXTRA_GAS_KEY = "gasKey";
 

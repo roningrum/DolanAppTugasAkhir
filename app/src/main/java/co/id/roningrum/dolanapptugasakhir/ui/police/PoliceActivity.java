@@ -11,7 +11,7 @@
  * limitations under the License.
  */
 
-package co.id.roningrum.dolanapptugasakhir.ui.gasstation;
+package co.id.roningrum.dolanapptugasakhir.ui.police;
 
 import android.Manifest;
 import android.content.Intent;
@@ -29,7 +29,6 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.Query;
@@ -42,60 +41,55 @@ import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseQuery;
 import co.id.roningrum.dolanapptugasakhir.handler.LocationPermissionHandler;
 import co.id.roningrum.dolanapptugasakhir.handler.NetworkHelper;
-import co.id.roningrum.dolanapptugasakhir.model.GasStation;
-import co.id.roningrum.dolanapptugasakhir.ui.adapter.gasstation.GasAdapter;
-import co.id.roningrum.dolanapptugasakhir.ui.adapter.gasstation.GasClickCallback;
+import co.id.roningrum.dolanapptugasakhir.model.Police;
+import co.id.roningrum.dolanapptugasakhir.ui.adapter.police.PoliceAdapter;
+import co.id.roningrum.dolanapptugasakhir.ui.adapter.police.PoliceClickCallback;
 
-public class GasStationCategory extends AppCompatActivity {
-    private RecyclerView rvSpbuList;
-    private ShimmerFrameLayout shimmerFrameLayout;
-    private GasAdapter gasAdapter;
-    private ArrayList<GasStation> gasStations = new ArrayList<>();
+public class PoliceActivity extends AppCompatActivity {
+
+    private RecyclerView rvPoliceList;
+    private PoliceAdapter policeAdapter;
+    private ArrayList<Police> polices = new ArrayList<>();
     private LocationPermissionHandler locationPermissionHandler;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_category_gas_station);
-        rvSpbuList = findViewById(R.id.rv_spbu_list);
-        Toolbar toolbarGas = findViewById(R.id.toolbar_top_gas);
-        setSupportActionBar(toolbarGas);
-
-        shimmerFrameLayout = findViewById(R.id.shimmer_view_container);
-        rvSpbuList.setLayoutManager(new LinearLayoutManager(this));
+        setContentView(R.layout.activity_category_police);
+        rvPoliceList = findViewById(R.id.rv_police_list);
+        Toolbar toolbarPolice = findViewById(R.id.toolbar_top_police);
+        rvPoliceList.setLayoutManager(new LinearLayoutManager(this));
+        setSupportActionBar(toolbarPolice);
         checkConnection();
     }
 
     private void checkConnection() {
         if (NetworkHelper.isConnectedToNetwork(getApplicationContext())) {
-            showLoading(false);
-            showGasData();
+            showPoliceData();
         } else {
-            showLoading(true);
             Toast.makeText(this, "Check your connection", Toast.LENGTH_SHORT).show();
         }
     }
 
-    private void showGasData() {
+    private void showPoliceData() {
         if (havePermission()) {
-            Query spbuQuery = FirebaseQuery.getGas();
-            spbuQuery.addValueEventListener(new ValueEventListener() {
+            Query policeQuery = FirebaseQuery.getPolice();
+            policeQuery.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
-                        GasStation gasStation = dataSnapshot1.getValue(GasStation.class);
-                        gasStations.add(gasStation);
+                        Police police = dataSnapshot1.getValue(Police.class);
+                        polices.add(police);
                     }
-                    gasAdapter = new GasAdapter();
-                    rvSpbuList.setAdapter(gasAdapter);
-                    gasAdapter.setGasStations(gasStations);
-                    gasAdapter.setGasClickCallback(new GasClickCallback() {
+                    policeAdapter = new PoliceAdapter();
+                    rvPoliceList.setAdapter(policeAdapter);
+                    policeAdapter.setPoliceList(polices);
+                    policeAdapter.setPoliceClickCallback(new PoliceClickCallback() {
                         @Override
-                        public void onItemClicked(GasStation gasStation) {
-                            String gasKey = gasStation.getId();
-                            Intent intent = new Intent(GasStationCategory.this, GasStationDetail.class);
-                            intent.putExtra(GasStationDetail.EXTRA_GAS_KEY, gasKey);
+                        public void onItemCallback(Police police) {
+                            String policeKey = police.getId();
+                            Intent intent = new Intent(PoliceActivity.this, PoliceDetailActivity.class);
+                            intent.putExtra(PoliceDetailActivity.EXTRA_POLICE_KEY, policeKey);
                             startActivity(intent);
                         }
                     });
@@ -106,7 +100,6 @@ public class GasStationCategory extends AppCompatActivity {
 
                 }
             });
-
         }
     }
 
@@ -147,26 +140,12 @@ public class GasStationCategory extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                finish();
-                return true;
-            case R.id.petaMenu:
-                startActivity(new Intent(GasStationCategory.this, GasStationMap.class));
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-
+        int id = item.getItemId();
+        if (id == R.id.petaMenu) {
+            startActivity(new Intent(PoliceActivity.this, PoliceMapsActivity.class));
+            return true;
         }
-
-    }
-
-    private void showLoading(boolean state) {
-        if (state) {
-            shimmerFrameLayout.startShimmer();
-        } else {
-            shimmerFrameLayout.stopShimmer();
-        }
+        return super.onOptionsItemSelected(item);
     }
 
 }

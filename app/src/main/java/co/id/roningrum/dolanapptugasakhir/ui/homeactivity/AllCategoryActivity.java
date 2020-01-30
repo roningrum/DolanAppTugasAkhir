@@ -22,10 +22,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import co.id.roningrum.dolanapptugasakhir.R;
-import co.id.roningrum.dolanapptugasakhir.ui.gasstation.GasStationCategory;
-import co.id.roningrum.dolanapptugasakhir.ui.hospital.HospitalCategory;
+import co.id.roningrum.dolanapptugasakhir.ui.gasstation.GasStationActivity;
+import co.id.roningrum.dolanapptugasakhir.ui.hospital.HospitalActivity;
 import co.id.roningrum.dolanapptugasakhir.ui.hotel.HotelActivity;
-import co.id.roningrum.dolanapptugasakhir.ui.police.PoliceCategory;
+import co.id.roningrum.dolanapptugasakhir.ui.police.PoliceActivity;
 import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismActivity.TourismAirActivity;
 import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismActivity.TourismAlamActivity;
 import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismActivity.TourismBelanjaActivity;
@@ -135,14 +135,14 @@ public class AllCategoryActivity extends AppCompatActivity implements View.OnCli
                 startActivity(new Intent(AllCategoryActivity.this, TransportationShipActivity.class));
                 break;
             case R.id.ln_spbu_public:
-                startActivity(new Intent(AllCategoryActivity.this, GasStationCategory.class));
+                startActivity(new Intent(AllCategoryActivity.this, GasStationActivity.class));
                 break;
             case R.id.ln_police_public:
-                startActivity(new Intent(AllCategoryActivity.this, PoliceCategory.class));
+                startActivity(new Intent(AllCategoryActivity.this, PoliceActivity.class));
                 break;
 
             case R.id.ln_hospital_public:
-                startActivity(new Intent(AllCategoryActivity.this, HospitalCategory.class));
+                startActivity(new Intent(AllCategoryActivity.this, HospitalActivity.class));
                 break;
 
 

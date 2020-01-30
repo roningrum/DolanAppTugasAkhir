@@ -46,7 +46,7 @@ import co.id.roningrum.dolanapptugasakhir.ui.adapter.hospital.HospitalAdapter;
 import co.id.roningrum.dolanapptugasakhir.ui.adapter.hospital.HospitalClickCallback;
 import co.id.roningrum.dolanapptugasakhir.util.Utils;
 
-public class HospitalCategory extends AppCompatActivity {
+public class HospitalActivity extends AppCompatActivity {
 
     private RecyclerView rvHospitalList;
     private ShimmerFrameLayout shimmerFrameLayout;
@@ -94,8 +94,8 @@ public class HospitalCategory extends AppCompatActivity {
                         @Override
                         public void onItemCallback(Hospital hospital) {
                             String hospitalKey = hospital.getId();
-                            Intent intent = new Intent(HospitalCategory.this, HospitalDetail.class);
-                            intent.putExtra(HospitalDetail.EXTRA_HOSPITAL_KEY, hospitalKey);
+                            Intent intent = new Intent(HospitalActivity.this, HospitalDetailActivity.class);
+                            intent.putExtra(HospitalDetailActivity.EXTRA_HOSPITAL_KEY, hospitalKey);
                             startActivity(intent);
                         }
                     });
@@ -148,7 +148,7 @@ public class HospitalCategory extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.petaMenu) {
-            startActivity(new Intent(HospitalCategory.this, HospitalMap.class));
+            startActivity(new Intent(HospitalActivity.this, HospitalMapActivity.class));
             return true;
         }
         return super.onOptionsItemSelected(item);
