@@ -41,12 +41,12 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Objects;
 
 import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseConstant;
 import co.id.roningrum.dolanapptugasakhir.handler.NetworkHelper;
 import co.id.roningrum.dolanapptugasakhir.model.Tourism;
+import co.id.roningrum.dolanapptugasakhir.model.Users;
 import co.id.roningrum.dolanapptugasakhir.ui.adapter.tourism.TourismClickCallback;
 import co.id.roningrum.dolanapptugasakhir.ui.adapter.tourism.TourismPopularAdapter;
 import co.id.roningrum.dolanapptugasakhir.ui.homeactivity.AllCategoryActivity;
@@ -169,12 +169,16 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         UserRef.child(homeUser.getUid()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                Users users = dataSnapshot.getValue(Users.class);
                 if (getActivity() == null) {
                     return;
                 }
-                String nama = Objects.requireNonNull(dataSnapshot.child("nama_user").getValue()).toString().trim();
-                greetText(nama);
-                Glide.with(getActivity()).load(Objects.requireNonNull(dataSnapshot.child("photo_user").getValue()).toString()).into(userPhotoHome);
+                if (users != null) {
+                    String nama = users.getNama_user();
+                    greetText(nama);
+                    Glide.with(getActivity()).load(users.getPhoto_user()).into(userPhotoHome);
+                }
+
             }
 
             @Override
