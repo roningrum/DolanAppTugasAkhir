@@ -39,12 +39,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import co.id.roningrum.dolanapptugasakhir.R;
-import co.id.roningrum.dolanapptugasakhir.ui.adapter.gasstation.GasAdapter;
-import co.id.roningrum.dolanapptugasakhir.ui.adapter.gasstation.GasClickCallback;
-import co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseConstant;
+import co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseQuery;
 import co.id.roningrum.dolanapptugasakhir.handler.LocationPermissionHandler;
 import co.id.roningrum.dolanapptugasakhir.handler.NetworkHelper;
 import co.id.roningrum.dolanapptugasakhir.model.GasStation;
+import co.id.roningrum.dolanapptugasakhir.ui.adapter.gasstation.GasAdapter;
+import co.id.roningrum.dolanapptugasakhir.ui.adapter.gasstation.GasClickCallback;
 
 public class GasStationCategory extends AppCompatActivity {
     private RecyclerView rvSpbuList;
@@ -79,7 +79,7 @@ public class GasStationCategory extends AppCompatActivity {
 
     private void showGasData() {
         if (havePermission()) {
-            Query spbuQuery = FirebaseConstant.getGas();
+            Query spbuQuery = FirebaseQuery.getGas();
             spbuQuery.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

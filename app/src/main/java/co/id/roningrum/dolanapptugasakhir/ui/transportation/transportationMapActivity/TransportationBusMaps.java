@@ -34,7 +34,7 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import co.id.roningrum.dolanapptugasakhir.R;
-import co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseConstant;
+import co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseQuery;
 import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.model.Transportation;
 import co.id.roningrum.dolanapptugasakhir.util.Utils;
@@ -73,7 +73,7 @@ public class TransportationBusMaps extends FragmentActivity implements OnMapRead
 
     private void showBusMap(GoogleMap googleMap) {
         busMap = googleMap;
-        Query busMapQuery = FirebaseConstant.getTransportBus();
+        Query busMapQuery = FirebaseQuery.getTransportBus();
         busMapQuery.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

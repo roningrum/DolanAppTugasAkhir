@@ -35,14 +35,14 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import co.id.roningrum.dolanapptugasakhir.R;
-import co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseConstant;
+import co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseQuery;
 import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.model.Tourism;
 import co.id.roningrum.dolanapptugasakhir.util.Utils;
 
 public class TourismEdukasiMaps extends AppCompatActivity implements OnMapReadyCallback {
 
-    private GoogleMap educationPlaceMap;
+    private GoogleMap tourismMap;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,15 +69,14 @@ public class TourismEdukasiMaps extends AppCompatActivity implements OnMapReadyC
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        showEducationMap(googleMap);
+        showTourismMap(googleMap);
 
 
     }
 
-    private void showEducationMap(GoogleMap googleMap) {
-
-        educationPlaceMap = googleMap;
-        Query educationMapQuery = FirebaseConstant.getTourismEducation();
+    private void showTourismMap(GoogleMap googleMap) {
+        tourismMap = googleMap;
+        Query educationMapQuery = FirebaseQuery.getTourismEducation();
         educationMapQuery.addListenerForSingleValueEvent(new ValueEventListener() {
 
             @Override
@@ -98,9 +97,9 @@ public class TourismEdukasiMaps extends AppCompatActivity implements OnMapReadyC
                             .target(userLoc)
                             .zoom(12.17f)
                             .build();
-                    educationPlaceMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
-                    educationPlaceMap.setMyLocationEnabled(true);
-                    educationPlaceMap.addMarker(new MarkerOptions().position(educationPlaceLoc).icon(Utils.getBitmapDescriptor(getApplicationContext())).title(tourism.getName_tourism()).snippet(tourism.getLocation_tourism()));
+                    tourismMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+                    tourismMap.setMyLocationEnabled(true);
+                    tourismMap.addMarker(new MarkerOptions().position(educationPlaceLoc).icon(Utils.getBitmapDescriptor(getApplicationContext())).title(tourism.getName_tourism()).snippet(tourism.getLocation_tourism()));
                 }
             }
 
@@ -113,7 +112,7 @@ public class TourismEdukasiMaps extends AppCompatActivity implements OnMapReadyC
         try {
             // Customise the styling of the base map using a JSON object defined
             // in a raw resource file.
-            boolean success = educationPlaceMap.setMapStyle(
+            boolean success = tourismMap.setMapStyle(
                     MapStyleOptions.loadRawResourceStyle(
                             this, R.raw.google_map_style));
 

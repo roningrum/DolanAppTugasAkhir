@@ -47,7 +47,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import co.id.roningrum.dolanapptugasakhir.R;
-import co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseConstant;
+import co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseQuery;
 import co.id.roningrum.dolanapptugasakhir.handler.LocationPermissionHandler;
 import co.id.roningrum.dolanapptugasakhir.handler.NetworkHelper;
 import co.id.roningrum.dolanapptugasakhir.model.Police;
@@ -56,7 +56,7 @@ import co.id.roningrum.dolanapptugasakhir.ui.favorite.adapter.FavoritePoliceAdap
 import co.id.roningrum.dolanapptugasakhir.ui.homeactivity.AllCategoryActivity;
 import co.id.roningrum.dolanapptugasakhir.ui.police.PoliceDetail;
 
-import static co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseConstant.favoriteRef;
+import static co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseQuery.favoriteRef;
 
 
 /**
@@ -97,7 +97,7 @@ public class FavoritePoliceFragment extends Fragment {
         btnGoToMenu = view.findViewById(R.id.btn_choose_menu);
         rvFavoritPoliceList.setHasFixedSize(true);
         rvFavoritPoliceList.setLayoutManager(new LinearLayoutManager(getContext()));
-        policeReference = FirebaseConstant.PoliceRef;
+        policeReference = FirebaseQuery.PoliceRef;
 
         checkConnection();
         enableSwipeToDelete();

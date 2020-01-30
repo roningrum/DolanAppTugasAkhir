@@ -35,7 +35,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
 import co.id.roningrum.dolanapptugasakhir.R;
-import co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseConstant;
+import co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseQuery;
 import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.model.Hospital;
 
@@ -53,7 +53,7 @@ public class HospitalMap extends AppCompatActivity implements OnMapReadyCallback
                 .findFragmentById(R.id.hospital_map);
         assert mapFragment != null;
         mapFragment.getMapAsync(this);
-        hospitalMapRef = FirebaseConstant.HospitalRef;
+        hospitalMapRef = FirebaseQuery.HospitalRef;
 
         Toolbar toolbarHospital = findViewById(R.id.toolbar_hospital_map);
         setSupportActionBar(toolbarHospital);

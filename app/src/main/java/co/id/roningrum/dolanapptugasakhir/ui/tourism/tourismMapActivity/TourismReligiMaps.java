@@ -34,14 +34,14 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import co.id.roningrum.dolanapptugasakhir.R;
-import co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseConstant;
+import co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseQuery;
 import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.model.Tourism;
 import co.id.roningrum.dolanapptugasakhir.util.Utils;
 
 public class TourismReligiMaps extends FragmentActivity implements OnMapReadyCallback {
 
-    private GoogleMap religiPlaceMap;
+    private GoogleMap tourismMap;
 
 
     @Override
@@ -67,12 +67,12 @@ public class TourismReligiMaps extends FragmentActivity implements OnMapReadyCal
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        showReligiMap(googleMap);
+        showTourismMap(googleMap);
     }
 
-    private void showReligiMap(GoogleMap googleMap) {
-        religiPlaceMap = googleMap;
-        Query religiMapQuery = FirebaseConstant.getTourismReligi();
+    private void showTourismMap(GoogleMap googleMap) {
+        tourismMap = googleMap;
+        Query religiMapQuery = FirebaseQuery.getTourismReligi();
         religiMapQuery.addListenerForSingleValueEvent(new ValueEventListener() {
 
             @Override
@@ -93,9 +93,9 @@ public class TourismReligiMaps extends FragmentActivity implements OnMapReadyCal
                             .target(userLoc)
                             .zoom(12.17f)
                             .build();
-                    religiPlaceMap.setMyLocationEnabled(true);
-                    religiPlaceMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
-                    religiPlaceMap.addMarker(new MarkerOptions().position(religiPlaceLoc).icon(Utils.getBitmapDescriptor(getApplicationContext()))
+                    tourismMap.setMyLocationEnabled(true);
+                    tourismMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+                    tourismMap.addMarker(new MarkerOptions().position(religiPlaceLoc).icon(Utils.getBitmapDescriptor(getApplicationContext()))
                             .title(tourism.getName_tourism()).snippet(tourism.getLocation_tourism()));
                 }
             }
@@ -109,7 +109,7 @@ public class TourismReligiMaps extends FragmentActivity implements OnMapReadyCal
         try {
             // Customise the styling of the base map using a JSON object defined
             // in a raw resource file.
-            boolean success = religiPlaceMap.setMapStyle(
+            boolean success = tourismMap.setMapStyle(
                     MapStyleOptions.loadRawResourceStyle(
                             this, R.raw.google_map_style));
 

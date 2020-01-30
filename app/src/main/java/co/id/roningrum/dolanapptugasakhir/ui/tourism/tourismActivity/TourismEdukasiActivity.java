@@ -39,11 +39,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import co.id.roningrum.dolanapptugasakhir.R;
-import co.id.roningrum.dolanapptugasakhir.ui.adapter.tourism.TourismAdapter;
-import co.id.roningrum.dolanapptugasakhir.ui.adapter.tourism.TourismClickCallback;
-import co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseConstant;
+import co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseQuery;
 import co.id.roningrum.dolanapptugasakhir.handler.LocationPermissionHandler;
 import co.id.roningrum.dolanapptugasakhir.model.Tourism;
+import co.id.roningrum.dolanapptugasakhir.ui.adapter.tourism.TourismAdapter;
+import co.id.roningrum.dolanapptugasakhir.ui.adapter.tourism.TourismClickCallback;
 import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismDetailActivity.TourismDetailActivity;
 import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismMapActivity.TourismEdukasiMaps;
 import co.id.roningrum.dolanapptugasakhir.util.Utils;
@@ -73,16 +73,16 @@ public class TourismEdukasiActivity extends AppCompatActivity {
     private void checkConnection() {
         if (Utils.isConnectedToNetwork(getApplicationContext())) {
             showLoading(false);
-            showEducationData();
+            showTourismData();
         } else {
             showLoading(true);
             Toast.makeText(this, "Check your connection", Toast.LENGTH_SHORT).show();
         }
     }
 
-    private void showEducationData() {
+    private void showTourismData() {
         if (havePermission()) {
-            Query educationQuery = FirebaseConstant.getTourismEducation();
+            Query educationQuery = FirebaseQuery.getTourismEducation();
             educationQuery.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

@@ -35,14 +35,14 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import co.id.roningrum.dolanapptugasakhir.R;
-import co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseConstant;
+import co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseQuery;
 import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.model.Tourism;
 import co.id.roningrum.dolanapptugasakhir.util.Utils;
 
 public class TourismAirMaps extends AppCompatActivity implements OnMapReadyCallback {
 
-    private GoogleMap waterMap;
+    private GoogleMap tourismMap;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,12 +70,12 @@ public class TourismAirMaps extends AppCompatActivity implements OnMapReadyCallb
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        showWaterMap(googleMap);
+        showTourismMap(googleMap);
     }
 
-    private void showWaterMap(GoogleMap googleMap) {
-        waterMap = googleMap;
-        Query waterMapQuery = FirebaseConstant.getTourismAir();
+    private void showTourismMap(GoogleMap googleMap) {
+        tourismMap = googleMap;
+        Query waterMapQuery = FirebaseQuery.getTourismAir();
         waterMapQuery.addListenerForSingleValueEvent(new ValueEventListener() {
 
             @Override
@@ -95,10 +95,10 @@ public class TourismAirMaps extends AppCompatActivity implements OnMapReadyCallb
                             .target(userLoc)
                             .zoom(12.27f)
                             .build();
-                    waterMap.setMyLocationEnabled(true);
-                    waterMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+                    tourismMap.setMyLocationEnabled(true);
+                    tourismMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
                     final LatLng waterPlaceLoc = new LatLng(latTourism, lngTourism);
-                    waterMap.addMarker(new MarkerOptions().position(waterPlaceLoc).title(tourism.getName_tourism()).
+                    tourismMap.addMarker(new MarkerOptions().position(waterPlaceLoc).title(tourism.getName_tourism()).
                             icon(Utils.getBitmapDescriptor(getApplicationContext())).snippet(tourism.getLocation_tourism()));
                 }
             }
@@ -111,7 +111,7 @@ public class TourismAirMaps extends AppCompatActivity implements OnMapReadyCallb
         try {
             // Customise the styling of the base map using a JSON object defined
             // in a raw resource file.
-            boolean success = waterMap.setMapStyle(
+            boolean success = tourismMap.setMapStyle(
                     MapStyleOptions.loadRawResourceStyle(
                             this, R.raw.google_map_style));
 

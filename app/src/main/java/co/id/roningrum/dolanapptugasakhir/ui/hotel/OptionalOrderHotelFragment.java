@@ -36,7 +36,7 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import co.id.roningrum.dolanapptugasakhir.R;
-import co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseConstant;
+import co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseQuery;
 import co.id.roningrum.dolanapptugasakhir.model.Hotel;
 
 
@@ -68,7 +68,7 @@ public class OptionalOrderHotelFragment extends DialogFragment implements View.O
 
         assert getArguments() != null;
         String hotelKey = getArguments().getString(HotelDetail.EXTRA_HOTEL_KEY);
-        dbHotelRef = FirebaseConstant.getHotelKey(hotelKey);
+        dbHotelRef = FirebaseQuery.getHotelKey(hotelKey);
 
         btnOrderHotel.setOnClickListener(this);
         btnOrderHotel1.setOnClickListener(this);

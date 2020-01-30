@@ -47,7 +47,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import co.id.roningrum.dolanapptugasakhir.R;
-import co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseConstant;
+import co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseQuery;
 import co.id.roningrum.dolanapptugasakhir.handler.LocationPermissionHandler;
 import co.id.roningrum.dolanapptugasakhir.handler.NetworkHelper;
 import co.id.roningrum.dolanapptugasakhir.model.Transportation;
@@ -56,7 +56,7 @@ import co.id.roningrum.dolanapptugasakhir.ui.favorite.adapter.FavoriteTransAdapt
 import co.id.roningrum.dolanapptugasakhir.ui.homeactivity.AllCategoryActivity;
 import co.id.roningrum.dolanapptugasakhir.ui.transportation.transportationDetailActivity.TransportationDetailActivity;
 
-import static co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseConstant.favoriteRef;
+import static co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseQuery.favoriteRef;
 
 
 /**
@@ -98,7 +98,7 @@ public class FavoriteTransFragment extends Fragment {
         btnGoToMenu = view.findViewById(R.id.btn_choose_menu);
         rvFavoritTransList.setHasFixedSize(true);
         rvFavoritTransList.setLayoutManager(new LinearLayoutManager(getContext()));
-        transReference = FirebaseConstant.TransportRef;
+        transReference = FirebaseQuery.TransportRef;
 
         checkConnection();
         enableSwipeToDelete();

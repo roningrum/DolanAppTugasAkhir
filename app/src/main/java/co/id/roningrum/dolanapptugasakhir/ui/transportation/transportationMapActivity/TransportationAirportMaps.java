@@ -35,7 +35,7 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import co.id.roningrum.dolanapptugasakhir.R;
-import co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseConstant;
+import co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseQuery;
 import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.model.Transportation;
 import co.id.roningrum.dolanapptugasakhir.util.Utils;
@@ -76,7 +76,7 @@ public class TransportationAirportMaps extends AppCompatActivity implements OnMa
 
     private void showAirportMap(GoogleMap googleMap) {
         airportMaps = googleMap;
-        Query airportMapQuery = FirebaseConstant.getTransportPesawat();
+        Query airportMapQuery = FirebaseQuery.getTransportPesawat();
         airportMapQuery.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

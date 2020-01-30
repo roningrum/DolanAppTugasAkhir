@@ -39,11 +39,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import co.id.roningrum.dolanapptugasakhir.R;
-import co.id.roningrum.dolanapptugasakhir.ui.adapter.tourism.TourismAdapter;
-import co.id.roningrum.dolanapptugasakhir.ui.adapter.tourism.TourismClickCallback;
-import co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseConstant;
+import co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseQuery;
 import co.id.roningrum.dolanapptugasakhir.handler.LocationPermissionHandler;
 import co.id.roningrum.dolanapptugasakhir.model.Tourism;
+import co.id.roningrum.dolanapptugasakhir.ui.adapter.tourism.TourismAdapter;
+import co.id.roningrum.dolanapptugasakhir.ui.adapter.tourism.TourismClickCallback;
 import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismDetailActivity.TourismDetailActivity;
 import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismMapActivity.TourismKulinerMaps;
 import co.id.roningrum.dolanapptugasakhir.util.Utils;
@@ -73,16 +73,16 @@ public class TourismKulinerActivity extends AppCompatActivity {
     private void checkConnection() {
         if (Utils.isConnectedToNetwork(getApplicationContext())) {
             showLoading(true);
-            showFoodData();
+            showTourismData();
         } else {
             showLoading(false);
             Toast.makeText(this, "Check your connection", Toast.LENGTH_SHORT).show();
         }
     }
 
-    private void showFoodData() {
+    private void showTourismData() {
         if (havePermission()) {
-            Query foodQuery = FirebaseConstant.getTourismKuliner();
+            Query foodQuery = FirebaseQuery.getTourismKuliner();
             foodQuery.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

@@ -41,7 +41,7 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import co.id.roningrum.dolanapptugasakhir.R;
-import co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseConstant;
+import co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseQuery;
 import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.model.Transportation;
 import co.id.roningrum.dolanapptugasakhir.util.Utils;
@@ -81,7 +81,7 @@ public class TransportationShipMaps extends AppCompatActivity implements OnMapRe
 
     private void showShipMap(GoogleMap googleMap) {
         shipMap = googleMap;
-        final Query shipMapQuery = FirebaseConstant.getTransportShip();
+        final Query shipMapQuery = FirebaseQuery.getTransportShip();
         shipMapQuery.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

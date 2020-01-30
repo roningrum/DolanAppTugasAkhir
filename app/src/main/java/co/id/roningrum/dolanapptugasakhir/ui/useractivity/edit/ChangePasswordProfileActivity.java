@@ -34,7 +34,7 @@ import com.google.firebase.auth.FirebaseUser;
 import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.ui.useractivity.login.SignInOptionActivity;
 
-import static co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseConstant.UserRef;
+import static co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseQuery.UserRef;
 
 public class ChangePasswordProfileActivity extends AppCompatActivity implements View.OnClickListener {
     private static final String TAG = "UpdatePassword";

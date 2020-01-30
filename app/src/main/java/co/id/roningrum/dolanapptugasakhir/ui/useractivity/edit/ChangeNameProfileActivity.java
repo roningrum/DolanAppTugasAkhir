@@ -36,7 +36,7 @@ import com.google.firebase.database.ValueEventListener;
 import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.model.Users;
 
-import static co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseConstant.UserRef;
+import static co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseQuery.UserRef;
 
 public class ChangeNameProfileActivity extends AppCompatActivity implements View.OnClickListener {
     private static final String TAG = "UBAH_NAMA";

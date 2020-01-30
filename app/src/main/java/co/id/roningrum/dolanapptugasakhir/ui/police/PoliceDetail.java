@@ -47,12 +47,12 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
 import co.id.roningrum.dolanapptugasakhir.R;
-import co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseConstant;
+import co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseQuery;
 import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.model.Police;
 import co.id.roningrum.dolanapptugasakhir.util.Utils;
 
-import static co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseConstant.favoriteRef;
+import static co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseQuery.favoriteRef;
 
 public class PoliceDetail extends AppCompatActivity implements OnMapReadyCallback {
     public static final String EXTRA_POLICE_KEY = "policeKey";
@@ -113,7 +113,7 @@ public class PoliceDetail extends AppCompatActivity implements OnMapReadyCallbac
 
         policeKey = getIntent().getStringExtra(EXTRA_POLICE_KEY);
 
-        policeDetailRef = FirebaseConstant.getPoliceKey(policeKey);
+        policeDetailRef = FirebaseQuery.getPoliceKey(policeKey);
         gpsHandler = new GPSHandler(this);
         user = FirebaseAuth.getInstance().getCurrentUser();
 

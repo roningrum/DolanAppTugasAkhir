@@ -35,14 +35,14 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import co.id.roningrum.dolanapptugasakhir.R;
-import co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseConstant;
+import co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseQuery;
 import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.model.Tourism;
 import co.id.roningrum.dolanapptugasakhir.util.Utils;
 
 public class TourismDesaMaps extends AppCompatActivity implements OnMapReadyCallback {
 
-    private GoogleMap villageMap;
+    private GoogleMap tourismMap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,12 +70,12 @@ public class TourismDesaMaps extends AppCompatActivity implements OnMapReadyCall
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        showVillageMap(googleMap);
+        showTourismMap(googleMap);
     }
 
-    private void showVillageMap(GoogleMap googleMap) {
-        villageMap = googleMap;
-        Query villageMapQuery = FirebaseConstant.getTourismDesa();
+    private void showTourismMap(GoogleMap googleMap) {
+        tourismMap = googleMap;
+        Query villageMapQuery = FirebaseQuery.getTourismDesa();
         villageMapQuery.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -95,9 +95,9 @@ public class TourismDesaMaps extends AppCompatActivity implements OnMapReadyCall
                             .target(userLoc)
                             .zoom(12.17f)
                             .build();
-                    villageMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
-                    villageMap.setMyLocationEnabled(true);
-                    villageMap.addMarker(new MarkerOptions().position(villagePlaceLoc).icon(Utils.getBitmapDescriptor(getApplicationContext())).title(tourism.getName_tourism()).snippet(tourism.getLocation_tourism()));
+                    tourismMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+                    tourismMap.setMyLocationEnabled(true);
+                    tourismMap.addMarker(new MarkerOptions().position(villagePlaceLoc).icon(Utils.getBitmapDescriptor(getApplicationContext())).title(tourism.getName_tourism()).snippet(tourism.getLocation_tourism()));
                 }
             }
 
@@ -109,7 +109,7 @@ public class TourismDesaMaps extends AppCompatActivity implements OnMapReadyCall
         try {
             // Customise the styling of the base map using a JSON object defined
             // in a raw resource file.
-            boolean success = villageMap.setMapStyle(
+            boolean success = tourismMap.setMapStyle(
                     MapStyleOptions.loadRawResourceStyle(
                             this, R.raw.google_map_style));
 

@@ -35,14 +35,14 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import co.id.roningrum.dolanapptugasakhir.R;
-import co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseConstant;
+import co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseQuery;
 import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.model.Tourism;
 import co.id.roningrum.dolanapptugasakhir.util.Utils;
 
 public class TourismKulinerMaps extends AppCompatActivity implements OnMapReadyCallback {
 
-    private GoogleMap foodMap;
+    private GoogleMap tourismMap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,12 +70,12 @@ public class TourismKulinerMaps extends AppCompatActivity implements OnMapReadyC
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        showFoodMap(googleMap);
+        showTourismMap(googleMap);
     }
 
-    private void showFoodMap(GoogleMap googleMap) {
-        foodMap = googleMap;
-        Query foodMapQuery = FirebaseConstant.getTourismKuliner();
+    private void showTourismMap(GoogleMap googleMap) {
+        tourismMap = googleMap;
+        Query foodMapQuery = FirebaseQuery.getTourismKuliner();
         foodMapQuery.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -95,9 +95,9 @@ public class TourismKulinerMaps extends AppCompatActivity implements OnMapReadyC
                             .target(userLoc)
                             .zoom(12.17f)
                             .build();
-                    foodMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
-                    foodMap.setMyLocationEnabled(true);
-                    foodMap.addMarker(new MarkerOptions().position(foodPlaceLoc).title(tourism.getName_tourism())
+                    tourismMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+                    tourismMap.setMyLocationEnabled(true);
+                    tourismMap.addMarker(new MarkerOptions().position(foodPlaceLoc).title(tourism.getName_tourism())
                             .icon(Utils.getBitmapDescriptor(getApplicationContext()))
                             .snippet(tourism.getLocation_tourism()));
                 }
@@ -112,7 +112,7 @@ public class TourismKulinerMaps extends AppCompatActivity implements OnMapReadyC
         try {
             // Customise the styling of the base map using a JSON object defined
             // in a raw resource file.
-            boolean success = foodMap.setMapStyle(
+            boolean success = tourismMap.setMapStyle(
                     MapStyleOptions.loadRawResourceStyle(
                             this, R.raw.google_map_style));
 

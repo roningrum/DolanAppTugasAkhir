@@ -39,7 +39,7 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import co.id.roningrum.dolanapptugasakhir.R;
-import co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseConstant;
+import co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseQuery;
 import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.model.Transportation;
 import co.id.roningrum.dolanapptugasakhir.util.Utils;
@@ -78,7 +78,7 @@ public class TransportationTrainMaps extends AppCompatActivity implements OnMapR
 
     private void showTrainMap(GoogleMap googleMap) {
         trainMap = googleMap;
-        Query trainMapQuery = FirebaseConstant.getTransportKereta();
+        Query trainMapQuery = FirebaseQuery.getTransportKereta();
         trainMapQuery.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

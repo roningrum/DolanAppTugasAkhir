@@ -47,12 +47,12 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
 import co.id.roningrum.dolanapptugasakhir.R;
-import co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseConstant;
+import co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseQuery;
 import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.model.Hospital;
 import co.id.roningrum.dolanapptugasakhir.util.Utils;
 
-import static co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseConstant.favoriteRef;
+import static co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseQuery.favoriteRef;
 
 public class HospitalDetail extends AppCompatActivity implements OnMapReadyCallback {
     public static final String EXTRA_HOSPITAL_KEY = "hospitalKey";
@@ -117,7 +117,7 @@ public class HospitalDetail extends AppCompatActivity implements OnMapReadyCallb
         if (hospitalKey == null) {
             throw new IllegalArgumentException("Must pass Extra");
         }
-        hospitalDetailRef = FirebaseConstant.getHospitalByKey(hospitalKey);
+        hospitalDetailRef = FirebaseQuery.getHospitalByKey(hospitalKey);
         gpsHandler = new GPSHandler(this);
         hospital = new Hospital();
         user = FirebaseAuth.getInstance().getCurrentUser();

@@ -47,7 +47,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import co.id.roningrum.dolanapptugasakhir.R;
-import co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseConstant;
+import co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseQuery;
 import co.id.roningrum.dolanapptugasakhir.handler.LocationPermissionHandler;
 import co.id.roningrum.dolanapptugasakhir.handler.NetworkHelper;
 import co.id.roningrum.dolanapptugasakhir.model.GasStation;
@@ -56,7 +56,7 @@ import co.id.roningrum.dolanapptugasakhir.ui.favorite.adapter.FavoriteGasAdapter
 import co.id.roningrum.dolanapptugasakhir.ui.gasstation.GasStationDetail;
 import co.id.roningrum.dolanapptugasakhir.ui.homeactivity.AllCategoryActivity;
 
-import static co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseConstant.favoriteRef;
+import static co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseQuery.favoriteRef;
 
 
 /**
@@ -98,7 +98,7 @@ public class FavoriteGasFragment extends Fragment {
         btnGoToMenu = view.findViewById(R.id.btn_choose_menu);
         rvFavoritGasList.setHasFixedSize(true);
         rvFavoritGasList.setLayoutManager(new LinearLayoutManager(getContext()));
-        gasReference = FirebaseConstant.GasRef;
+        gasReference = FirebaseQuery.GasRef;
         checkConnection();
         enableSwipeToDelete();
     }

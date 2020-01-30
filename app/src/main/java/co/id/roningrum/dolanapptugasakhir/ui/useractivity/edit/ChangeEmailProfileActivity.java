@@ -40,7 +40,7 @@ import java.util.Objects;
 import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.ui.useractivity.login.SignInEmailActivity;
 
-import static co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseConstant.UserRef;
+import static co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseQuery.UserRef;
 
 public class ChangeEmailProfileActivity extends AppCompatActivity implements View.OnClickListener {
     private static final String TAG = "UPDATE_EMAIL";

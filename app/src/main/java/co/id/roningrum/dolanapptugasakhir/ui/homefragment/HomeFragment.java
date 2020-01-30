@@ -43,7 +43,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 import co.id.roningrum.dolanapptugasakhir.R;
-import co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseConstant;
+import co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseQuery;
 import co.id.roningrum.dolanapptugasakhir.handler.NetworkHelper;
 import co.id.roningrum.dolanapptugasakhir.model.Tourism;
 import co.id.roningrum.dolanapptugasakhir.model.Users;
@@ -61,7 +61,7 @@ import co.id.roningrum.dolanapptugasakhir.ui.transportation.transportationActivi
 import de.hdodenhof.circleimageview.CircleImageView;
 
 import static androidx.constraintlayout.widget.Constraints.TAG;
-import static co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseConstant.UserRef;
+import static co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseQuery.UserRef;
 
 
 /**
@@ -134,7 +134,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     }
 
     private void showPopularTourism() {
-        Query popularTourism = FirebaseConstant.getTourismRekreasi();
+        Query popularTourism = FirebaseQuery.getTourismRekreasi();
         popularTourism.limitToFirst(5).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

@@ -47,7 +47,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
 import co.id.roningrum.dolanapptugasakhir.R;
-import co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseConstant;
+import co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseQuery;
 import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.model.Tourism;
 import co.id.roningrum.dolanapptugasakhir.util.Utils;
@@ -55,7 +55,7 @@ import co.id.roningrum.dolanapptugasakhir.util.Utils;
 import static co.id.roningrum.dolanapptugasakhir.R.drawable;
 import static co.id.roningrum.dolanapptugasakhir.R.id;
 import static co.id.roningrum.dolanapptugasakhir.R.string;
-import static co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseConstant.favoriteRef;
+import static co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseQuery.favoriteRef;
 
 public class TourismDetailActivity extends AppCompatActivity implements OnMapReadyCallback {
 
@@ -116,7 +116,7 @@ public class TourismDetailActivity extends AppCompatActivity implements OnMapRea
         tourismKey = getIntent().getStringExtra(EXTRA_WISATA_KEY);
 
         assert tourismKey != null;
-        tourismDetailRef = FirebaseConstant.getTourismRef(tourismKey);
+        tourismDetailRef = FirebaseQuery.getTourismRef(tourismKey);
 
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         user = firebaseAuth.getCurrentUser();

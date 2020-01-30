@@ -39,11 +39,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import co.id.roningrum.dolanapptugasakhir.R;
-import co.id.roningrum.dolanapptugasakhir.ui.adapter.transportation.TransportationAdapter;
-import co.id.roningrum.dolanapptugasakhir.ui.adapter.transportation.TransportationClickCallback;
-import co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseConstant;
+import co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseQuery;
 import co.id.roningrum.dolanapptugasakhir.handler.LocationPermissionHandler;
 import co.id.roningrum.dolanapptugasakhir.model.Transportation;
+import co.id.roningrum.dolanapptugasakhir.ui.adapter.transportation.TransportationAdapter;
+import co.id.roningrum.dolanapptugasakhir.ui.adapter.transportation.TransportationClickCallback;
 import co.id.roningrum.dolanapptugasakhir.ui.transportation.transportationDetailActivity.TransportationDetailActivity;
 import co.id.roningrum.dolanapptugasakhir.ui.transportation.transportationMapActivity.TransportationBusMaps;
 import co.id.roningrum.dolanapptugasakhir.util.Utils;
@@ -80,7 +80,7 @@ public class TransportationBusActivity extends AppCompatActivity {
 
     private void showBusData() {
         if (havePermission()) {
-            Query busQuery = FirebaseConstant.getTransportBus();
+            Query busQuery = FirebaseQuery.getTransportBus();
             busQuery.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

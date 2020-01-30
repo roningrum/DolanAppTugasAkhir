@@ -33,7 +33,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
 import co.id.roningrum.dolanapptugasakhir.R;
-import co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseConstant;
+import co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseQuery;
 import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.model.GasStation;
 
@@ -51,7 +51,7 @@ public class GasStationMap extends AppCompatActivity implements OnMapReadyCallba
                 .findFragmentById(R.id.gas_map);
         assert mapFragment != null;
         mapFragment.getMapAsync(this);
-        gasMapRef = FirebaseConstant.GasRef;
+        gasMapRef = FirebaseQuery.GasRef;
 
         Toolbar toolbarGas = findViewById(R.id.toolbar_gas_map);
         setSupportActionBar(toolbarGas);

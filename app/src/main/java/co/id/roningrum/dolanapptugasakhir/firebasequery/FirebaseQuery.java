@@ -20,7 +20,7 @@ import com.google.firebase.database.Query;
 import org.jetbrains.annotations.NotNull;
 
 
-public class FirebaseConstant {
+public class FirebaseQuery {
     public static DatabaseReference TourismRef = FirebaseDatabase.getInstance().getReference().child("Tourism");
     public static DatabaseReference HotelRef = FirebaseDatabase.getInstance().getReference().child("Hotel");
     public static DatabaseReference GasRef = FirebaseDatabase.getInstance().getReference().child("GasStation");

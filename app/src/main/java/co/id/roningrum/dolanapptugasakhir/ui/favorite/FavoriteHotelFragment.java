@@ -47,7 +47,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import co.id.roningrum.dolanapptugasakhir.R;
-import co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseConstant;
+import co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseQuery;
 import co.id.roningrum.dolanapptugasakhir.handler.LocationPermissionHandler;
 import co.id.roningrum.dolanapptugasakhir.handler.NetworkHelper;
 import co.id.roningrum.dolanapptugasakhir.model.Hotel;
@@ -56,7 +56,7 @@ import co.id.roningrum.dolanapptugasakhir.ui.favorite.adapter.FavoriteHotelAdapt
 import co.id.roningrum.dolanapptugasakhir.ui.homeactivity.AllCategoryActivity;
 import co.id.roningrum.dolanapptugasakhir.ui.hotel.HotelDetail;
 
-import static co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseConstant.favoriteRef;
+import static co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseQuery.favoriteRef;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -96,7 +96,7 @@ public class FavoriteHotelFragment extends Fragment {
         btnGoToMenu = view.findViewById(R.id.btn_choose_menu);
         rvFavoritHotelList.setHasFixedSize(true);
         rvFavoritHotelList.setLayoutManager(new LinearLayoutManager(getContext()));
-        databaseReference = FirebaseConstant.HotelRef;
+        databaseReference = FirebaseQuery.HotelRef;
         checkConnection();
         enableSwipeToDelete();
     }

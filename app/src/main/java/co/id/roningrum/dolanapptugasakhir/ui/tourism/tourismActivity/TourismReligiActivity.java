@@ -39,11 +39,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import co.id.roningrum.dolanapptugasakhir.R;
-import co.id.roningrum.dolanapptugasakhir.ui.adapter.tourism.TourismAdapter;
-import co.id.roningrum.dolanapptugasakhir.ui.adapter.tourism.TourismClickCallback;
-import co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseConstant;
+import co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseQuery;
 import co.id.roningrum.dolanapptugasakhir.handler.LocationPermissionHandler;
 import co.id.roningrum.dolanapptugasakhir.model.Tourism;
+import co.id.roningrum.dolanapptugasakhir.ui.adapter.tourism.TourismAdapter;
+import co.id.roningrum.dolanapptugasakhir.ui.adapter.tourism.TourismClickCallback;
 import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismDetailActivity.TourismDetailActivity;
 import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismMapActivity.TourismReligiMaps;
 import co.id.roningrum.dolanapptugasakhir.util.Utils;
@@ -72,16 +72,16 @@ public class TourismReligiActivity extends AppCompatActivity {
     private void checkConnection() {
         if (Utils.isConnectedToNetwork(getApplicationContext())) {
             showLoading(false);
-            showReligiData();
+            showTourismData();
         } else {
             showLoading(true);
             Toast.makeText(this, "Check your connection", Toast.LENGTH_SHORT).show();
         }
     }
 
-    private void showReligiData() {
+    private void showTourismData() {
         if (havePermission()) {
-            Query religiquery = FirebaseConstant.getTourismReligi();
+            Query religiquery = FirebaseQuery.getTourismReligi();
             religiquery.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

@@ -35,14 +35,14 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import co.id.roningrum.dolanapptugasakhir.R;
-import co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseConstant;
+import co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseQuery;
 import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.model.Tourism;
 import co.id.roningrum.dolanapptugasakhir.util.Utils;
 
 public class TourismBelanjaMaps extends AppCompatActivity implements OnMapReadyCallback {
 
-    private GoogleMap shoppingMap;
+    private GoogleMap tourismMap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,8 +70,12 @@ public class TourismBelanjaMaps extends AppCompatActivity implements OnMapReadyC
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        shoppingMap = googleMap;
-        Query shoppingMapQuery = FirebaseConstant.getTourismBelanja();
+        showTourismMap(googleMap);
+    }
+
+    private void showTourismMap(GoogleMap googleMap) {
+        tourismMap = googleMap;
+        Query shoppingMapQuery = FirebaseQuery.getTourismBelanja();
         shoppingMapQuery.addListenerForSingleValueEvent(new ValueEventListener() {
 
             @Override
@@ -92,9 +96,9 @@ public class TourismBelanjaMaps extends AppCompatActivity implements OnMapReadyC
                             .target(userLoc)
                             .zoom(12.17f)
                             .build();
-                    shoppingMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
-                    shoppingMap.setMyLocationEnabled(true);
-                    shoppingMap.addMarker(new MarkerOptions().position(shoppingPlaceLoc).
+                    tourismMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+                    tourismMap.setMyLocationEnabled(true);
+                    tourismMap.addMarker(new MarkerOptions().position(shoppingPlaceLoc).
                             icon(Utils.getBitmapDescriptor(getApplicationContext())).title(tourism.getName_tourism()).snippet(tourism.getLocation_tourism()));
                 }
             }
@@ -107,7 +111,7 @@ public class TourismBelanjaMaps extends AppCompatActivity implements OnMapReadyC
         try {
             // Customise the styling of the base map using a JSON object defined
             // in a raw resource file.
-            boolean success = shoppingMap.setMapStyle(
+            boolean success = tourismMap.setMapStyle(
                     MapStyleOptions.loadRawResourceStyle(
                             this, R.raw.google_map_style));
 

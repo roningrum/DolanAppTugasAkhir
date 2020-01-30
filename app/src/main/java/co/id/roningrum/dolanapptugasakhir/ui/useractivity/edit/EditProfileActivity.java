@@ -37,7 +37,7 @@ import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.model.Users;
 import de.hdodenhof.circleimageview.CircleImageView;
 
-import static co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseConstant.UserRef;
+import static co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseQuery.UserRef;
 
 public class EditProfileActivity extends AppCompatActivity implements View.OnClickListener {
     private TextView nameProfile, emailProfile;

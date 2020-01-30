@@ -45,7 +45,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
 import co.id.roningrum.dolanapptugasakhir.R;
-import co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseConstant;
+import co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseQuery;
 import co.id.roningrum.dolanapptugasakhir.model.Users;
 import co.id.roningrum.dolanapptugasakhir.ui.AboutAppActivity;
 import co.id.roningrum.dolanapptugasakhir.ui.useractivity.edit.EditProfileActivity;
@@ -108,7 +108,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener, G
                 .build();
         signOut.setOnClickListener(this);
 
-        profileReference = FirebaseConstant.UserRef;
+        profileReference = FirebaseQuery.UserRef;
 
 
     }

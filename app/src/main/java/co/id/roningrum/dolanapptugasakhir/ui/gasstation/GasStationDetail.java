@@ -49,12 +49,12 @@ import com.google.firebase.database.ValueEventListener;
 import org.jetbrains.annotations.NotNull;
 
 import co.id.roningrum.dolanapptugasakhir.R;
-import co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseConstant;
+import co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseQuery;
 import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.model.GasStation;
 import co.id.roningrum.dolanapptugasakhir.util.Utils;
 
-import static co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseConstant.favoriteRef;
+import static co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseQuery.favoriteRef;
 
 public class GasStationDetail extends AppCompatActivity implements OnMapReadyCallback {
 
@@ -117,7 +117,7 @@ public class GasStationDetail extends AppCompatActivity implements OnMapReadyCal
         if (gasKey == null) {
             throw new IllegalArgumentException("Must pass Extra");
         }
-        gasDetailRef = FirebaseConstant.getGasByKey(gasKey);
+        gasDetailRef = FirebaseQuery.getGasByKey(gasKey);
         gpsHandler = new GPSHandler(this);
 
         gasStation = new GasStation();

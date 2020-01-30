@@ -47,7 +47,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import co.id.roningrum.dolanapptugasakhir.R;
-import co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseConstant;
+import co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseQuery;
 import co.id.roningrum.dolanapptugasakhir.handler.LocationPermissionHandler;
 import co.id.roningrum.dolanapptugasakhir.handler.NetworkHelper;
 import co.id.roningrum.dolanapptugasakhir.model.Hospital;
@@ -56,7 +56,7 @@ import co.id.roningrum.dolanapptugasakhir.ui.favorite.adapter.FavoriteHospitalAd
 import co.id.roningrum.dolanapptugasakhir.ui.homeactivity.AllCategoryActivity;
 import co.id.roningrum.dolanapptugasakhir.ui.hospital.HospitalDetail;
 
-import static co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseConstant.favoriteRef;
+import static co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseQuery.favoriteRef;
 
 
 /**
@@ -99,7 +99,7 @@ public class FavoriteHospitalFragment extends Fragment {
         btnGoToMenu = view.findViewById(R.id.btn_choose_menu);
         rvFavoritHospitalList.setHasFixedSize(true);
         rvFavoritHospitalList.setLayoutManager(new LinearLayoutManager(getContext()));
-        hospitalRef = FirebaseConstant.HospitalRef;
+        hospitalRef = FirebaseQuery.HospitalRef;
 
         checkConnection();
         enableSwipeToDelete();

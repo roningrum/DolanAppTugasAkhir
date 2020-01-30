@@ -35,14 +35,14 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import co.id.roningrum.dolanapptugasakhir.R;
-import co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseConstant;
+import co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseQuery;
 import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.model.Tourism;
 import co.id.roningrum.dolanapptugasakhir.util.Utils;
 
 public class TourismSejarahMaps extends AppCompatActivity implements OnMapReadyCallback {
 
-    private GoogleMap historyMap;
+    private GoogleMap tourismMap;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,12 +68,12 @@ public class TourismSejarahMaps extends AppCompatActivity implements OnMapReadyC
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        showHistoryMap(googleMap);
+        showTourismMap(googleMap);
     }
 
-    private void showHistoryMap(GoogleMap googleMap) {
-        historyMap = googleMap;
-        Query historyMapQuery = FirebaseConstant.getTourismSejarah();
+    private void showTourismMap(GoogleMap googleMap) {
+        tourismMap = googleMap;
+        Query historyMapQuery = FirebaseQuery.getTourismSejarah();
         historyMapQuery.addListenerForSingleValueEvent(new ValueEventListener() {
 
             @Override
@@ -95,9 +95,9 @@ public class TourismSejarahMaps extends AppCompatActivity implements OnMapReadyC
                             .zoom(12.17f)
                             .build();
 
-                    historyMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
-                    historyMap.setMyLocationEnabled(true);
-                    historyMap.addMarker(new MarkerOptions().position(historyPlaceLoc).title(tourism.getName_tourism())
+                    tourismMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+                    tourismMap.setMyLocationEnabled(true);
+                    tourismMap.addMarker(new MarkerOptions().position(historyPlaceLoc).title(tourism.getName_tourism())
                             .icon(Utils.getBitmapDescriptor(getApplicationContext()))
                             .snippet(tourism.getLocation_tourism()));
                 }
@@ -111,7 +111,7 @@ public class TourismSejarahMaps extends AppCompatActivity implements OnMapReadyC
         try {
             // Customise the styling of the base map using a JSON object defined
             // in a raw resource file.
-            boolean success = historyMap.setMapStyle(
+            boolean success = tourismMap.setMapStyle(
                     MapStyleOptions.loadRawResourceStyle(
                             this, R.raw.google_map_style));
 

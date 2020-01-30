@@ -35,7 +35,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
 import co.id.roningrum.dolanapptugasakhir.R;
-import co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseConstant;
+import co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseQuery;
 import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.model.Hotel;
 import co.id.roningrum.dolanapptugasakhir.util.Utils;
@@ -54,7 +54,7 @@ public class HotelMaps extends AppCompatActivity implements OnMapReadyCallback {
                 .findFragmentById(R.id.map);
         assert mapFragment != null;
         mapFragment.getMapAsync(this);
-        hotelRefMap = FirebaseConstant.HotelRef;
+        hotelRefMap = FirebaseQuery.HotelRef;
 
         Toolbar toolbarHotel = findViewById(R.id.toolbar_hotel_map);
         setSupportActionBar(toolbarHotel);

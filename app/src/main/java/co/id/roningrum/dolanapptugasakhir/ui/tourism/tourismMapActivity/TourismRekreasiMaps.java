@@ -35,14 +35,14 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import co.id.roningrum.dolanapptugasakhir.R;
-import co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseConstant;
+import co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseQuery;
 import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.model.Tourism;
 import co.id.roningrum.dolanapptugasakhir.util.Utils;
 
 public class TourismRekreasiMaps extends AppCompatActivity implements OnMapReadyCallback {
 
-    private GoogleMap recreationMap;
+    private GoogleMap tourismMap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,13 +70,13 @@ public class TourismRekreasiMaps extends AppCompatActivity implements OnMapReady
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        showRecreationMap(googleMap);
+        showTourismMap(googleMap);
 
     }
 
-    private void showRecreationMap(GoogleMap googleMap) {
-        recreationMap = googleMap;
-        Query recreationQuery = FirebaseConstant.getTourismRekreasi();
+    private void showTourismMap(GoogleMap googleMap) {
+        tourismMap = googleMap;
+        Query recreationQuery = FirebaseQuery.getTourismRekreasi();
         recreationQuery.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -96,9 +96,9 @@ public class TourismRekreasiMaps extends AppCompatActivity implements OnMapReady
                             .target(userLoc)
                             .zoom(12.17f)
                             .build();
-                    recreationMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
-                    recreationMap.setMyLocationEnabled(true);
-                    recreationMap.addMarker(new MarkerOptions().position(recreationPlaceLoc).title(tourism.getName_tourism()).
+                    tourismMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+                    tourismMap.setMyLocationEnabled(true);
+                    tourismMap.addMarker(new MarkerOptions().position(recreationPlaceLoc).title(tourism.getName_tourism()).
                             icon(Utils.getBitmapDescriptor(getApplicationContext())).snippet(tourism.getLocation_tourism()));
                 }
             }
@@ -111,7 +111,7 @@ public class TourismRekreasiMaps extends AppCompatActivity implements OnMapReady
         try {
             // Customise the styling of the base map using a JSON object defined
             // in a raw resource file.
-            boolean success = recreationMap.setMapStyle(
+            boolean success = tourismMap.setMapStyle(
                     MapStyleOptions.loadRawResourceStyle(
                             this, R.raw.google_map_style));
 

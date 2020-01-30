@@ -35,14 +35,14 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import co.id.roningrum.dolanapptugasakhir.R;
-import co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseConstant;
+import co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseQuery;
 import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.model.Tourism;
 import co.id.roningrum.dolanapptugasakhir.util.Utils;
 
 public class TourismAlamMaps extends AppCompatActivity implements OnMapReadyCallback {
 
-    private GoogleMap natureMap;
+    private GoogleMap tourismMap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,12 +69,12 @@ public class TourismAlamMaps extends AppCompatActivity implements OnMapReadyCall
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        showNatureMap(googleMap);
+        showTourismMap(googleMap);
     }
 
-    private void showNatureMap(GoogleMap googleMap) {
-        natureMap = googleMap;
-        Query natureMapQuery = FirebaseConstant.getTourismAlam();
+    private void showTourismMap(GoogleMap googleMap) {
+        tourismMap = googleMap;
+        Query natureMapQuery = FirebaseQuery.getTourismAlam();
         natureMapQuery.addListenerForSingleValueEvent(new ValueEventListener() {
 
             @Override
@@ -96,9 +96,9 @@ public class TourismAlamMaps extends AppCompatActivity implements OnMapReadyCall
                             .build();
 
                     LatLng naturePlaceLoc = new LatLng(latTourism, lngTourism);
-                    natureMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
-                    natureMap.setMyLocationEnabled(true);
-                    natureMap.addMarker(new MarkerOptions().position(naturePlaceLoc).title(tourism.getName_tourism())
+                    tourismMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+                    tourismMap.setMyLocationEnabled(true);
+                    tourismMap.addMarker(new MarkerOptions().position(naturePlaceLoc).title(tourism.getName_tourism())
                             .icon(Utils.getBitmapDescriptor(getApplicationContext())).snippet(tourism.getLocation_tourism()));
                 }
             }
@@ -111,7 +111,7 @@ public class TourismAlamMaps extends AppCompatActivity implements OnMapReadyCall
         try {
             // Customise the styling of the base map using a JSON object defined
             // in a raw resource file.
-            boolean success = natureMap.setMapStyle(
+            boolean success = tourismMap.setMapStyle(
                     MapStyleOptions.loadRawResourceStyle(
                             this, R.raw.google_map_style));
 

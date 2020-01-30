@@ -39,11 +39,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import co.id.roningrum.dolanapptugasakhir.R;
-import co.id.roningrum.dolanapptugasakhir.ui.adapter.hotel.HotelAdapter;
-import co.id.roningrum.dolanapptugasakhir.ui.adapter.hotel.HotelClickCallback;
-import co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseConstant;
+import co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseQuery;
 import co.id.roningrum.dolanapptugasakhir.handler.LocationPermissionHandler;
 import co.id.roningrum.dolanapptugasakhir.model.Hotel;
+import co.id.roningrum.dolanapptugasakhir.ui.adapter.hotel.HotelAdapter;
+import co.id.roningrum.dolanapptugasakhir.ui.adapter.hotel.HotelClickCallback;
 import co.id.roningrum.dolanapptugasakhir.util.Utils;
 
 public class HotelActivity extends AppCompatActivity {
@@ -80,7 +80,7 @@ public class HotelActivity extends AppCompatActivity {
 
     private void showHotelData() {
         if (havePermission()) {
-            Query hotelQuery = FirebaseConstant.getHotel();
+            Query hotelQuery = FirebaseQuery.getHotel();
             hotelQuery.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

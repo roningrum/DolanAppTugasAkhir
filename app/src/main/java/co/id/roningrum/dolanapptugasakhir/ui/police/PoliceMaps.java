@@ -35,7 +35,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
 import co.id.roningrum.dolanapptugasakhir.R;
-import co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseConstant;
+import co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseQuery;
 import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.model.Police;
 import co.id.roningrum.dolanapptugasakhir.util.Utils;
@@ -53,7 +53,7 @@ public class PoliceMaps extends AppCompatActivity implements OnMapReadyCallback 
                 .findFragmentById(R.id.police_map);
         assert mapFragment != null;
         mapFragment.getMapAsync(this);
-        policeMapRef = FirebaseConstant.PoliceRef;
+        policeMapRef = FirebaseQuery.PoliceRef;
 
         Toolbar toolbarPoliceMap = findViewById(R.id.toolbar_police_map);
         setSupportActionBar(toolbarPoliceMap);

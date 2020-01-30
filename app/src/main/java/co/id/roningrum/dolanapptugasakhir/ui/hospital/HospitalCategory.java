@@ -39,11 +39,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import co.id.roningrum.dolanapptugasakhir.R;
-import co.id.roningrum.dolanapptugasakhir.ui.adapter.hospital.HospitalAdapter;
-import co.id.roningrum.dolanapptugasakhir.ui.adapter.hospital.HospitalClickCallback;
-import co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseConstant;
+import co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseQuery;
 import co.id.roningrum.dolanapptugasakhir.handler.LocationPermissionHandler;
 import co.id.roningrum.dolanapptugasakhir.model.Hospital;
+import co.id.roningrum.dolanapptugasakhir.ui.adapter.hospital.HospitalAdapter;
+import co.id.roningrum.dolanapptugasakhir.ui.adapter.hospital.HospitalClickCallback;
 import co.id.roningrum.dolanapptugasakhir.util.Utils;
 
 public class HospitalCategory extends AppCompatActivity {
@@ -79,7 +79,7 @@ public class HospitalCategory extends AppCompatActivity {
 
     private void showHospitalData() {
         if (havePermission()) {
-            Query hospitalQuery = FirebaseConstant.getHospital();
+            Query hospitalQuery = FirebaseQuery.getHospital();
             hospitalQuery.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
