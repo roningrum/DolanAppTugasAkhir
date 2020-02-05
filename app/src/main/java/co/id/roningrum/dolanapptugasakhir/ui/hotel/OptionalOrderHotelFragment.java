@@ -67,7 +67,7 @@ public class OptionalOrderHotelFragment extends DialogFragment implements View.O
         LinearLayout btnOrderHotel1 = view.findViewById(R.id.btn_order_link_hotel1);
 
         assert getArguments() != null;
-        String hotelKey = getArguments().getString(HotelDetail.EXTRA_HOTEL_KEY);
+        String hotelKey = getArguments().getString(HotelDetailActivity.EXTRA_HOTEL_KEY);
         dbHotelRef = FirebaseQuery.getHotelKey(hotelKey);
 
         btnOrderHotel.setOnClickListener(this);

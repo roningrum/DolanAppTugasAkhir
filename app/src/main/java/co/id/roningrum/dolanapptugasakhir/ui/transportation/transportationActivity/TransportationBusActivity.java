@@ -71,14 +71,14 @@ public class TransportationBusActivity extends AppCompatActivity {
     private void checkConnection() {
         if (Utils.isConnectedToNetwork(getApplicationContext())) {
             showLoading(false);
-            showBusData();
+            showTransportData();
         } else {
             showLoading(true);
             Toast.makeText(this, "Check your connection", Toast.LENGTH_SHORT).show();
         }
     }
 
-    private void showBusData() {
+    private void showTransportData() {
         if (havePermission()) {
             Query busQuery = FirebaseQuery.getTransportBus();
             busQuery.addValueEventListener(new ValueEventListener() {

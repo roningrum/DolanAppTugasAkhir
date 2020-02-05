@@ -42,7 +42,7 @@ import co.id.roningrum.dolanapptugasakhir.util.Utils;
 
 public class TransportationAirportMaps extends AppCompatActivity implements OnMapReadyCallback {
 
-    private GoogleMap airportMaps;
+    private GoogleMap transportMaps;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,7 +75,7 @@ public class TransportationAirportMaps extends AppCompatActivity implements OnMa
     }
 
     private void showAirportMap(GoogleMap googleMap) {
-        airportMaps = googleMap;
+        transportMaps = googleMap;
         Query airportMapQuery = FirebaseQuery.getTransportPesawat();
         airportMapQuery.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -96,10 +96,10 @@ public class TransportationAirportMaps extends AppCompatActivity implements OnMa
                             .target(userLoc)
                             .zoom(12.27f)
                             .build();
-                    airportMaps.setMyLocationEnabled(true);
+                    transportMaps.setMyLocationEnabled(true);
                     LatLng airportPlaceLoc = new LatLng(latAirport, lngAirport);
-                    airportMaps.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
-                    airportMaps.addMarker(new MarkerOptions().position(airportPlaceLoc).icon(Utils.getBitmapDescriptor(getApplicationContext())).
+                    transportMaps.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+                    transportMaps.addMarker(new MarkerOptions().position(airportPlaceLoc).icon(Utils.getBitmapDescriptor(getApplicationContext())).
                             title(transportation.getName_transport()).snippet(transportation.getLocation_transport()));
 
                 }
@@ -114,7 +114,7 @@ public class TransportationAirportMaps extends AppCompatActivity implements OnMa
         try {
             // Customise the styling of the base map using a JSON object defined
             // in a raw resource file.
-            boolean success = airportMaps.setMapStyle(
+            boolean success = transportMaps.setMapStyle(
                     MapStyleOptions.loadRawResourceStyle(
                             this, R.raw.google_map_style));
 

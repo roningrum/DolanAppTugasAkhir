@@ -194,7 +194,7 @@
                 android:value=".ui.homeactivity.AllCategoryActivity" />
         </activity>
         <activity
-            android:name=".ui.hotel.HotelMaps"
+            android:name=".ui.hotel.HotelMapsActivity"
             android:label="@string/title_activity_hotel_maps"
             android:parentActivityName=".ui.hotel.HotelActivity">
             <meta-data
@@ -202,7 +202,7 @@
                 android:value=".ui.hotel.HotelActivity" />
         </activity>
         <activity
-            android:name=".ui.hotel.HotelDetail"
+            android:name=".ui.hotel.HotelDetailActivity"
             android:parentActivityName=".ui.hotel.HotelActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

@@ -54,7 +54,7 @@ import co.id.roningrum.dolanapptugasakhir.model.Hotel;
 import co.id.roningrum.dolanapptugasakhir.ui.adapter.hotel.HotelClickCallback;
 import co.id.roningrum.dolanapptugasakhir.ui.favorite.adapter.FavoriteHotelAdapter;
 import co.id.roningrum.dolanapptugasakhir.ui.homeactivity.AllCategoryActivity;
-import co.id.roningrum.dolanapptugasakhir.ui.hotel.HotelDetail;
+import co.id.roningrum.dolanapptugasakhir.ui.hotel.HotelDetailActivity;
 
 import static co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseQuery.favoriteRef;
 
@@ -194,8 +194,8 @@ public class FavoriteHotelFragment extends Fragment {
                     favoritAdapter.setTourismClickCallback(new HotelClickCallback() {
                         @Override
                         public void onItemClicked(Hotel hotel) {
-                            Intent intent = new Intent(getActivity(), HotelDetail.class);
-                            intent.putExtra(HotelDetail.EXTRA_HOTEL_KEY, hotel.getId());
+                            Intent intent = new Intent(getActivity(), HotelDetailActivity.class);
+                            intent.putExtra(HotelDetailActivity.EXTRA_HOTEL_KEY, hotel.getId());
                             startActivity(intent);
                         }
                     });

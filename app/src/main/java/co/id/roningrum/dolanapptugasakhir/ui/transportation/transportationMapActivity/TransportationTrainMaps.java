@@ -13,10 +13,6 @@
 
 package co.id.roningrum.dolanapptugasakhir.ui.transportation.transportationMapActivity;
 
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.drawable.VectorDrawable;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -28,8 +24,6 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptor;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -46,7 +40,7 @@ import co.id.roningrum.dolanapptugasakhir.util.Utils;
 
 public class TransportationTrainMaps extends AppCompatActivity implements OnMapReadyCallback {
 
-    private GoogleMap trainMap;
+    private GoogleMap transportMap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,11 +67,11 @@ public class TransportationTrainMaps extends AppCompatActivity implements OnMapR
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        showTrainMap(googleMap);
+        showTransportMap(googleMap);
     }
 
-    private void showTrainMap(GoogleMap googleMap) {
-        trainMap = googleMap;
+    private void showTransportMap(GoogleMap googleMap) {
+        transportMap = googleMap;
         Query trainMapQuery = FirebaseQuery.getTransportKereta();
         trainMapQuery.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -98,10 +92,10 @@ public class TransportationTrainMaps extends AppCompatActivity implements OnMapR
                             .zoom(12.27f)
                             .build();
 
-                    trainMap.setMyLocationEnabled(true);
-                    trainMap.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+                    transportMap.setMyLocationEnabled(true);
+                    transportMap.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
                     LatLng trainPlaceLoc = new LatLng(latTrain, lngTrain);
-                    trainMap.addMarker(new MarkerOptions().position(trainPlaceLoc).icon(Utils.getBitmapDescriptor(getApplicationContext())).
+                    transportMap.addMarker(new MarkerOptions().position(trainPlaceLoc).icon(Utils.getBitmapDescriptor(getApplicationContext())).
                             title(transportation.getName_transport()).snippet(transportation.getLocation_transport()));
 
                 }
@@ -113,26 +107,5 @@ public class TransportationTrainMaps extends AppCompatActivity implements OnMapR
 
             }
         });
-    }
-
-    private BitmapDescriptor getBitmapDescriptor() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            VectorDrawable vectorDrawable = (VectorDrawable) getDrawable(R.drawable.ic_marker);
-
-            assert vectorDrawable != null;
-            int h = vectorDrawable.getIntrinsicHeight();
-            int w = vectorDrawable.getIntrinsicWidth();
-
-            vectorDrawable.setBounds(0, 0, w, h);
-
-            Bitmap bm = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
-            Canvas canvas = new Canvas(bm);
-            vectorDrawable.draw(canvas);
-
-            return BitmapDescriptorFactory.fromBitmap(bm);
-
-        } else {
-            return BitmapDescriptorFactory.fromResource(R.drawable.ic_marker);
-        }
     }
 }

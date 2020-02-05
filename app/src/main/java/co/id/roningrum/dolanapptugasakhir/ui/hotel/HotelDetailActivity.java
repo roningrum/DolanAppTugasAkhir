@@ -58,7 +58,7 @@ import co.id.roningrum.dolanapptugasakhir.util.Utils;
 
 import static co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseQuery.favoriteRef;
 
-public class HotelDetail extends AppCompatActivity implements OnMapReadyCallback, View.OnClickListener {
+public class HotelDetailActivity extends AppCompatActivity implements OnMapReadyCallback, View.OnClickListener {
     public static final String EXTRA_HOTEL_KEY = "hotel_key";
 
     private static final String MAP_VIEW_KEY = "mapViewBundle";

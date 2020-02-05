@@ -73,14 +73,14 @@ public class TransportationAirportActivity extends AppCompatActivity {
     private void checkConnection() {
         if (Utils.isConnectedToNetwork(getApplicationContext())) {
             showLoading(false);
-            showAirportData();
+            showTransportData();
         } else {
             showLoading(true);
             Toast.makeText(this, "Check your connection", Toast.LENGTH_SHORT).show();
         }
     }
 
-    private void showAirportData() {
+    private void showTransportData() {
         if (havePermission()) {
             Query airportQuery = FirebaseQuery.getTransportPesawat();
             airportQuery.addValueEventListener(new ValueEventListener() {

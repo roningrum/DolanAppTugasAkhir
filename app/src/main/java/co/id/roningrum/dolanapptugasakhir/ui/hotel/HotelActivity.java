@@ -95,8 +95,8 @@ public class HotelActivity extends AppCompatActivity {
                         @Override
                         public void onItemClicked(Hotel hotel) {
                             String hotelKey = hotel.getId();
-                            Intent intent = new Intent(HotelActivity.this, HotelDetail.class);
-                            intent.putExtra(HotelDetail.EXTRA_HOTEL_KEY, hotelKey);
+                            Intent intent = new Intent(HotelActivity.this, HotelDetailActivity.class);
+                            intent.putExtra(HotelDetailActivity.EXTRA_HOTEL_KEY, hotelKey);
                             Log.d("Check id Hotel", "id :" + hotelKey);
                             startActivity(intent);
                         }
@@ -151,7 +151,7 @@ public class HotelActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.petaMenu) {
-            startActivity(new Intent(HotelActivity.this, HotelMaps.class));
+            startActivity(new Intent(HotelActivity.this, HotelMapsActivity.class));
             return true;
         }
         return super.onOptionsItemSelected(item);

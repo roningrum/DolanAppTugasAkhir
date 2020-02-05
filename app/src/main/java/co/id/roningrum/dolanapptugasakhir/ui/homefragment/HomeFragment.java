@@ -27,11 +27,14 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -69,12 +72,16 @@ import static co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseQuery.Use
  */
 public class HomeFragment extends Fragment implements View.OnClickListener {
     private TextView tvGreetApp;
+    private TextView tvProfileApp;
     private CircleImageView userPhotoHome;
     private FirebaseUser homeUser;
     private RecyclerView rvTourismPopuler;
     private TourismPopularAdapter tourismAdapter;
     private ArrayList<Tourism> tourisms = new ArrayList<>();
     private ProgressBar pbLoading;
+    private AppBarLayout appBarLayout;
+    private ConstraintLayout bannerView;
+    private CollapsingToolbarLayout collapseToolbar;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -93,6 +100,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         tvGreetApp = view.findViewById(R.id.tv_greeting_app);
+        tvProfileApp = view.findViewById(R.id.tv_user_app);
         userPhotoHome = view.findViewById(R.id.img_user_home);
         LinearLayout natureMenu = view.findViewById(R.id.ln_alam_tour_home_menu);
         LinearLayout entertainMenu = view.findViewById(R.id.ln_hiburan_tour_home_menu);
@@ -104,6 +112,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         LinearLayout moreMenu = view.findViewById(R.id.ln_more_home);
         rvTourismPopuler = view.findViewById(R.id.rv_tourism_popular);
         pbLoading = view.findViewById(R.id.pb_loading);
+        appBarLayout = view.findViewById(R.id.appbar_home);
+        bannerView = view.findViewById(R.id.contentBanner);
+        collapseToolbar = view.findViewById(R.id.collapseToolbar_home);
 
         natureMenu.setOnClickListener(this);
         entertainMenu.setOnClickListener(this);
@@ -121,16 +132,34 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         rvTourismPopuler.setLayoutManager(new LinearLayoutManager(getActivity(), RecyclerView.HORIZONTAL, false));
 
         loadData();
+        setUpAppBarLayout();
+
+    }
+
+    private void setUpAppBarLayout() {
+        appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+            @Override
+            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+                if (verticalOffset <= -bannerView.getHeight() / 2) {
+                    collapseToolbar.setTitle("Beranda");
+                    collapseToolbar.setCollapsedTitleTextColor(getResources().getColor(R.color.blackTextPrimary));
+                } else {
+                    collapseToolbar.setTitle("");
+                }
+
+            }
+        });
     }
 
     private void loadData() {
-        if (NetworkHelper.isConnectedToNetwork(getContext())) {
-            showLoading(false);
-            showProfileToHome();
-            showPopularTourism();
-        } else {
-            showLoading(true);
-        }
+        if (getContext() != null)
+            if (NetworkHelper.isConnectedToNetwork(getContext())) {
+                pbLoading.setVisibility(View.VISIBLE);
+                showProfileToHome();
+                showPopularTourism();
+            } else {
+                pbLoading.setVisibility(View.VISIBLE);
+            }
     }
 
     private void showPopularTourism() {
@@ -142,6 +171,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                     Tourism tourism = snapshot.getValue(Tourism.class);
                     tourisms.add(tourism);
                 }
+                pbLoading.setVisibility(View.GONE);
                 tourismAdapter = new TourismPopularAdapter();
                 tourismAdapter.setTourismList(tourisms);
                 tourismAdapter.setOnItemClickCallback(new TourismClickCallback() {
@@ -154,6 +184,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                         startActivity(intent);
                     }
                 });
+                greetText();
                 rvTourismPopuler.setAdapter(tourismAdapter);
             }
 
@@ -174,8 +205,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                     return;
                 }
                 if (users != null) {
+                    pbLoading.setVisibility(View.GONE);
                     String nama = users.getNama_user();
-                    greetText(nama);
+                    tvProfileApp.setText(nama);
                     Glide.with(getActivity()).load(users.getPhoto_user()).into(userPhotoHome);
                 }
 
@@ -189,17 +221,17 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     }
 
     @SuppressLint("SetTextI18n")
-    private void greetText(String nama) {
+    private void greetText() {
         Calendar c = Calendar.getInstance();
         int timeOfDay = c.get(Calendar.HOUR_OF_DAY);
         if (timeOfDay < 12) {
-            tvGreetApp.setText("Selamat Pagi" + " " + nama);
-        } else if (timeOfDay < 16) {
-            tvGreetApp.setText("Selamat Sore" + " " + nama);
-        } else if (timeOfDay < 21) {
-            tvGreetApp.setText("Selamat Malam" + " " + nama);
+            tvGreetApp.setText("Selamat Pagi");
+        } else if (timeOfDay < 14) {
+            tvGreetApp.setText("Selamat Siang");
+        } else if (timeOfDay < 17) {
+            tvGreetApp.setText("Selamat Sore");
         } else {
-            tvGreetApp.setText("Selamat Malam" + " " + nama);
+            tvGreetApp.setText("Selamat Malam");
         }
     }
 
@@ -232,14 +264,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 break;
         }
 
-    }
-
-    private void showLoading(Boolean state) {
-        if (state) {
-            pbLoading.setVisibility(View.VISIBLE);
-        } else {
-            pbLoading.setVisibility(View.GONE);
-        }
     }
 
 }

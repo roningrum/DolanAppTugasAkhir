@@ -72,14 +72,14 @@ public class TransportationTrainActivity extends AppCompatActivity {
     private void checkConnection() {
         if (Utils.isConnectedToNetwork(getApplicationContext())) {
             showLoading(false);
-            showTrainData();
+            showTransportData();
         } else {
             showLoading(true);
             Toast.makeText(this, "Check your connection", Toast.LENGTH_SHORT).show();
         }
     }
 
-    private void showTrainData() {
+    private void showTransportData() {
         if (havePermission()) {
             Query trainQuery = FirebaseQuery.getTransportKereta();
             trainQuery.addValueEventListener(new ValueEventListener() {

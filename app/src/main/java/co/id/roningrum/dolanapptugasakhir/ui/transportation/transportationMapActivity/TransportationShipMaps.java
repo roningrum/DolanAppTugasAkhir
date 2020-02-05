@@ -48,7 +48,7 @@ import co.id.roningrum.dolanapptugasakhir.util.Utils;
 
 public class TransportationShipMaps extends AppCompatActivity implements OnMapReadyCallback {
 
-    private GoogleMap shipMap;
+    private GoogleMap transportMap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,11 +76,11 @@ public class TransportationShipMaps extends AppCompatActivity implements OnMapRe
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        showShipMap(googleMap);
+        showTransportMap(googleMap);
     }
 
-    private void showShipMap(GoogleMap googleMap) {
-        shipMap = googleMap;
+    private void showTransportMap(GoogleMap googleMap) {
+        transportMap = googleMap;
         final Query shipMapQuery = FirebaseQuery.getTransportShip();
         shipMapQuery.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -102,10 +102,10 @@ public class TransportationShipMaps extends AppCompatActivity implements OnMapRe
                             .zoom(12.27f)
                             .build();
 
-                    shipMap.setMyLocationEnabled(true);
-                    shipMap.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+                    transportMap.setMyLocationEnabled(true);
+                    transportMap.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
                     LatLng shipPlaceLoc = new LatLng(latBus, lngBus);
-                    shipMap.addMarker(new MarkerOptions().position(shipPlaceLoc)
+                    transportMap.addMarker(new MarkerOptions().position(shipPlaceLoc)
                             .icon(Utils.getBitmapDescriptor(getApplicationContext()))
                             .title(transportation.getName_transport())
                             .snippet(transportation.getLocation_transport()));
@@ -122,7 +122,7 @@ public class TransportationShipMaps extends AppCompatActivity implements OnMapRe
         try {
             // Customise the styling of the base map using a JSON object defined
             // in a raw resource file.
-            boolean success = shipMap.setMapStyle(
+            boolean success = transportMap.setMapStyle(
                     MapStyleOptions.loadRawResourceStyle(
                             this, R.raw.google_map_style));
 

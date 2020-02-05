@@ -71,14 +71,14 @@ public class TransportationShipActivity extends AppCompatActivity {
     private void checkConnection() {
         if (Utils.isConnectedToNetwork(getApplicationContext())) {
             showLoading(false);
-            showShipData();
+            showTransportData();
         } else {
             showLoading(true);
             Toast.makeText(this, "Check your connection", Toast.LENGTH_SHORT).show();
         }
     }
 
-    private void showShipData() {
+    private void showTransportData() {
         if (havePermission()) {
             Query shipQuery = FirebaseQuery.getTransportShip();
             shipQuery.addValueEventListener(new ValueEventListener() {

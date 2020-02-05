@@ -26,11 +26,10 @@
         android:layout_marginStart="24dp"
         android:layout_marginTop="12dp"
         android:layout_marginEnd="24dp"
-        android:fontFamily="@font/montserrat_medium"
+        android:fontFamily="@font/monsterrat_sembold"
         android:text="@string/txt_category_main_menu"
         android:textColor="@color/blackTextPrimary"
-        android:textSize="15sp"
-        android:textStyle="bold" />
+        android:textSize="15sp" />
 
     <LinearLayout
         android:layout_width="match_parent"

@@ -222,6 +222,10 @@ public class TransportationDetailActivity extends AppCompatActivity implements O
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
+        showTransportMap(googleMap);
+    }
+
+    private void showTransportMap(GoogleMap googleMap) {
         transportGoogleMap = googleMap;
         transportDetailRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -243,7 +247,6 @@ public class TransportationDetailActivity extends AppCompatActivity implements O
                 Log.e(TAG, "Firebase Database Error" + databaseError.getMessage());
             }
         });
-
     }
 
     private void favoriteState() {

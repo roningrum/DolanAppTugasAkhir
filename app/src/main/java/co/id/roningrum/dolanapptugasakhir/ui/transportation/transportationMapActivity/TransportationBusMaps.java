@@ -41,7 +41,7 @@ import co.id.roningrum.dolanapptugasakhir.util.Utils;
 
 public class TransportationBusMaps extends FragmentActivity implements OnMapReadyCallback {
 
-    private GoogleMap busMap;
+    private GoogleMap trasnportMap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,12 +67,12 @@ public class TransportationBusMaps extends FragmentActivity implements OnMapRead
     @Override
     public void onMapReady(GoogleMap googleMap) {
 
-        showBusMap(googleMap);
+        showTransportMap(googleMap);
 
     }
 
-    private void showBusMap(GoogleMap googleMap) {
-        busMap = googleMap;
+    private void showTransportMap(GoogleMap googleMap) {
+        trasnportMap = googleMap;
         Query busMapQuery = FirebaseQuery.getTransportBus();
         busMapQuery.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -93,10 +93,10 @@ public class TransportationBusMaps extends FragmentActivity implements OnMapRead
                             .zoom(12.27f)
                             .build();
 
-                    busMap.setMyLocationEnabled(true);
-                    busMap.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+                    trasnportMap.setMyLocationEnabled(true);
+                    trasnportMap.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
                     LatLng busPlaceLoc = new LatLng(latBus, lngBus);
-                    busMap.addMarker(new MarkerOptions().position(busPlaceLoc).
+                    trasnportMap.addMarker(new MarkerOptions().position(busPlaceLoc).
                             icon(Utils.getBitmapDescriptor(getApplicationContext())).title(transportation.getName_transport())
                             .snippet(transportation.getLocation_transport()));
 
@@ -112,7 +112,7 @@ public class TransportationBusMaps extends FragmentActivity implements OnMapRead
         try {
             // Customise the styling of the base map using a JSON object defined
             // in a raw resource file.
-            boolean success = busMap.setMapStyle(
+            boolean success = trasnportMap.setMapStyle(
                     MapStyleOptions.loadRawResourceStyle(
                             this, R.raw.google_map_style));
 

@@ -40,7 +40,7 @@ import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.model.Hotel;
 import co.id.roningrum.dolanapptugasakhir.util.Utils;
 
-public class HotelMaps extends AppCompatActivity implements OnMapReadyCallback {
+public class HotelMapsActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     private DatabaseReference hotelRefMap;
     private GoogleMap hotelMap;
