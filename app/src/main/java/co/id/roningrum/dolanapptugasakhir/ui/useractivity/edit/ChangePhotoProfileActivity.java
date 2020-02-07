@@ -33,6 +33,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -50,6 +51,7 @@ import com.google.firebase.storage.UploadTask;
 import java.util.Objects;
 
 import co.id.roningrum.dolanapptugasakhir.R;
+import co.id.roningrum.dolanapptugasakhir.model.Users;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ChangePhotoProfileActivity extends AppCompatActivity implements View.OnClickListener {
@@ -88,8 +90,13 @@ public class ChangePhotoProfileActivity extends AppCompatActivity implements Vie
         profileReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (changePhotoUser != null) {
-                    Glide.with(getApplicationContext()).load(Objects.requireNonNull(dataSnapshot.child("photo_user").getValue()).toString()).into(photo_profile);
+                Users users = dataSnapshot.getValue(Users.class);
+                if (users != null) {
+                    if (!users.getPhoto_user().equals("")) {
+                        Glide.with(getApplicationContext()).load(users.getPhoto_user()).into(photo_profile);
+                    } else {
+                        photo_profile.setImageResource(R.drawable.icon_nopic);
+                    }
                 }
             }
 
@@ -114,8 +121,66 @@ public class ChangePhotoProfileActivity extends AppCompatActivity implements Vie
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.btn_upload_image_from_device) {
-            uploadPhotoFromFile();
+            uploadPhotoConfirm();
         }
+    }
+
+    private void uploadPhotoConfirm() {
+        AlertDialog.Builder uploadAlert = new AlertDialog.Builder(ChangePhotoProfileActivity.this);
+        uploadAlert.setTitle("Unggah Foto");
+        uploadAlert.setMessage("Apakah kamu mau mengunggah foto?");
+
+        uploadAlert.setPositiveButton("Ya", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                pbLoading.setVisibility(View.VISIBLE);
+                uploadPhotoFromFile();
+            }
+        });
+        uploadAlert.setNegativeButton("Hapus", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                deletePhoto();
+            }
+        });
+        uploadAlert.show();
+    }
+
+    private void deletePhoto() {
+        final DatabaseReference profileDb = dbProfileRef.getRef().child(changePhotoUser.getUid());
+        profileDb.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                Users users = dataSnapshot.getValue(Users.class);
+                if (users != null) {
+                    if (!users.getPhoto_user().equals("")) {
+                        storagePhoto.getStorage().getReferenceFromUrl(users.getPhoto_user()).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                profileDb.child("photo_user").setValue("");
+                                pbLoading.setVisibility(View.GONE);
+
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Toast.makeText(getApplicationContext(), "Gagal Menghapus", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Tidak perlu. Data kosong", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                pbLoading.setVisibility(View.VISIBLE);
+                Toast.makeText(getApplicationContext(), "Gagal", Toast.LENGTH_SHORT).show();
+                Log.e(TAG, "" + databaseError.getMessage());
+            }
+        });
+
     }
 
     String getFileExtension(Uri uri) {
@@ -138,12 +203,12 @@ public class ChangePhotoProfileActivity extends AppCompatActivity implements Vie
         if (requestCode == photo_max && resultCode == RESULT_OK && data != null && data.getData() != null) {
             photo_location = data.getData();
             pbLoading.setVisibility(View.VISIBLE);
-            uploadConfirm();
+            uploadPhotoProcessConfirm();
         }
     }
 
 
-    private void uploadConfirm() {
+    private void uploadPhotoProcessConfirm() {
         AlertDialog.Builder uploadAlert = new AlertDialog.Builder(ChangePhotoProfileActivity.this);
         uploadAlert.setTitle("Proses Unggah Foto");
         uploadAlert.setMessage("Apakah kamu yakin akan memproses unggahan?");
@@ -189,6 +254,7 @@ public class ChangePhotoProfileActivity extends AppCompatActivity implements Vie
                                                 profileDb.addListenerForSingleValueEvent(new ValueEventListener() {
                                                     @Override
                                                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                                        Users users = dataSnapshot.getValue(Users.class);
                                                         profileDb.child("photo_user").setValue(uri_photo);
                                                         pbLoading.setVisibility(View.GONE);
                                                         Glide.with(ChangePhotoProfileActivity.this).load(photo_location).into(photo_profile);

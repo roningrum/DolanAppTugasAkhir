@@ -201,7 +201,12 @@ public class ProfileFragment extends Fragment implements View.OnClickListener, G
                     if (users != null && getActivity() != null) {
                         tvNameProfile.setText(users.getNama_user());
                         tvEmailProfile.setText(users.getEmail());
-                        Glide.with(getActivity()).load(users.getPhoto_user()).into(photo_profile);
+                        if (users.getPhoto_user().equals("")) {
+                            photo_profile.setImageResource(R.drawable.icon_nopic);
+                        } else {
+                            Glide.with(getActivity()).load(users.getPhoto_user()).into(photo_profile);
+                        }
+
                     }
 
                 }

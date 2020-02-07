@@ -201,16 +201,17 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 Users users = dataSnapshot.getValue(Users.class);
-                if (getActivity() == null) {
-                    return;
-                }
-                if (users != null) {
+                if (users != null && getActivity() != null) {
                     pbLoading.setVisibility(View.GONE);
                     String nama = users.getNama_user();
                     tvProfileApp.setText(nama);
-                    Glide.with(getActivity()).load(users.getPhoto_user()).into(userPhotoHome);
-                }
+                    if (!users.getPhoto_user().equals("")) {
+                        Glide.with(getActivity()).load(users.getPhoto_user()).into(userPhotoHome);
+                    } else {
+                        userPhotoHome.setImageResource(R.drawable.icon_nopic);
+                    }
 
+                }
             }
 
             @Override

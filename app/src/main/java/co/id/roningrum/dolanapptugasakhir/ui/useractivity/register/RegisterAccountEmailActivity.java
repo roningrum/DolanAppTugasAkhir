@@ -142,6 +142,10 @@ public class RegisterAccountEmailActivity extends AppCompatActivity implements V
 //                                        userRegisterStoreDB.child("password").setValue(passwordRegister);
 //                                        userRegisterStoreDB.child("login").setValue("email");
                                         dataSnapshot.getRef().setValue(hashMap);
+                                        userRegister.sendEmailVerification();
+                                        Intent registerNextStep = new Intent(RegisterAccountEmailActivity.this, RegisterAccountProfileActivity.class);
+                                        startActivity(registerNextStep);
+                                        finish();
                                     } else {
                                         Log.d(TAG, "Data sudah ada di Database");
                                     }
@@ -152,11 +156,6 @@ public class RegisterAccountEmailActivity extends AppCompatActivity implements V
                                     Log.e(TAG, "Status : " + databaseError.getMessage());
                                 }
                             });
-
-                            userRegister.sendEmailVerification();
-                            Intent registerNextStep = new Intent(RegisterAccountEmailActivity.this, RegisterAccountProfileActivity.class);
-                            startActivity(registerNextStep);
-                            finish();
                         }
 
                     } else {

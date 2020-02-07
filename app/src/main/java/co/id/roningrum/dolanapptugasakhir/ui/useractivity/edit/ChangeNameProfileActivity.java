@@ -42,6 +42,7 @@ public class ChangeNameProfileActivity extends AppCompatActivity implements View
     private static final String TAG = "UBAH_NAMA";
     private EditText edtChangeName;
     private Toolbar toolbarEdit;
+    private String nama;
 
     private FirebaseUser changeNameUser;
 
@@ -56,6 +57,7 @@ public class ChangeNameProfileActivity extends AppCompatActivity implements View
 
         FirebaseAuth changeNameAuth = FirebaseAuth.getInstance();
         changeNameUser = changeNameAuth.getCurrentUser();
+        nama = edtChangeName.getText().toString();
         btnSaveChangeName.setOnClickListener(this);
         showNameBeforeChanges();
 
@@ -106,13 +108,11 @@ public class ChangeNameProfileActivity extends AppCompatActivity implements View
                         UserRef.child(uid).addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                UserRef.child(uid).getRef().child("nama_user").setValue(edtChangeName.getText().toString().trim());
+                                UserRef.child(uid).getRef().child("nama_user").setValue(edtChangeName.getText().toString());
                                 Toast.makeText(getApplicationContext(), "Nama Berhasi di ubah", Toast.LENGTH_SHORT).show();
                             }
-
                             @Override
                             public void onCancelled(@NonNull DatabaseError databaseError) {
-
                             }
                         });
 
@@ -121,8 +121,6 @@ public class ChangeNameProfileActivity extends AppCompatActivity implements View
                     }
                 }
             });
-
-
         }
 
     }

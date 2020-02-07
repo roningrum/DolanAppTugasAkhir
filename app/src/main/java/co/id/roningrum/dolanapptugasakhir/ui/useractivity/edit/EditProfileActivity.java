@@ -101,9 +101,12 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
                 if (users != null) {
                     nameProfile.setText(users.getNama_user());
                     emailProfile.setText(users.getEmail());
-                    Glide.with(getApplicationContext()).load(users.getPhoto_user()).into(imageEditprofile);
+                    if (users.getPhoto_user().equals("")) {
+                        imageEditprofile.setImageResource(R.drawable.icon_nopic);
+                    } else {
+                        Glide.with(getApplicationContext()).load(users.getPhoto_user()).into(imageEditprofile);
+                    }
                 }
-
             }
 
             @Override

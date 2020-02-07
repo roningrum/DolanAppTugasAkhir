@@ -200,7 +200,7 @@ public class RegisterAccountProfileActivity extends AppCompatActivity implements
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     profileDb.child("nama_user").setValue(nameRegister);
-                    profileDb.child("photo_user").setValue("https://image.flaticon.com/icons/png/512/149/149071.png");
+                    profileDb.child("photo_user").setValue("");
 
                     Log.d(TAG, "Profile Data sukses ke Daftar");
                 }
@@ -221,5 +221,10 @@ public class RegisterAccountProfileActivity extends AppCompatActivity implements
         Intent finalRegisterIntent = new Intent(RegisterAccountProfileActivity.this, RegisterSuccessActivity.class);
         startActivity(finalRegisterIntent);
         finish();
+    }
+
+    @Override
+    public void onBackPressed() {
+        edtNamaRegister.setError("Nama Harus Diisi");
     }
 }
