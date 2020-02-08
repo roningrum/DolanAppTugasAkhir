@@ -95,7 +95,6 @@ public class SignInOptionActivity extends AppCompatActivity implements View.OnCl
         googleSignInClient = GoogleSignIn.getClient(this, gso);
 
     }
-
     @Override
     public void onClick(View v) {
         switch (v.getId()) {

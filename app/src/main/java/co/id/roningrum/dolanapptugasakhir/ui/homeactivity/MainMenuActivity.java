@@ -52,6 +52,7 @@ public class MainMenuActivity extends AppCompatActivity implements BottomNavigat
         bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
 
+
         if (savedInstanceState != null) {
             savedInstanceState.getInt(SELECTED_MENU);
         } else {

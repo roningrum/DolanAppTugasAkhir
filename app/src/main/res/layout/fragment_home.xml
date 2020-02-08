@@ -115,7 +115,7 @@
             android:layout_height="wrap_content">
 
             <include
-                android:id="@+id/include2"
+                android:id="@+id/layout_category"
                 layout="@layout/layout_home_menu_content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -136,7 +136,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/include2"
+                app:layout_constraintTop_toBottomOf="@+id/layout_category"
                 app:layout_constraintVertical_bias="0.0" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

@@ -32,6 +32,7 @@ public class WelcomingScreenActivity extends AppCompatActivity implements View.O
         setContentView(R.layout.activity_welcoming_screen);
         btnWelcomeScreen = findViewById(R.id.btn_welcome_screen);
         btnWelcomeScreen.setOnClickListener(this);
+
     }
 
     @Override

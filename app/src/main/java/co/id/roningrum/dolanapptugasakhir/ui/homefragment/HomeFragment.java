@@ -83,6 +83,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     private ConstraintLayout bannerView;
     private CollapsingToolbarLayout collapseToolbar;
 
+    private LinearLayout moreMenu, natureMenu, categoryMenu;
+
     public HomeFragment() {
         // Required empty public constructor
     }
@@ -102,14 +104,16 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         tvGreetApp = view.findViewById(R.id.tv_greeting_app);
         tvProfileApp = view.findViewById(R.id.tv_user_app);
         userPhotoHome = view.findViewById(R.id.img_user_home);
-        LinearLayout natureMenu = view.findViewById(R.id.ln_alam_tour_home_menu);
+
+        natureMenu = view.findViewById(R.id.ln_alam_tour_home_menu);
         LinearLayout entertainMenu = view.findViewById(R.id.ln_hiburan_tour_home_menu);
         LinearLayout shoppingMenu = view.findViewById(R.id.ln_belanja_tour_home_menu);
         LinearLayout villageMenu = view.findViewById(R.id.ln_desa_tour_home_menu);
         LinearLayout airportMenu = view.findViewById(R.id.ln_bandara_public_home);
         LinearLayout hotelMenu = view.findViewById(R.id.ln_hotel_public_home);
         LinearLayout trainMenu = view.findViewById(R.id.ln_train_public_home);
-        LinearLayout moreMenu = view.findViewById(R.id.ln_more_home);
+        moreMenu = view.findViewById(R.id.ln_more_home);
+        categoryMenu = view.findViewById(R.id.layout_category);
         rvTourismPopuler = view.findViewById(R.id.rv_tourism_popular);
         pbLoading = view.findViewById(R.id.pb_loading);
         appBarLayout = view.findViewById(R.id.appbar_home);
@@ -133,6 +137,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
         loadData();
         setUpAppBarLayout();
+
 
     }
 
@@ -160,6 +165,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             } else {
                 pbLoading.setVisibility(View.VISIBLE);
             }
+
     }
 
     private void showPopularTourism() {
@@ -266,5 +272,4 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         }
 
     }
-
 }
