@@ -11,7 +11,7 @@
  * limitations under the License.
  */
 
-package co.id.roningrum.dolanapptugasakhir.ui.adapter;
+package co.id.roningrum.dolanapptugasakhir.ui.adapter.favoritepageadapter;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;

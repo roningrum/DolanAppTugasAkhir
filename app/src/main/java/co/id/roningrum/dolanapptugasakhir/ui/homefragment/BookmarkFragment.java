@@ -27,7 +27,7 @@ import androidx.viewpager.widget.ViewPager;
 import com.google.android.material.tabs.TabLayout;
 
 import co.id.roningrum.dolanapptugasakhir.R;
-import co.id.roningrum.dolanapptugasakhir.ui.adapter.ViewPagerAdapter;
+import co.id.roningrum.dolanapptugasakhir.ui.adapter.favoritepageadapter.ViewPagerAdapter;
 import co.id.roningrum.dolanapptugasakhir.ui.favorite.FavoriteGasFragment;
 import co.id.roningrum.dolanapptugasakhir.ui.favorite.FavoriteHospitalFragment;
 import co.id.roningrum.dolanapptugasakhir.ui.favorite.FavoriteHotelFragment;
