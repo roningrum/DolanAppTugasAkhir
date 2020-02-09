@@ -13,6 +13,7 @@
 
 package co.id.roningrum.dolanapptugasakhir.ui.useractivity.reset;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Patterns;
@@ -35,12 +36,20 @@ public class ResetPasswordActivity extends AppCompatActivity implements View.OnC
     private TextInputLayout edtEmailResetPass;
     private FirebaseAuth emailAuthReset;
 
+    private ProgressDialog pdDialog;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signin_forget_password);
         edtEmailResetPass = findViewById(R.id.edt_email_reset_pass_layout);
         Button btnResetEmail = findViewById(R.id.btn_reset_page);
+
+        pdDialog.setTitle("Memproses Akun");
+        pdDialog.setMessage("Loading....");
+        pdDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+
         emailAuthReset = FirebaseAuth.getInstance();
         btnResetEmail.setOnClickListener(this);
 
