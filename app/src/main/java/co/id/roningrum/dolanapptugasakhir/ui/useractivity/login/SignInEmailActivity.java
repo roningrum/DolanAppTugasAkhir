@@ -13,6 +13,7 @@
 
 package co.id.roningrum.dolanapptugasakhir.ui.useractivity.login;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -45,6 +46,7 @@ public class SignInEmailActivity extends AppCompatActivity implements View.OnCli
     private TextInputLayout edtEmailSignIn, edtPasswordSignIn;
 
     private FirebaseAuth authLogin;
+    private ProgressDialog pdDialog;
 
     @Override
     protected void onStart() {
@@ -72,6 +74,11 @@ public class SignInEmailActivity extends AppCompatActivity implements View.OnCli
         TextView tvResetPage = findViewById(R.id.tv_reset_pass);
         TextView tvRegisterPage = findViewById(R.id.tv_register_link);
 
+        pdDialog = new ProgressDialog(this);
+        pdDialog.setTitle("Memproses Akun");
+        pdDialog.setMessage("Loading....");
+        pdDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+
         authLogin = FirebaseAuth.getInstance();
 
         tvRegisterPage.setOnClickListener(this);
@@ -85,7 +92,20 @@ public class SignInEmailActivity extends AppCompatActivity implements View.OnCli
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_login:
-                signInProcess();
+                pdDialog.show();
+                pdDialog.setCancelable(false);
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            Thread.sleep(5000);
+                            signInProcess();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        pdDialog.dismiss();
+                    }
+                }).start();
                 break;
             case R.id.tv_register_link:
                 goToRegisterPage();
@@ -116,6 +136,7 @@ public class SignInEmailActivity extends AppCompatActivity implements View.OnCli
         startActivity(goToRegisterIntent);
     }
     private void signInProcess() {
+
         String emailLogin = Objects.requireNonNull(edtEmailSignIn.getEditText()).getText().toString();
         String passwordLogin = Objects.requireNonNull(edtPasswordSignIn.getEditText()).getText().toString();
         if (emailLogin.isEmpty()) {
@@ -144,7 +165,7 @@ public class SignInEmailActivity extends AppCompatActivity implements View.OnCli
                             Toast.makeText(SignInEmailActivity.this, "Pastikan email sudah diverifikasi", Toast.LENGTH_SHORT).show();
                         }
                     } else {
-                        Toast.makeText(SignInEmailActivity.this, "Email kamu tidak terdaftar", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(SignInEmailActivity.this, " " + task.getException(), Toast.LENGTH_SHORT).show();
                         Log.e(TAG, "Gagal Masuk");
                     }
                 }

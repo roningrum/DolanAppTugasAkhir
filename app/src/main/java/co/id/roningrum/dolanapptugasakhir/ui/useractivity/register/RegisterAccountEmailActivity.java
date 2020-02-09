@@ -13,6 +13,7 @@
 
 package co.id.roningrum.dolanapptugasakhir.ui.useractivity.register;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -53,7 +54,7 @@ public class RegisterAccountEmailActivity extends AppCompatActivity implements V
     private DatabaseReference dbRegisterRef;
 
     private String emailRegister, passwordRegister;
-
+    private ProgressDialog pdDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +69,11 @@ public class RegisterAccountEmailActivity extends AppCompatActivity implements V
         authRegister = FirebaseAuth.getInstance();
         dbRegisterRef = FirebaseDatabase.getInstance().getReference();
 
+        pdDialog = new ProgressDialog(this);
+        pdDialog.setTitle("Memproses Daftar Akun");
+        pdDialog.setMessage("Loading....");
+        pdDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+
         FirebaseApp.initializeApp(this);
         tvLoginPage.setOnClickListener(this);
         btnBack.setOnClickListener(this);
@@ -79,7 +85,20 @@ public class RegisterAccountEmailActivity extends AppCompatActivity implements V
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_register1_page:
-                registerEmailProcess();
+                pdDialog.show();
+                pdDialog.setCancelable(false);
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            Thread.sleep(5000);
+                            registerEmailProcess();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        pdDialog.dismiss();
+                    }
+                }).start();
                 break;
             case R.id.tv_login_page_link:
                 intentLoginPage();

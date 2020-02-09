@@ -14,6 +14,7 @@
 package co.id.roningrum.dolanapptugasakhir.ui.useractivity.register;
 
 import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -69,6 +70,8 @@ public class RegisterAccountProfileActivity extends AppCompatActivity implements
     private Integer photo_max = 1;
     private String nameRegister;
 
+    private ProgressDialog pdDialog;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,6 +86,11 @@ public class RegisterAccountProfileActivity extends AppCompatActivity implements
         dbRegisterRef = FirebaseDatabase.getInstance().getReference();
         photoProfileStore = FirebaseStorage.getInstance().getReference("Photo Users");
         profileUser = registerProfileAuth.getCurrentUser();
+
+        pdDialog = new ProgressDialog(this);
+        pdDialog.setTitle("Memproses Daftar Akun");
+        pdDialog.setMessage("Loading....");
+        pdDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
 
         btnUploadImageProfile.setOnClickListener(this);
         btnRegisterProfile.setOnClickListener(this);
@@ -99,7 +107,20 @@ public class RegisterAccountProfileActivity extends AppCompatActivity implements
                 uploadPhotoFromFile();
                 break;
             case R.id.btn_registerfinal_page:
-                registerProfileProcess();
+                pdDialog.show();
+                pdDialog.setCancelable(false);
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            Thread.sleep(5000);
+                            registerProfileProcess();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        pdDialog.dismiss();
+                    }
+                }).start();
                 break;
         }
     }

@@ -98,7 +98,7 @@ public class ChangePasswordProfileActivity extends AppCompatActivity implements 
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
-                            UserRef.child(uid).child("password").setValue(edtChangePassword.getText().toString().trim());
+                            UserRef.getRef().child(uid).child("password").setValue(edtChangePassword.getText().toString().trim());
                             changePasswordAuth.signOut();
                             startActivity(new Intent(ChangePasswordProfileActivity.this, SignInOptionActivity.class));
                             finish();
