@@ -46,6 +46,8 @@ public class ResetPasswordActivity extends AppCompatActivity implements View.OnC
         edtEmailResetPass = findViewById(R.id.edt_email_reset_pass_layout);
         Button btnResetEmail = findViewById(R.id.btn_reset_page);
 
+
+        pdDialog = new ProgressDialog(this);
         pdDialog.setTitle("Memproses Akun");
         pdDialog.setMessage("Loading....");
         pdDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
@@ -58,7 +60,21 @@ public class ResetPasswordActivity extends AppCompatActivity implements View.OnC
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.btn_reset_page) {
-            doResetPass();
+            pdDialog.show();
+            pdDialog.setCancelable(false);
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        Thread.sleep(5000);
+                        doResetPass();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    pdDialog.dismiss();
+                }
+            }).start();
+
         }
     }
 
