@@ -153,6 +153,7 @@ public class ChangePhotoProfileActivity extends AppCompatActivity implements Vie
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 Users users = dataSnapshot.getValue(Users.class);
                 if (users != null) {
+
                     if (!users.getPhoto_user().equals("")) {
                         storagePhoto.getStorage().getReferenceFromUrl(users.getPhoto_user()).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
@@ -168,8 +169,9 @@ public class ChangePhotoProfileActivity extends AppCompatActivity implements Vie
                             }
                         });
                     } else {
-                        Toast.makeText(getApplicationContext(), "Tidak perlu. Data kosong", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "Tidak perlu. Upload dulu", Toast.LENGTH_SHORT).show();
                     }
+
                 }
             }
 

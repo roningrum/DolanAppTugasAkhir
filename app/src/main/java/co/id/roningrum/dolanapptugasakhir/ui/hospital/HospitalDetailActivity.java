@@ -135,6 +135,7 @@ public class HospitalDetailActivity extends AppCompatActivity implements OnMapRe
                     hospital = dataSnapshot.getValue(Hospital.class);
                     startLat = gpsHandler.getLatitude();
                     startlng = gpsHandler.getLongitude();
+
                     assert hospital != null;
                     endlat = hospital.getLat_location_hospital();
                     endLng = hospital.getLng_location_hospital();
