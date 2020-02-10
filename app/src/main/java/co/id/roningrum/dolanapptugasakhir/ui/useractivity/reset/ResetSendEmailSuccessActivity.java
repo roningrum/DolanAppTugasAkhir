@@ -17,7 +17,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -39,7 +38,6 @@ public class ResetSendEmailSuccessActivity extends AppCompatActivity implements 
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.btn_continoue_sign_in) {
-            Toast.makeText(getApplicationContext(), "Silakan cek kotak masuk email", Toast.LENGTH_SHORT).show();
             startActivity(new Intent(ResetSendEmailSuccessActivity.this, SignInOptionActivity.class));
             finish();
         }

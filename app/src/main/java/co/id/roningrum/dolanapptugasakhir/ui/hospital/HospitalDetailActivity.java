@@ -213,6 +213,7 @@ public class HospitalDetailActivity extends AppCompatActivity implements OnMapRe
     }
 
     private void showHospitalMap(GoogleMap googleMap) {
+        hospitalGoogleMap = googleMap;
         if (gpsHandler.isCanGetLocation()) {
 
             hospitalDetailRef.addValueEventListener(new ValueEventListener() {
