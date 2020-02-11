@@ -89,7 +89,7 @@ public class ChangePhotoProfileActivity extends AppCompatActivity implements Vie
         dbProfileRef = FirebaseDatabase.getInstance().getReference("Users");
 
         if (changePhotoUser.getDisplayName() != null) {
-            storagePhoto = FirebaseStorage.getInstance().getReference("Photo Users").child(changePhotoUser.getDisplayName());
+            storagePhoto = FirebaseStorage.getInstance().getReference("Photo Users/" + changePhotoUser.getDisplayName());
         }
 
         DatabaseReference profileReference = FirebaseDatabase.getInstance().getReference().child("Users").child(changePhotoUser.getUid());
