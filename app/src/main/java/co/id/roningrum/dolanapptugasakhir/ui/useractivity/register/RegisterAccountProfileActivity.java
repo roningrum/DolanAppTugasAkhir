@@ -170,7 +170,7 @@ public class RegisterAccountProfileActivity extends AppCompatActivity implements
     private void registerProfileProcess() {
         nameRegister = edtNamaRegister.getEditText().getText().toString();
         if (photo_location != null) {
-            StorageReference storageReference = photoProfileStore.child(System.currentTimeMillis() + "." + getFileExtension(photo_location));
+            StorageReference storageReference = photoProfileStore.child(nameRegister).child(System.currentTimeMillis() + "." + getFileExtension(photo_location));
             storageReference.putFile(photo_location).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {

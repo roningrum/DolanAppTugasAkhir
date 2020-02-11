@@ -238,6 +238,7 @@ public class ChangePhotoProfileActivity extends AppCompatActivity implements Vie
         uploadAlert.setNegativeButton("Batalkan", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                pbLoading.setVisibility(View.GONE);
                 Toast.makeText(getApplicationContext(), "Unggahan dibatalkan", Toast.LENGTH_SHORT).show();
             }
         });
