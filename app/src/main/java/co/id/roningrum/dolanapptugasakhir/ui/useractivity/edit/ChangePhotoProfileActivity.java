@@ -21,6 +21,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.webkit.MimeTypeMap;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -78,13 +79,18 @@ public class ChangePhotoProfileActivity extends AppCompatActivity implements Vie
         pbLoading = findViewById(R.id.pb_loading_upload);
         photo_profile = findViewById(R.id.photo_akun_beranda);
         toolbar = findViewById(R.id.toolbar_edit);
+        Button btnRemovePhoto = findViewById(R.id.btn_remove_foto);
 
         btnUploadPhoto.setOnClickListener(this);
+        btnRemovePhoto.setOnClickListener(this);
 
         FirebaseAuth changePhotoAuth = FirebaseAuth.getInstance();
         changePhotoUser = changePhotoAuth.getCurrentUser();
         dbProfileRef = FirebaseDatabase.getInstance().getReference("Users");
-        storagePhoto = FirebaseStorage.getInstance().getReference("Photo Users");
+
+        if (changePhotoUser.getDisplayName() != null) {
+            storagePhoto = FirebaseStorage.getInstance().getReference("Photo Users").child(changePhotoUser.getDisplayName());
+        }
 
         DatabaseReference profileReference = FirebaseDatabase.getInstance().getReference().child("Users").child(changePhotoUser.getUid());
         profileReference.addValueEventListener(new ValueEventListener() {
@@ -120,8 +126,13 @@ public class ChangePhotoProfileActivity extends AppCompatActivity implements Vie
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.btn_upload_image_from_device) {
-            uploadPhotoConfirm();
+        switch (v.getId()) {
+            case R.id.btn_upload_image_from_device:
+                uploadPhotoConfirm();
+                break;
+            case R.id.btn_remove_foto:
+                deletePhoto();
+                break;
         }
     }
 
@@ -137,10 +148,10 @@ public class ChangePhotoProfileActivity extends AppCompatActivity implements Vie
                 uploadPhotoFromFile();
             }
         });
-        uploadAlert.setNegativeButton("Hapus", new DialogInterface.OnClickListener() {
+        uploadAlert.setNegativeButton("Batalkan", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                deletePhoto();
+
             }
         });
         uploadAlert.show();
@@ -206,6 +217,8 @@ public class ChangePhotoProfileActivity extends AppCompatActivity implements Vie
             photo_location = data.getData();
             pbLoading.setVisibility(View.VISIBLE);
             uploadPhotoProcessConfirm();
+        } else {
+            pbLoading.setVisibility(View.GONE);
         }
     }
 
@@ -222,11 +235,10 @@ public class ChangePhotoProfileActivity extends AppCompatActivity implements Vie
                 uploadPhotoProcess();
             }
         });
-        uploadAlert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+        uploadAlert.setNegativeButton("Batalkan", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                finish();
-                Toast.makeText(getApplicationContext(), "Pressed Cancel", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Unggahan dibatalkan", Toast.LENGTH_SHORT).show();
             }
         });
         uploadAlert.show();
@@ -252,11 +264,11 @@ public class ChangePhotoProfileActivity extends AppCompatActivity implements Vie
                                         @Override
                                         public void onComplete(@NonNull Task<Void> task) {
                                             if (task.isSuccessful()) {
+                                                pbLoading.setVisibility(View.VISIBLE);
                                                 final DatabaseReference profileDb = dbProfileRef.getRef().child(changePhotoUser.getUid());
                                                 profileDb.addListenerForSingleValueEvent(new ValueEventListener() {
                                                     @Override
                                                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                                        Users users = dataSnapshot.getValue(Users.class);
                                                         profileDb.child("photo_user").setValue(uri_photo);
                                                         pbLoading.setVisibility(View.GONE);
                                                         Glide.with(ChangePhotoProfileActivity.this).load(photo_location).into(photo_profile);
@@ -283,6 +295,4 @@ public class ChangePhotoProfileActivity extends AppCompatActivity implements Vie
             });
         }
     }
-
-
 }
