@@ -155,9 +155,7 @@ public class FavoriteTouristFragment extends Fragment {
                         Tourism tourism = snapshot.getValue(Tourism.class);
                         if (tourism != null) {
                             final String idTourism = tourism.getId();
-                            Log.d("check id user", "" + idTourism);
                             for (String id : checkUserList) {
-                                assert idTourism != null;
                                 if (idTourism.equals(id)) {
                                     tourismList.add(tourism);
                                 }

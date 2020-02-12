@@ -62,6 +62,7 @@ import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismDetailActivity.Touri
 import co.id.roningrum.dolanapptugasakhir.ui.transportation.transportationActivity.TransportationAirportActivity;
 import co.id.roningrum.dolanapptugasakhir.ui.transportation.transportationActivity.TransportationTrainActivity;
 import de.hdodenhof.circleimageview.CircleImageView;
+import uk.co.deanwild.materialshowcaseview.MaterialShowcaseView;
 
 import static androidx.constraintlayout.widget.Constraints.TAG;
 import static co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseQuery.UserRef;
@@ -71,6 +72,7 @@ import static co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseQuery.Use
  * A simple {@link Fragment} subclass.
  */
 public class HomeFragment extends Fragment implements View.OnClickListener {
+    private static final String SHOWCASE_ID = "4";
     private TextView tvGreetApp;
     private TextView tvProfileApp;
     private CircleImageView userPhotoHome;
@@ -137,8 +139,20 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
         loadData();
         setUpAppBarLayout();
+        initialTutorShowCase();
 
 
+    }
+
+    private void initialTutorShowCase() {
+        new MaterialShowcaseView.Builder(getActivity())
+                .setTarget(moreMenu)
+                .setTitleText("Untuk melihat menu lainnya klik ini")
+                .setDismissText("Ok")
+                .setDelay(500)
+                .withCircleShape()
+                .singleUse(SHOWCASE_ID)
+                .show();
     }
 
     private void setUpAppBarLayout() {

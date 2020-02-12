@@ -36,8 +36,10 @@ import co.id.roningrum.dolanapptugasakhir.handler.LocationPermissionHandler;
 import co.id.roningrum.dolanapptugasakhir.ui.homefragment.BookmarkFragment;
 import co.id.roningrum.dolanapptugasakhir.ui.homefragment.HomeFragment;
 import co.id.roningrum.dolanapptugasakhir.ui.homefragment.ProfileFragment;
+import uk.co.deanwild.materialshowcaseview.MaterialShowcaseView;
 
 public class MainMenuActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
+    private static final String SHOWCASE_ID = "2";
     private LocationPermissionHandler locationPermissionHandler;
     private static final String SELECTED_MENU = "selected_menu";
     private BottomNavigationView bottomNavigationView;
@@ -52,12 +54,25 @@ public class MainMenuActivity extends AppCompatActivity implements BottomNavigat
         bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
 
+//        initialTutorShowCase();
 
         if (savedInstanceState != null) {
             savedInstanceState.getInt(SELECTED_MENU);
         } else {
             bottomNavigationView.setSelectedItemId(R.id.homeMenu);
         }
+    }
+
+    private void initialTutorShowCase() {
+        new MaterialShowcaseView.Builder(this)
+                .setTarget(bottomNavigationView)
+                .setTitleText("Ini menu untuk akses")
+                .setDismissText("Ok")
+                .setContentText("Terdiri dari 3 menu, menu Home, menu Bookmark dan profile")
+                .setDelay(500)
+                .withRectangleShape()
+                .singleUse(SHOWCASE_ID)
+                .show();
     }
 
     private boolean havePermission() {
