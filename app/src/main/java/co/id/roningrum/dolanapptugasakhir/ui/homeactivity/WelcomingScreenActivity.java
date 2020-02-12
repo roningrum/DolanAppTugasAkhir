@@ -22,7 +22,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.ui.useractivity.login.SignInOptionActivity;
-import uk.co.deanwild.materialshowcaseview.MaterialShowcaseView;
 
 public class WelcomingScreenActivity extends AppCompatActivity implements View.OnClickListener {
     private static final String SHOWCASE_ID = "1";
@@ -34,20 +33,9 @@ public class WelcomingScreenActivity extends AppCompatActivity implements View.O
         setContentView(R.layout.activity_welcoming_screen);
         btnWelcomeScreen = findViewById(R.id.btn_welcome_screen);
         btnWelcomeScreen.setOnClickListener(this);
-        initialTutorApp();
 
     }
 
-    private void initialTutorApp() {
-        new MaterialShowcaseView.Builder(this)
-                .setTarget(btnWelcomeScreen)
-                .setTitleText("Klik tombol ini untuk memulai")
-                .setDismissText("Ok")
-                .setDelay(500)
-                .singleUse(SHOWCASE_ID)
-                .show();
-
-    }
 
     @Override
     public void onClick(View v) {
