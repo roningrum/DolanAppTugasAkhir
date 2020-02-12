@@ -24,14 +24,12 @@ import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.ui.useractivity.login.SignInOptionActivity;
 
 public class WelcomingScreenActivity extends AppCompatActivity implements View.OnClickListener {
-    private static final String SHOWCASE_ID = "1";
-    private Button btnWelcomeScreen;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcoming_screen);
-        btnWelcomeScreen = findViewById(R.id.btn_welcome_screen);
+        Button btnWelcomeScreen = findViewById(R.id.btn_welcome_screen);
         btnWelcomeScreen.setOnClickListener(this);
 
     }
