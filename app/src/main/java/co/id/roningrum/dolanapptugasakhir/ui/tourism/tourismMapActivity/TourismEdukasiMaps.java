@@ -95,7 +95,7 @@ public class TourismEdukasiMaps extends AppCompatActivity implements OnMapReadyC
 
                     CameraPosition cameraPosition = new CameraPosition.Builder()
                             .target(userLoc)
-                            .zoom(12.17f)
+                            .zoom(12.27f)
                             .build();
                     tourismMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
                     tourismMap.setMyLocationEnabled(true);

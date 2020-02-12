@@ -94,7 +94,7 @@ public class PoliceMapsActivity extends AppCompatActivity implements OnMapReadyC
 
                     CameraPosition cameraPosition = new CameraPosition.Builder()
                             .target(userLoc)
-                            .zoom(14.07f)
+                            .zoom(12.27f)
                             .build();
                     policeMap.setMyLocationEnabled(true);
                     policeMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));

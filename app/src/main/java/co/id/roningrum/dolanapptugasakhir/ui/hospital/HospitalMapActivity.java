@@ -38,6 +38,7 @@ import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseQuery;
 import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.model.Hospital;
+import co.id.roningrum.dolanapptugasakhir.util.Utils;
 
 public class HospitalMapActivity extends AppCompatActivity implements OnMapReadyCallback {
 
@@ -93,12 +94,12 @@ public class HospitalMapActivity extends AppCompatActivity implements OnMapReady
 
                     CameraPosition cameraPosition = new CameraPosition.Builder()
                             .target(userLoc)
-                            .zoom(14.07f)
+                            .zoom(12.27f)
                             .build();
                     LatLng hospitalPlaceLoc = new LatLng(latHospital, lngHospital);
                     hospitalMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
                     hospitalMap.setMyLocationEnabled(true);
-                    hospitalMap.addMarker(new MarkerOptions().position(hospitalPlaceLoc).title(hospital.getName_hospital()).snippet(hospital.getLocation_hospital()));
+                    hospitalMap.addMarker(new MarkerOptions().position(hospitalPlaceLoc).title(hospital.getName_hospital()).icon(Utils.getBitmapDescriptor(getApplicationContext())).snippet(hospital.getLocation_hospital()));
                 }
             }
 

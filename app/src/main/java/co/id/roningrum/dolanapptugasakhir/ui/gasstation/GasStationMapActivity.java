@@ -13,6 +13,7 @@
 
 package co.id.roningrum.dolanapptugasakhir.ui.gasstation;
 
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -26,6 +27,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -36,6 +38,7 @@ import co.id.roningrum.dolanapptugasakhir.R;
 import co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseQuery;
 import co.id.roningrum.dolanapptugasakhir.handler.GPSHandler;
 import co.id.roningrum.dolanapptugasakhir.model.GasStation;
+import co.id.roningrum.dolanapptugasakhir.util.Utils;
 
 public class GasStationMapActivity extends AppCompatActivity implements OnMapReadyCallback {
 
@@ -93,11 +96,11 @@ public class GasStationMapActivity extends AppCompatActivity implements OnMapRea
 
                     CameraPosition cameraPosition = new CameraPosition.Builder()
                             .target(userLoc)
-                            .zoom(14.07f)
+                            .zoom(12.27f)
                             .build();
                     gasGoogleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
                     gasGoogleMap.setMyLocationEnabled(true);
-                    gasGoogleMap.addMarker(new MarkerOptions().position(busPlaceLoc).title(gasStation.getName_gasstation()).snippet(gasStation.getLocation_gasstation()));
+                    gasGoogleMap.addMarker(new MarkerOptions().position(busPlaceLoc).title(gasStation.getName_gasstation()).icon(Utils.getBitmapDescriptor(getApplicationContext())).snippet(gasStation.getLocation_gasstation()));
 
                 }
             }
@@ -108,5 +111,20 @@ public class GasStationMapActivity extends AppCompatActivity implements OnMapRea
 
             }
         });
+        try {
+            // Customise the styling of the base map using a JSON object defined
+            // in a raw resource file.
+            boolean success = gasGoogleMap.setMapStyle(
+                    MapStyleOptions.loadRawResourceStyle(
+                            this, R.raw.google_map_style));
+
+            if (!success) {
+                Log.e("MapsActivityRaw", "Style parsing failed.");
+            }
+        } catch (Resources.NotFoundException e) {
+            Log.e("MapsActivityRaw", "Can't find style.", e);
+        }
     }
+
+
 }

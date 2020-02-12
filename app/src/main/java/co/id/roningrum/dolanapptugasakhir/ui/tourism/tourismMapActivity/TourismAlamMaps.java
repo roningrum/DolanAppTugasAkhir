@@ -92,7 +92,7 @@ public class TourismAlamMaps extends AppCompatActivity implements OnMapReadyCall
 
                     CameraPosition cameraPosition = new CameraPosition.Builder()
                             .target(userLoc)
-                            .zoom(12.17f)
+                            .zoom(12.27f)
                             .build();
 
                     LatLng naturePlaceLoc = new LatLng(latTourism, lngTourism);
