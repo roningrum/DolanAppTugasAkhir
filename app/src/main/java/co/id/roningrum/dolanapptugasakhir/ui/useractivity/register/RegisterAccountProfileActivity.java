@@ -84,8 +84,7 @@ public class RegisterAccountProfileActivity extends AppCompatActivity implements
 
         FirebaseAuth registerProfileAuth = FirebaseAuth.getInstance();
         dbRegisterRef = FirebaseDatabase.getInstance().getReference();
-        nameRegister = edtNamaRegister.getEditText().getText().toString();
-        photoProfileStore = FirebaseStorage.getInstance().getReference("Photo Users/" + nameRegister);
+        photoProfileStore = FirebaseStorage.getInstance().getReference("Photo Users/");
         profileUser = registerProfileAuth.getCurrentUser();
 
         pdDialog = new ProgressDialog(this);
@@ -170,7 +169,8 @@ public class RegisterAccountProfileActivity extends AppCompatActivity implements
 
     private void registerProfileProcess() {
         if (photo_location != null) {
-            StorageReference storageReference = photoProfileStore.child(System.currentTimeMillis() + "." + getFileExtension(photo_location));
+            nameRegister = edtNamaRegister.getEditText().getText().toString();
+            StorageReference storageReference = photoProfileStore.child(nameRegister).child(System.currentTimeMillis() + "." + getFileExtension(photo_location));
             storageReference.putFile(photo_location).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
