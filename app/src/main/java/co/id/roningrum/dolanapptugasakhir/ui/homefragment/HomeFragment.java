@@ -62,7 +62,6 @@ import co.id.roningrum.dolanapptugasakhir.ui.tourism.tourismDetailActivity.Touri
 import co.id.roningrum.dolanapptugasakhir.ui.transportation.transportationActivity.TransportationAirportActivity;
 import co.id.roningrum.dolanapptugasakhir.ui.transportation.transportationActivity.TransportationTrainActivity;
 import de.hdodenhof.circleimageview.CircleImageView;
-import uk.co.deanwild.materialshowcaseview.MaterialShowcaseView;
 
 import static androidx.constraintlayout.widget.Constraints.TAG;
 import static co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseQuery.UserRef;
@@ -72,7 +71,6 @@ import static co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseQuery.Use
  * A simple {@link Fragment} subclass.
  */
 public class HomeFragment extends Fragment implements View.OnClickListener {
-    private static final String SHOWCASE_ID = "4";
     private TextView tvGreetApp;
     private TextView tvProfileApp;
     private CircleImageView userPhotoHome;
@@ -84,8 +82,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     private AppBarLayout appBarLayout;
     private ConstraintLayout bannerView;
     private CollapsingToolbarLayout collapseToolbar;
-
-    private LinearLayout moreMenu, natureMenu, categoryMenu;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -107,15 +103,16 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         tvProfileApp = view.findViewById(R.id.tv_user_app);
         userPhotoHome = view.findViewById(R.id.img_user_home);
 
-        natureMenu = view.findViewById(R.id.ln_alam_tour_home_menu);
+        LinearLayout natureMenu = view.findViewById(R.id.ln_alam_tour_home_menu);
         LinearLayout entertainMenu = view.findViewById(R.id.ln_hiburan_tour_home_menu);
         LinearLayout shoppingMenu = view.findViewById(R.id.ln_belanja_tour_home_menu);
         LinearLayout villageMenu = view.findViewById(R.id.ln_desa_tour_home_menu);
         LinearLayout airportMenu = view.findViewById(R.id.ln_bandara_public_home);
         LinearLayout hotelMenu = view.findViewById(R.id.ln_hotel_public_home);
         LinearLayout trainMenu = view.findViewById(R.id.ln_train_public_home);
-        moreMenu = view.findViewById(R.id.ln_more_home);
-        categoryMenu = view.findViewById(R.id.layout_category);
+        LinearLayout moreMenu = view.findViewById(R.id.ln_more_home);
+
+
         rvTourismPopuler = view.findViewById(R.id.rv_tourism_popular);
         pbLoading = view.findViewById(R.id.pb_loading);
         appBarLayout = view.findViewById(R.id.appbar_home);
@@ -139,20 +136,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
         loadData();
         setUpAppBarLayout();
-        initialTutorShowCase();
 
 
-    }
-
-    private void initialTutorShowCase() {
-        new MaterialShowcaseView.Builder(getActivity())
-                .setTarget(moreMenu)
-                .setTitleText("Untuk melihat menu lainnya klik ini")
-                .setDismissText("Ok")
-                .setDelay(500)
-                .withCircleShape()
-                .singleUse(SHOWCASE_ID)
-                .show();
     }
 
     private void setUpAppBarLayout() {
