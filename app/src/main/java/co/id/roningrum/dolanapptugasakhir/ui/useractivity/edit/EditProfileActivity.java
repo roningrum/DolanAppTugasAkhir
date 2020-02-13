@@ -100,7 +100,12 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
                 Users users = dataSnapshot.getValue(Users.class);
                 if (users != null) {
                     nameProfile.setText(users.getNama_user());
-                    emailProfile.setText(users.getEmail());
+                    if (!users.getEmail().equals(editUser.getEmail())) {
+                        emailProfile.setText(editUser.getEmail());
+                    } else {
+                        emailProfile.setText(users.getEmail());
+                    }
+
                     if (users.getPhoto_user().equals("")) {
                         imageEditprofile.setImageResource(R.drawable.icon_nopic);
                     } else {

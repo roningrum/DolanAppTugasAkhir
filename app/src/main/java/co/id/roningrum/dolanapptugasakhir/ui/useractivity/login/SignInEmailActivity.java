@@ -137,7 +137,7 @@ public class SignInEmailActivity extends AppCompatActivity implements View.OnCli
     }
     private void signInProcess() {
 
-        String emailLogin = Objects.requireNonNull(edtEmailSignIn.getEditText()).getText().toString();
+        final String emailLogin = Objects.requireNonNull(edtEmailSignIn.getEditText()).getText().toString();
         String passwordLogin = Objects.requireNonNull(edtPasswordSignIn.getEditText()).getText().toString();
         if (emailLogin.isEmpty()) {
             edtEmailSignIn.setError("Masukkan Email");
@@ -164,6 +164,7 @@ public class SignInEmailActivity extends AppCompatActivity implements View.OnCli
                         } else {
                             Toast.makeText(SignInEmailActivity.this, "Pastikan email sudah diverifikasi", Toast.LENGTH_SHORT).show();
                         }
+
                     } else {
                         Toast.makeText(SignInEmailActivity.this, " " + task.getException(), Toast.LENGTH_SHORT).show();
                         Log.e(TAG, "Gagal Masuk");

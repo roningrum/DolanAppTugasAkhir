@@ -29,15 +29,16 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.Objects;
-
 import co.id.roningrum.dolanapptugasakhir.R;
+import co.id.roningrum.dolanapptugasakhir.model.Users;
 import co.id.roningrum.dolanapptugasakhir.ui.useractivity.login.SignInEmailActivity;
 
 import static co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseQuery.UserRef;
@@ -82,7 +83,13 @@ public class ChangeEmailProfileActivity extends AppCompatActivity implements Vie
             UserRef.getRef().child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    edtChangeEmail.setText(Objects.requireNonNull(dataSnapshot.child("email").getValue()).toString().trim());
+                    Users users = dataSnapshot.getValue(Users.class);
+                    assert users != null;
+                    if (users.getEmail().equals(changeEmailUser.getEmail())) {
+                        edtChangeEmail.setText(users.getEmail());
+                    } else {
+                        edtChangeEmail.setText(changeEmailUser.getEmail());
+                    }
                 }
 
                 @Override
@@ -103,14 +110,12 @@ public class ChangeEmailProfileActivity extends AppCompatActivity implements Vie
 
     private void saveEmailChange() {
         if (changeEmailUser != null) {
-            String uid = changeEmailUser.getUid();
-            String email = edtChangeEmail.getText().toString().trim();
-            changeEmailConfirm(uid, email);
+            changeEmailConfirm();
 
         }
     }
 
-    private void changeEmailConfirm(final String uid, final String email) {
+    private void changeEmailConfirm() {
         AlertDialog.Builder uploadAlert = new AlertDialog.Builder(ChangeEmailProfileActivity.this);
         uploadAlert.setTitle("Konfirmasi perubahan email");
         uploadAlert.setMessage("Apakah kamu yakin mengubah email?");
@@ -118,29 +123,64 @@ public class ChangeEmailProfileActivity extends AppCompatActivity implements Vie
         uploadAlert.setPositiveButton("Ya", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                changeEmailUser.updateEmail(email).addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if (task.isSuccessful()) {
-                            UserRef.child(uid).child("email").setValue(email);
-                            changeEmailAuth.signOut();
-                            startActivity(new Intent(ChangeEmailProfileActivity.this, SignInEmailActivity.class));
-                            Toast.makeText(getApplicationContext(), "Silakan ke halaman Login untuk proses masuk", Toast.LENGTH_SHORT).show();
-                            finish();
-                        } else {
-                            Log.e(TAG, "" + task.getException());
-                        }
-                    }
-                });
+                emailResetProcess();
+
             }
         });
-        uploadAlert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+        uploadAlert.setNegativeButton("Batalkan", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                finish();
             }
         });
         uploadAlert.show();
+    }
+
+    private void emailResetProcess() {
+        final String uid = changeEmailUser.getUid();
+        final String email = edtChangeEmail.getText().toString().trim();
+
+        UserRef.child(uid).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                Users users = dataSnapshot.getValue(Users.class);
+                if (users != null) {
+                    String password = users.getPassword();
+                    String emailUser = users.getEmail();
+                    AuthCredential credential = EmailAuthProvider.getCredential(emailUser, password);
+                    changeEmailUser.reauthenticate(credential)
+                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    changeEmailUser.updateEmail(email).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            if (task.isSuccessful()) {
+                                                UserRef.child(uid).getRef().child("email").setValue(email);
+                                                changeEmailAuth.signOut();
+                                                startActivity(new Intent(ChangeEmailProfileActivity.this, SignInEmailActivity.class));
+                                                Toast.makeText(getApplicationContext(), "Silakan ke halaman Login untuk proses masuk", Toast.LENGTH_SHORT).show();
+                                                finish();
+                                            } else {
+                                                Log.e(TAG, "" + task.getException());
+                                                Toast.makeText(getApplicationContext(), "" + task.getException(), Toast.LENGTH_SHORT).show();
+                                                finish();
+                                            }
+                                        }
+                                    });
+                                }
+                            });
+                }
+
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
     }
 
 

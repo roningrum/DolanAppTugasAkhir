@@ -200,7 +200,13 @@ public class ProfileFragment extends Fragment implements View.OnClickListener, G
                     Users users = dataSnapshot.getValue(Users.class);
                     if (users != null && getActivity() != null) {
                         tvNameProfile.setText(users.getNama_user());
-                        tvEmailProfile.setText(users.getEmail());
+
+                        if (users.getEmail().equals(user.getEmail())) {
+                            tvEmailProfile.setText(users.getEmail());
+                        } else {
+                            tvEmailProfile.setText(user.getEmail());
+                        }
+
                         if (users.getPhoto_user().equals("")) {
                             photo_profile.setImageResource(R.drawable.icon_nopic);
                         } else {
