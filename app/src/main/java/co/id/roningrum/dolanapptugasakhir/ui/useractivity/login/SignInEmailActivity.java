@@ -92,20 +92,7 @@ public class SignInEmailActivity extends AppCompatActivity implements View.OnCli
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_login:
-                pdDialog.show();
-                pdDialog.setCancelable(false);
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            Thread.sleep(5000);
-                            signInProcess();
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                        pdDialog.dismiss();
-                    }
-                }).start();
+                signInProcess();
                 break;
             case R.id.tv_register_link:
                 goToRegisterPage();
@@ -138,39 +125,55 @@ public class SignInEmailActivity extends AppCompatActivity implements View.OnCli
     private void signInProcess() {
 
         final String emailLogin = Objects.requireNonNull(edtEmailSignIn.getEditText()).getText().toString();
-        String passwordLogin = Objects.requireNonNull(edtPasswordSignIn.getEditText()).getText().toString();
+        final String passwordLogin = Objects.requireNonNull(edtPasswordSignIn.getEditText()).getText().toString();
+
         if (emailLogin.isEmpty()) {
             edtEmailSignIn.setError("Masukkan Email");
         } else if (!isValidEmail(emailLogin)) {
             edtEmailSignIn.setError("Email tidak valid");
         } else if (passwordLogin.isEmpty()) {
+            edtEmailSignIn.setErrorEnabled(false);
             edtPasswordSignIn.setError("Masukkan Password");
         } else if (passwordLogin.length() <= 6) {
             edtPasswordSignIn.setError("Password minimal 6 karakter");
         } else {
-            authLogin.signInWithEmailAndPassword(emailLogin, passwordLogin).addOnCompleteListener(SignInEmailActivity.this, new OnCompleteListener<AuthResult>() {
+            pdDialog.show();
+            pdDialog.setCancelable(false);
+            new Thread(new Runnable() {
                 @Override
-                public void onComplete(@NonNull Task<AuthResult> task) {
-                    if (task.isSuccessful()) {
-                        FirebaseUser userLogin = authLogin.getCurrentUser();
-                        assert userLogin != null;
-                        if (userLogin.isEmailVerified()) {
-                            {
-                                Intent goToHomeIntent = new Intent(SignInEmailActivity.this, MainMenuActivity.class);
-                                startActivity(goToHomeIntent);
-                                finish();
-                                Log.d(TAG, "Berhasil Masuk");
-                            }
-                        } else {
-                            Toast.makeText(SignInEmailActivity.this, "Pastikan email sudah diverifikasi", Toast.LENGTH_SHORT).show();
-                        }
+                public void run() {
+                    try {
+                        Thread.sleep(5000);
+                        authLogin.signInWithEmailAndPassword(emailLogin, passwordLogin).addOnCompleteListener(SignInEmailActivity.this, new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                if (task.isSuccessful()) {
+                                    FirebaseUser userLogin = authLogin.getCurrentUser();
+                                    assert userLogin != null;
+                                    if (userLogin.isEmailVerified()) {
+                                        {
+                                            Intent goToHomeIntent = new Intent(SignInEmailActivity.this, MainMenuActivity.class);
+                                            startActivity(goToHomeIntent);
+                                            finish();
+                                            Log.d(TAG, "Berhasil Masuk");
+                                        }
+                                    } else {
+                                        Toast.makeText(SignInEmailActivity.this, "Pastikan email sudah diverifikasi", Toast.LENGTH_SHORT).show();
+                                    }
 
-                    } else {
-                        Toast.makeText(SignInEmailActivity.this, " " + task.getException(), Toast.LENGTH_SHORT).show();
-                        Log.e(TAG, "Gagal Masuk");
+                                } else {
+                                    Toast.makeText(SignInEmailActivity.this, " " + task.getException(), Toast.LENGTH_SHORT).show();
+                                    Log.e(TAG, "Gagal Masuk");
+                                }
+                            }
+                        });
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
+                    pdDialog.dismiss();
                 }
-            });
+            }).start();
+
 
         }
     }

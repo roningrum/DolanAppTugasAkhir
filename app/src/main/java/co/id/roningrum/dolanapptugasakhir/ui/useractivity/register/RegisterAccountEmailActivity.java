@@ -85,20 +85,7 @@ public class RegisterAccountEmailActivity extends AppCompatActivity implements V
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_register1_page:
-                pdDialog.show();
-                pdDialog.setCancelable(false);
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            Thread.sleep(5000);
-                            registerEmailProcess();
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                        pdDialog.dismiss();
-                    }
-                }).start();
+                registerEmailProcess();
                 break;
             case R.id.tv_login_page_link:
                 intentLoginPage();
@@ -135,54 +122,69 @@ public class RegisterAccountEmailActivity extends AppCompatActivity implements V
         } else if (passwordRegister.length() <= 6) {
             edtPasswordRegister.setError("Password minimal 6 karakter");
         } else {
-            authRegister.createUserWithEmailAndPassword(emailRegister, passwordRegister).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            pdDialog.show();
+            pdDialog.setCancelable(false);
+            new Thread(new Runnable() {
                 @Override
-                public void onComplete(@NonNull Task<AuthResult> task) {
-                    if (task.isSuccessful()) {
-                        Log.d(TAG, "Register Account: " + task.getResult());
-                        final FirebaseUser userRegister = authRegister.getCurrentUser();
-                        if (userRegister != null) {
-                            final String uid = userRegister.getUid();
+                public void run() {
+                    try {
+                        Thread.sleep(5000);
+                        authRegister.createUserWithEmailAndPassword(emailRegister, passwordRegister).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                if (task.isSuccessful()) {
+                                    Log.d(TAG, "Register Account: " + task.getResult());
+                                    final FirebaseUser userRegister = authRegister.getCurrentUser();
+                                    if (userRegister != null) {
+                                        final String uid = userRegister.getUid();
 
-                            final DatabaseReference userRegisterStoreDB = dbRegisterRef.child("Users").child(uid);
-                            userRegisterStoreDB.addListenerForSingleValueEvent(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                    if (!dataSnapshot.exists()) {
-                                        HashMap<Object, String> hashMap = new HashMap<>();
-                                        hashMap.put("uid", uid);
-                                        hashMap.put("nama_user", "");
-                                        hashMap.put("password", passwordRegister);
-                                        hashMap.put("email", emailRegister);
-                                        hashMap.put("photo_user", "");
-                                        hashMap.put("login", "email");
+                                        final DatabaseReference userRegisterStoreDB = dbRegisterRef.child("Users").child(uid);
+                                        userRegisterStoreDB.addListenerForSingleValueEvent(new ValueEventListener() {
+                                            @Override
+                                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                                if (!dataSnapshot.exists()) {
+                                                    HashMap<Object, String> hashMap = new HashMap<>();
+                                                    hashMap.put("uid", uid);
+                                                    hashMap.put("nama_user", "");
+                                                    hashMap.put("password", passwordRegister);
+                                                    hashMap.put("email", emailRegister);
+                                                    hashMap.put("photo_user", "");
+                                                    hashMap.put("login", "email");
 //                                        userRegisterStoreDB.child("uid").setValue(uid);
 //                                        userRegisterStoreDB.child("email").setValue(emailRegister);
 //                                        userRegisterStoreDB.child("password").setValue(passwordRegister);
 //                                        userRegisterStoreDB.child("login").setValue("email");
-                                        dataSnapshot.getRef().setValue(hashMap);
-                                        userRegister.sendEmailVerification();
-                                        Intent registerNextStep = new Intent(RegisterAccountEmailActivity.this, RegisterAccountProfileActivity.class);
-                                        startActivity(registerNextStep);
-                                        finish();
-                                    } else {
-                                        Log.d(TAG, "Data sudah ada di Database");
+                                                    dataSnapshot.getRef().setValue(hashMap);
+                                                    userRegister.sendEmailVerification();
+                                                    Intent registerNextStep = new Intent(RegisterAccountEmailActivity.this, RegisterAccountProfileActivity.class);
+                                                    startActivity(registerNextStep);
+                                                    finish();
+                                                } else {
+                                                    Log.d(TAG, "Data sudah ada di Database");
+                                                }
+                                            }
+
+                                            @Override
+                                            public void onCancelled(@NonNull DatabaseError databaseError) {
+                                                Log.e(TAG, "Status : " + databaseError.getMessage());
+                                            }
+                                        });
                                     }
-                                }
 
-                                @Override
-                                public void onCancelled(@NonNull DatabaseError databaseError) {
-                                    Log.e(TAG, "Status : " + databaseError.getMessage());
+                                } else {
+                                    Log.w(TAG, "Register Account : " + task.getException());
+                                    Toast.makeText(getApplicationContext(), " " + task.getException(), Toast.LENGTH_SHORT).show();
                                 }
-                            });
-                        }
+                            }
+                        });
 
-                    } else {
-                        Log.w(TAG, "Register Account : " + task.getException());
-                        Toast.makeText(getApplicationContext(), " " + task.getException(), Toast.LENGTH_SHORT).show();
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
+                    pdDialog.dismiss();
                 }
-            });
+            }).start();
+
 
         }
     }

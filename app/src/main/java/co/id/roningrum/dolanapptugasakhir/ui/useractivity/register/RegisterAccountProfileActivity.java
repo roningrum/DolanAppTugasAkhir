@@ -107,20 +107,7 @@ public class RegisterAccountProfileActivity extends AppCompatActivity implements
                 uploadPhotoFromFile();
                 break;
             case R.id.btn_registerfinal_page:
-                pdDialog.show();
-                pdDialog.setCancelable(false);
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            Thread.sleep(5000);
-                            registerProfileProcess();
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                        pdDialog.dismiss();
-                    }
-                }).start();
+                registerProfileProcess();
                 break;
         }
     }
@@ -168,71 +155,90 @@ public class RegisterAccountProfileActivity extends AppCompatActivity implements
     }
 
     private void registerProfileProcess() {
-        if (photo_location != null) {
-            nameRegister = edtNamaRegister.getEditText().getText().toString();
-            StorageReference storageReference = photoProfileStore.child(nameRegister).child(System.currentTimeMillis() + "." + getFileExtension(photo_location));
-            storageReference.putFile(photo_location).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+        nameRegister = edtNamaRegister.getEditText().getText().toString();
+        if (nameRegister.isEmpty()) {
+            edtNamaRegister.setError("Nama Harus diisi");
+        } else {
+            pdDialog.show();
+            pdDialog.setCancelable(false);
+            new Thread(new Runnable() {
                 @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    Task<Uri> task = Objects.requireNonNull(taskSnapshot.getMetadata().getReference()).getDownloadUrl();
-                    task.addOnSuccessListener(new OnSuccessListener<Uri>() {
-                        @Override
-                        public void onSuccess(Uri uri) {
-                            final String uri_photo = uri.toString();
-                            UserProfileChangeRequest profileChangeRequest = new UserProfileChangeRequest.Builder()
-                                    .setDisplayName(nameRegister)
-                                    .setPhotoUri(Uri.parse(uri_photo))
-                                    .build();
-                            assert profileUser != null;
-                            profileUser.updateProfile(profileChangeRequest)
-                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                public void run() {
+                    try {
+                        Thread.sleep(5000);
+                        if (photo_location != null) {
+                            StorageReference storageReference = photoProfileStore.child(nameRegister).child(System.currentTimeMillis() + "." + getFileExtension(photo_location));
+                            storageReference.putFile(photo_location).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                                @Override
+                                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                    Task<Uri> task = Objects.requireNonNull(taskSnapshot.getMetadata().getReference()).getDownloadUrl();
+                                    task.addOnSuccessListener(new OnSuccessListener<Uri>() {
                                         @Override
-                                        public void onComplete(@NonNull Task<Void> task) {
-                                            if (task.isSuccessful()) {
-                                                final DatabaseReference profileDb = dbRegisterRef.child("Users").child(profileUser.getUid());
-                                                profileDb.addListenerForSingleValueEvent(new ValueEventListener() {
-                                                    @Override
-                                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                                        profileDb.child("nama_user").setValue(nameRegister);
-                                                        profileDb.child("photo_user").setValue(uri_photo);
-                                                        Log.d(TAG, "Profile Data sukses ke Daftar");
-                                                    }
+                                        public void onSuccess(Uri uri) {
+                                            final String uri_photo = uri.toString();
+                                            UserProfileChangeRequest profileChangeRequest = new UserProfileChangeRequest.Builder()
+                                                    .setDisplayName(nameRegister)
+                                                    .setPhotoUri(Uri.parse(uri_photo))
+                                                    .build();
+                                            assert profileUser != null;
+                                            profileUser.updateProfile(profileChangeRequest)
+                                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                        @Override
+                                                        public void onComplete(@NonNull Task<Void> task) {
+                                                            if (task.isSuccessful()) {
+                                                                final DatabaseReference profileDb = dbRegisterRef.child("Users").child(profileUser.getUid());
+                                                                profileDb.addListenerForSingleValueEvent(new ValueEventListener() {
+                                                                    @Override
+                                                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                                                        profileDb.child("nama_user").setValue(nameRegister);
+                                                                        profileDb.child("photo_user").setValue(uri_photo);
+                                                                        Log.d(TAG, "Profile Data sukses ke Daftar");
+                                                                    }
 
-                                                    @Override
-                                                    public void onCancelled(@NonNull DatabaseError databaseError) {
-                                                        Log.e(TAG, "" + databaseError.getMessage());
-                                                    }
-                                                });
-                                                gotoFinishRegisterPage();
+                                                                    @Override
+                                                                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                                                                        Log.e(TAG, "" + databaseError.getMessage());
+                                                                    }
+                                                                });
+                                                                gotoFinishRegisterPage();
 
-                                            } else {
-                                                Log.w(TAG, "Gagal Update");
-                                            }
+                                                            } else {
+                                                                Log.w(TAG, "Gagal Update");
+                                                            }
+                                                        }
+                                                    });
                                         }
                                     });
+                                }
+                            });
+
+                        } else {
+                            final DatabaseReference profileDb = dbRegisterRef.child("Users").child(profileUser.getUid());
+                            profileDb.addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                    profileDb.child("nama_user").setValue(nameRegister);
+                                    profileDb.child("photo_user").setValue("");
+
+                                    Log.d(TAG, "Profile Data sukses ke Daftar");
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError databaseError) {
+                                    Log.e(TAG, "" + databaseError.getMessage());
+                                }
+                            });
+                            gotoFinishRegisterPage();
                         }
-                    });
-                }
-            });
 
-        } else {
-            final DatabaseReference profileDb = dbRegisterRef.child("Users").child(profileUser.getUid());
-            profileDb.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    profileDb.child("nama_user").setValue(nameRegister);
-                    profileDb.child("photo_user").setValue("");
-
-                    Log.d(TAG, "Profile Data sukses ke Daftar");
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    pdDialog.dismiss();
                 }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
-                    Log.e(TAG, "" + databaseError.getMessage());
-                }
-            });
-            gotoFinishRegisterPage();
+            }).start();
         }
+
     }
 
     private void gotoFinishRegisterPage() {
