@@ -20,6 +20,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -28,11 +29,17 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 
 import co.id.roningrum.dolanapptugasakhir.R;
-import co.id.roningrum.dolanapptugasakhir.ui.useractivity.login.SignInOptionActivity;
+import co.id.roningrum.dolanapptugasakhir.model.Users;
+import co.id.roningrum.dolanapptugasakhir.ui.useractivity.login.SignInEmailActivity;
 
 import static co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseQuery.UserRef;
 
@@ -79,44 +86,79 @@ public class ChangePasswordProfileActivity extends AppCompatActivity implements 
 
     private void saveChangePassword() {
         if (changePasswordUser != null) {
-            String uid = changePasswordUser.getUid();
-            String password = edtChangePassword.getText().toString().trim();
-            changePasswordConfirm(uid, password);
+            changePasswordConfirm();
 
         }
     }
 
-    private void changePasswordConfirm(final String password, final String uid) {
+    private void changePasswordConfirm() {
         AlertDialog.Builder uploadAlert = new AlertDialog.Builder(ChangePasswordProfileActivity.this);
-        uploadAlert.setTitle("Konfirmasi perubahan email");
+        uploadAlert.setTitle("Konfirmasi perubahan password");
         uploadAlert.setMessage("Apakah kamu yakin mengubah password?");
 
         uploadAlert.setPositiveButton("Ya", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                changePasswordUser.updatePassword(password).addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if (task.isSuccessful()) {
-                            UserRef.getRef().child(uid).child("password").setValue(edtChangePassword.getText().toString().trim());
-                            changePasswordAuth.signOut();
-                            startActivity(new Intent(ChangePasswordProfileActivity.this, SignInOptionActivity.class));
-                            finish();
-                        } else {
-                            Log.e(TAG, "" + task.getException());
-                        }
-                    }
-                });
+                updatePasswordReset();
             }
         });
         uploadAlert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                finish();
             }
         });
         uploadAlert.show();
     }
 
+    private void updatePasswordReset() {
+        final String uid = changePasswordUser.getUid();
+        final String password = edtChangePassword.getText().toString().trim();
 
+        UserRef.child(uid).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                Users users = dataSnapshot.getValue(Users.class);
+                if (users != null) {
+                    String passwordUser = users.getPassword();
+                    String emailUser = users.getEmail();
+                    AuthCredential credential = EmailAuthProvider.getCredential(emailUser, passwordUser);
+                    changePasswordUser.reauthenticate(credential)
+                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    changePasswordUser.updatePassword(password).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            if (task.isSuccessful()) {
+                                                UserRef.getRef().child(uid).child("password").setValue(password);
+                                                changePasswordAuth.signOut();
+                                                startActivity(new Intent(ChangePasswordProfileActivity.this, SignInEmailActivity.class));
+                                                finish();
+                                            } else {
+                                                Toast.makeText(getApplicationContext(), "" + task.getException(), Toast.LENGTH_SHORT).show();
+                                                finish();
+                                                Log.e(TAG, "" + task.getException());
+                                            }
+                                        }
+                                    });
+                                }
+                            });
+                }
+
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+    }
+
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(getApplicationContext(), SignInEmailActivity.class));
+        finish();
+    }
 }

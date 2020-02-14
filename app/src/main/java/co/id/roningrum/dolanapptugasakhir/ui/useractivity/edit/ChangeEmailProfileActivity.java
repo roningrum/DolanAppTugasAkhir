@@ -161,9 +161,9 @@ public class ChangeEmailProfileActivity extends AppCompatActivity implements Vie
                                                 Toast.makeText(getApplicationContext(), "Silakan ke halaman Login untuk proses masuk", Toast.LENGTH_SHORT).show();
                                                 finish();
                                             } else {
-                                                Log.e(TAG, "" + task.getException());
                                                 Toast.makeText(getApplicationContext(), "" + task.getException(), Toast.LENGTH_SHORT).show();
                                                 finish();
+                                                Log.e(TAG, "" + task.getException());
                                             }
                                         }
                                     });
@@ -183,5 +183,10 @@ public class ChangeEmailProfileActivity extends AppCompatActivity implements Vie
 
     }
 
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(getApplicationContext(), SignInEmailActivity.class));
+        finish();
+    }
 
 }
