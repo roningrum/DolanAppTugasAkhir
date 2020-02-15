@@ -28,7 +28,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
@@ -45,7 +45,7 @@ import static co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseQuery.Use
 
 public class ChangePasswordProfileActivity extends AppCompatActivity implements View.OnClickListener {
     private static final String TAG = "UpdatePassword";
-    private TextInputEditText edtChangePassword;
+    private TextInputLayout edtChangePassword;
 
     private FirebaseAuth changePasswordAuth;
     private FirebaseUser changePasswordUser;
@@ -58,7 +58,7 @@ public class ChangePasswordProfileActivity extends AppCompatActivity implements 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_change_password_profile);
         Button btnSaveChangePassword = findViewById(R.id.btn_save_change_password);
-        edtChangePassword = findViewById(R.id.edt_change_password);
+        edtChangePassword = findViewById(R.id.edt_change_pass_layout);
         toolbarEdit = findViewById(R.id.toolbar_edit);
 
         changePasswordAuth = FirebaseAuth.getInstance();
@@ -85,7 +85,7 @@ public class ChangePasswordProfileActivity extends AppCompatActivity implements 
     }
 
     private void saveChangePassword() {
-        String password = edtChangePassword.getText().toString().trim();
+        String password = edtChangePassword.getEditText().getText().toString().trim();
         if (password.isEmpty()) {
             edtChangePassword.setError("Password Harus Di isi");
         } else if (password.length() < 6) {

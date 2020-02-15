@@ -33,13 +33,19 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.Objects;
 
 import co.id.roningrum.dolanapptugasakhir.R;
+import co.id.roningrum.dolanapptugasakhir.model.Users;
 import co.id.roningrum.dolanapptugasakhir.ui.homeactivity.MainMenuActivity;
 import co.id.roningrum.dolanapptugasakhir.ui.useractivity.register.RegisterAccountEmailActivity;
 import co.id.roningrum.dolanapptugasakhir.ui.useractivity.reset.ResetPasswordActivity;
+
+import static co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseQuery.UserRef;
 
 public class SignInEmailActivity extends AppCompatActivity implements View.OnClickListener {
     private static final String TAG = "STATUS_LOGIN";
@@ -137,6 +143,7 @@ public class SignInEmailActivity extends AppCompatActivity implements View.OnCli
         } else if (passwordLogin.length() <= 6) {
             edtPasswordSignIn.setError("Password minimal 6 karakter");
         } else {
+            edtPasswordSignIn.setErrorEnabled(false);
             pdDialog.show();
             pdDialog.setCancelable(false);
             new Thread(new Runnable() {
@@ -146,21 +153,37 @@ public class SignInEmailActivity extends AppCompatActivity implements View.OnCli
                         Thread.sleep(5000);
                         authLogin.signInWithEmailAndPassword(emailLogin, passwordLogin).addOnCompleteListener(SignInEmailActivity.this, new OnCompleteListener<AuthResult>() {
                             @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
+                            public void onComplete(@NonNull final Task<AuthResult> task) {
                                 if (task.isSuccessful()) {
-                                    FirebaseUser userLogin = authLogin.getCurrentUser();
+                                    final FirebaseUser userLogin = authLogin.getCurrentUser();
                                     assert userLogin != null;
-                                    if (userLogin.isEmailVerified()) {
-                                        {
-                                            Intent goToHomeIntent = new Intent(SignInEmailActivity.this, MainMenuActivity.class);
-                                            startActivity(goToHomeIntent);
-                                            finish();
-                                            Log.d(TAG, "Berhasil Masuk");
-                                        }
-                                    } else {
-                                        Toast.makeText(SignInEmailActivity.this, "Pastikan email sudah diverifikasi", Toast.LENGTH_SHORT).show();
-                                    }
 
+                                    UserRef.addValueEventListener(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                            Users users = dataSnapshot.getValue(Users.class);
+                                            String emailUser = users.getEmail();
+
+                                            if (userLogin.isEmailVerified() && emailUser.equals(userLogin.getEmail())) {
+                                                Intent goToHomeIntent = new Intent(SignInEmailActivity.this, MainMenuActivity.class);
+                                                startActivity(goToHomeIntent);
+                                                finish();
+                                                Log.d(TAG, "Berhasil Masuk");
+                                            } else if (!userLogin.isEmailVerified() || emailUser.equals(userLogin.getEmail())) {
+                                                Intent goToHomeIntent = new Intent(SignInEmailActivity.this, MainMenuActivity.class);
+                                                startActivity(goToHomeIntent);
+                                                finish();
+                                                Log.d(TAG, "Berhasil Masuk");
+                                            } else {
+                                                Toast.makeText(getApplicationContext(), "" + task.getException(), Toast.LENGTH_SHORT).show();
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                        }
+                                    });
                                 } else {
                                     Toast.makeText(SignInEmailActivity.this, " " + task.getException(), Toast.LENGTH_SHORT).show();
                                     Log.e(TAG, "Gagal Masuk");
