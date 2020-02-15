@@ -181,4 +181,10 @@ public class SignInEmailActivity extends AppCompatActivity implements View.OnCli
     private boolean isValidEmail(String emailLogin) {
         return Patterns.EMAIL_ADDRESS.matcher(emailLogin).matches();
     }
+
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(getApplicationContext(), SignInOptionActivity.class));
+        finish();
+    }
 }

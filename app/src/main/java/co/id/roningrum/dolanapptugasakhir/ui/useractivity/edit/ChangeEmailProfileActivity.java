@@ -17,6 +17,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -109,13 +110,17 @@ public class ChangeEmailProfileActivity extends AppCompatActivity implements Vie
     }
 
     private void saveEmailChange() {
-        if (changeEmailUser != null) {
-            changeEmailConfirm();
-
+        final String email = edtChangeEmail.getText().toString().trim();
+        if (email.isEmpty()) {
+            edtChangeEmail.setError("Email tidak boleh kosong");
+        } else if (!isValidEmail(email)) {
+            edtChangeEmail.setError("Email tidak valid");
+        } else {
+            changeEmailConfirm(email);
         }
     }
 
-    private void changeEmailConfirm() {
+    private void changeEmailConfirm(final String email) {
         AlertDialog.Builder uploadAlert = new AlertDialog.Builder(ChangeEmailProfileActivity.this);
         uploadAlert.setTitle("Konfirmasi perubahan email");
         uploadAlert.setMessage("Apakah kamu yakin mengubah email?");
@@ -123,7 +128,7 @@ public class ChangeEmailProfileActivity extends AppCompatActivity implements Vie
         uploadAlert.setPositiveButton("Ya", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                emailResetProcess();
+                emailResetProcess(email);
 
             }
         });
@@ -135,10 +140,8 @@ public class ChangeEmailProfileActivity extends AppCompatActivity implements Vie
         uploadAlert.show();
     }
 
-    private void emailResetProcess() {
+    private void emailResetProcess(final String email) {
         final String uid = changeEmailUser.getUid();
-        final String email = edtChangeEmail.getText().toString().trim();
-
         UserRef.child(uid).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -183,10 +186,9 @@ public class ChangeEmailProfileActivity extends AppCompatActivity implements Vie
 
     }
 
-    @Override
-    public void onBackPressed() {
-        startActivity(new Intent(getApplicationContext(), SignInEmailActivity.class));
-        finish();
+    private boolean isValidEmail(String emailLogin) {
+        return Patterns.EMAIL_ADDRESS.matcher(emailLogin).matches();
     }
+
 
 }

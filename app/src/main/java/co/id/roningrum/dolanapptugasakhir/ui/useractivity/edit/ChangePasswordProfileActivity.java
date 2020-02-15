@@ -19,7 +19,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -29,6 +28,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
@@ -45,7 +45,7 @@ import static co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseQuery.Use
 
 public class ChangePasswordProfileActivity extends AppCompatActivity implements View.OnClickListener {
     private static final String TAG = "UpdatePassword";
-    private EditText edtChangePassword;
+    private TextInputEditText edtChangePassword;
 
     private FirebaseAuth changePasswordAuth;
     private FirebaseUser changePasswordUser;
@@ -85,13 +85,18 @@ public class ChangePasswordProfileActivity extends AppCompatActivity implements 
     }
 
     private void saveChangePassword() {
-        if (changePasswordUser != null) {
-            changePasswordConfirm();
-
+        String password = edtChangePassword.getText().toString().trim();
+        if (password.isEmpty()) {
+            edtChangePassword.setError("Password Harus Di isi");
+        } else if (password.length() < 6) {
+            edtChangePassword.setError("Password Minimal 6 Karakter");
+        } else {
+            changePasswordConfirm(password);
         }
+
     }
 
-    private void changePasswordConfirm() {
+    private void changePasswordConfirm(final String password) {
         AlertDialog.Builder uploadAlert = new AlertDialog.Builder(ChangePasswordProfileActivity.this);
         uploadAlert.setTitle("Konfirmasi perubahan password");
         uploadAlert.setMessage("Apakah kamu yakin mengubah password?");
@@ -99,7 +104,7 @@ public class ChangePasswordProfileActivity extends AppCompatActivity implements 
         uploadAlert.setPositiveButton("Ya", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                updatePasswordReset();
+                updatePasswordReset(password);
             }
         });
         uploadAlert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -110,10 +115,8 @@ public class ChangePasswordProfileActivity extends AppCompatActivity implements 
         uploadAlert.show();
     }
 
-    private void updatePasswordReset() {
+    private void updatePasswordReset(final String password) {
         final String uid = changePasswordUser.getUid();
-        final String password = edtChangePassword.getText().toString().trim();
-
         UserRef.child(uid).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
