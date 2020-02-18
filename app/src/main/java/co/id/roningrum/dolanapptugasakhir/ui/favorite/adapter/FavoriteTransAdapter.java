@@ -59,7 +59,7 @@ public class FavoriteTransAdapter extends RecyclerView.Adapter<FavoriteTransAdap
             double latitude = gpsHandler.getLatitude();
             double longitude = gpsHandler.getLongitude();
 
-            holder.bindName(transportations.get(position), latitude, longitude);
+            holder.bindTransData(transportations.get(position), latitude, longitude);
         } else {
             gpsHandler.stopUsingGPS();
             gpsHandler.showSettingsAlert();
@@ -96,7 +96,7 @@ public class FavoriteTransAdapter extends RecyclerView.Adapter<FavoriteTransAdap
         }
 
         @SuppressLint("SetTextI18n")
-        void bindName(final Transportation favoriteItem, double lat, double lng) {
+        void bindTransData(final Transportation favoriteItem, double lat, double lng) {
 
             double lattitude_a = favoriteItem.getLat_location_transport();
             double longitude_a = favoriteItem.getLng_location_transport();

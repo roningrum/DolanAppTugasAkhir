@@ -59,7 +59,7 @@ public class FavoriteHotelAdapter extends RecyclerView.Adapter<FavoriteHotelAdap
             double latitude = gpsHandler.getLatitude();
             double longitude = gpsHandler.getLongitude();
 
-            holder.bindName(hotels.get(position), latitude, longitude);
+            holder.bindHotelData(hotels.get(position), latitude, longitude);
         } else {
             gpsHandler.stopUsingGPS();
             gpsHandler.showSettingsAlert();
@@ -77,7 +77,7 @@ public class FavoriteHotelAdapter extends RecyclerView.Adapter<FavoriteHotelAdap
         notifyItemRemoved(position);
     }
 
-    public void setTourismClickCallback(HotelClickCallback tourismClickCallback) {
+    public void setHotelClickCallback(HotelClickCallback tourismClickCallback) {
         this.tourismClickCallback = tourismClickCallback;
     }
 
@@ -96,7 +96,7 @@ public class FavoriteHotelAdapter extends RecyclerView.Adapter<FavoriteHotelAdap
         }
 
         @SuppressLint("SetTextI18n")
-        void bindName(final Hotel favoriteItem, double lat, double lng) {
+        void bindHotelData(final Hotel favoriteItem, double lat, double lng) {
 
             double lattitude_a = favoriteItem.getLat_location_hotel();
             double longitude_a = favoriteItem.getLng_location_hotel();

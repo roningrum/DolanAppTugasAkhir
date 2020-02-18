@@ -58,7 +58,7 @@ public class FavoriteGasAdapter extends RecyclerView.Adapter<FavoriteGasAdapter.
             double latitude = gpsHandler.getLatitude();
             double longitude = gpsHandler.getLongitude();
 
-            holder.bindName(gasStations.get(position), latitude, longitude);
+            holder.bindGasData(gasStations.get(position), latitude, longitude);
         } else {
             gpsHandler.stopUsingGPS();
             gpsHandler.showSettingsAlert();
@@ -95,7 +95,7 @@ public class FavoriteGasAdapter extends RecyclerView.Adapter<FavoriteGasAdapter.
         }
 
         @SuppressLint("SetTextI18n")
-        void bindName(final GasStation favoriteItem, double lat, double lng) {
+        void bindGasData(final GasStation favoriteItem, double lat, double lng) {
 
             double lattitude_a = favoriteItem.getLat_location_gasstation();
             double longitude_a = favoriteItem.getLng_location_gasstation();

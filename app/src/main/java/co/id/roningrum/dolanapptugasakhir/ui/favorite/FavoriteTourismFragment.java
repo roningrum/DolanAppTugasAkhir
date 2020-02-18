@@ -62,7 +62,7 @@ import static co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseQuery.fav
 /**
  * A simple {@link Fragment} subclass.
  */
-public class FavoriteTouristFragment extends Fragment {
+public class FavoriteTourismFragment extends Fragment {
     private ArrayList<Tourism> tourismList;
     private ArrayList<String> checkUserList;
     private RecyclerView rvFavoritList;
@@ -75,7 +75,7 @@ public class FavoriteTouristFragment extends Fragment {
     private Button btnGoToMenu;
 
 
-    public FavoriteTouristFragment() {
+    public FavoriteTourismFragment() {
         // Required empty public constructor
     }
 
@@ -100,9 +100,7 @@ public class FavoriteTouristFragment extends Fragment {
         rvFavoritList.setHasFixedSize(true);
         rvFavoritList.setLayoutManager(new LinearLayoutManager(getContext()));
 
-
         databaseReference = FirebaseQuery.TourismRef;
-
 
         checkConnection();
         enableSwipeToDelete();

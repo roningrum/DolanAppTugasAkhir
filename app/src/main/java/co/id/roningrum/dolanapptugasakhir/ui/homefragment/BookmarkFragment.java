@@ -32,7 +32,7 @@ import co.id.roningrum.dolanapptugasakhir.ui.favorite.FavoriteGasFragment;
 import co.id.roningrum.dolanapptugasakhir.ui.favorite.FavoriteHospitalFragment;
 import co.id.roningrum.dolanapptugasakhir.ui.favorite.FavoriteHotelFragment;
 import co.id.roningrum.dolanapptugasakhir.ui.favorite.FavoritePoliceFragment;
-import co.id.roningrum.dolanapptugasakhir.ui.favorite.FavoriteTouristFragment;
+import co.id.roningrum.dolanapptugasakhir.ui.favorite.FavoriteTourismFragment;
 import co.id.roningrum.dolanapptugasakhir.ui.favorite.FavoriteTransFragment;
 
 /**
@@ -61,7 +61,7 @@ public class BookmarkFragment extends Fragment {
         ViewPager viewPager = view.findViewById(R.id.view_pager);
 
         ViewPagerAdapter favPagerAdapter = new ViewPagerAdapter(getChildFragmentManager());
-        favPagerAdapter.addFragment(new FavoriteTouristFragment(), "Wisata");
+        favPagerAdapter.addFragment(new FavoriteTourismFragment(), "Wisata");
         favPagerAdapter.addFragment(new FavoriteHotelFragment(), "Hotel");
         favPagerAdapter.addFragment(new FavoriteTransFragment(), "Transportasi");
         favPagerAdapter.addFragment(new FavoriteGasFragment(), "Pom Bensin");

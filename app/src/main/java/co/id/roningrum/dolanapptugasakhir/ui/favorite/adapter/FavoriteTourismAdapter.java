@@ -62,7 +62,7 @@ public class FavoriteTourismAdapter extends RecyclerView.Adapter<FavoriteTourism
             double latitude = gpsHandler.getLatitude();
             double longitude = gpsHandler.getLongitude();
 
-            holder.bindName(tourisms.get(position), latitude, longitude);
+            holder.bindTourismData(tourisms.get(position), latitude, longitude);
         } else {
             gpsHandler.stopUsingGPS();
             gpsHandler.showSettingsAlert();
@@ -96,7 +96,7 @@ public class FavoriteTourismAdapter extends RecyclerView.Adapter<FavoriteTourism
         }
 
         @SuppressLint("SetTextI18n")
-        void bindName(final Tourism favoriteItem, double lat, double lng) {
+        void bindTourismData(final Tourism favoriteItem, double lat, double lng) {
 
             double lattitude_a = favoriteItem.getLat_location_tourism();
             double longitude_a = favoriteItem.getLng_location_tourism();

@@ -59,7 +59,7 @@ public class FavoriteHospitalAdapter extends RecyclerView.Adapter<FavoriteHospit
             double latitude = gpsHandler.getLatitude();
             double longitude = gpsHandler.getLongitude();
 
-            holder.bindName(hospitals.get(position), latitude, longitude);
+            holder.bindHospitalData(hospitals.get(position), latitude, longitude);
         } else {
             gpsHandler.stopUsingGPS();
             gpsHandler.showSettingsAlert();
@@ -98,7 +98,7 @@ public class FavoriteHospitalAdapter extends RecyclerView.Adapter<FavoriteHospit
         }
 
         @SuppressLint("SetTextI18n")
-        void bindName(final Hospital favoriteItem, double lat, double lng) {
+        void bindHospitalData(final Hospital favoriteItem, double lat, double lng) {
 
             double lattitude_a = favoriteItem.getLat_location_hospital();
             double longitude_a = favoriteItem.getLng_location_hospital();

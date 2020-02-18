@@ -68,7 +68,7 @@ public class FavoriteHotelFragment extends Fragment {
     private FirebaseUser user;
     private FavoriteHotelAdapter favoritAdapter;
     private LocationPermissionHandler locationPermissionHandler;
-    private DatabaseReference databaseReference;
+    private DatabaseReference hotelReference;
     private ConstraintLayout emptyLayout;
     private Button btnGoToMenu;
     private ProgressBar pbLoading;
@@ -96,7 +96,7 @@ public class FavoriteHotelFragment extends Fragment {
         btnGoToMenu = view.findViewById(R.id.btn_choose_menu);
         rvFavoritHotelList.setHasFixedSize(true);
         rvFavoritHotelList.setLayoutManager(new LinearLayoutManager(getContext()));
-        databaseReference = FirebaseQuery.HotelRef;
+        hotelReference = FirebaseQuery.HotelRef;
         checkConnection();
         enableSwipeToDelete();
     }
@@ -175,7 +175,7 @@ public class FavoriteHotelFragment extends Fragment {
     private void showFavorite() {
         if (havePermission()) {
             hotels = new ArrayList<>();
-            databaseReference.addValueEventListener(new ValueEventListener() {
+            hotelReference.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     hotels.clear();
@@ -191,7 +191,7 @@ public class FavoriteHotelFragment extends Fragment {
                         }
                     }
                     favoritAdapter = new FavoriteHotelAdapter(hotels, getContext());
-                    favoritAdapter.setTourismClickCallback(new HotelClickCallback() {
+                    favoritAdapter.setHotelClickCallback(new HotelClickCallback() {
                         @Override
                         public void onItemClicked(Hotel hotel) {
                             Intent intent = new Intent(getActivity(), HotelDetailActivity.class);
