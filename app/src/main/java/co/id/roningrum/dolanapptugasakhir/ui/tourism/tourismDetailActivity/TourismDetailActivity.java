@@ -293,7 +293,7 @@ public class TourismDetailActivity extends AppCompatActivity implements OnMapRea
         getMenuInflater().inflate(R.menu.favorite_menu, menu);
         menuItem = menu;
         setFavorite();
-        return super.onCreateOptionsMenu(menu);
+        return true;
     }
 
     private void setFavorite() {
