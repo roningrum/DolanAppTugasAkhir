@@ -147,7 +147,7 @@ public class TourismDetailActivity extends AppCompatActivity implements OnMapRea
         favoriteRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.child(uid).child(tourismKey).exists()) {
+                if (dataSnapshot.child(uid).child("Tourism").exists()) {
                     isFavorite = true;
                     menuItem.getItem(0).setIcon(drawable.ic_bookmarkadded_24dp);
                 }

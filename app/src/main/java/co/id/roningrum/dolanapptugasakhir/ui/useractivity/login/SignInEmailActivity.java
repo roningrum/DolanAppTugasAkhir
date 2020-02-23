@@ -128,6 +128,7 @@ public class SignInEmailActivity extends AppCompatActivity implements View.OnCli
         Intent goToRegisterIntent = new Intent(this, RegisterAccountEmailActivity.class);
         startActivity(goToRegisterIntent);
     }
+
     private void signInProcess() {
 
         final String emailLogin = Objects.requireNonNull(edtEmailSignIn.getEditText()).getText().toString();
@@ -164,7 +165,7 @@ public class SignInEmailActivity extends AppCompatActivity implements View.OnCli
                                             Users users = dataSnapshot.getValue(Users.class);
                                             String emailUser = users.getEmail();
 
-                                            if (userLogin.isEmailVerified() && emailUser.equals(userLogin.getEmail())) {
+                                            if (userLogin.isEmailVerified()) {
                                                 Intent goToHomeIntent = new Intent(SignInEmailActivity.this, MainMenuActivity.class);
                                                 startActivity(goToHomeIntent);
                                                 finish();
