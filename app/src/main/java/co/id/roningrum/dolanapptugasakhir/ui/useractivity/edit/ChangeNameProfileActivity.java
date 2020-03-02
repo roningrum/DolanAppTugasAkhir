@@ -42,7 +42,6 @@ public class ChangeNameProfileActivity extends AppCompatActivity implements View
     private static final String TAG = "UBAH_NAMA";
     private EditText edtChangeName;
     private Toolbar toolbarEdit;
-    private String nama;
 
     private FirebaseUser changeNameUser;
 
@@ -57,7 +56,6 @@ public class ChangeNameProfileActivity extends AppCompatActivity implements View
 
         FirebaseAuth changeNameAuth = FirebaseAuth.getInstance();
         changeNameUser = changeNameAuth.getCurrentUser();
-        nama = edtChangeName.getText().toString();
         btnSaveChangeName.setOnClickListener(this);
         showNameBeforeChanges();
 

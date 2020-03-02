@@ -14,7 +14,6 @@
 package co.id.roningrum.dolanapptugasakhir.ui.useractivity.edit;
 
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -38,7 +37,6 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.Objects;
 
 import co.id.roningrum.dolanapptugasakhir.R;
-import co.id.roningrum.dolanapptugasakhir.ui.useractivity.login.SignInEmailActivity;
 
 import static co.id.roningrum.dolanapptugasakhir.firebasequery.FirebaseQuery.UserRef;
 
@@ -47,7 +45,6 @@ public class ChangeEmailProfileActivity extends AppCompatActivity implements Vie
     private EditText edtChangeEmail;
 
     private FirebaseUser changeEmailUser;
-    private FirebaseAuth changeEmailAuth;
     private Toolbar toolbar;
 
     @Override
@@ -58,7 +55,7 @@ public class ChangeEmailProfileActivity extends AppCompatActivity implements Vie
         toolbar = findViewById(R.id.toolbar_edit);
         Button btnSaveChangeEmail = findViewById(R.id.btn_save_change_email);
 
-        changeEmailAuth = FirebaseAuth.getInstance();
+        FirebaseAuth changeEmailAuth = FirebaseAuth.getInstance();
         changeEmailUser = changeEmailAuth.getCurrentUser();
 
         btnSaveChangeEmail.setOnClickListener(this);
@@ -123,10 +120,7 @@ public class ChangeEmailProfileActivity extends AppCompatActivity implements Vie
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
                             UserRef.child(uid).child("email").setValue(email);
-                            changeEmailAuth.signOut();
-                            startActivity(new Intent(ChangeEmailProfileActivity.this, SignInEmailActivity.class));
-                            Toast.makeText(getApplicationContext(), "Silakan ke halaman Login untuk proses masuk", Toast.LENGTH_SHORT).show();
-                            finish();
+                            Toast.makeText(getApplicationContext(), "Email telah berubah", Toast.LENGTH_SHORT).show();
                         } else {
                             Log.e(TAG, "" + task.getException());
                         }

@@ -21,28 +21,20 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp">
+        android:layout_margin="8dp">
 
-        <com.jcminarro.roundkornerlayout.RoundKornerFrameLayout
-            android:id="@+id/roundKornerFrameLayout"
+        <ImageView
+            android:id="@+id/tourism_fav_pic"
             android:layout_width="125dp"
             android:layout_height="110dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="13dp"
             android:layout_marginBottom="12dp"
-            app:corner_radius="8dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/imagedolanbg"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <ImageView
-                android:id="@+id/tourism_fav_pic"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:contentDescription="@null"
-                android:scaleType="centerCrop"
-                android:src="@drawable/imagedolanbg" />
-        </com.jcminarro.roundkornerlayout.RoundKornerFrameLayout>
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/name_fav_item_tourism"
@@ -56,7 +48,7 @@
             android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toEndOf="@+id/roundKornerFrameLayout"
+            app:layout_constraintStart_toEndOf="@+id/tourism_fav_pic"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
@@ -72,7 +64,7 @@
             android:textSize="12sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toEndOf="@+id/roundKornerFrameLayout"
+            app:layout_constraintStart_toEndOf="@+id/tourism_fav_pic"
             app:layout_constraintTop_toBottomOf="@+id/name_fav_item_tourism" />
 
         <TextView
@@ -88,7 +80,7 @@
             android:textColor="@color/blackTextPrimary"
             android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/roundKornerFrameLayout"
+            app:layout_constraintStart_toEndOf="@+id/tourism_fav_pic"
             app:layout_constraintTop_toBottomOf="@+id/location_fav_item_tourism" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
