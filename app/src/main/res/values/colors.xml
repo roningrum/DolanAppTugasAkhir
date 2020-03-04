@@ -12,17 +12,16 @@
   -->
 
 <resources>
-    <color name="colorPrimary">#008577</color>
-    <color name="colorPrimaryDark">#00574B</color>
-    <color name="colorAccent">#FF9C09</color>
-    <color name="orangePrimary">#FF9C09</color>
-    <color name="orangeFontLink">#FC7921</color>
+    <color name="colorPrimary">#F26716</color>
+    <color name="colorPrimaryDark">#F24607</color>
+    <color name="colorAccent">#F28729</color>
+    <color name="orangePrimary">#F25C05</color>
+
     <color name="txtWhitePrimary">#FFFFFF</color>
-    <color name="bgWhiteGetStarted">#99FFFFFF</color>
-    <color name="blackTextPrimary">#27221F</color>
-    <color name="greySubTextPrimary">#7B726A</color>
+    <color name="bgWhiteGetStarted">#D0FFFFFF</color>
     <color name="greyColorSelected">#A1A1A1</color>
-    <color name="blackPrimary">#000000</color>
-    <color name="orangePrimaryDark">#FF6701</color>
-    <color name="orangeWhitePrimary">#FFFAF3</color>
+    <color name="grey">#BDBBBB</color>
+    <!-- For Text Color -->
+    <color name="blackTextPrimary">#313131</color>
+    <color name="orangeWhitePrimary">#FFFAFA</color>
 </resources>

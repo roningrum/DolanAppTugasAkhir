@@ -13,40 +13,19 @@
 
 <resources xmlns:tools="http://schemas.android.com/tools">
 
+
     <!-- Base application theme. -->
-    <!-- Base application theme. -->
-    <style name="AppTheme.Base" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="AppTheme.Base" parent="Theme.AppCompat.DayNight.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">#3F51B5</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
         <!-- Light Indigo -->
-        <item name="colorPrimaryDark">#3949AB</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <!-- Dark Indigo -->
-        <item name="colorAccent">#00B0FF</item>
+        <item name="colorAccent">@color/colorAccent</item>
         <!-- Blue -->
     </style>
 
     <style name="AppTheme" parent="AppTheme.Base" />
-
-    <style name="SplashThem" parent="Theme.AppCompat.DayNight.NoActionBar">
-        <item name="colorPrimaryDark">@color/orangePrimary</item>
-    </style>
-
-    <!--<style name="alternateTheme" parent="Theme.AppCompat.Light.NoActionBar">-->
-    <!--<item name="colorPrimary">@color/colorPrimary</item>-->
-    <!--<item name="colorPrimaryDark">@color/orangePrimaryDark</item>-->
-    <!--<item name="colorAccent">@color/colorAccent</item>-->
-    <!--</style>-->
-
-
-    <style name="CustomActionBar" parent="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
-        <item name="android:windowActionBarOverlay">true</item>
-        <!-- Support library compatibility -->
-        <item name="windowActionBarOverlay">true</item>
-    </style>
-
-    <style name="Transparent">
-        <item name="android:windowNoTitle">true</item>
-    </style>
 
     <style name="ActionBarThemeOverlay">
         <item name="android:textColorPrimary">@color/prim_color</item>
@@ -57,12 +36,16 @@
         <item name="android:textColorHint">@color/hint_color</item>
     </style>
 
-    <style name="CollapsingToolbarLayoutExpandedTextStyle" parent="AppTheme">
-        <item name="android:textColor">@android:color/transparent</item>
-        <item name="android:textSize">0sp</item>
+    <style name="TabTextAppearance" parent="TextAppearance.Design.Tab">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">#8CF26716</item>
+        <item name="android:fontFamily">@font/montserrat</item>
+        <item name="textAllCaps">false</item>
     </style>
+
     <color name="prim_color">#0f0f0f</color>
     <color name="normal_color">#ababab</color>
     <color name="high_color">#DEDEDE</color>
     <color name="hint_color">#676767</color>
+
 </resources>

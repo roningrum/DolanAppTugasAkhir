@@ -10,346 +10,143 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   -->
-
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".HomeFragment">
+    tools:context=".ui.homefragment.HomeFragment">
 
-    <android.support.design.widget.AppBarLayout
-        android:id="@+id/app_bar"
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appbar_home"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:background="#ffffff"
-        android:fitsSystemWindows="true">
+        android:layout_height="wrap_content"
+        android:fitsSystemWindows="true"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
-        <android.support.design.widget.CollapsingToolbarLayout
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:id="@+id/collapseToolbar_home"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent"
+            android:background="@color/txtWhitePrimary"
+            android:fitsSystemWindows="true"
+            app:contentScrim="@color/txtWhitePrimary"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
-            <android.support.constraint.ConstraintLayout
-                android:id="@+id/toolbar"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/contentBanner"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:layout_scrollFlags="scroll|exitUntilCollapsed">
+                android:layout_height="wrap_content">
 
                 <View
                     android:id="@+id/view2"
                     android:layout_width="match_parent"
-                    android:layout_height="157dp"
+                    android:layout_height="200dp"
                     android:background="@drawable/bg_gradient_orange"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="1.0"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
+
                 <TextView
-                    android:id="@+id/tv_heading_home_menu"
+                    android:id="@+id/tv_greeting_app"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="24dp"
-                    android:layout_marginTop="36dp"
+                    android:layout_marginTop="40dp"
                     android:fontFamily="@font/montserrat_bold"
-                    android:text="@string/txt_heading_home_menu"
                     android:textColor="@color/txtWhitePrimary"
-                    android:textSize="24sp"
+                    android:textSize="18sp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="Selamat Malam" />
 
                 <TextView
-                    android:id="@+id/tv_subtitle_home_menu"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/tv_user_app"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="24dp"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="24dp"
                     android:fontFamily="@font/montserrat"
-                    android:text="Selamat datang, Hailey Rhode Bieber"
                     android:textColor="@color/txtWhitePrimary"
                     android:textSize="14sp"
+                    app:layout_constraintEnd_toStartOf="@+id/img_user_home"
+                    app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_heading_home_menu" />
+                    app:layout_constraintTop_toBottomOf="@+id/tv_greeting_app"
+                    tools:text="Hailey Bieber" />
+
 
                 <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/photo_akun_beranda"
-                    android:layout_width="55dp"
-                    android:layout_height="55dp"
-                    android:layout_marginTop="46dp"
+                    android:id="@+id/img_user_home"
+                    android:layout_width="65dp"
+                    android:layout_height="65dp"
+                    android:layout_marginTop="32dp"
                     android:layout_marginEnd="24dp"
                     android:src="@drawable/icon_nopic"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.972"
+                    app:layout_constraintStart_toEndOf="@+id/tv_greeting_app"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <SearchView
-                    android:layout_width="match_parent"
-                    android:layout_height="46dp"
-                    android:layout_marginStart="24dp"
-                    android:layout_marginTop="30dp"
-                    android:layout_marginEnd="24dp"
-                    android:background="@drawable/bg_search_bar"
-                    android:elevation="2dp"
-                    android:fontFamily="@font/montserrat"
-                    android:hint="@string/txt_ask_user_to_search"
-                    android:textSize="14sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_subtitle_home_menu" />
-            </android.support.constraint.ConstraintLayout>
-        </android.support.design.widget.CollapsingToolbarLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </android.support.design.widget.AppBarLayout>
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar_home"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:layout_collapseMode="pin"
+                app:popupTheme="@color/txtWhitePrimary"
+                app:title="@string/txt_home_main_menu"
+                app:titleTextColor="@android:color/black" />
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+    </com.google.android.material.appbar.AppBarLayout>
 
-    <android.support.v4.widget.NestedScrollView
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/scrollView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/txtWhitePrimary"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="-64dp"
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
-        <android.support.constraint.ConstraintLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
-            <TextView
-                android:id="@+id/tv_title_category_main_menu"
-                android:layout_width="wrap_content"
+            <include
+                android:id="@+id/layout_category"
+                layout="@layout/layout_home_menu_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
-                android:layout_marginTop="25dp"
-                android:fontFamily="@font/montserrat_bold"
-                android:text="@string/txt_category_main_menu"
-                android:textColor="@color/blackTextPrimary"
-                android:textSize="18sp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/tv_subtitle_category_main_menu"
-                android:layout_width="wrap_content"
-                android:layout_height="25dp"
-                android:layout_marginTop="40dp"
-                android:layout_marginEnd="34dp"
-                android:layout_marginBottom="2dp"
-                android:fontFamily="@font/montserrat"
-                android:text="semua"
-                android:textAlignment="center"
-                android:textColor="@color/orangePrimary"
-                android:textSize="14sp"
-                app:layout_constraintBottom_toTopOf="@+id/ln_kategori_main_menu"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="1.0" />
-
-            <LinearLayout
-                android:id="@+id/ln_kategori_main_menu"
+            <include
+                layout="@layout/layout_tourism_popular"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
-                android:layout_marginTop="27dp"
-                android:layout_marginEnd="24dp"
-                android:orientation="horizontal"
-                android:weightSum="5"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="16dp"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_title_category_main_menu">
+                app:layout_constraintTop_toBottomOf="@+id/layout_category"
+                app:layout_constraintVertical_bias="0.0" />
 
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1.05"
-                    android:gravity="center"
-                    android:orientation="vertical">
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
 
-                    <ImageView
-                        android:layout_width="55dp"
-                        android:layout_height="55dp"
-                        android:src="@drawable/alam_menu" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/montserrat_light"
-                        android:text="Alam"
-                        android:textColor="@color/blackTextPrimary" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1.45"
-                    android:gravity="center"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:layout_width="55dp"
-                        android:layout_height="55dp"
-                        android:src="@drawable/hiburan_menu" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/montserrat_light"
-                        android:text="Hiburan"
-                        android:textColor="@color/blackTextPrimary" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1.45"
-                    android:gravity="center"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:layout_width="55dp"
-                        android:layout_height="55dp"
-                        android:src="@drawable/belanja_menu" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/montserrat_light"
-                        android:text="Belanja"
-                        android:textColor="@color/blackTextPrimary" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1.05"
-                    android:gravity="center"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:layout_width="55dp"
-                        android:layout_height="55dp"
-                        android:src="@drawable/desa_menu" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/montserrat_light"
-                        android:text="Desa"
-                        android:textColor="@color/blackTextPrimary" />
-                </LinearLayout>
-            </LinearLayout>
-
-            <TextView
-                android:id="@+id/tv_title_recommendation_main_menu"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
-                android:layout_marginTop="54dp"
-                android:fontFamily="@font/montserrat_bold"
-                android:text="Rekomendasi tempat wisata"
-                android:textColor="@color/blackTextPrimary"
-                android:textSize="16sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/ln_kategori_main_menu" />
-
-            <HorizontalScrollView
-                android:id="@+id/sv_dummy_horizontal_recommended"
-                android:layout_width="match_parent"
-                android:layout_height="133dp"
-                android:layout_marginStart="24dp"
-                android:layout_marginTop="13dp"
-                android:layout_marginEnd="24dp"
-                android:scrollbars="none"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_title_recommendation_main_menu">
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:layout_width="220dp"
-                        android:layout_height="133dp"
-                        android:layout_marginEnd="12dp"
-                        android:src="@drawable/dummy_place" />
-
-                    <ImageView
-                        android:layout_width="280dp"
-                        android:layout_height="133dp"
-                        android:layout_marginEnd="12dp"
-                        android:src="@drawable/dummy_place" />
-
-                    <ImageView
-                        android:layout_width="220dp"
-                        android:layout_height="133dp"
-                        android:layout_marginEnd="12dp"
-                        android:src="@drawable/dummy_place" />
-
-                    <ImageView
-                        android:layout_width="220dp"
-                        android:layout_height="133dp"
-                        android:layout_marginEnd="12dp"
-                        android:src="@drawable/dummy_place" />
-
-                </LinearLayout>
-
-            </HorizontalScrollView>
-
-            <TextView
-                android:id="@+id/tv_title_recommendation_food_main_menu"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
-                android:layout_marginTop="37dp"
-                android:fontFamily="@font/montserrat_bold"
-                android:text="Makanan yang wajib dicoba"
-                android:textColor="@color/blackTextPrimary"
-                android:textSize="16sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/sv_dummy_horizontal_recommended" />
-
-            <HorizontalScrollView
-                android:id="@+id/sv_dummy_horizontal_recommended_food"
-                android:layout_width="match_parent"
-                android:layout_height="133dp"
-                android:layout_marginStart="24dp"
-                android:layout_marginTop="13dp"
-                android:layout_marginEnd="24dp"
-                android:scrollbars="none"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_title_recommendation_food_main_menu">
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:layout_width="220dp"
-                        android:layout_height="133dp"
-                        android:layout_marginEnd="10dp"
-                        android:src="@drawable/dummy_place" />
-
-                    <ImageView
-                        android:layout_width="280dp"
-                        android:layout_height="133dp"
-                        android:layout_marginEnd="10dp"
-                        android:src="@drawable/dummy_place" />
-
-                    <ImageView
-                        android:layout_width="220dp"
-                        android:layout_height="133dp"
-                        android:layout_marginEnd="10dp"
-                        android:src="@drawable/dummy_place" />
-
-                    <ImageView
-                        android:layout_width="220dp"
-                        android:layout_height="133dp"
-                        android:layout_marginEnd="10dp"
-                        android:src="@drawable/dummy_place" />
-
-                </LinearLayout>
-
-            </HorizontalScrollView>
-        </android.support.constraint.ConstraintLayout>
-    </android.support.v4.widget.NestedScrollView>
-
-</android.support.design.widget.CoordinatorLayout>
+    <ProgressBar
+        android:id="@+id/pb_loading"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="gone" />
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
